@@ -9,3 +9,17 @@ We appreciate contributions of any kind.
 * clone this repo
 * get familiar with Nuxt.js
 * contribute
+
+## Dev Setup
+
+**Install Dependencies**
+`npm install`
+
+**Run local dev Server**
+`npm run dev`
+
+
+## Prepare for Deployment
+
+**Generate static HTML**
+`npm run generate`
