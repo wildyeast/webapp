@@ -26,7 +26,7 @@ const createStore = () => {
     actions: {
       loadPage ({state}, path) {
 
-        if (path == null || path == undefined) {
+        if (!path) {
           path = '/';
         }
 
@@ -35,10 +35,6 @@ const createStore = () => {
           cv: state.cacheVersion
         }).then((res) => {
           return res.data;
-        }).catch((res) => {
-          console.log(res);
-          // TODO: error handling
-          //context.error({ statusCode: res.response.status, message: res.response.data })
         })
       },
       loadWorkshopItem ({state}, slug) {

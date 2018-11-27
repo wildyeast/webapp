@@ -29,10 +29,8 @@ module.exports = {
   plugins: [
     '~/plugins/components',
     '~/plugins/helper',
-    /*
     '~/plugins/map',
     '~/plugins/libs',
-    */
     { src: '~/plugins/swiper', ssr: false }
   ],
   router: {
@@ -95,32 +93,6 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    /*
-     ** Run ESLint on save
-     */
-    extend (config, { isDev, isClient }) {
-      /*
-      if (isDev && isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
-
-      if (!isClient) {
-        // This instructs Webpack to include `vue2-google-maps`'s Vue files
-        // for server-side rendering
-        config.externals.splice(0, 0, function (context, request, callback) {
-          if (/^vue2-google-maps($|\/)/.test(request)) {
-            callback(null, false)
-          } else {
-            callback()
-          }
-        })
-      }
-      */
-    }
+    transpile: [/^vue2-google-maps($|\/)/],
   }
 }
