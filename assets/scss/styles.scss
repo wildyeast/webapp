@@ -1,0 +1,28 @@
+$color-orange: #ff6f00;
+$color-blue: #0050FF;
+$color-yellow: #ebe223;
+$color-blue-alt: #0069aa;
+
+$color-bright-bg: #f2f3ee;
+
+$font-primary: 'Arial', sans-serif;
+$font-secondary: 'Chakra Petch', sans-serif;
+$font-mono: 'Roboto Mono', monospace;
+
+$menu-min-width: 860px;
+
+body {
+  background-color: $color-bright-bg;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: Helvetica, Arial, sans-serif;
+  line-height: 1;
+  font-size: 18px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
