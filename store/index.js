@@ -24,8 +24,15 @@ const createStore = () => {
       }
     },
     actions: {
+      loadFullPage ({state}, path) {
+        return this.$storyapi.get(`cdn/stories${path}`, {
+          version: version,
+          cv: state.cacheVersion
+        }).then((res) => {
+          return res.data;
+        })
+      },
       loadPage ({state}, path) {
-
         if (!path) {
           path = '/';
         }

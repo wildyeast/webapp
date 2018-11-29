@@ -1,36 +1,55 @@
 <template>
-  <div v-editable="member" class="member-item">
-    <div class="name">{{member.name}}</div>
-    <div class="title">{{member.title}}</div>
+  <div v-editable="blok" class="member-page">
+    <div class="header">
+      <div class="image">
+        <img :src="blok.image" alt=""/>
+      </div>
+      <div class="info">
+        <div class="name">{{blok.name}}</div>
+        <div class="title">{{blok.title}}</div>
+        <div class="short-description">
+          {{blok.short_description}}
+        </div>
+      </div>
+    </div>
+      <div>
+        <markdown v-if="value" :value="blok.description"></markdown>
+      </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['member']
+  props: ['blok'],
 }
 </script>
 
 <style lang="scss">
 @import '@/assets/scss/styles.scss';
 
-.member-item {
+.member-page {
   display: inline-block;
   padding: 25px;
   min-height: 150px;
-  cursor: pointer;
+  width: 100%;
 
-  .name {
-    font-family: $font-secondary;
-    font-size: 1.5rem;
-  }
+  .header {
+    display: flex;
+    .image {
+      flex: 1;
+    }
 
-  .title {
-    font-family: $font-mono;
-  }
+    .info {
+      flex: 1;
+      .name {
+        font-family: $font-secondary;
+        font-size: 1.5rem;
+      }
 
-  &:hover {
-    background-color: $color-yellow;
+      .title {
+        font-family: $font-mono;
+      }
+    }
   }
 }
 </style>

@@ -14,6 +14,7 @@ import LocationDescription from '~/components/LocationDescription.vue'
 
 import Team from '~/components/Team.vue'
 import TeamMember from '~/components/TeamMember.vue'
+import TeamMemberPreview from '~/components/TeamMemberPreview.vue'
 import Mainstage from '~/components/Mainstage.vue'
 import Map from '~/components/Map.vue'
 import MembershipGrid from '~/components/MembershipGrid.vue'
@@ -47,6 +48,7 @@ Vue.component('feature', Feature)
 Vue.component('sitemap-item', SitemapItem)
 Vue.component('team', Team)
 Vue.component('team-member', TeamMember)
+Vue.component('team-member-preview', TeamMemberPreview)
 Vue.component('mainstage', Mainstage)
 Vue.component('map-view', Map)
 Vue.component('membership-grid', MembershipGrid)

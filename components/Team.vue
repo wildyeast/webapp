@@ -6,7 +6,7 @@
         Die <span class="strike">Maschinen</span> <br>Menschen dahinter
       </div>
       <div class="member-grid">
-        <team-member :key="member._uid" v-for="member in blok.members" :member="member"></team-member>
+        <team-member-preview :key="id" v-for="id in blok.team" :id="id"></team-member-preview>
       </div>
     </div>
   </div>
