@@ -1,5 +1,12 @@
 <template>
   <section>
+    <div class="source-list">
+      <div v-for="s in sources" :key="s.key" class="source">
+        <input type="checkbox" v-model="s.selected" :name="s.key" :id="s.key">
+        <label :for="s.key">{{s.name}}</label>
+      </div>
+    </div>
+
     <div class="news-feed" v-for="(month, index) in blocks" :key="index">
       <div class="date-seperator">
         <h1 class="title">{{month[0]}}</h1>
@@ -47,7 +54,14 @@ const monthDict = [
 export default {
   data() {
     return {
-      blocks: []
+      blocks: [],
+      sources: [
+        { name: "Magazin3", key: "m3", selected: false },
+        { name: "Youtube", key: "yt", selected: false },
+        { name: "Facebook", key: "fb", selected: false },
+        { name: "Twitter", key: "tw", selected: false },
+        { name: "Instagram", key: "ig", selected: false }
+      ]
     };
   },
 
@@ -77,11 +91,63 @@ export default {
 
     // Removing empty months
     this.blocks = Object.entries(blocks).filter(month => month[1].length);
+    this.$watch(
+      "sources",
+      (newVal, oldVal) => {
+        this.update();
+      },
+      { deep: true }
+    );
   },
 
   asyncData(context) {
-    let filters = {};
+    let filters = {
+      filter_query: {
+        component: {
+          in: "news-item"
+        }
+      }
+    };
     return context.store.dispatch("findNews", filters);
+  },
+
+  methods: {
+    update() {
+      this.loading = true;
+      let result = this.$store.dispatch("findNews", this.filters).then(data => {
+        this.loading = false;
+        this.news = data.stories;
+      });
+    }
+  },
+
+  computed: {
+    filters() {
+      let ss = this.sources
+        .filter(i => {
+          return i.selected;
+        })
+        .map(i => {
+          return i.key;
+        })
+        .join(",");
+
+      let filter_query = {
+        component: {
+          in: "news-item"
+        }
+      };
+
+      if (ss) {
+        filter_query["source"] = {
+          in: ss
+        };
+      }
+
+      return {
+        filter_query
+      };
+    }
   }
 };
 </script>
