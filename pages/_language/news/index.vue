@@ -51,46 +51,28 @@ const monthDict = [
   "Dezember"
 ];
 
+// const sourceDict = {
+//   m3: "Magazin3",
+//   yt: "Youtube",
+//   fb: "Facebook",
+//   tw: "Twitter",
+//   ig: "Instagram"
+// };
+
 export default {
   data() {
     return {
-      blocks: [],
       sources: [
-        { name: "Magazin3", key: "m3", selected: false },
-        { name: "Youtube", key: "yt", selected: false },
-        { name: "Facebook", key: "fb", selected: false },
-        { name: "Twitter", key: "tw", selected: false },
-        { name: "Instagram", key: "ig", selected: false }
+        { name: "magazin3", key: "m3", selected: false },
+        { name: "youtube", key: "yt", selected: false },
+        { name: "facebook", key: "fb", selected: false },
+        { name: "twitter", key: "tw", selected: false },
+        { name: "instagram", key: "ig", selected: false }
       ]
     };
   },
 
   created() {
-    let blocks = {};
-    const _stories = this.stories.sort((a, b) => {
-      const timeA = new Date(a.content.datetime).getTime();
-      const timeB = new Date(b.content.datetime).getTime();
-      return timeB - timeA;
-    });
-
-    // Generating entries for the months in the "months"-object
-    monthDict.map(month => (blocks[month] = []));
-
-    _stories.map(story => {
-      const date = new Date(story.content.datetime);
-      const month = monthDict[date.getMonth()];
-      const year = date.getFullYear();
-      const stamp = `${month} ${year}`;
-
-      if (!blocks[stamp]) {
-        blocks[stamp] = [];
-      }
-
-      blocks[stamp].push(story);
-    });
-
-    // Removing empty months
-    this.blocks = Object.entries(blocks).filter(month => month[1].length);
     this.$watch(
       "sources",
       (newVal, oldVal) => {
@@ -108,12 +90,16 @@ export default {
         }
       }
     };
-    return context.store.dispatch("findNews", filters);
+
+    return context.store.dispatch("findNews", filters).then(data => {
+      return { news: data.stories };
+    });
   },
 
   methods: {
     update() {
       this.loading = true;
+
       let result = this.$store.dispatch("findNews", this.filters).then(data => {
         this.loading = false;
         this.news = data.stories;
@@ -122,6 +108,33 @@ export default {
   },
 
   computed: {
+    blocks() {
+      let _blocks = {};
+      const _stories = this.news.sort((a, b) => {
+        const timeA = new Date(a.content.datetime).getTime();
+        const timeB = new Date(b.content.datetime).getTime();
+        return timeB - timeA;
+      });
+
+      // Generating entries for the months in the "months"-object
+      monthDict.map(month => (_blocks[month] = []));
+
+      _stories.map(story => {
+        const date = new Date(story.content.datetime);
+        const month = monthDict[date.getMonth()];
+        const year = date.getFullYear();
+        const stamp = `${month} ${year}`;
+
+        if (!_blocks[stamp]) {
+          _blocks[stamp] = [];
+        }
+
+        _blocks[stamp].push(story);
+      });
+
+      return Object.entries(_blocks).filter(month => month[1].length);
+    },
+
     filters() {
       let ss = this.sources
         .filter(i => {
@@ -154,6 +167,20 @@ export default {
 
 <style lang="scss">
 @import "@/assets/scss/styles.scss";
+
+.source-list {
+  width: max-content;
+  margin: 50px auto 0 auto;
+  display: flex;
+
+  .source {
+    margin: 0 10px;
+
+    input {
+      background-color: #f00;
+    }
+  }
+}
 
 .news-feed {
   .date-seperator {

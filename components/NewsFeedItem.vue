@@ -3,6 +3,7 @@
     <div class="container">
       <div class="header">
         {{new Date(news.datetime).toLocaleDateString()}}
+        {{news.source}}
       </div>
 
       <img :src="news.image" alt>
