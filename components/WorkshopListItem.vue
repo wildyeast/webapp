@@ -10,8 +10,8 @@
         <div class="title">
           {{content.title}}
         </div>
-        <div class="info">
-          {{content.info}}
+        <div class="teaser">
+          {{content.teaser}}
         </div>
         <div class="cta">
           <nuxt-link :to="'/' + blok.full_slug">
@@ -69,7 +69,7 @@ a {
       font-size: 1.8rem;
       margin-bottom: 20px;
     }
-    .info {
+    .teaser {
       font-family: $font-mono;
       line-height: 1.2;
       font-size: 0.9rem;
