@@ -1,7 +1,7 @@
 <template>
   <section class="workshop-overview">
     <div class="workshop-filters">
-      <code v-if="loading">loading</code>
+      <code class="loading" v-if="loading">loading…</code>
       <div class="tags">
         <div class="headline">
           BEREICHE
@@ -30,8 +30,11 @@
     </div>
     -->
     <div class="workshop-list-wrapper">
-      <div class="workshop-list">
-        <workshop-list-item v-for="item in workshops" :blok="item.content" :key="item.id" v-if="item.content.component == 'workshop'"></workshop-list-item>
+      <div v-if="workshops && workshops.length > 0" class="workshop-list">
+        <workshop-list-item v-for="item in workshops" :blok="item" :key="item.id"></workshop-list-item>
+      </div>
+      <div v-else class="workshop-list-wrapper">
+        <code>Keine Suchergbnisse</code>
       </div>
       <div class="calendar">
         <date-pick v-model="date" :hasInputElement="false"></date-pick>
@@ -57,7 +60,7 @@ export default {
   created() {
     this.$watch('tags', (newVal, oldVal) => {
       console.log(newVal);
-    });
+    }, { deep: true });
   },
   watch: {
     search() {
@@ -69,20 +72,30 @@ export default {
       this.loading = true;
       let result = this.$store.dispatch("findWorkshops", this.filters).then((data) => {
         this.loading = false;
-        this.workshops = result.data.stories;
+        this.workshops = data.stories;
       });
     }
   },
   computed: {
     filters() {
       return {
-        tags: this.tags,
-        query: this.search
+        filter_query: {
+          'component': {
+            'in': 'workshop'
+          }
+        },
+        search_term: this.search
       }
     }
   },
   asyncData (context) {
-    let filters = {};
+    let filters = {
+      filter_query: {
+        'component': {
+          'in': 'workshop'
+        }
+      }
+    };
     return context.store.dispatch("findWorkshops", filters).then((data) => {
       if (data.stories) {
         return { workshops: data.stories };
@@ -97,6 +110,9 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .workshop-overview {
+  .loading {
+    position: absolute;
+  }
   .workshop-filters {
     .tags {
       .headline {
@@ -164,6 +180,7 @@ export default {
     }
     .calendar {
       flex: 1;
+      max-width: 320px;
     }
   }
 }

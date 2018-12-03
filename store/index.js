@@ -57,8 +57,8 @@ const createStore = () => {
       },
       findWorkshops ({state}, filters) {
         return this.$storyapi.get('cdn/stories', {
-          contain_component: 'workshop',
-          search: filters.query,
+          filter_query: filters.filter_query,
+          search_term: filters.search_term,
           version: version,
           cv: state.cacheVersion,
         }).then((res) => {
