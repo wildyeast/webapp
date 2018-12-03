@@ -4,7 +4,7 @@
       <code class="loading" v-if="loading">loading…</code>
       <div class="tags">
         <div class="headline">
-          BEREICHE
+          Bereiche
         </div>
         <div class="tag-list">
           <div v-for="t in tags" :key="t.key" class="tag">
@@ -31,10 +31,12 @@
     -->
     <div class="workshop-list-wrapper">
       <div v-if="workshops && workshops.length > 0" class="workshop-list">
-        <workshop-list-item v-for="item in workshops" :blok="item" :key="item.id"></workshop-list-item>
+        <transition-group name="list">
+          <workshop-list-item v-for="item in workshops" :blok="item" :key="item.id" class="list-item"></workshop-list-item>
+        </transition-group>
       </div>
-      <div v-else class="workshop-list-wrapper">
-        <code>Keine Suchergbnisse</code>
+      <div v-else class="workshop-list-none">
+        <code>Keine Suchergebnisse</code>
       </div>
       <div class="calendar">
         <date-pick v-model="date" :hasInputElement="false"></date-pick>
@@ -177,6 +179,20 @@ export default {
     padding: 20px;
     .workshop-list {
       flex: 3;
+      .list-item {
+        margin-right: 10px;
+      }
+      .list-enter-active, .list-leave-active {
+        transition: all 0.5s;
+      }
+      .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+    }
+    .workshop-list-none {
+      flex: 3;
+      text-align: center;
     }
     .calendar {
       flex: 1;
