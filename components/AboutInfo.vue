@@ -41,6 +41,7 @@ export default {
       padding: 0 3rem 3rem 3rem;
       color: $color-blue;
       font-weight: bold;
+      line-height: 70px;
       font-size: 3.5rem;
     }
     .list {

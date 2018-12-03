@@ -48,9 +48,10 @@ export default {
   color: #FFF;
   .text {
     padding: 3rem 5rem 5rem 5rem;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-family: $font-secondary;
     line-height: 1.4;
+    letter-spacing: 1.4px;
   }
   .swiper-container {
     height: 50vh;
@@ -59,6 +60,7 @@ export default {
       background-position: center;
       background-repeat: no-repeat;
     }
+    padding-bottom: 60px;
   }
   .swiper-button-prev,
   .swiper-button-next {

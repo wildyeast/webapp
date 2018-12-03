@@ -47,7 +47,8 @@ export default {
         max-width: 50%;
         position: relative;
         margin: 5rem;
-        font-size: 2.8rem;
+        font-size: 2.2rem;
+        letter-spacing: 2px;
         line-height: 1.5;
         font-weight: bold;
         font-family: $font-secondary;
@@ -71,12 +72,13 @@ export default {
       display: flex;
       justify-content: flex-end;
       .text {
-        max-width: 50%;
-        padding: 5rem;
+        max-width: 60%;
+        padding-right: 90px;
         font-weight: normal;
         font-family: $font-primary;
-        line-height: 1.8;
-        font-size: 1.1rem;
+        line-height: 2;
+        font-size: 1.0rem;
+        letter-spacing: 1.6px;
       }
     }
     /*

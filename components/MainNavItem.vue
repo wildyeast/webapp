@@ -31,7 +31,7 @@ export default {
     padding: 25px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.9rem;
     white-space: nowrap;
     &.nuxt-link-active {
       position: relative;
@@ -67,8 +67,8 @@ export default {
         color: #000;
         text-decoration: none;
         font-weight: bold;
-        font-size: 1rem;
-        padding: 5px;
+        font-size: 0.9rem;
+        padding: 8px;
       }
     }
   }
