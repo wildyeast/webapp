@@ -81,6 +81,7 @@ const createStore = () => {
       findNews ({state}, filters) {
         //console.log(filters);
         return this.$storyapi.get('cdn/stories', {
+          filter_query: filters.filter_query,
           version: version,
           cv: state.cacheVersion,
           starts_with: `${state.language}/news`,

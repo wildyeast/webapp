@@ -8,7 +8,7 @@
         </div>
         <div class="tag-list">
           <div v-for="t in tags" :key="t.key" class="tag">
-            <input type="checkbox" value="" :name="t.key" :id="t.key"/>
+            <input type="checkbox" v-model="t.value" :name="t.key" :id="t.key"/>
             <label :for="t.key">{{t.name}}</label>
           </div>
         </div>
@@ -61,7 +61,7 @@ export default {
   },
   created() {
     this.$watch('tags', (newVal, oldVal) => {
-      console.log(newVal);
+      this.update();
     }, { deep: true });
   },
   watch: {
