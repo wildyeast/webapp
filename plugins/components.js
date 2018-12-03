@@ -27,6 +27,7 @@ import WorkshopBestOf from '~/components/WorkshopBestOf.vue'
 import WorkshopPreview from '~/components/WorkshopPreview.vue'
 import WorkshopHeader from '~/components/WorkshopHeader.vue'
 import WorkshopInfo from '~/components/WorkshopInfo.vue'
+import WorkshopListItem from '~/components/WorkshopListItem.vue'
 import JobTeaser from '~/components/JobTeaser.vue'
 import JobList from '~/components/JobList.vue'
 import JobOpening from '~/components/JobOpening.vue'
@@ -62,6 +63,7 @@ Vue.component('workshop-best-of', WorkshopBestOf)
 Vue.component('workshop-preview', WorkshopPreview)
 Vue.component('workshop-header', WorkshopHeader)
 Vue.component('workshop-info', WorkshopInfo)
+Vue.component('workshop-list-item', WorkshopListItem)
 Vue.component('job-teaser', JobTeaser)
 Vue.component('job-list', JobList)
 Vue.component('job-opening', JobOpening)
