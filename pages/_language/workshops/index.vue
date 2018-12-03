@@ -1,7 +1,7 @@
 <template>
   <section class="workshop-overview">
     <div class="workshop-filters">
-      <code v-if="loading">loading</code>
+      <code class="loading" v-if="loading">loading…</code>
       <div class="tags">
         <div class="headline">
           BEREICHE
@@ -31,7 +31,7 @@
     -->
     <div class="workshop-list-wrapper">
       <div class="workshop-list">
-        <workshop-list-item v-for="item in workshops" :blok="item.content" :key="item.id" v-if="item.content.component == 'workshop'"></workshop-list-item>
+        <workshop-list-item v-for="item in workshops" :blok="item" :key="item.id" v-if="item.content.component == 'workshop'"></workshop-list-item>
       </div>
       <div class="calendar">
         <date-pick v-model="date" :hasInputElement="false"></date-pick>
@@ -57,7 +57,7 @@ export default {
   created() {
     this.$watch('tags', (newVal, oldVal) => {
       console.log(newVal);
-    });
+    }, { deep: true });
   },
   watch: {
     search() {
@@ -69,7 +69,7 @@ export default {
       this.loading = true;
       let result = this.$store.dispatch("findWorkshops", this.filters).then((data) => {
         this.loading = false;
-        this.workshops = result.data.stories;
+        this.workshops = data.stories;
       });
     }
   },
@@ -97,6 +97,9 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .workshop-overview {
+  .loading {
+    position: absolute;
+  }
   .workshop-filters {
     .tags {
       .headline {
@@ -164,6 +167,7 @@ export default {
     }
     .calendar {
       flex: 1;
+      max-width: 320px;
     }
   }
 }
