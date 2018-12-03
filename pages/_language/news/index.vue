@@ -102,15 +102,20 @@ export default {
         return i.key
       }).join(',');
 
-      return {
-        filter_query: {
-          'component': {
-            'in': 'news-item'
-          },
-          'source': {
-            'in': ss || ''
-          }
+      let filter_query = {
+        'component': {
+          'in': 'news-item'
         },
+      };
+
+      if (ss) {
+        filter_query['source'] = {
+          'in': ss
+        }
+      }
+
+      return {
+        filter_query
       }
     }
   },
