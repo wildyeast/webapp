@@ -30,8 +30,11 @@
     </div>
     -->
     <div class="workshop-list-wrapper">
-      <div class="workshop-list">
-        <workshop-list-item v-for="item in workshops" :blok="item" :key="item.id" v-if="item.content.component == 'workshop'"></workshop-list-item>
+      <div v-if="workshops && workshops.length > 0" class="workshop-list">
+        <workshop-list-item v-for="item in workshops" :blok="item" :key="item.id"></workshop-list-item>
+      </div>
+      <div v-else class="workshop-list-wrapper">
+        <code>Keine Suchergbnisse</code>
       </div>
       <div class="calendar">
         <date-pick v-model="date" :hasInputElement="false"></date-pick>
@@ -76,13 +79,23 @@ export default {
   computed: {
     filters() {
       return {
-        tags: this.tags,
-        query: this.search
+        filter_query: {
+          'component': {
+            'in': 'workshop'
+          }
+        },
+        search_term: this.search
       }
     }
   },
   asyncData (context) {
-    let filters = {};
+    let filters = {
+      filter_query: {
+        'component': {
+          'in': 'workshop'
+        }
+      }
+    };
     return context.store.dispatch("findWorkshops", filters).then((data) => {
       if (data.stories) {
         return { workshops: data.stories };
