@@ -32,6 +32,7 @@ import JobList from '~/components/JobList.vue'
 import JobOpening from '~/components/JobOpening.vue'
 
 import ImageSlideshow from '~/components/ImageSlideshow.vue'
+import SpotlightSlider from '~/components/SpotlightSlider.vue'
 import TextImage from '~/components/TextImage.vue'
 
 import StoryBlokLink from '~/components/StoryBlokLink.vue'
@@ -65,6 +66,7 @@ Vue.component('job-teaser', JobTeaser)
 Vue.component('job-list', JobList)
 Vue.component('job-opening', JobOpening)
 
+Vue.component('spotlight-slider', SpotlightSlider)
 Vue.component('image-slideshow', ImageSlideshow)
 Vue.component('text-image', TextImage)
 
