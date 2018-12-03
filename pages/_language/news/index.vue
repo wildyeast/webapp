@@ -1,13 +1,29 @@
 <template>
   <section>
-    <div class="news-feed" v-for="(month, index) in months" :key="index">
+    <div class="news-feed" v-for="(month, index) in blocks" :key="index">
       <div class="date-seperator">
         <h1 class="title">{{month[0]}}</h1>
         <div class="seperator"/>
       </div>
 
       <div class="news-block">
-        <news-feed-item v-for="item in month[1]" :news="item.content" :key="item.id"/>
+        <div class="column-left">
+          <news-feed-item
+            v-for="(item, index) in month[1]"
+            v-if="index % 2 == 0"
+            :news="item.content"
+            :key="item.id"
+          />
+        </div>
+
+        <div class="column-right">
+          <news-feed-item
+            v-for="(item, index) in month[1]"
+            v-if="index % 2 == 1"
+            :news="item.content"
+            :key="item.id"
+          />
+        </div>
       </div>
     </div>
   </section>
@@ -30,30 +46,37 @@ const monthDict = [
 
 export default {
   data() {
-    console.log("data");
-
     return {
-      months: []
+      blocks: []
     };
   },
 
   created() {
-    console.log("created");
-
-    let months = {};
-
-    this.stories.map(story => {
-      const month = monthDict[new Date(story.content.datetime).getMonth()];
-
-      if (!months[month]) {
-        months[month] = [];
-      }
-
-      months[month].push(story);
-      console.log(month);
+    let blocks = {};
+    const _stories = this.stories.sort((a, b) => {
+      const timeA = new Date(a.content.datetime).getTime();
+      const timeB = new Date(b.content.datetime).getTime();
+      return timeB - timeA;
     });
 
-    this.months = Object.entries(months);
+    // Generating entries for the months in the "months"-object
+    monthDict.map(month => (blocks[month] = []));
+
+    _stories.map(story => {
+      const date = new Date(story.content.datetime);
+      const month = monthDict[date.getMonth()];
+      const year = date.getFullYear();
+      const stamp = `${month} ${year}`;
+
+      if (!blocks[stamp]) {
+        blocks[stamp] = [];
+      }
+
+      blocks[stamp].push(story);
+    });
+
+    // Removing empty months
+    this.blocks = Object.entries(blocks).filter(month => month[1].length);
   },
 
   asyncData(context) {
@@ -69,11 +92,13 @@ export default {
 .news-feed {
   .date-seperator {
     .title {
-      margin: 0 auto;
-      width: max-content;
+      margin: 100px auto 0 auto;
+      width: 200px;
+      text-align: center;
       background-color: $color-blue;
       padding: 5px;
       color: #fff;
+      // transform: rotate(-3deg);
     }
 
     .seperator {
@@ -87,13 +112,13 @@ export default {
 .news-block {
   display: grid;
   grid-template-columns: 50% 50%;
-}
 
-.news-feed-item:nth-child(2n) {
-  text-align: left;
-}
+  .column-right {
+    margin-top: 200px;
+  }
 
-.news-feed-item:nth-child(2) {
-  margin-top: 200px;
+  .column-left {
+    text-align: right;
+  }
 }
 </style>

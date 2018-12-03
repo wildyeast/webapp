@@ -2,8 +2,7 @@
   <div v-editable="news" class="news-feed-item">
     <div class="container">
       <div class="header">
-        {{news.source}}
-        {{news.datetime}}
+        {{new Date(news.datetime).toLocaleDateString()}}
       </div>
 
       <img :src="news.image" alt>
@@ -17,6 +16,7 @@
 export default {
   props: ["news"]
 };
+
 </script>
 
 <style lang="scss" scoped>
@@ -24,10 +24,9 @@ export default {
 
 .news-feed-item {
   margin-top: 69px;
-  text-align: right;
 
   .container {
-    margin: 5rem 2rem 0 2rem;
+    margin: 5em;
 
     img {
       width: 100%;
