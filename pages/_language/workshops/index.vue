@@ -1,6 +1,7 @@
 <template>
   <section class="workshop-overview">
     <div class="workshop-filters">
+      <code v-if="loading">loading</code>
       <div class="tags">
         <div class="headline">
           BEREICHE
@@ -17,9 +18,20 @@
         <input type="button" value="Suchen" name="" id=""/>
       </div>
     </div>
+    <!--
+    <div class="workshop-orders">
+      <div class="headline">
+        Sortieren nach:
+      </div>
+      <div class="order-list">
+        <div class="order-item" v-for="o in orders">
+        </div>
+      </div>
+    </div>
+    -->
     <div class="workshop-list-wrapper">
       <div class="workshop-list">
-        <workshop-list-item v-for="item in stories" :blok="item.content" :key="item.id" v-if="item.content.component == 'workshop'"></workshop-list-item>
+        <workshop-list-item v-for="item in workshops" :blok="item.content" :key="item.id" v-if="item.content.component == 'workshop'"></workshop-list-item>
       </div>
       <div class="calendar">
         <date-pick v-model="date" :hasInputElement="false"></date-pick>
@@ -32,18 +44,51 @@
 export default {
   data () {
     return {
-      total: 0, data: { stories: [] },
+      loading: false,
       date: '2019-01-01',
+      search: '',
       tags: [
-        { name: '3D-Druck', key: '3d-print' },
-        { name: 'CAD/CAM', key: 'cad-cam' },
-        { name: 'Lasercutter', key: 'lazzor' },
-      ]
+        { name: '3D-Druck', key: '3d-print', value: false },
+        { name: 'CAD/CAM', key: 'cad-cam', value: false },
+        { name: 'Lasercutter', key: 'lazzor', value: false },
+      ],
+    }
+  },
+  created() {
+    this.$watch('tags', (newVal, oldVal) => {
+      console.log(newVal);
+    });
+  },
+  watch: {
+    search() {
+      this.update();
+    }
+  },
+  methods: {
+    update() {
+      this.loading = true;
+      let result = this.$store.dispatch("findWorkshops", this.filters).then((data) => {
+        this.loading = false;
+        this.workshops = result.data.stories;
+      });
+    }
+  },
+  computed: {
+    filters() {
+      return {
+        tags: this.tags,
+        query: this.search
+      }
     }
   },
   asyncData (context) {
     let filters = {};
-    return context.store.dispatch("findWorkshops", filters);
+    return context.store.dispatch("findWorkshops", filters).then((data) => {
+      if (data.stories) {
+        return { workshops: data.stories };
+      }
+      return { workshops: [] };
+    });
   },
 }
 </script>
@@ -67,6 +112,7 @@ export default {
           padding: 0 20px;
           font-family: $font-mono;
           color: #FFF;
+          user-select: none;
           input[type=checkbox] {
             outline: none;
             -webkit-appearance: none;
@@ -92,7 +138,7 @@ export default {
         flex: 1;
         display: block;
         width: 100%;
-        padding: 5px;
+        padding: 10px;
         outline: none;
         font-family: $font-secondary;
         font-size: 1.1rem;
@@ -112,6 +158,7 @@ export default {
   }
   .workshop-list-wrapper {
     display: flex;
+    padding: 20px;
     .workshop-list {
       flex: 3;
     }

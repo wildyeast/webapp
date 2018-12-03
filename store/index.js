@@ -56,11 +56,11 @@ const createStore = () => {
         });
       },
       findWorkshops ({state}, filters) {
-        //console.log(filters);
         return this.$storyapi.get('cdn/stories', {
+          contain_component: 'workshop',
+          search: filters.query,
           version: version,
           cv: state.cacheVersion,
-          starts_with: `${state.language}/workshops`,
         }).then((res) => {
           return res.data;
         }).catch((res) => {

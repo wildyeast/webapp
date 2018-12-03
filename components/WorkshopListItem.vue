@@ -50,6 +50,7 @@ export default {
     .info {
       font-family: $font-mono;
       line-height: 1.2;
+      font-size: 0.9rem;
     }
   }
 }

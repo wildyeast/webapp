@@ -83,7 +83,8 @@ module.exports = {
   },
   css: [
     '@/assets/scss/styles.scss',
-    'swiper/dist/css/swiper.css'
+    '@/assets/scss/vueDatePick.scss',
+    'swiper/dist/css/swiper.css',
   ],
   /*
    ** Customize the progress bar color
