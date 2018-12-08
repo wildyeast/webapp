@@ -1,22 +1,40 @@
 <template>
   <section>
     <div class="source-list">
-      <div v-for="s in sources" :key="s.key" class="source">
-        <input type="checkbox" v-model="s.selected" :name="s.key" :id="s.key">
-        <label :for="s.key">{{s.name}}</label>
-      </div>
+      <checkbox
+        :text="source.name"
+        :checked="source.selected"
+        :onchange="checkBoxVal => source.selected = checkBoxVal"
+        v-for="source in sources"
+        :key="source.name"
+        class="source"
+      />
     </div>
 
-    <div class="news-feed" v-for="(month, index) in blocks" :key="index">
+    <loading v-bind:class="loading ? 'loading loading-active' : 'loading' "/>
+
+    <div class="news-feed" v-for="(block, index) in blocks" :key="index">
       <div class="date-seperator">
-        <h1 class="title">{{month[0]}}</h1>
+        <div class="container">
+          <img src="~/assets/img/icons/megaphone.svg" class="decorator">
+          <h1 class="title">{{block[0]}}</h1>
+        </div>
+
         <div class="seperator"/>
       </div>
 
-      <div class="news-block">
+      <news-feed-item
+        v-for="item in block[1]"
+        v-if="block[1].length == 1"
+        :news="item.content"
+        :key="item.id"
+        :type="'horizontal'"
+      />
+
+      <div v-if="block[1].length > 1" class="news-block">
         <div class="column-left">
           <news-feed-item
-            v-for="(item, index) in month[1]"
+            v-for="(item, index) in block[1]"
             v-if="index % 2 == 0"
             :news="item.content"
             :key="item.id"
@@ -25,7 +43,7 @@
 
         <div class="column-right">
           <news-feed-item
-            v-for="(item, index) in month[1]"
+            v-for="(item, index) in block[1]"
             v-if="index % 2 == 1"
             :news="item.content"
             :key="item.id"
@@ -37,6 +55,9 @@
 </template>
 
 <script>
+import checkbox from "~/components/Checkbox.vue";
+import loading from "~/components/Loading.vue";
+
 const monthDict = [
   "Jänner",
   "Februar",
@@ -47,21 +68,28 @@ const monthDict = [
   "Juli",
   "August",
   "September",
+  "Oktober",
   "November",
   "Dezember"
 ];
 
-// const sourceDict = {
-//   m3: "Magazin3",
-//   yt: "Youtube",
-//   fb: "Facebook",
-//   tw: "Twitter",
-//   ig: "Instagram"
-// };
+const sourceDict = {
+  m3: "magazin3",
+  yt: "youtube",
+  fb: "facebook",
+  tw: "twitter",
+  ig: "instagram"
+};
 
 export default {
+  components: {
+    checkbox,
+    loading
+  },
+
   data() {
     return {
+      loading: false,
       sources: [
         { name: "magazin3", key: "m3", selected: false },
         { name: "youtube", key: "yt", selected: false },
@@ -73,13 +101,7 @@ export default {
   },
 
   created() {
-    this.$watch(
-      "sources",
-      (newVal, oldVal) => {
-        this.update();
-      },
-      { deep: true }
-    );
+    this.$watch("sources", this.update, { deep: true });
   },
 
   asyncData(context) {
@@ -110,56 +132,47 @@ export default {
   computed: {
     blocks() {
       let _blocks = {};
-      const _stories = this.news.sort((a, b) => {
+
+      // Sort stories in chronological order (latest first)
+      const stories = this.news.sort((a, b) => {
         const timeA = new Date(a.content.datetime).getTime();
         const timeB = new Date(b.content.datetime).getTime();
+
         return timeB - timeA;
       });
 
-      // Generating entries for the months in the "months"-object
-      monthDict.map(month => (_blocks[month] = []));
-
-      _stories.map(story => {
+      stories.map(story => {
         const date = new Date(story.content.datetime);
         const month = monthDict[date.getMonth()];
         const year = date.getFullYear();
-        const stamp = `${month} ${year}`;
+        const timeStamp = `${month} ${year}`;
 
-        if (!_blocks[stamp]) {
-          _blocks[stamp] = [];
+        if (!_blocks[timeStamp]) {
+          _blocks[timeStamp] = [];
         }
 
-        _blocks[stamp].push(story);
+        _blocks[timeStamp].push(story);
       });
 
-      return Object.entries(_blocks).filter(month => month[1].length);
+      // Convert object to array for usage on the page [ [ key, value ], ... ]
+      return Object.entries(_blocks);
     },
 
     filters() {
-      let ss = this.sources
-        .filter(i => {
-          return i.selected;
-        })
-        .map(i => {
-          return i.key;
-        })
+      const sources = this.sources
+        .filter(i => i.selected)
+        .map(i => i.key)
         .join(",");
 
-      let filter_query = {
-        component: {
-          in: "news-item"
-        }
+      const filter_query = {
+        component: { in: "news-item" }
       };
 
-      if (ss) {
-        filter_query["source"] = {
-          in: ss
-        };
+      if (sources) {
+        filter_query["source"] = { in: sources };
       }
 
-      return {
-        filter_query
-      };
+      return { filter_query };
     }
   }
 };
@@ -168,6 +181,12 @@ export default {
 <style lang="scss">
 @import "@/assets/scss/styles.scss";
 
+@media (min-width: 750px) {
+  .source-block {
+    display: flex;
+  }
+}
+
 .source-list {
   width: max-content;
   margin: 50px auto 0 auto;
@@ -175,23 +194,35 @@ export default {
 
   .source {
     margin: 0 10px;
-
-    input {
-      background-color: #f00;
-    }
   }
+}
+
+.loading {
+  margin-top: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+}
+
+.loading-active {
+  display: block;
 }
 
 .news-feed {
   .date-seperator {
-    .title {
+    .container {
       margin: 100px auto 0 auto;
-      width: 200px;
-      text-align: center;
-      background-color: $color-blue;
-      padding: 5px;
-      color: #fff;
-      // transform: rotate(-3deg);
+      width: 250px;
+
+      .title {
+        text-align: center;
+        background-color: $color-blue;
+        padding: 5px;
+        color: #fff;
+        margin: 0;
+        // transform: rotate(-3deg);
+      }
     }
 
     .seperator {
@@ -199,18 +230,24 @@ export default {
       width: 100%;
       margin-top: -1em;
     }
+
+    .decorator {
+      width: 50px;
+      margin-bottom: -7px;
+    }
   }
 }
 
 .news-block {
-  display: grid;
-  grid-template-columns: 50% 50%;
+  display: flex;
 
   .column-right {
+    width: 50%;
     margin-top: 200px;
   }
 
   .column-left {
+    width: 50%;
     text-align: right;
   }
 }
