@@ -2,7 +2,7 @@
   <div v-editable="news" v-bind:class="'news-feed-item ' + type || 'vertical'">
     <div class="top">
       <div class="header">
-        <p>{{new Date(news.datetime).toLocaleDateString("de-at")}}</p>
+        <p>{{date}}</p>
         <img class="source-img" :src="`/icons/${news.source}.png`">
       </div>
 
@@ -11,7 +11,7 @@
 
     <div class="bot">
       <div class="header">
-        <p class>{{new Date(news.datetime).toLocaleDateString("de-at")}}</p>
+        <p class>{{date}}</p>
         <img class="source-img" :src="`/icons/${news.source}.png`">
       </div>
 
@@ -23,7 +23,12 @@
 
 <script>
 export default {
-  props: ["news", "type"]
+  props: ["news", "type"],
+  computed: {
+    date() {
+      return new Date(this.news.datetime).toLocaleDateString("de-at");
+    }
+  }
 };
 </script>
 
