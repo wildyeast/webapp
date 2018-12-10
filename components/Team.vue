@@ -56,11 +56,18 @@ export default {
     .headline {
       font-weight: bold;
       font-size: 3.2rem;
-      margin-bottom: 100px;
+      margin-bottom: 20px;
       text-transform: uppercase;
       .strike {
         text-decoration: line-through;
       }
+    }
+
+    .subline {
+      font-family: $font-mono;
+      font-size: 1.2rem;
+      margin-bottom: 80px;
+      line-height: 1.5;
     }
 
     .member-filters {
