@@ -1,28 +1,22 @@
 <template>
-  <div v-editable="news" class="news-feed-item">
-    <div v-if="!type || type == 'vertical'" class="container">
+  <div v-editable="news" v-bind:class="'news-feed-item ' + type || 'vertical'">
+    <div class="top">
       <div class="header">
-        {{new Date(news.datetime).toLocaleDateString("de-at")}}
-        {{news.source}}
+        <p>{{new Date(news.datetime).toLocaleDateString("de-at")}}</p>
+        <img class="source-img" :src="`/icons/${news.source}.png`">
       </div>
 
-      <img :src="news.image">
-      <h4 class="title">{{news.title}}</h4>
-      <span class="text">{{news.text}}</span>
+      <img class="image" :src="news.image">
     </div>
 
-    <div v-if="type == 'horizontal'" class="container container-horizontal">
-      <img :src="news.image">
-
-      <div>
-        <div class="header">
-          {{new Date(news.datetime).toLocaleDateString("de-at")}}
-          {{news.source}}
-        </div>
-
-        <h4 class="title">{{news.title}}</h4>
-        <span class="text">{{news.text}}</span>
+    <div class="bot">
+      <div class="header">
+        <p class>{{new Date(news.datetime).toLocaleDateString("de-at")}}</p>
+        <img class="source-img" :src="`/icons/${news.source}.png`">
       </div>
+
+      <h4 class="title">{{news.title}}</h4>
+      <span class="text">{{news.text}}</span>
     </div>
   </div>
 </template>
@@ -39,31 +33,19 @@ export default {
 .news-feed-item {
   margin-top: 69px;
 
-  .container-horizontal {
-    display: grid;
-    grid-gap: 100px;
-    grid-template-columns: 1fr 3fr;
-    text-align: left;
+  .top .header {
+    display: flex;
   }
 
-  .container {
-    img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .header {
-      font-size: 1.1rem;
-      font-family: $font-mono;
-      font-weight: bold;
-      padding: 5px 0;
-    }
-
+  .bot {
     .title {
       margin: 15px 0;
       font-weight: bold;
       font-size: 2rem;
+    }
+
+    .header {
+      display: none;
     }
 
     .text {
@@ -71,6 +53,46 @@ export default {
       font-family: $font-mono;
       line-height: 150%;
     }
+  }
+
+  .header {
+    display: flex;
+    margin: 20px 0;
+
+    .source-img {
+      height: 1em;
+      width: auto;
+      margin-left: 20px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      font-family: $font-mono;
+    }
+  }
+
+  .image {
+    width: 100%;
+  }
+}
+
+@media (min-width: $mobile-large) {
+  .news-feed-item {
+    .top .header {
+      display: none;
+    }
+
+    .bot .header {
+      display: flex;
+    }
+  }
+
+  .horizontal {
+    display: grid;
+    grid-gap: 100px;
+    grid-template-columns: 1fr 3fr;
+    text-align: left;
   }
 }
 </style>

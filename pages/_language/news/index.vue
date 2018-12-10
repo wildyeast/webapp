@@ -23,6 +23,7 @@
         <div class="seperator"/>
       </div>
 
+      <!-- Horizontal feed items -->
       <div class="items">
         <news-feed-item
           v-for="item in block[1]"
@@ -32,6 +33,7 @@
           :type="'horizontal'"
         />
 
+        <!-- Vertical feed items (two columns) -->
         <div v-if="block[1].length > 1" class="news-block">
           <div class="column-left">
             <news-feed-item
@@ -45,7 +47,7 @@
           <div class="column-right">
             <news-feed-item
               v-for="(item, index) in block[1]"
-              v-if="index % 2 == 1"
+              v-bind:class="index % 2 == 1 ? '' : 'hidden-item'"
               :news="item.content"
               :key="item.id"
             />
@@ -175,19 +177,12 @@ export default {
 <style lang="scss">
 @import "@/assets/scss/styles.scss";
 
-@media (min-width: 750px) {
-  .source-block {
-    display: flex;
-  }
-}
-
 .source-list {
   width: max-content;
   margin: 50px auto 0 auto;
-  display: flex;
 
   .source {
-    margin: 0 10px;
+    margin: 5px 10px;
   }
 }
 
@@ -242,12 +237,37 @@ export default {
   .column-right {
     width: 50%;
     margin-top: 200px;
+
+    .hidden-item {
+      display: none;
+    }
   }
 
   .column-left {
-    width: 50%;
     text-align: right;
     margin-right: 100px;
+    width: 50%;
+  }
+}
+
+@media (max-width: $mobile-large) {
+  .column-right {
+    width: 100% !important;
+
+    .hidden-item {
+      display: block !important;
+    }
+  }
+
+  .column-left {
+    display: none;
+    width: 0%;
+  }
+}
+
+@media (min-width: $mobile-small) {
+  .source-list {
+    display: flex;
   }
 }
 </style>
