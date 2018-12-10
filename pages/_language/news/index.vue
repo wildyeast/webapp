@@ -16,38 +16,40 @@
     <div class="news-feed" v-for="(block, index) in blocks" :key="index">
       <div class="date-seperator">
         <div class="container">
-          <img src="~/assets/img/icons/megaphone.svg" class="decorator">
+          <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="index == 0">
           <h1 class="title">{{block[0]}}</h1>
         </div>
 
         <div class="seperator"/>
       </div>
 
-      <news-feed-item
-        v-for="item in block[1]"
-        v-if="block[1].length == 1"
-        :news="item.content"
-        :key="item.id"
-        :type="'horizontal'"
-      />
+      <div class="items">
+        <news-feed-item
+          v-for="item in block[1]"
+          v-if="block[1].length == 1"
+          :news="item.content"
+          :key="item.id"
+          :type="'horizontal'"
+        />
 
-      <div v-if="block[1].length > 1" class="news-block">
-        <div class="column-left">
-          <news-feed-item
-            v-for="(item, index) in block[1]"
-            v-if="index % 2 == 0"
-            :news="item.content"
-            :key="item.id"
-          />
-        </div>
+        <div v-if="block[1].length > 1" class="news-block">
+          <div class="column-left">
+            <news-feed-item
+              v-for="(item, index) in block[1]"
+              v-if="index % 2 == 0"
+              :news="item.content"
+              :key="item.id"
+            />
+          </div>
 
-        <div class="column-right">
-          <news-feed-item
-            v-for="(item, index) in block[1]"
-            v-if="index % 2 == 1"
-            :news="item.content"
-            :key="item.id"
-          />
+          <div class="column-right">
+            <news-feed-item
+              v-for="(item, index) in block[1]"
+              v-if="index % 2 == 1"
+              :news="item.content"
+              :key="item.id"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -72,14 +74,6 @@ const monthDict = [
   "November",
   "Dezember"
 ];
-
-const sourceDict = {
-  m3: "magazin3",
-  yt: "youtube",
-  fb: "facebook",
-  tw: "twitter",
-  ig: "instagram"
-};
 
 export default {
   components: {
@@ -210,6 +204,10 @@ export default {
 }
 
 .news-feed {
+  .items {
+    margin: 0 15%;
+  }
+
   .date-seperator {
     .container {
       margin: 100px auto 0 auto;
@@ -249,6 +247,7 @@ export default {
   .column-left {
     width: 50%;
     text-align: right;
+    margin-right: 100px;
   }
 }
 </style>

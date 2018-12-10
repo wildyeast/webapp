@@ -40,20 +40,13 @@ export default {
   margin-top: 69px;
 
   .container-horizontal {
-    display: flex;
+    display: grid;
+    grid-gap: 100px;
+    grid-template-columns: 1fr 3fr;
     text-align: left;
-
-    img {
-      // margin-top: 100px;
-      margin-right: 20px;
-      width: 50% !important;
-      height: 50% !important;
-    }
   }
 
   .container {
-    margin: 10%;
-
     img {
       width: 100%;
       height: auto;
@@ -61,6 +54,8 @@ export default {
     }
 
     .header {
+      font-size: 1.1rem;
+      font-family: $font-mono;
       font-weight: bold;
       padding: 5px 0;
     }
@@ -74,6 +69,7 @@ export default {
     .text {
       font-size: 1rem;
       font-family: $font-mono;
+      line-height: 150%;
     }
   }
 }
