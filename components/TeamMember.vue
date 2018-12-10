@@ -13,7 +13,7 @@
       </div>
     </div>
       <div>
-        <markdown v-if="value" :value="blok.description"></markdown>
+        <markdown :value="blok.description"></markdown>
       </div>
   </div>
 </template>

@@ -5,6 +5,9 @@
       <div class="headline">
         Die <span class="strike">Maschinen</span> <br>Menschen dahinter
       </div>
+      <div class="subline">
+        <markdown :value="blok.text"></markdown>
+      </div>
       <div class="member-grid">
         <team-member-preview :key="id" v-for="id in blok.team" :id="id"></team-member-preview>
       </div>

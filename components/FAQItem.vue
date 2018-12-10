@@ -11,7 +11,7 @@
       </div>
       <div class="content" v-collapse-content>
         <div class="inner-content">
-          <markdown v-if="blok.answer" :value="blok.answer"></markdown>
+          <markdown :value="blok.answer"></markdown>
         </div>
       </div>
     </v-collapse-wrapper>
