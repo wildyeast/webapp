@@ -2,8 +2,9 @@
   <label v-bind:class="isChecked ? 'checkbox checkbox-selected' : 'checkbox'">
     <input v-model="isChecked" type="checkbox" v-on:change="onchange">
 
+
     <div class="checkmark">
-      <span v-if="isChecked">✔</span>
+      <img v-if="isChecked" src="~/assets/img/icons/check.svg" alt=""/>
     </div>
     {{text}}
   </label>
@@ -40,8 +41,11 @@ export default {
     border: 2px solid #000;
     border-radius: 2px;
     margin-right: 5px;
+    padding: 2px;
 
-    span {
+    img {
+      display: block;
+      width: 100%;
       color: #fff;
     }
   }
