@@ -25,32 +25,38 @@
 
       <!-- Horizontal feed items -->
       <div class="items">
-        <news-feed-item
-          v-for="item in block[1]"
-          v-if="block[1].length == 1"
-          :news="item.content"
-          :key="item.id"
-          :type="'horizontal'"
-        />
+        <transition-group name="items-transition">
+          <news-feed-item
+            v-for="item in block[1]"
+            v-if="block[1].length == 1"
+            :news="item.content"
+            :key="item.id"
+            :type="'horizontal'"
+          />
+        </transition-group>
 
         <!-- Vertical feed items (two columns) -->
         <div v-if="block[1].length > 1" class="news-block">
           <div class="column-left">
-            <news-feed-item
-              v-for="(item, index) in block[1]"
-              v-if="index % 2 == 0"
-              :news="item.content"
-              :key="item.id"
-            />
+            <transition-group name="items-transition">
+              <news-feed-item
+                v-for="(item, index) in block[1]"
+                v-if="index % 2 == 0"
+                :news="item.content"
+                :key="item.id"
+              />
+            </transition-group>
           </div>
 
           <div class="column-right">
-            <news-feed-item
-              v-for="(item, index) in block[1]"
-              v-bind:class="index % 2 == 1 ? '' : 'hidden-item'"
-              :news="item.content"
-              :key="item.id"
-            />
+            <transition-group name="items-transition">
+              <news-feed-item
+                v-for="(item, index) in block[1]"
+                v-bind:class="index % 2 == 1 ? '' : 'hidden-item'"
+                :news="item.content"
+                :key="item.id"
+              />
+            </transition-group>
           </div>
         </div>
       </div>
@@ -176,6 +182,17 @@ export default {
 
 <style lang="scss">
 @import "@/assets/scss/styles.scss";
+
+.items-transition-enter-active,
+.items-transition-leave-active {
+  transition: all 0.5s;
+}
+
+.items-transition-enter,
+.items-transition-leave-to {
+  opacity: 0;
+  transform: translateX(300px);
+}
 
 .source-list {
   width: max-content;
