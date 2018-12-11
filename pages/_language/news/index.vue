@@ -1,25 +1,67 @@
 <template>
   <section>
     <div class="source-list">
-      <div v-for="s in sources" :key="s.key" class="source">
-        <input type="checkbox" v-model="s.selected"  :name="s.key" :id="s.key"/>
-        <label :for="s.key">{{s.name}}</label>
-      </div>
+      <checkbox
+        :text="source.name"
+        :checked="source.selected"
+        :onchange="checkBoxVal => source.selected = checkBoxVal"
+        v-for="source in sources"
+        :key="source.name"
+        class="source"
+      />
     </div>
-    <div class="news-feed" v-for="(month, index) in months" :key="index">
+
+    <loading v-bind:class="loading ? 'loading loading-active' : 'loading' "/>
+
+    <div class="news-feed" v-for="(block, index) in blocks" :key="index">
       <div class="date-seperator">
-        <h1 class="title">{{month[0]}}</h1>
+        <div class="container">
+          <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="index == 0">
+          <h1 class="title">{{block[0]}}</h1>
+        </div>
+
         <div class="seperator"/>
       </div>
 
-      <div class="news-block">
-        <news-feed-item v-for="item in month[1]" :news="item.content" :key="item.id"/>
+      <!-- Horizontal feed items -->
+      <div class="items">
+        <news-feed-item
+          v-for="item in block[1]"
+          v-if="block[1].length == 1"
+          :news="item.content"
+          :key="item.id"
+          :type="'horizontal'"
+        />
+
+        <!-- Vertical feed items (two columns) -->
+        <div v-if="block[1].length > 1" class="news-block">
+          <div class="column-left">
+            <news-feed-item
+              v-for="(item, index) in block[1]"
+              v-if="index % 2 == 0"
+              :news="item.content"
+              :key="item.id"
+            />
+          </div>
+
+          <div class="column-right">
+            <news-feed-item
+              v-for="(item, index) in block[1]"
+              v-bind:class="index % 2 == 1 ? '' : 'hidden-item'"
+              :news="item.content"
+              :key="item.id"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import checkbox from "~/components/Checkbox.vue";
+import loading from "~/components/Loading.vue";
+
 const monthDict = [
   "Jänner",
   "Februar",
@@ -30,64 +72,53 @@ const monthDict = [
   "Juli",
   "August",
   "September",
+  "Oktober",
   "November",
   "Dezember"
 ];
 
 export default {
-  data() {
-    console.log("data");
+  components: {
+    checkbox,
+    loading
+  },
 
+  data() {
     return {
-      months: [],
+      loading: false,
       sources: [
-        { name: 'Magazin3', key: 'm3', selected: false },
-        { name: 'Youtube', key: 'yt', selected: false },
-        { name: 'Facebook', key: 'fb', selected: false },
-        { name: 'Twitter', key: 'tw', selected: false },
-        { name: 'Instagram', key: 'ig', selected: false },
-      ],
+        { name: "magazin3", key: "m3", selected: false },
+        { name: "youtube", key: "yt", selected: false },
+        { name: "facebook", key: "fb", selected: false },
+        { name: "twitter", key: "tw", selected: false },
+        { name: "instagram", key: "ig", selected: false }
+      ]
     };
   },
 
   created() {
-    console.log("created");
-
-    let months = {};
-
-    this.stories.map(story => {
-      const month = monthDict[new Date(story.content.datetime).getMonth()];
-
-      if (!months[month]) {
-        months[month] = [];
-      }
-
-      months[month].push(story);
-      console.log(month);
-    });
-
-    this.months = Object.entries(months);
-
-    this.$watch('sources', (newVal, oldVal) => {
-      this.update();
-    }, { deep: true });
+    this.$watch("sources", this.update, { deep: true });
   },
 
   asyncData(context) {
     let filters = {
       filter_query: {
-        'component': {
-          'in': 'news-item'
+        component: {
+          in: "news-item"
         }
-      },
+      }
     };
-    return context.store.dispatch("findNews", filters);
+
+    return context.store.dispatch("findNews", filters).then(data => {
+      return { news: data.stories };
+    });
   },
 
   methods: {
     update() {
       this.loading = true;
-      let result = this.$store.dispatch("findNews", this.filters).then((data) => {
+
+      let result = this.$store.dispatch("findNews", this.filters).then(data => {
         this.loading = false;
         this.news = data.stories;
       });
@@ -95,44 +126,96 @@ export default {
   },
 
   computed: {
-    filters() {
-      let ss = this.sources.filter((i) => {
-        return i.selected;
-      }).map((i) => {
-        return i.key
-      }).join(',');
+    blocks() {
+      let _blocks = {};
 
-      let filter_query = {
-        'component': {
-          'in': 'news-item'
-        },
+      // Sort stories in chronological order (latest first)
+      const stories = this.news.sort((a, b) => {
+        const timeA = new Date(a.content.datetime).getTime();
+        const timeB = new Date(b.content.datetime).getTime();
+
+        return timeB - timeA;
+      });
+
+      stories.map(story => {
+        const date = new Date(story.content.datetime);
+        const month = monthDict[date.getMonth()];
+        const year = date.getFullYear();
+        const timeStamp = `${month} ${year}`;
+
+        if (!_blocks[timeStamp]) {
+          _blocks[timeStamp] = [];
+        }
+
+        _blocks[timeStamp].push(story);
+      });
+
+      // Convert object to array for usage on the page [ [ key, value ], ... ]
+      return Object.entries(_blocks);
+    },
+
+    filters() {
+      const sources = this.sources
+        .filter(i => i.selected)
+        .map(i => i.key)
+        .join(",");
+
+      const filter_query = {
+        component: { in: "news-item" }
       };
 
-      if (ss) {
-        filter_query['source'] = {
-          'in': ss
-        }
+      if (sources) {
+        filter_query["source"] = { in: sources };
       }
 
-      return {
-        filter_query
-      }
+      return { filter_query };
     }
-  },
+  }
 };
 </script>
 
 <style lang="scss">
 @import "@/assets/scss/styles.scss";
 
+.source-list {
+  width: max-content;
+  margin: 50px auto 0 auto;
+
+  .source {
+    margin: 5px 10px;
+  }
+}
+
+.loading {
+  margin-top: 20px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+}
+
+.loading-active {
+  display: block;
+}
+
 .news-feed {
+  .items {
+    margin: 0 15%;
+  }
+
   .date-seperator {
-    .title {
-      margin: 0 auto;
-      width: max-content;
-      background-color: $color-blue;
-      padding: 5px;
-      color: #fff;
+    .container {
+      margin: 100px auto 0 auto;
+      width: 250px;
+
+      .title {
+        text-align: center;
+        background-color: $color-blue;
+        padding: 5px;
+        color: #fff;
+        margin: 0;
+        // transform: rotate(-3deg);
+      }
     }
 
     .seperator {
@@ -140,19 +223,51 @@ export default {
       width: 100%;
       margin-top: -1em;
     }
+
+    .decorator {
+      width: 50px;
+      margin-bottom: -7px;
+    }
   }
 }
 
 .news-block {
-  display: grid;
-  grid-template-columns: 50% 50%;
+  display: flex;
+
+  .column-right {
+    width: 50%;
+    margin-top: 200px;
+
+    .hidden-item {
+      display: none;
+    }
+  }
+
+  .column-left {
+    text-align: right;
+    margin-right: 100px;
+    width: 50%;
+  }
 }
 
-.news-feed-item:nth-child(2n) {
-  text-align: left;
+@media (max-width: $mobile-large) {
+  .column-right {
+    width: 100% !important;
+
+    .hidden-item {
+      display: block !important;
+    }
+  }
+
+  .column-left {
+    display: none;
+    width: 0%;
+  }
 }
 
-.news-feed-item:nth-child(2) {
-  margin-top: 200px;
+@media (min-width: $mobile-small) {
+  .source-list {
+    display: flex;
+  }
 }
 </style>
