@@ -21,7 +21,7 @@
               <button class="apply-button">Bewerben</button>
             </div>
           </div>
-          <markdown v-if="blok.description" :value="blok.description"></markdown>
+          <markdown :value="blok.description"></markdown>
         </div>
       </div>
     </v-collapse-wrapper>

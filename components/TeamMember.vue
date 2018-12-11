@@ -12,9 +12,15 @@
         </div>
       </div>
     </div>
-      <div>
-        <markdown v-if="value" :value="blok.description"></markdown>
+    <div class="body">
+      <div class="future-slogan">
+        <div class="first">Die Zukunft</div>
+        <div class="second">gehört {{blok.future}}</div>
       </div>
+    </div>
+    <div class="description">
+      <markdown :value="blok.description"></markdown>
+    </div>
   </div>
 </template>
 
@@ -48,6 +54,20 @@ export default {
 
       .title {
         font-family: $font-mono;
+      }
+
+    }
+  }
+  .body {
+    padding: 100px 0;
+    .future-slogan {
+      transform: rotate(-5deg);
+      position: absolute;
+      .first {
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+      .second {
       }
     }
   }

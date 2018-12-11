@@ -1,5 +1,5 @@
 <template>
-  <div v-html="renderedMarkdown"></div>
+  <div v-if="value" v-html="renderedMarkdown"></div>
 </template>
 
 <script>
