@@ -12,7 +12,6 @@
     </div>
 
     <loading v-bind:class="loading ? 'loading loading-active' : 'loading' "/>
-
     <h1 v-if="!blocks.length" class="no-results">Keine Ergebnisse</h1>
 
     <div class="news-feed" v-for="(block, index) in blocks" :key="index">
@@ -67,9 +66,6 @@
 </template>
 
 <script>
-import checkbox from "~/components/Checkbox.vue";
-import loading from "~/components/Loading.vue";
-
 const monthDict = [
   "Jänner",
   "Februar",
@@ -86,11 +82,6 @@ const monthDict = [
 ];
 
 export default {
-  components: {
-    checkbox,
-    loading
-  },
-
   data() {
     return {
       loading: false,

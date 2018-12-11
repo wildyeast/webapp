@@ -2,17 +2,17 @@
   <label v-bind:class="isChecked ? 'checkbox checkbox-selected' : 'checkbox'">
     <input v-model="isChecked" type="checkbox" v-on:change="onchange">
 
-
     <div class="checkmark">
-      <img v-if="isChecked" src="~/assets/img/icons/check.svg" alt=""/>
+      <img v-if="isChecked" src="~/assets/img/icons/check.svg">
     </div>
+
     {{text}}
   </label>
 </template>
 
 <script>
 export default {
-  props: ["text", "checked", "onchange"], // !!
+  props: ["text", "checked", "onchange", "theme"], // !!
 
   data() {
     return { isChecked: this.checked };

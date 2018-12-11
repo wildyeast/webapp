@@ -39,6 +39,8 @@ import TextImage from '~/components/TextImage.vue'
 import StoryBlokLink from '~/components/StoryBlokLink.vue'
 import MainNavItem from '~/components/MainNavItem.vue'
 import Markdown from '~/components/Markdown.vue'
+import Loading from '~/components/Loading.vue'
+import Checkbox from '~/components/Checkbox.vue'
 
 Vue.component('page', Page)
 Vue.component('general-header', GeneralHeader)
@@ -81,3 +83,6 @@ Vue.component('location-description', LocationDescription)
 Vue.component('main-nav-item', MainNavItem)
 Vue.component('sb-link', StoryBlokLink)
 Vue.component('markdown', Markdown)
+
+Vue.component('loading', Loading)
+Vue.component('checkbox', Checkbox)
