@@ -2,7 +2,7 @@
   <div>
     <div class="preview-wrapper">
       <div class="member-preview">
-        <nuxt-link v-if="story" class="story" :to="story.full_slug">
+        <nuxt-link v-if="story" class="story" :to="'/' + story.full_slug">
             <h3 class="name">{{member.name}}</h3>
             <p class="title">{{member.title}}</p>
         </nuxt-link>

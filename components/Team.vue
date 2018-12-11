@@ -5,6 +5,9 @@
       <div class="headline">
         Die <span class="strike">Maschinen</span> <br>Menschen dahinter
       </div>
+      <div class="subline">
+        <markdown :value="blok.text"></markdown>
+      </div>
       <div class="member-grid">
         <team-member-preview :key="id" v-for="id in blok.team" :id="id"></team-member-preview>
       </div>
@@ -53,11 +56,18 @@ export default {
     .headline {
       font-weight: bold;
       font-size: 3.2rem;
-      margin-bottom: 100px;
+      margin-bottom: 20px;
       text-transform: uppercase;
       .strike {
         text-decoration: line-through;
       }
+    }
+
+    .subline {
+      font-family: $font-mono;
+      font-size: 1.2rem;
+      margin-bottom: 80px;
+      line-height: 1.5;
     }
 
     .member-filters {
