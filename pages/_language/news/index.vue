@@ -13,6 +13,8 @@
 
     <loading v-bind:class="loading ? 'loading loading-active' : 'loading' "/>
 
+    <h1 v-if="!blocks.length" class="no-results">Keine Ergebnisse</h1>
+
     <div class="news-feed" v-for="(block, index) in blocks" :key="index">
       <div class="date-seperator">
         <div class="container">
@@ -182,6 +184,12 @@ export default {
 
 <style lang="scss">
 @import "@/assets/scss/styles.scss";
+
+.no-results {
+  width: 100%;
+  text-align: center;
+  margin-top: 100px;
+}
 
 .items-transition-enter-active,
 .items-transition-leave-active {
