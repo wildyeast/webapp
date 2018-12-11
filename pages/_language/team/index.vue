@@ -1,6 +1,6 @@
 <template>
-  <section class="">
-    <component v-if="story && story.content && story.content.component" :key="story.content._uid" :blok="story.content" :is="story.content.component"></component>
+  <section>
+    <component v-if="story && story.content && story.content.component" :key="story.content._uid" :blok="story.content" :is="story.content.component" />
   </section>
 </template>
 

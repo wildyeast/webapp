@@ -3,7 +3,9 @@
     <img class="image" :src="$resizeImage(blok.image, '1600x0')">
     <div class="team">
       <div class="headline">
-        Die <span class="strike">Maschinen</span> <br>Menschen dahinter
+        Die
+        <span class="strike">Maschinen</span>
+        <br>Menschen dahinter
       </div>
       <div class="subline">
         <markdown :value="blok.text"></markdown>
@@ -17,22 +19,20 @@
 
 <script>
 export default {
-  props: ['blok'],
+  props: ["blok"],
   data() {
-    return {
-    }
+    return {};
   },
-  computed: {
-  },
-}
+  computed: {}
+};
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/styles.scss';
+@import "@/assets/scss/styles.scss";
 
 .team-wrapper {
-  padding-left: 200px;
-  padding-top: 200px;
+  padding-left: 15%;
+  padding-top: 15%;
   position: relative;
 
   .image {
@@ -51,7 +51,7 @@ export default {
     flex-direction: column;
 
     padding: 100px;
-    background-color: #FFF;
+    background-color: #fff;
 
     .headline {
       font-weight: bold;
@@ -91,14 +91,20 @@ export default {
         }
         &.active {
           background-color: $color-orange;
-          color: #FFF;
+          color: #fff;
         }
       }
     }
 
     .member-grid {
+      grid-template-columns: 1fr 1fr;
+
       .member-item {
-        width: 50%;
+        width: 100%;
+      }
+
+      @media (min-width: $mobile-large) {
+        display: grid;
       }
     }
   }

@@ -3,12 +3,9 @@
     <div class="preview-wrapper">
       <div class="member-preview">
         <nuxt-link v-if="story" class="story" :to="'/' + story.full_slug">
-            <h3 class="name">{{member.name}}</h3>
-            <p class="title">{{member.title}}</p>
+          <h3 class="name">{{member.name}}</h3>
+          <p class="title">{{member.title}}</p>
         </nuxt-link>
-        <div class="loading" v-else>
-          loading
-        </div>
       </div>
     </div>
   </div>
@@ -16,11 +13,11 @@
 
 <script>
 export default {
-  props: ['id'],
+  props: ["id"],
   data() {
     return {
-      story: null,
-    }
+      story: null
+    };
   },
   computed: {
     member() {
@@ -28,24 +25,27 @@ export default {
     }
   },
   created() {
-    this.$store.app.$storyapi.get(`cdn/stories/${this.id}`, {
-      find_by: 'uuid'
-    }).then((res) => {
-      this.story = res.data.story;
-    }).catch((e) => {
-      console.log('error', e);
-    });
+    this.$store.app.$storyapi
+      .get(`cdn/stories/${this.id}`, {
+        find_by: "uuid"
+      })
+      .then(res => {
+        this.story = res.data.story;
+      })
+      .catch(e => {
+        console.log("error", e);
+      });
   },
   methods: {
     open() {
       this.$router.push({ path: this.story.full_slug });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/styles.scss';
+@import "@/assets/scss/styles.scss";
 
 .preview-wrapper {
   width: 100%;
@@ -54,10 +54,7 @@ export default {
 
   .member-preview {
     padding: 20px;
-    width: 600px;
-
-    .loading {
-    }
+    width: 100%;
 
     .story {
       display: block;
