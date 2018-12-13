@@ -5,17 +5,20 @@
       <nuxt/>
     </main>
     <bottom-footer/>
+    <sidebar />
   </div>
 </template>
 
 <script>
 import TopHeader from '~/components/TopHeader.vue'
 import BottomFooter from '~/components/BottomFooter.vue'
+import Sidebar from '~/components/Sidebar.vue'
 
 export default {
   components: {
     TopHeader,
-    BottomFooter
+    BottomFooter,
+    Sidebar
   },
 }
 </script>

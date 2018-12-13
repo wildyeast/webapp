@@ -7,11 +7,11 @@
       </ul>
       <div class="price">
         <h4 class="title">Ermäßigt</h4>
-        <a class="link" :href="registerLink">{{blok.price_regular}},- / Monat</a>
+        <button class="link" @click="register">{{blok.price_regular}},- / Monat</button>
       </div>
       <div class="price">
         <h4 class="title">Regulär</h4>
-        <a class="link" :href="registerLink">{{blok.price_reduced}},- / Monat</a>
+        <button class="link" @click="register">{{blok.price_reduced}},- / Monat</button>
       </div>
     </div>
   </div>
@@ -20,6 +20,11 @@
 <script>
 export default {
   props: ['blok'],
+  methods: {
+    register() {
+      this.$store.dispatch('setSidebar', 'register');
+    }
+  },
   computed: {
     registerLink() {
       return '#';
@@ -68,6 +73,9 @@ export default {
         font-size: 0.6rem;
       }
       .link {
+        cursor: pointer;
+        outline: none;
+        border: none;
         font-weight: bold;
         font-size: 0.8rem;
         display: block;

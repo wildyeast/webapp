@@ -8,6 +8,7 @@ const createStore = () => {
       cacheVersion: '',
       debug: '',
       language: 'de',
+      sidebar: null,
       settings: {
         main_navi: []
       }
@@ -24,6 +25,9 @@ const createStore = () => {
       }
     },
     actions: {
+      setSidebar({state}, value) {
+        state.sidebar = value;
+      },
       loadFullPage ({state}, path) {
         return this.$storyapi.get(`cdn/stories${path}`, {
           version: version,
@@ -110,6 +114,9 @@ const createStore = () => {
         }).catch((e) => {
           console.log(e);
         });
+      },
+      createMember ({ state, commit }, context) {
+        console.log(context);
       }
     }
   })

@@ -36,6 +36,9 @@ import ImageSlideshow from '~/components/ImageSlideshow.vue'
 import SpotlightSlider from '~/components/SpotlightSlider.vue'
 import TextImage from '~/components/TextImage.vue'
 
+import LoginForm from '~/components/LoginForm.vue'
+import RegisterForm from '~/components/RegisterForm.vue'
+
 import StoryBlokLink from '~/components/StoryBlokLink.vue'
 import MainNavItem from '~/components/MainNavItem.vue'
 import Markdown from '~/components/Markdown.vue'
@@ -67,6 +70,9 @@ Vue.component('workshop-list-item', WorkshopListItem)
 Vue.component('job-teaser', JobTeaser)
 Vue.component('job-list', JobList)
 Vue.component('job-opening', JobOpening)
+
+Vue.component('login-form', LoginForm)
+Vue.component('register-form', RegisterForm)
 
 Vue.component('spotlight-slider', SpotlightSlider)
 Vue.component('image-slideshow', ImageSlideshow)
