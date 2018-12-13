@@ -4,8 +4,8 @@ const baseURL = 'https://fabman.io/api/v1/';
 let newMember = {
   "account": 310,
   "space": 290,
-  "firstName": "Herbert",
-  "lastName": "Josef",
+  "firstName": "Maria",
+  "lastName": "Musterfrau",
   "gender": "female",
   "dateOfBirth": "2018-12-11",
   "emailAddress": "test@doebi.at",
