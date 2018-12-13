@@ -2,7 +2,8 @@
   "name": "my-app",
   "scripts": {
     "dev": "nuxt",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "lambda": "netlify-lambda serve functions-src"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -15,6 +16,7 @@
     "vue2-google-maps": "^0.10.4"
   },
   "devDependencies": {
+    "netlify-lambda": "^1.1.0",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0"
   }
