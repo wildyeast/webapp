@@ -1,29 +1,23 @@
 <template>
   <div class="register-form">
-    <div class="title">
-      Neuen Account registrieren
-    </div>
     <div v-if="loading">
-      sending
+      loading…
     </div>
     <div v-else>
       <div class="form-item">
-        <span class="label">Vorname</span>
-        <input type="text" v-model="firstName" placeholder="Vorname" />
-      </div>
-      <div class="form-item">
-        <span class="label">Nachname</span>
-        <input type="text" v-model="lastName" placeholder="Nachname" />
-      </div>
-      <!--
-      <div v-if="showEmailError" class="form-item username-status">
-        <span class="good" v-if="emailValid">schaut gut aus</span>
-        <span class="bad" v-else>keine gültige email</span>
-      </div>
-      -->
-      <div class="form-item">
         <span class="label">E-Mail</span>
         <input type="text" v-model="email" ref="email" placeholder="deine e-mail adresse" @input="checkMail" />
+      </div>
+      <div class="form-item">
+        <span class="label">Passwort</span>
+        <input type="password" v-model="password" placeholder="" @input="checkPassword" />
+      </div>
+      <div v-if="showPasswordError" class="form-item password-status">
+        <span class="bad" v-if="!passwordValid">Passwörter stimmen nicht überein</span>
+      </div>
+      <div class="form-item">
+        <span class="label">Passwort (wiederholen)</span>
+        <input type="password" v-model="passwordRepeat" placeholder="" />
       </div>
       <div class="checkbox-item">
         <div class="checkbox-wrapper">
@@ -61,9 +55,9 @@ export default {
   props: ['blok'],
   data() {
     return {
-      firstName: '',
-      lastName: '',
       email: '',
+      password: '',
+      passwordRepeat: '',
       agb: false,
       dsg: false,
       newsletter: false,
@@ -73,18 +67,14 @@ export default {
     }
   },
   computed: {
-    usernameValid() {
-      return this.username &&
-        this.username.length >= 3;
-    },
-    nameValid() {
-      return this.firstName && this.lastName;
+    passwordValid() {
+      return this.password === this.passwordRepeat;
     },
     emailValid() {
       return validator.isEmail(this.email);
     },
     formValid() {
-      return this.nameValid && this.emailValid;
+      return this.passwordValid && this.emailValid;
     },
     showEmailError() {
       return this.email !== '';
@@ -98,44 +88,43 @@ export default {
       this.loading = true;
       let data = {
         email: this.email,
+        password: this.password
       }
-      this.$store.dispatch('createMember', data).then((r) => {
+      this.$store.dispatch('registerUser', data).then((r) => {
         this.loading = false;
-        if (r.status === 'error') {
-          if (r.msg === 'INVALID_EMAIL') {
-            this.errorMessage = 'Keine gültige Email';
-          }
-        } else {
-          this.waitForMail = true;
-        }
+        this.$store.dispatch('setSidebar', 'register-success');
       }).catch((e) => {
-        console.log("error");
+        this.loading = false;
+        if (e.error) {
+          this.errorMessage = 'Ein Fehler ist aufgetreten: "' + e.error + '"';
+          return;
+        }
+        if (e.code) {
+          switch (e.code) {
+            case 'user_exists':
+              this.errorMessage = 'Der User Existiert bereits';
+              break;
+            case 'invalid_password':
+              this.errorMessage = 'Das Passwort ist zu schwach.';
+              // not displaying policy, but printing to console
+              console.log(e.policy);
+              break;
+            default:
+              this.errorMessage = 'Ein Fehler ist aufgetreten: "' + e.code + '"';
+              break;
+          }
+        }
       });
     },
-    clearMail() {
-      this.errorMessage = null;
-    },
-    clearUsername() {
-      this.usernameTaken = null;
+    clearError() {
       this.errorMessage = null;
     },
     checkMail() {
-      this.clearMail();
-      //let valid = validator.isEmail(this.email);
+      this.clearError();
     },
-    doCheckUsername() {
-      this.usernameTaken = null;
-      if (!this.usernameValid) {
-        return;
-      }
-      let name = this.username;
-      this.$store.dispatch('checkUsername', { name }).then((r) => {
-        this.checkedUsername = name;
-        this.usernameTaken = !r;
-      }).catch((e) => {
-        console.log(e);
-      });
-    }
+    checkPassword() {
+      this.clearError();
+    },
   }
 }
 </script>
@@ -163,7 +152,6 @@ export default {
       }
     }
     button {
-      cursor: pointer;
       background-color: $color-orange;
       color: #FFF;
       border: 1px solid lighten($color-orange, 10);
@@ -199,14 +187,6 @@ export default {
     a {
       color: $color-orange;
       padding: 0 3px;
-    }
-  }
-  .username-status {
-    .good {
-      color: green;
-    }
-    .bad {
-      color: red;
     }
   }
   .error-message {

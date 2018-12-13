@@ -1,3 +1,7 @@
+/*
+ *  Function to create Members in a fabman space
+ */
+
 const axios = require('axios');
 const baseURL = 'https://fabman.io/api/v1/';
 

@@ -6,6 +6,7 @@
     "lambda": "netlify-lambda serve lambda"
   },
   "dependencies": {
+    "auth0-js": "^9.8.2",
     "axios": "^0.18.0",
     "marked": "^0.5.2",
     "nuxt": "^2.3.4",

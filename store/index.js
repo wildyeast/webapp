@@ -1,5 +1,12 @@
 import Vuex from 'vuex';
 
+import auth0 from 'auth0-js';
+
+let webAuth = new auth0.WebAuth({
+  domain:       'grandgarage.eu.auth0.com',
+  clientID:     'lwqb_LrkbU8b2rHfbC05C87xqM4bSfms',
+});
+
 let version = 'draft';
 
 const createStore = () => {
@@ -25,6 +32,23 @@ const createStore = () => {
       }
     },
     actions: {
+      loginUser({ commit }, context) {
+        return axios.post('/api/auth/login', context)
+          .then(r => r.data)
+          .catch(e => e.response.data);
+      },
+      registerUser({ commit }, context) {
+        return new Promise((resolve, reject) => {
+          webAuth.signup({
+            connection: 'Username-Password-Authentication',
+            email: context.email,
+            password: context.password,
+          }, function (err) {
+            if (err) reject(err);
+            resolve();
+          });
+        });
+      },
       setSidebar({state}, value) {
         state.sidebar = value;
       },

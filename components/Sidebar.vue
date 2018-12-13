@@ -6,6 +6,11 @@
       <transition name="slide">
       <login-form v-if="sidebar == 'login'"></login-form>
       <register-form v-else-if="sidebar == 'register'"></register-form>
+      <div v-else-if="sidebar == 'register-success'">
+        <h3>Willkommen</h3>
+        <p>Bitte prüfe deine Email um deinen Account zu bestätigen.</p>
+        <button @click="close">Zurück</button>
+      </div>
       </transition>
     </div>
   </div>
