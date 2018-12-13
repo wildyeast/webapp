@@ -2,4 +2,4 @@
 [build]
   publish = "dist"
   command = "npm run generate"
-  functions = "functions/dist/"
+  functions = "functions/"

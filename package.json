@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "nuxt",
     "generate": "nuxt generate",
-    "lambda": "netlify-lambda serve functions/src"
+    "lambda": "netlify-lambda serve lambda"
   },
   "dependencies": {
     "axios": "^0.18.0",
