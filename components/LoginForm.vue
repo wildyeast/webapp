@@ -1,8 +1,8 @@
 <template>
   <div class="login-form">
     <div class="form-item">
-      <span class="label">Username</span>
-      <input class="input" type="text" v-model="username" placeholder="dein username" @input="clearErrorMessage" />
+      <span class="label">Email</span>
+      <input class="input" type="text" v-model="email" placeholder="deine email" @input="clearErrorMessage" />
     </div>
     <div class="form-item">
       <span class="label">Password</span>
@@ -22,7 +22,7 @@ export default {
   props: ['blok'],
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
       errorMessage: null
     }
@@ -32,7 +32,7 @@ export default {
   methods: {
     submit() {
       let data = {
-        username: this.username,
+        email: this.email,
         password: this.password
       }
       this.$store.dispatch('loginUser', data).then((r) => {
@@ -95,14 +95,6 @@ export default {
     }
     label {
       user-select: none;
-    }
-  }
-  .username-status {
-    .good {
-      color: green;
-    }
-    .bad {
-      color: red;
     }
   }
   .error-message {

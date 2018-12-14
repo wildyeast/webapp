@@ -10,6 +10,7 @@
         <h3>Willkommen</h3>
         <p>Bitte prüfe deine Email um deinen Account zu bestätigen.</p>
         <button @click="close">Zurück</button>
+        <button @click="login">Zum Login</button>
       </div>
       </transition>
     </div>
@@ -24,6 +25,9 @@ export default {
   methods: {
     close() {
       this.$store.dispatch('setSidebar', null);
+    },
+    login() {
+      this.$store.dispatch('setSidebar', 'login');
     }
   },
   computed: {

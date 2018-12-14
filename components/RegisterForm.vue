@@ -5,6 +5,14 @@
     </div>
     <div v-else>
       <div class="form-item">
+        <span class="label">Vorname</span>
+        <input type="text" v-model="firstName" placeholder="Vorname" @input="checkName" />
+      </div>
+      <div class="form-item">
+        <span class="label">Nachname</span>
+        <input type="text" v-model="lastName" placeholder="Nachname" @input="checkName" />
+      </div>
+      <div class="form-item">
         <span class="label">E-Mail</span>
         <input type="text" v-model="email" ref="email" placeholder="deine e-mail adresse" @input="checkMail" />
       </div>
@@ -58,12 +66,13 @@ export default {
       email: '',
       password: '',
       passwordRepeat: '',
+      firstName: '',
+      lastName: '',
       agb: false,
       dsg: false,
       newsletter: false,
       errorMessage: null,
-      waitForMail: false,
-      loading: false
+      loading: false,
     }
   },
   computed: {
@@ -74,7 +83,7 @@ export default {
       return validator.isEmail(this.email);
     },
     formValid() {
-      return this.passwordValid && this.emailValid;
+      return this.passwordValid && this.emailValid && this.agb && this.dsg;
     },
     showEmailError() {
       return this.email !== '';
@@ -88,7 +97,11 @@ export default {
       this.loading = true;
       let data = {
         email: this.email,
-        password: this.password
+        password: this.password,
+        user_metadata: {
+          firstName: this.firstName,
+          lastName: this.lastName,
+        }
       }
       this.$store.dispatch('registerUser', data).then((r) => {
         this.loading = false;
@@ -118,6 +131,9 @@ export default {
     },
     clearError() {
       this.errorMessage = null;
+    },
+    checkName() {
+      this.clearError();
     },
     checkMail() {
       this.clearError();

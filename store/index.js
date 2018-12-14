@@ -1,5 +1,4 @@
 import Vuex from 'vuex';
-
 import auth0 from 'auth0-js';
 
 let webAuth = new auth0.WebAuth({
@@ -16,9 +15,7 @@ const createStore = () => {
       debug: '',
       language: 'de',
       sidebar: null,
-      settings: {
-        main_navi: []
-      }
+      settings: {}
     },
     mutations: {
       setSettings (state, settings) {
@@ -33,9 +30,16 @@ const createStore = () => {
     },
     actions: {
       loginUser({ commit }, context) {
-        return axios.post('/api/auth/login', context)
-          .then(r => r.data)
-          .catch(e => e.response.data);
+        return new Promise((resolve, reject) => {
+          webAuth.login({
+            connection: 'Username-Password-Authentication',
+            email: context.email,
+            password: context.password,
+          }, function (err) {
+            if (err) reject(err);
+            resolve();
+          });
+        });
       },
       registerUser({ commit }, context) {
         return new Promise((resolve, reject) => {
@@ -43,9 +47,10 @@ const createStore = () => {
             connection: 'Username-Password-Authentication',
             email: context.email,
             password: context.password,
-          }, function (err) {
+            user_metadata: context.user_metadata,
+          }, function (err, r) {
             if (err) reject(err);
-            resolve();
+            resolve(r);
           });
         });
       },
