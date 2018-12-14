@@ -12,6 +12,9 @@
         </div>
         <div class="col-text">
           <markdown :value="blok.text"></markdown>
+          <div class="register-button">
+            <button @click="register">Jetzt Mitglied werden</button>
+          </div>
         </div>
       </div>
     </div>
@@ -20,7 +23,12 @@
 
 <script>
 export default {
-  props: ['blok']
+  props: ['blok'],
+  methods: {
+    register() {
+      this.$store.dispatch('setSidebar', 'register');
+    }
+  }
 }
 </script>
 
@@ -58,6 +66,17 @@ export default {
           font-size: 1.2rem;
           line-height: 1.2;
           margin-top: 0;
+        }
+        .register-button {
+          button {
+            outline: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: #FFF;
+            border: none;
+            padding: 15px;
+            background-color: $color-orange;
+          }
         }
       }
     }

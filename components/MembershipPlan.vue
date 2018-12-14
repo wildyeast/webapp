@@ -7,11 +7,11 @@
       </ul>
       <div class="price">
         <h4 class="title">Ermäßigt</h4>
-        <button class="link" @click="register">{{blok.price_regular}},- / Monat</button>
+        <div class="link">{{blok.price_regular}},- / Monat</div>
       </div>
       <div class="price">
         <h4 class="title">Regulär</h4>
-        <button class="link" @click="register">{{blok.price_reduced}},- / Monat</button>
+        <div class="link">{{blok.price_reduced}},- / Monat</div>
       </div>
     </div>
   </div>
@@ -73,7 +73,6 @@ export default {
         font-size: 0.6rem;
       }
       .link {
-        cursor: pointer;
         outline: none;
         border: none;
         font-weight: bold;
