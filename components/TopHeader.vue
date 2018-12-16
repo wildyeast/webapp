@@ -18,6 +18,9 @@
               {{ child.name }}
             </sb-link>
           </div>
+          <div class="child">
+            <button @click="login" class="login-button">Login</button>
+          </div>
         </div>
       </div>
     </header>
@@ -50,6 +53,9 @@ export default {
   methods: {
     toggleMenu() {
       this.showMenu = !this.showMenu;
+    },
+    login() {
+      this.$store.dispatch('setSidebar', 'login');
     }
   }
 }
@@ -105,6 +111,16 @@ export default {
           font-weight: bold;
           font-size: 0.9rem;
           padding: 8px;
+        }
+        .login-button {
+          outline: none;
+          width: 100%;
+          color: #FFF;
+          border: none;
+          background-color: $color-orange;
+          padding: 5px;
+          margin: 3px 0;
+          cursor: pointer;
         }
       }
     }

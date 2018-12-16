@@ -47,6 +47,7 @@ module.exports = {
 
       // Call first Page of the Links API: https://www.storyblok.com/docs/Delivery-Api/Links
       axios.get(`https://api.storyblok.com/v1/cdn/links?token=${token}&version=${version}&per_page=${per_page}&page=${page}`).then((res) => {
+
         Object.keys(res.data.links).forEach((key) => {
           if (res.data.links[key].slug != 'home') {
             routes.push('/' + res.data.links[key].slug)

@@ -4,6 +4,7 @@ import auth0 from 'auth0-js';
 let webAuth = new auth0.WebAuth({
   domain:       'grandgarage.eu.auth0.com',
   clientID:     'lwqb_LrkbU8b2rHfbC05C87xqM4bSfms',
+  responseType: 'token id_token'
 });
 
 let version = 'draft';
@@ -39,6 +40,16 @@ const createStore = () => {
             if (err) reject(err);
             resolve();
           });
+          /*
+          webAuth.login({
+            connection: 'Username-Password-Authentication',
+            email: context.email,
+            password: context.password,
+          }, function (err) {
+            if (err) reject(err);
+            resolve();
+          });
+          */
         });
       },
       registerUser({ commit }, context) {
@@ -56,6 +67,19 @@ const createStore = () => {
       },
       setSidebar({state}, value) {
         state.sidebar = value;
+      },
+      loadTeam ({state}) {
+        return this.$storyapi.get(`cdn/stories`, {
+          filter_query: {
+            'component': {
+              'in': 'team-member'
+            }
+          },
+          version: version,
+          cv: state.cacheVersion
+        }).then((res) => {
+          return res.data;
+        });
       },
       loadFullPage ({state}, path) {
         return this.$storyapi.get(`cdn/stories${path}`, {
@@ -89,7 +113,7 @@ const createStore = () => {
         });
       },
       findWorkshops ({state}, filters) {
-        return this.$storyapi.get('cdn/stories', {
+        return this.$storyapi.get(`cdn/stories`, {
           filter_query: filters.filter_query,
           search_term: filters.search_term,
           version: version,
