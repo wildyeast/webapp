@@ -85,14 +85,11 @@ export default {
   .team {
     display: flex;
     flex-direction: column;
-    padding-top: 8%;
-    padding-left: 8%;
-    padding-right: 40px;
+    padding: 40px;
     background-color: #fff;
 
     @media (max-width: $mobile-small) {
-      padding-top: 50px;
-      padding-left: 50px;
+      padding: 20px;
     }
 
     .headline {
@@ -158,9 +155,11 @@ export default {
     }
   }
 }
+
 .image-footer {
   height: 50vh;
   background-size: cover;
   background-position: center;
 }
+
 </style>

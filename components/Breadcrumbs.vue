@@ -52,7 +52,8 @@ export default {
   justify-content: center;
 
   @media(max-width: $mobile-small) {
-    width: 30px;
+    // width: 30px;
+    display: none;
   }
 
   .content {
