@@ -74,13 +74,14 @@ export default {
 }
 
 .top-header {
-  margin: 0 20px;
+  margin: 0 80px 0 80px - 25;
   display: flex;
   justify-content: space-between;
   font-size: 1.1em;
 
   .logo {
     position: relative;
+    margin-right: -20px;
     &:hover {
       .dropdown {
         display: block;
@@ -134,6 +135,8 @@ export default {
     flex: 1;
   }
 }
+
+
 
 .mobile-nav {
   display: none;
