@@ -3,7 +3,8 @@
     <div class="top">
       <a :href="link" target="_blank">
         <div class="header">
-          <p v-if="news.datetime">{{date}}</p>
+          <p class="date" v-if="news.datetime">{{date}}</p>
+          <p class="date" v-if="news.datetime">{{date}}</p>
           <img v-if="news.source" class="source-img" :src="$resizeImage(`/icons/${news.source}.png`, '700x0')">
         </div>
         <img class="image" :src="news.image">
@@ -13,7 +14,8 @@
     <div class="bot">
       <a :href="link" target="_blank">
         <div class="header">
-          <p v-if="news.datetime">{{date}}</p>
+          <p class="date" v-if="news.datetime">{{date}}</p>
+          <p class="date" v-if="news.datetime">{{date}}</p>
           <img v-if="news.source" class="source-img" :src="$resizeImage(`/icons/${news.source}.png`, '700x0')">
         </div>
 
@@ -84,7 +86,10 @@ export default {
     .source-img {
       height: 1em;
       width: auto;
-      margin-left: 20px;
+    }
+
+    .date {
+      margin-right: 20px;
     }
 
     p {

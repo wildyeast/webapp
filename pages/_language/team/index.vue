@@ -117,6 +117,7 @@ export default {
 
       .member-grid {
         grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
 
         .member-item {
           width: 100%;

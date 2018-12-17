@@ -3,8 +3,12 @@
     <div class="preview-wrapper">
       <div class="member-preview">
         <nuxt-link v-if="story" class="story" :to="'/' + story.full_slug">
-          <h3 class="name">{{member.name}}</h3>
-          <p class="title">{{member.title}}</p>
+          <h2 class="name">{{member.name}}</h2>
+          <div class="info">
+            <p class="title">{{member.title}}</p>
+            <p class="phone" v-if="member.phone">{{member.phone}}</p>
+            <p class="email" v-if="member.email">{{member.email}}</p>
+          </div>
         </nuxt-link>
       </div>
     </div>
@@ -32,16 +36,38 @@ export default {
 
 .preview-wrapper {
   width: 100%;
+  min-height: 150px;
   display: flex;
   justify-content: center;
 
+  .email {
+    visibility: hidden;
+  }
+
+  .phone {
+    display: none;
+  }
+
   .member-preview {
-    padding: 20px;
     width: 100%;
+
+    :hover {
+      .title {
+        display: none;
+      }
+
+      .phone {
+        display: block;
+      }
+
+      .email {
+        visibility: visible;
+      }
+    }
 
     .story {
       display: block;
-      padding: 10px;
+      padding: 30px;
       cursor: pointer;
       text-decoration: none;
       color: #000;
@@ -56,13 +82,17 @@ export default {
         background-position: center;
       }
 
-      h3.title {
-        font-weight: normal;
+      .name {
+        margin: 0 0 20px 0;
         font-size: 1.5rem;
         font-family: $font-secondary;
       }
 
-      p.teaser {
+      .info {
+        p {
+          margin: 6px 0;
+        }
+
         font-size: 1rem;
         font-family: $font-mono;
       }
