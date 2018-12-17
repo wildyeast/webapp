@@ -4,7 +4,8 @@ import auth0 from 'auth0-js';
 let webAuth = new auth0.WebAuth({
   domain:       'grandgarage.eu.auth0.com',
   clientID:     'lwqb_LrkbU8b2rHfbC05C87xqM4bSfms',
-  responseType: 'token id_token'
+  responseType: 'token id_token',
+  callbackURL:  'http://dev.grandgarage.eu/me'
 });
 
 let version = 'draft';
