@@ -20,6 +20,10 @@ module.exports = {
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css?family=Chakra+Petch'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed'
       }
     ]
   },
@@ -31,6 +35,7 @@ module.exports = {
     '~/plugins/helper',
     '~/plugins/map',
     '~/plugins/libs',
+    '~/plugins/routersync',
     { src: '~/plugins/swiper', ssr: false }
   ],
   router: {
