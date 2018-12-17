@@ -4,9 +4,8 @@
       <a :href="link" target="_blank">
         <div class="header">
           <p v-if="news.datetime">{{date}}</p>
-          <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
+          <img v-if="news.source" class="source-img" :src="$resizeImage(`/icons/${news.source}.png`, '700x0')">
         </div>
-
         <img class="image" :src="news.image">
       </a>
     </div>
@@ -15,7 +14,7 @@
       <a :href="link" target="_blank">
         <div class="header">
           <p v-if="news.datetime">{{date}}</p>
-          <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
+          <img v-if="news.source" class="source-img" :src="$resizeImage(`/icons/${news.source}.png`, '700x0')">
         </div>
 
         <h4 class="title">{{news.title}}</h4>
