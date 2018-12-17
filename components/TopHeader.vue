@@ -1,7 +1,7 @@
 <template>
   <div class="header-wrapper">
     <header class="top-header">
-      <main-nav-item class="desktop" :item="item" :key="item.id" v-for="item in $store.state.settings.main_navi">
+      <main-nav-item class="desktop" :item="item" :key="item.id" v-for="item in main">
       </main-nav-item>
       <div class="menu-icon" @click="toggleMenu()">
         <img src="~/assets/img/icons/menu-icon.svg">
@@ -12,12 +12,22 @@
         <nuxt-link class="top-header__link" to="/">
           <img src="~/assets/img/icons/gg-logo-icon.svg">
         </nuxt-link>
+        <div class="dropdown" v-if="home && home.length > 0">
+          <div v-for="child in home" :key="child.id" class="child">
+            <sb-link :link="child.link" class="child-nav-item">
+              {{ child.name }}
+            </sb-link>
+          </div>
+          <div class="child">
+            <button @click="login" class="login-button">Login</button>
+          </div>
+        </div>
       </div>
     </header>
-      <div class="mobile-nav" v-show="showMenu" @click="toggleMenu()">
-        <main-nav-item class="mobile" :item="item" :key="item.id" v-for="item in $store.state.settings.main_navi">
-        </main-nav-item>
-      </div>
+    <div class="mobile-nav" v-show="showMenu" @click="toggleMenu()">
+      <main-nav-item class="mobile" :item="item" :key="item.id" v-for="item in main">
+      </main-nav-item>
+    </div>
   </div>
 </template>
 
@@ -32,11 +42,20 @@ export default {
   computed: {
     loginLink() {
       return '/' + this.$store.state.language + '/login';
+    },
+    main() {
+      return this.$store.state.settings.main_navi;
+    },
+    home() {
+      return this.$store.state.settings.home_navi;
     }
   },
   methods: {
     toggleMenu() {
       this.showMenu = !this.showMenu;
+    },
+    login() {
+      this.$store.dispatch('setSidebar', 'login');
     }
   }
 }
@@ -55,15 +74,56 @@ export default {
 }
 
 .top-header {
-  margin: 0 20px;
+  margin: 0 80px 0 80px - 25;
   display: flex;
   justify-content: space-between;
   font-size: 1.1em;
 
   .logo {
-    margin: 20px 0;
-    img {
-      height: 1.1em;
+    position: relative;
+    margin-right: -20px;
+    &:hover {
+      .dropdown {
+        display: block;
+      }
+    }
+    a {
+      padding: 20px;
+      display: block;
+      img {
+        height: 1.1em;
+      }
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      padding: 20px;
+      background-color: #FFF;
+      min-width: 150px;
+      right: 18px;
+      text-align: right;
+      .child {
+        .child-nav-item {
+          white-space: nowrap;
+          display: block;
+          text-transform: uppercase;
+          color: #000;
+          text-decoration: none;
+          font-weight: bold;
+          font-size: 0.9rem;
+          padding: 8px;
+        }
+        .login-button {
+          outline: none;
+          width: 100%;
+          color: #FFF;
+          border: none;
+          background-color: $color-orange;
+          padding: 5px;
+          margin: 3px 0;
+          cursor: pointer;
+        }
+      }
     }
   }
 
@@ -75,6 +135,8 @@ export default {
     flex: 1;
   }
 }
+
+
 
 .mobile-nav {
   display: none;

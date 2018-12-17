@@ -5,7 +5,7 @@ $color-blue-alt: #0069aa;
 
 $color-bright-bg: #f2f3ee;
 
-$font-primary: 'Arial', sans-serif;
+$font-primary: 'IBM Plex Sans Condensed', sans-serif;
 $font-secondary: 'Chakra Petch', sans-serif;
 $font-mono: 'Roboto Mono', monospace;
 
@@ -27,4 +27,19 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+.page-enter-active, .page-leave-active {
+  transition: all .30s ease-out;
+}
+.page-enter, .page-leave-active {
+  opacity: 0;
+  transform-origin: 50% 50%;
 }
