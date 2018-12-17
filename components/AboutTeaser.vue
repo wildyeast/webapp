@@ -44,7 +44,7 @@ export default {
     position: relative;
     height: 75%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     background-image: url(~assets/img/about-teaser-bg1.svg);
     background-repeat: repeat-y;
     background-position: 71%;
