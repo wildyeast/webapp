@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     items() {
-      let path = this.$store.state.route.fullPath;
+      let path = this.$store.state.route.fullPath.split('?')[0];
       let items = path.replace('-', ' ').split('/').slice(2);
       if (path.endsWith('/')) {
         items.pop();

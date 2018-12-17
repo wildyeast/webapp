@@ -1,5 +1,5 @@
 <template>
-  <div v-editable="blok" class="image-slideshow">
+  <div v-editable="blok" class="image-slideshow-blue">
     <div v-if="blok.text" class="text">
       {{blok.text}}
     </div>
@@ -41,10 +41,11 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/styles.scss';
 
-.image-slideshow {
+.image-slideshow-blue {
   margin: 0 -20px;
   padding: 30px;
-  color: $color-blue;
+  background-color: $color-blue;
+  color: #FFF;
   .text {
     padding: 3rem 5rem 5rem 5rem;
     font-size: 1.8rem;
