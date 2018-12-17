@@ -6,8 +6,16 @@
           <h2 class="name">{{member.name}}</h2>
           <div class="info">
             <p class="title">{{member.title}}</p>
-            <p class="phone" v-if="member.phone">{{member.phone}}</p>
-            <p class="email" v-if="member.email">{{member.email}}</p>
+
+            <div class="phone" v-if="member.phone">
+              <img src="~/assets/img/icons/phone.svg">
+              <p>{{member.phone}}</p>
+            </div>
+
+            <div class="email" v-if="member.email">
+              <img src="~/assets/img/icons/envelope.svg">
+              <p>{{member.email}}</p>
+            </div>
           </div>
         </nuxt-link>
       </div>
@@ -51,17 +59,20 @@ export default {
   .member-preview {
     width: 100%;
 
-    :hover {
-      .title {
-        display: none;
-      }
+    .phone {
+      display: none;
+    }
 
-      .phone {
-        display: block;
-      }
+    .email {
+      display: flex;
+    }
 
-      .email {
-        visibility: visible;
+    .phone, .email {
+
+      img {
+        margin: 7px 15px 0 0;
+        width: auto;
+        height: .9em;
       }
     }
 
@@ -71,10 +82,6 @@ export default {
       cursor: pointer;
       text-decoration: none;
       color: #000;
-
-      &:hover {
-        background-color: $color-yellow;
-      }
 
       .banner {
         height: 200px;
@@ -90,12 +97,28 @@ export default {
 
       .info {
         p {
-          margin: 6px 0;
+          margin: 6px 0 0 0;
         }
 
         font-size: 1rem;
         font-family: $font-mono;
       }
+    }
+  }
+
+  .member-preview:hover {
+    background-color: $color-yellow;
+
+    .title {
+      display: none;
+    }
+
+    .phone {
+      display: flex;
+    }
+
+    .email {
+      visibility: visible;
     }
   }
 }
