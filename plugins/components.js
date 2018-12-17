@@ -45,6 +45,9 @@ import Markdown from '~/components/Markdown.vue'
 import Loading from '~/components/Loading.vue'
 import Checkbox from '~/components/Checkbox.vue'
 
+import LevelSlider from '~/components/LevelSlider.vue'
+import LevelItem from '~/components/LevelItem.vue'
+
 Vue.component('page', Page)
 Vue.component('general-header', GeneralHeader)
 Vue.component('teaser', Teaser)
@@ -82,7 +85,11 @@ Vue.component('text-image', TextImage)
 
 Vue.component('faq-block', FAQBlock)
 Vue.component('faq-item', FAQItem)
-Vue.component('download-item', DownloadItem)
+
+
+Vue.component('level-slider', LevelSlider)
+Vue.component('level-item', LevelItem)
+
 
 Vue.component('location-description', LocationDescription)
 
