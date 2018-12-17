@@ -2,19 +2,23 @@
   "name": "my-app",
   "scripts": {
     "dev": "nuxt",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "lambda": "netlify-lambda serve lambda"
   },
   "dependencies": {
+    "auth0-js": "^9.8.2",
     "axios": "^0.18.0",
     "marked": "^0.5.2",
     "nuxt": "^2.3.4",
     "storyblok-nuxt": "0.0.9",
+    "validator": "^10.9.0",
     "vue-awesome-swiper": "^3.1.3",
     "vue-date-pick": "^1.0.4",
     "vue2-collapse": "^1.0.15",
     "vue2-google-maps": "^0.10.4"
   },
   "devDependencies": {
+    "netlify-lambda": "^1.1.0",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0"
   }

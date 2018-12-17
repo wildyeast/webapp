@@ -15,13 +15,13 @@
     <h1 v-if="!blocks.length" class="no-results">Keine Ergebnisse</h1>
 
     <div class="news-feed" v-for="(block, index) in blocks" :key="index">
-      <div class="date-seperator">
+      <div class="date-separator">
         <div class="container">
           <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="index == 0">
           <h1 class="title">{{block[0]}}</h1>
         </div>
 
-        <div class="seperator"/>
+        <div class="separator"/>
       </div>
 
       <!-- Horizontal feed items -->
@@ -219,22 +219,22 @@ export default {
     margin: 0 15%;
   }
 
-  .date-seperator {
+  .date-separator {
     .container {
       margin: 100px auto 0 auto;
-      width: 250px;
+      width: 300px;
 
       .title {
         text-align: center;
         background-color: $color-blue;
-        padding: 5px;
+        padding: 5px 10px;
         color: #fff;
         margin: 0;
-        // transform: rotate(-3deg);
+        white-space: nowrap;
       }
     }
 
-    .seperator {
+    .separator {
       border-bottom: 2px dashed $color-blue;
       width: 100%;
       margin-top: -1em;

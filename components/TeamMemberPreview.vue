@@ -13,28 +13,11 @@
 
 <script>
 export default {
-  props: ["id"],
-  data() {
-    return {
-      story: null
-    };
-  },
+  props: ["story"],
   computed: {
     member() {
       return this.story.content;
     }
-  },
-  created() {
-    this.$store.app.$storyapi
-      .get(`cdn/stories/${this.id}`, {
-        find_by: "uuid"
-      })
-      .then(res => {
-        this.story = res.data.story;
-      })
-      .catch(e => {
-        console.log("error", e);
-      });
   },
   methods: {
     open() {

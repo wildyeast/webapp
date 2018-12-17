@@ -6,7 +6,7 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" :key="s._uid" v-for="s in blok.slides" :style="{ 'background-image': 'url(' + $resizeImage(s.image, '1600x0') + ')' }">
           <div class="wrapper">
-            <span class="title">{{s.title}}</span>
+            <span class="title" :class="{ 'dark': s.dark }">{{s.title}}</span>
           </div>
         </div>
       </div>
@@ -71,11 +71,13 @@ export default {
         .teaser,
         .title {
           margin-bottom: 5px;
-          /*background-color: rgba(0, 0, 0, 0.7);*/
           padding: 5px 10px;
           display: block;
           color: #000;
           font-weight: bold;
+          &.dark {
+            color: #FFF;
+          }
         }
       }
     }
