@@ -14,13 +14,12 @@
     <loading v-bind:class="loading ? 'loading loading-active' : 'loading' "/>
     <h1 v-if="!blocks.length" class="no-results">Keine Ergebnisse</h1>
 
-    <div class="news-feed" v-for="(block, index) in blocks" :key="index">
-      <div class="date-separator">
+    <div class="news-feed" v-for="(block, index) in blocks" v-if="block[1].length" :key="index">
+      <div class="date-separator" v-if="block.length">
         <div class="container">
           <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="index == 0">
           <h1 class="title">{{block[0]}}</h1>
         </div>
-
         <div class="separator"/>
       </div>
 
@@ -29,7 +28,6 @@
         <transition-group name="items-transition">
           <news-feed-item
             v-for="item in block[1]"
-            v-if="block[1].length == 1"
             :news="item.content"
             :key="item.id"
             :type="'horizontal'"
@@ -126,7 +124,7 @@ export default {
 
   computed: {
     blocks() {
-      let _blocks = {};
+      let _blocks = { "Zeitlose News": [] };
 
       // Sort stories in chronological order (latest first)
       const stories = this.news.sort((a, b) => {
@@ -140,13 +138,25 @@ export default {
         const date = new Date(story.content.datetime);
         const month = monthDict[date.getMonth()];
         const year = date.getFullYear();
-        const timeStamp = `${month} ${year}`;
 
-        if (!_blocks[timeStamp]) {
-          _blocks[timeStamp] = [];
+        let timeStamp = "Zeitlose News";
+
+        if (month !== undefined || !isNaN(year)) {
+          timeStamp = `${month} ${year}`;
         }
 
-        _blocks[timeStamp].push(story);
+        if (
+          story.content.component === "news-item" &&
+          story.content.image &&
+          story.content.title &&
+          story.content.text
+        ) {
+          if (!_blocks[timeStamp]) {
+            _blocks[timeStamp] = [];
+          }
+
+          _blocks[timeStamp].push(story);
+        }
       });
 
       // Convert object to array for usage on the page [ [ key, value ], ... ]

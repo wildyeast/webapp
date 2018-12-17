@@ -16,7 +16,10 @@
         </div>
       </div>
     </div>
-    <div class="image-footer" :style="{ 'background-image': 'url(' + $resizeImage(story.content.footerImage, '1600x0') + ')' }"></div>
+    <div
+      class="image-footer"
+      :style="{ 'background-image': 'url(' + $resizeImage(story.content.footerImage, '1600x0') + ')' }"
+    ></div>
     <!--
     <component v-if="story && story.content && story.content.component" :key="story.content._uid" :blok="story.content" :is="story.content.component" />
     -->
@@ -24,113 +27,140 @@
 </template>
 
 <script>
-import storyblokLivePreview from '@/mixins/storyblokLivePreview'
+import storyblokLivePreview from "@/mixins/storyblokLivePreview";
 
 export default {
-  data () {
+  data() {
     return {
       story: null
-    }
+    };
   },
   mixins: [storyblokLivePreview],
-  async asyncData (context) {
-    let team = await context.store.dispatch("loadTeam").catch((e) => {
-      context.error({ statusCode: e.response.status, message: e.response.statusText })
-    }).then((res) => {
-      return { members: res.stories };
+  async asyncData(context) {
+    let team = await context.store
+      .dispatch("loadTeam")
+      .catch(e => {
+        context.error({
+          statusCode: e.response.status,
+          message: e.response.statusText
+        });
+      })
+      .then(res => {
+        return { members: res.stories };
+      });
+    let page = await context.store.dispatch("loadPage", "/team").catch(e => {
+      context.error({
+        statusCode: e.response.status,
+        message: e.response.statusText
+      });
     });
-    let page = await context.store.dispatch("loadPage", "/team").catch((e) => {
-      context.error({ statusCode: e.response.status, message: e.response.statusText })
-    });
-    return {...team, ...page}
+    return { ...team, ...page };
   }
-}
+};
 </script>
 
 <style lang="scss">
 @import "@/assets/scss/styles.scss";
-  .team-wrapper {
-    padding-left: 15%;
-    padding-top: 15%;
-    position: relative;
+.team-wrapper {
+  padding-left: 15%;
+  padding-top: 15%;
+  position: relative;
 
-    .image {
-      display: block;
-      width: 100%;
-      height: auto;
-      z-index: -1;
-      max-height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
+  @media (max-width: $mobile-small) {
+    padding-left: 0;
+    padding-top: 200px;
+  }
+
+  .image {
+    display: block;
+    width: 100%;
+    height: auto;
+    z-index: -1;
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .team {
+    display: flex;
+    flex-direction: column;
+    padding-top: 8%;
+    padding-left: 8%;
+    padding-right: 40px;
+    background-color: #fff;
+
+    @media (max-width: $mobile-small) {
+      padding-top: 50px;
+      padding-left: 50px;
     }
 
-    .team {
+    .headline {
+      font-weight: bold;
+      margin-bottom: 20px;
+      font-size: 3.2rem;
+      text-transform: uppercase;
+      .strike {
+        text-decoration: line-through;
+      }
+
+      @media (max-width: $mobile-small) {
+        font-size: 2.5rem;
+      }
+    }
+
+    .subline {
+      font-family: $font-mono;
+      font-size: 1.2rem;
+      margin-bottom: 80px;
+      line-height: 1.5;
+    }
+
+    .member-filters {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: center;
+      margin: 10px;
 
-      padding: 100px;
-      background-color: #fff;
+      .department-label {
+        margin: 0 5px;
+        background-color: #eee;
+        padding: 2px 5px;
 
-      .headline {
-        font-weight: bold;
-        font-size: 3.2rem;
-        margin-bottom: 20px;
-        text-transform: uppercase;
-        .strike {
-          text-decoration: line-through;
-        }
-      }
-
-      .subline {
-        font-family: $font-mono;
-        font-size: 1.2rem;
-        margin-bottom: 80px;
-        line-height: 1.5;
-      }
-
-      .member-filters {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        margin: 10px;
-
-        .department-label {
-          margin: 0 5px;
-          background-color: #eee;
-          padding: 2px 5px;
-
-          label {
-            display: block;
-            user-select: none;
-            padding: 10px;
-          }
-          input {
-            display: none;
-          }
-          &.active {
-            background-color: $color-orange;
-            color: #fff;
-          }
-        }
-      }
-
-      .member-grid {
-        grid-template-columns: 1fr 1fr;
-
-        .member-item {
-          width: 100%;
+        label {
+          display: block;
+          user-select: none;
+          padding: 10px;
         }
 
-        @media (min-width: $mobile-large) {
-          display: grid;
+        input {
+          display: none;
+        }
+
+        &.active {
+          background-color: $color-orange;
+          color: #fff;
         }
       }
     }
+
+    .member-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 20px;
+
+      .member-item {
+        width: 100%;
+      }
+
+      @media (min-width: $mobile-large) {
+        display: grid;
+      }
+    }
   }
-  .image-footer {
-    height: 50vh;
-    background-size: cover;
-    background-position: center;
-  }
+}
+.image-footer {
+  height: 50vh;
+  background-size: cover;
+  background-position: center;
+}
 </style>
