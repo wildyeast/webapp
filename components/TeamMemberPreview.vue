@@ -78,10 +78,13 @@ export default {
 
     .story {
       display: block;
-      padding: 30px;
       cursor: pointer;
       text-decoration: none;
       color: #000;
+
+      @media (min-width: $mobile-small) {
+        padding: 30px;
+      }
 
       .banner {
         height: 200px;

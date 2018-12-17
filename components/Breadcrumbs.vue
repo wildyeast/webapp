@@ -1,30 +1,25 @@
 <template>
   <div class="breadcrumbs">
     <div class="content">
-      <div class="item">
-          GRAND GARAGE
-      </div>
-      <div v-for="i in pathItems" class="item">
-        {{i}}
-      </div>
-      <div class="item last">
-        {{lastItem}}
-      </div>
+      <div class="item">GRAND GARAGE</div>
+      <div v-for="(item, index) in pathItems" class="item" v-bind:key="index">{{item}}</div>
+      <div class="item last">{{lastItem}}</div>
     </div>
   </div>
 </template>
 
 <script charset="utf-8">
 export default {
-  created() {
-  },
-  methods: {
-  },
+  created() {},
+  methods: {},
   computed: {
     items() {
-      let path = this.$store.state.route.fullPath.split('?')[0];
-      let items = path.replace('-', ' ').split('/').slice(2);
-      if (path.endsWith('/')) {
+      let path = this.$store.state.route.fullPath.split("?")[0];
+      let items = path
+        .replace("-", " ")
+        .split("/")
+        .slice(2);
+      if (path.endsWith("/")) {
         items.pop();
       }
       return items;
@@ -39,11 +34,11 @@ export default {
       return i;
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/styles.scss';
+@import "@/assets/scss/styles.scss";
 
 .breadcrumbs {
   z-index: 900;
@@ -55,21 +50,30 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  @media(max-width: $mobile-small) {
+    width: 30px;
+  }
+
   .content {
     white-space: nowrap;
     transform: rotate(-90deg);
+
     .item {
       font-size: 12px;
       text-transform: uppercase;
       font-weight: bold;
       display: inline-block;
       margin-right: 20px;
+
       &.last {
         color: $color-blue;
       }
+
       a {
         text-decoration: none;
         color: #000;
+
         &:hover {
           color: $color-blue;
         }
