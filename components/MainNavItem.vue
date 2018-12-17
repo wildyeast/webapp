@@ -56,6 +56,7 @@ export default {
     display: none;
     position: absolute;
     padding: 20px;
+    margin-left: -28px;
     background-color: #FFF;
     min-width: 150px;
     left: 25px;
