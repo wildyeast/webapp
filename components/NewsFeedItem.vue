@@ -3,8 +3,8 @@
     <div class="top">
       <a :href="link" target="_blank">
         <div class="header">
-          <p>{{date}}</p>
-          <img class="source-img" :src="`/icons/${news.source}.png`">
+          <p v-if="news.datetime">{{date}}</p>
+          <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
         </div>
 
         <img class="image" :src="news.image">
@@ -14,8 +14,8 @@
     <div class="bot">
       <a :href="link" target="_blank">
         <div class="header">
-          <p class>{{date}}</p>
-          <img class="source-img" :src="`/icons/${news.source}.png`">
+          <p v-if="news.datetime">{{date}}</p>
+          <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
         </div>
 
         <h4 class="title">{{news.title}}</h4>
