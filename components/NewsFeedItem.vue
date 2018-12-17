@@ -1,22 +1,26 @@
 <template>
   <div v-editable="news" v-bind:class="'news-feed-item ' + type || 'vertical'">
     <div class="top">
-      <div class="header">
-        <p>{{date}}</p>
-        <img class="source-img" :src="`/icons/${news.source}.png`">
-      </div>
+      <a :href="link" target="_blank">
+        <div class="header">
+          <p>{{date}}</p>
+          <img class="source-img" :src="`/icons/${news.source}.png`">
+        </div>
 
-      <img class="image" :src="news.image">
+        <img class="image" :src="news.image">
+      </a>
     </div>
 
     <div class="bot">
-      <div class="header">
-        <p class>{{date}}</p>
-        <img class="source-img" :src="`/icons/${news.source}.png`">
-      </div>
+      <a :href="link" target="_blank">
+        <div class="header">
+          <p class>{{date}}</p>
+          <img class="source-img" :src="`/icons/${news.source}.png`">
+        </div>
 
-      <h4 class="title">{{news.title}}</h4>
-      <span class="text">{{news.text}}</span>
+        <h4 class="title">{{news.title}}</h4>
+        <span class="text">{{news.text}}</span>
+      </a>
     </div>
   </div>
 </template>
@@ -27,6 +31,13 @@ export default {
   computed: {
     date() {
       return new Date(this.news.datetime).toLocaleDateString("de-at");
+    },
+    link() {
+      if (this.news.link && this.news.link.url) {
+        return this.news.link.url;
+      } else {
+        return '#'
+      }
     }
   }
 };
@@ -37,6 +48,13 @@ export default {
 
 .news-feed-item {
   margin-top: 69px;
+
+  a {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: #000;
+  }
 
   .top .header {
     display: flex;
