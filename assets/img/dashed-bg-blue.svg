@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 38 213"
+   version="1.1"
+   id="svg20"
+   sodipodi:docname="dashed-bg-blue.svg"
+   width="38"
+   height="213"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata24">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1208"
+     inkscape:window-height="813"
+     id="namedview22"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="1.3114122"
+     inkscape:cx="-129.86538"
+     inkscape:cy="185.68593"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="Gruppe_395" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">
+      .cls-1 {
+
+      }
+    </style>
+  </defs>
+  <g
+     id="elemnts"
+     transform="translate(-853,-1340)">
+    <g
+       id="Gruppe_395"
+       data-name="Gruppe 395"
+       transform="translate(-824,-3550)">
+      <rect
+         id="Rechteck_25-2"
+         data-name="Rechteck 25"
+         class="cls-1"
+         width="38"
+         height="115"
+         rx="19"
+         x="1677"
+         y="4890"
+         style="stroke:none;fill:#005eff;fill-opacity:1" />
+    </g>
+  </g>
+</svg>

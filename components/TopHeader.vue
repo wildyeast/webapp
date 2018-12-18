@@ -78,6 +78,7 @@ export default {
   display: flex;
   justify-content: space-between;
   font-size: 1.1em;
+  letter-spacing: .1em;
 
   .logo {
     position: relative;
