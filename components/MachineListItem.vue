@@ -1,7 +1,5 @@
 <template>
-  <!--
   <nuxt-link :to="'/' + blok.full_slug">
-  -->
     <div class="machine-list-item">
       <div class="image">
         <img :src="$resizeImage(content.image, '320x0')" alt=""/>
@@ -10,19 +8,15 @@
         <div class="title">
           {{content.title}}
         </div>
+        <div class="subtitle">
+          {{content.subtitle}}
+        </div>
         <div class="teaser">
           {{content.teaser}}
         </div>
-        <div class="cta">
-          <nuxt-link :to="'/' + blok.full_slug">
-            Mehr Info
-          </nuxt-link>
-        </div>
       </div>
     </div>
-    <!--
   </nuxt-link>
-    -->
 </template>
 
 <script>
@@ -38,7 +32,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/styles.scss';
-/*
 a {
   text-decoration: none;
   color: #000;
@@ -47,7 +40,6 @@ a {
     color: #000;
   }
 }
-*/
 
 .machine-list-item {
   display: flex;
