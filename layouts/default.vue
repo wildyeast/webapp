@@ -6,7 +6,9 @@
     </main>
     <bottom-footer/>
     <sidebar />
+    <!--
     <breadcrumbs />
+    -->
   </div>
 </template>
 
