@@ -4,6 +4,7 @@ import Teaser from '~/components/Teaser.vue'
 import GeneralHeader from '~/components/GeneralHeader.vue'
 import AboutTeaser from '~/components/AboutTeaser.vue'
 import AboutInfo from '~/components/AboutInfo.vue'
+import IntroList from '~/components/IntroList.vue'
 import Grid from '~/components/Grid.vue'
 import Feature from '~/components/Feature.vue'
 import SitemapItem from '~/components/SitemapItem.vue'
@@ -48,6 +49,7 @@ Vue.component('general-header', GeneralHeader)
 Vue.component('teaser', Teaser)
 Vue.component('about-teaser', AboutTeaser)
 Vue.component('about-info', AboutInfo)
+Vue.component('intro-list', IntroList)
 Vue.component('grid', Grid)
 Vue.component('feature', Feature)
 Vue.component('sitemap-item', SitemapItem)

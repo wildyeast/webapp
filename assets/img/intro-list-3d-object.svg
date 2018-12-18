@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 526.023 442.053">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke: #0069a9;
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 2px;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-linecap: round;
+      }
+    </style>
+  </defs>
+  <g id="_3d_object" data-name="3d object" transform="translate(-1947.477 -800.856)">
+    <g id="Gruppe_1" data-name="Gruppe 1" transform="translate(1361 -296)">
+      <line id="Linie_1" data-name="Linie 1" class="cls-1" x1="2" y1="84" transform="translate(997.5 1097.5)"/>
+      <line id="Linie_2" data-name="Linie 2" class="cls-1" x2="3" y2="84" transform="translate(1108.5 1307.5)"/>
+      <line id="Linie_3" data-name="Linie 3" class="cls-1" x2="54" y2="64" transform="translate(1057.5 1327.5)"/>
+      <line id="Linie_4" data-name="Linie 4" class="cls-1" x2="58" y2="146" transform="translate(999.5 1181.5)"/>
+      <line id="Linie_5" data-name="Linie 5" class="cls-1" x1="58" y1="147" transform="translate(1050.5 1160.5)"/>
+      <line id="Linie_6" data-name="Linie 6" class="cls-1" x2="53" y2="63" transform="translate(997.5 1097.5)"/>
+    </g>
+    <g id="Gruppe_2" data-name="Gruppe 2" transform="translate(951 -150)">
+      <line id="Linie_1-2" data-name="Linie 1" class="cls-2" x1="2" y1="84" transform="translate(997.5 1097.5)"/>
+      <line id="Linie_3-2" data-name="Linie 3" class="cls-2" x2="54" y2="64" transform="translate(1057.5 1327.5)"/>
+      <line id="Linie_4-2" data-name="Linie 4" class="cls-2" x2="58" y2="146" transform="translate(999.5 1181.5)"/>
+      <line id="Linie_7" data-name="Linie 7" class="cls-3" x1="409" y2="146" transform="translate(997.5 951.5)"/>
+      <line id="Linie_8" data-name="Linie 8" class="cls-3" x1="409" y2="146" transform="translate(999.5 1035.5)"/>
+      <line id="Linie_9" data-name="Linie 9" class="cls-3" x1="409" y2="146" transform="translate(1057.5 1181.5)"/>
+      <line id="Linie_10" data-name="Linie 10" class="cls-3" x1="408" y2="148" transform="translate(1111.5 1243.5)"/>
+    </g>
+  </g>
+</svg>

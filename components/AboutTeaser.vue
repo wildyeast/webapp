@@ -10,9 +10,9 @@
       </svg>
       <div class="col-start">
         <h2 v-if="blok.headline" class="headline">
+          <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="10mm" height="10mm" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4.758" fill="none" stroke-width=".5"/></svg>
           {{blok.headline}}
         </h2>
-        <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="10mm" height="10mm" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4.758" fill="none" stroke-width=".5"/></svg>
       </div>
       <div class="col-end">
         <p v-if="blok.text" class="text">
@@ -42,37 +42,38 @@ export default {
   .teaser-content {
     max-width: 100%;
     position: relative;
-    height: 75%;
+    height: calc(100% - 64px);
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     background-image: url(~assets/img/about-teaser-bg1.svg);
     background-repeat: repeat-y;
     background-position: 71%;
+    background-size: 1.8vw;
 
 
     .col-start {
-      flex: 1;
       display: flex;
       align-items: flex-start;
-      margin: 80px 8vw;
-      position: relative;
+      margin: 15vh 8vw 0;
       .headline {
-        width: 42vw;
+        width: 40vw;
         position: relative;
         margin: 0 3vw;
         font-size: 2.8vw;
         letter-spacing: 2px;
         line-height: 1.5;
-        font-weight: bold;
+        font-weight: 600;
         font-family: $font-secondary;
-      }
-      .circle {
-        position: absolute;
-        stroke: $color-yellow;
-        left: -1.7vw;
-        top: -5vw;
-        transform: scale(3) translateX(20px) translateY(20px);
-        z-index: -1;
+        .circle {
+          position: absolute;
+          stroke: $color-yellow;
+          left: -4.4vw;
+          top: -5vw;
+          width: 10vw;
+          height: 10vw;
+          z-index: -1;
+        }
       }
     }
     .col-end {
@@ -80,7 +81,9 @@ export default {
       display: flex;
       justify-content: flex-end;
       .text {
-        max-width: 42vw;
+        width: 35vw;
+        margin-top: 0;
+        margin-right: 10vw;
         font-weight: normal;
         font-family: $font-primary;
         line-height: 2;
@@ -107,6 +110,12 @@ export default {
       }
     }
     */
+  }
+  .dot {
+    position: absolute;
+    right: 0;
+    transform: scale(1.2) translateX(-75px) translateY(-200px);
+    z-index: 2;
   }
 }
 </style>

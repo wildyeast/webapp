@@ -1,6 +1,7 @@
 <template>
   <div v-editable="blok" class="text-image">
     <div class="text">
+      {{blok.headline}}
       <markdown :value="blok.text"></markdown>
     </div>
     <div class="image">
