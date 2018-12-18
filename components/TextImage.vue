@@ -4,7 +4,7 @@
       <markdown :value="blok.text"></markdown>
     </div>
     <div class="image">
-      <img :src="blok.image" alt=""/>
+      <img :src="$resizeImage(blok.image, '700x0')" alt=""/>
     </div>
   </div>
 </template>

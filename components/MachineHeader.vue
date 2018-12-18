@@ -1,9 +1,10 @@
 <template>
-  <div v-editable="blok" class="general-header">
+  <div class="machine-header">
     <div class="header-image" :style="{ 'background-image': 'url(' + $resizeImage(blok.image, '1600x0') + ')' }">
     </div>
     <div class="header-title" v-if="blok.title">
-      <h4>{{blok.title}}</h4>
+      <div class="title">{{blok.title}}</div>
+      <div class="subtitle">{{blok.subtitle}}</div>
     </div>
   </div>
 </template>
@@ -15,7 +16,7 @@ export default {
 </script>
 
 <style lang="scss">
-.general-header {
+.machine-header {
   height: calc(50vh - 89px);
   position: relative;
   .header-image {
@@ -30,11 +31,13 @@ export default {
     background-color: #FFF;
     padding: 75px;
     min-width: 50%;
-    h4 {
+    .title {
       margin: 0;
       font-size: 3rem;
       font-family: 'Chakra Petch';
       font-weight: bold;
+    }
+    .subtitle {
     }
   }
 }
