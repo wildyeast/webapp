@@ -41,16 +41,6 @@ const createStore = () => {
             if (err) reject(err);
             resolve();
           });
-          /*
-          webAuth.login({
-            connection: 'Username-Password-Authentication',
-            email: context.email,
-            password: context.password,
-          }, function (err) {
-            if (err) reject(err);
-            resolve();
-          });
-          */
         });
       },
       registerUser({ commit }, context) {
@@ -70,7 +60,9 @@ const createStore = () => {
         state.sidebar = value;
       },
       loadTags ({state}) {
-        return this.$storyapi.get(`cdn/stories`, {
+        return this.$storyapi.get(`cdn/tags`, {
+        }).then((res) => {
+          return res.data.tags;
         });
       },
       loadTeam ({state}) {

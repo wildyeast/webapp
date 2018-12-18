@@ -40,9 +40,11 @@
       <div v-else class="workshop-list-none">
         <code>Keine Suchergebnisse</code>
       </div>
+      <!--
       <div class="calendar">
         <date-pick v-model="date" :hasInputElement="false"></date-pick>
       </div>
+      -->
     </div>
   </section>
 </template>
@@ -97,7 +99,8 @@ export default {
       }
     }
   },
-  asyncData (context) {
+  async asyncData (context) {
+    let tags = await context.store.dispatch("loadTags");
     let filters = {
       filter_query: {
         'component': {
@@ -105,12 +108,13 @@ export default {
         }
       }
     };
-    return context.store.dispatch("findWorkshops", filters).then((data) => {
+    let workshops = await context.store.dispatch("findWorkshops", filters).then((data) => {
       if (data.stories) {
         return { workshops: data.stories };
       }
       return { workshops: [] };
     });
+    return {tags, ...workshops};
   },
 }
 </script>

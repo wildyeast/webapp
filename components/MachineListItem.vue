@@ -2,7 +2,7 @@
   <nuxt-link :to="'/' + blok.full_slug">
     <div class="machine-list-item">
       <div class="image">
-        <img :src="$resizeImage(content.image, '320x0')" alt=""/>
+        <img :src="$resizeImage(content.image, '320x320')" alt=""/>
       </div>
       <div class="body">
         <div class="title">
