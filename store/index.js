@@ -69,6 +69,10 @@ const createStore = () => {
       setSidebar({state}, value) {
         state.sidebar = value;
       },
+      loadTags ({state}) {
+        return this.$storyapi.get(`cdn/stories`, {
+        });
+      },
       loadTeam ({state}) {
         return this.$storyapi.get(`cdn/stories`, {
           filter_query: {
@@ -107,6 +111,18 @@ const createStore = () => {
         return this.$storyapi.get(endpoint, {
           version: version,
           cv: state.cacheVersion
+        }).then((res) => {
+          return res.data;
+        }).catch((res) => {
+          console.log(res);
+        });
+      },
+      findMachines ({state}, filters) {
+        return this.$storyapi.get(`cdn/stories`, {
+          filter_query: filters.filter_query,
+          search_term: filters.search_term,
+          version: version,
+          cv: state.cacheVersion,
         }).then((res) => {
           return res.data;
         }).catch((res) => {

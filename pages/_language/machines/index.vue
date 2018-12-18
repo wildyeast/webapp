@@ -1,6 +1,6 @@
 <template>
-  <section class="workshop-overview">
-    <div class="workshop-filters">
+  <section class="machine-overview">
+    <div class="machine-filters">
       <code class="loading" v-if="loading">loading…</code>
       <div class="tags">
         <div class="headline">
@@ -16,32 +16,18 @@
         </div>
       </div>
       <div class="search">
-        <input type="text" placeholder="Kurse und Workshops suchen" v-model="search" name="" id=""/>
+        <input type="text" placeholder="Maschinen suchen" v-model="search" name="" id=""/>
         <input type="button" value="Suchen" name="" id=""/>
       </div>
     </div>
-    <!--
-    <div class="workshop-orders">
-      <div class="headline">
-        Sortieren nach:
-      </div>
-      <div class="order-list">
-        <div class="order-item" v-for="o in orders">
-        </div>
-      </div>
-    </div>
-    -->
-    <div class="workshop-list-wrapper">
-      <div v-if="workshops && workshops.length > 0" class="workshop-list">
+    <div class="machine-list-wrapper">
+      <div v-if="machines && machines.length > 0" class="machine-list">
         <transition-group name="list">
-          <workshop-list-item v-for="item in workshops" :blok="item" :key="item.id" class="list-item"></workshop-list-item>
+          <machine-list-item v-for="item in machines" :blok="item" :key="item.id" class="list-item"></machine-list-item>
         </transition-group>
       </div>
-      <div v-else class="workshop-list-none">
+      <div v-else class="machine-list-none">
         <code>Keine Suchergebnisse</code>
-      </div>
-      <div class="calendar">
-        <date-pick v-model="date" :hasInputElement="false"></date-pick>
       </div>
     </div>
   </section>
@@ -79,9 +65,9 @@ export default {
   methods: {
     update() {
       this.loading = true;
-      let result = this.$store.dispatch("findWorkshops", this.filters).then((data) => {
+      let result = this.$store.dispatch("findMachines", this.filters).then((data) => {
         this.loading = false;
-        this.workshops = data.stories;
+        this.machines = data.stories;
       });
     }
   },
@@ -90,7 +76,7 @@ export default {
       return {
         filter_query: {
           'component': {
-            'in': 'workshop'
+            'in': 'machine'
           }
         },
         search_term: this.search
@@ -101,15 +87,15 @@ export default {
     let filters = {
       filter_query: {
         'component': {
-          'in': 'workshop'
+          'in': 'machine'
         }
       }
     };
-    return context.store.dispatch("findWorkshops", filters).then((data) => {
+    return context.store.dispatch("findMachines", filters).then((data) => {
       if (data.stories) {
-        return { workshops: data.stories };
+        return { machines: data.stories };
       }
-      return { workshops: [] };
+      return { machines: [] };
     });
   },
 }
@@ -118,11 +104,11 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/styles.scss';
 
-.workshop-overview {
+.machine-overview {
   .loading {
     position: absolute;
   }
-  .workshop-filters {
+  .machine-filters {
     .tags {
       .headline {
         color: #FFF;
@@ -153,7 +139,7 @@ export default {
         }
       }
       padding: 40px;
-      background-color: $color-orange;
+      background-color: $color-blue;
     }
     .search {
       display: flex;
@@ -181,10 +167,10 @@ export default {
       }
     }
   }
-  .workshop-list-wrapper {
+  .machine-list-wrapper {
     display: flex;
     padding: 20px;
-    .workshop-list {
+    .machine-list {
       flex: 3;
       .list-item {
         margin-right: 10px;
@@ -197,13 +183,9 @@ export default {
         transform: translateX(30px);
       }
     }
-    .workshop-list-none {
-      flex: 3;
-      text-align: center;
-    }
-    .calendar {
+    .machine-list-none {
       flex: 1;
-      max-width: 320px;
+      text-align: center;
     }
   }
 }

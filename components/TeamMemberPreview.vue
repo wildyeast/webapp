@@ -20,9 +20,6 @@ export default {
     }
   },
   methods: {
-    open() {
-      this.$router.push({ path: this.story.full_slug });
-    }
   }
 };
 </script>

@@ -1,30 +1,20 @@
 <template>
-  <label v-bind:class="isChecked ? 'checkbox checkbox-selected' : 'checkbox'">
-    <input v-model="isChecked" type="checkbox" v-on:change="onchange">
-
-
+  <label class="checkbox" :class="{'selected': value}">
+    <input :value="value" @input="$emit('input', !value);" type="checkbox">
     <div class="checkmark">
-      <img v-if="isChecked" src="~/assets/img/icons/check.svg" alt=""/>
+      <img v-if="value" src="~/assets/img/icons/check.svg" alt=""/>
     </div>
-    {{text}}
+    <slot />
   </label>
 </template>
 
 <script>
 export default {
-  props: ["text", "checked", "onchange"], // !!
-
-  data() {
-    return { isChecked: this.checked };
-  },
-
-  created() {
-    this.$watch("isChecked", newVal => this.onchange(newVal));
-  }
+  props: ["value"],
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "~/assets/scss/styles.scss";
 
 .checkbox {
@@ -36,6 +26,7 @@ export default {
   }
 
   .checkmark {
+    display: inline-block;
     width: 0.9em;
     height: 0.9em;
     border: 2px solid #000;
@@ -49,19 +40,19 @@ export default {
       color: #fff;
     }
   }
-}
 
-.checkbox:hover {
-  .checkmark {
-    background-color: $color-blue;
-    border: none;
+  &:hover {
+    .checkmark {
+      background-color: $color-blue;
+      border: none;
+    }
   }
-}
 
-.checkbox-selected {
-  .checkmark {
-    background-color: $color-blue;
-    border: none;
+  &.selected {
+    .checkmark {
+      background-color: $color-blue;
+      border: none;
+    }
   }
 }
 </style>

@@ -2,13 +2,11 @@
   <section>
     <div class="source-list">
       <checkbox
-        :text="source.name"
-        :checked="source.selected"
-        :onchange="checkBoxVal => source.selected = checkBoxVal"
+        v-model="source.selected"
         v-for="source in sources"
         :key="source.name"
         class="source"
-      />
+        >{{source.name}}</checkbox>
     </div>
 
     <loading v-bind:class="loading ? 'loading loading-active' : 'loading' "/>
@@ -67,8 +65,8 @@
 </template>
 
 <script>
-import checkbox from "~/components/Checkbox.vue";
-import loading from "~/components/Loading.vue";
+import Checkbox from "~/components/Checkbox.vue";
+import Loading from "~/components/Loading.vue";
 
 const monthDict = [
   "Jänner",
@@ -87,8 +85,8 @@ const monthDict = [
 
 export default {
   components: {
-    checkbox,
-    loading
+    'checkbox': Checkbox,
+    'loading': Loading
   },
 
   data() {
