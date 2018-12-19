@@ -28,7 +28,10 @@ export default {
     display: block;
     text-transform: uppercase;
     color: #000;
-    padding: 25px;
+    padding: 25px 25px;
+    @media screen and (max-width: 1023px) {
+      padding: 25px 0 25px 25px;
+    }
     text-decoration: none;
     font-weight: bold;
     font-size: 0.9rem;
@@ -43,6 +46,9 @@ export default {
         left: 5px;
         top: 14px;
       }
+    }
+    &:focus {
+      outline:none;
     }
   }
 
@@ -70,6 +76,20 @@ export default {
         font-weight: bold;
         font-size: 0.9rem;
         padding: 8px;
+        position: relative;
+        &:focus {
+          outline:none;
+          &:before {
+            content: "";
+            position: absolute;
+            width: .65em;
+            height: .65em;
+            border-radius: 50%;
+            background-color: $color-orange;
+            left: -.6em;
+            top: .7em;
+          }
+        }
       }
     }
   }

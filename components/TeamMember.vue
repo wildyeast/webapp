@@ -53,7 +53,7 @@ export default {
 
 .member-page {
   display: inline-block;
-  padding: $margin-page-wide;
+  @include margin-page-wide();
   min-height: 150px;
   width: 100%;
 
@@ -63,8 +63,12 @@ export default {
       flex-grow: 1;
       width: 48%;
       margin-right: 2%;
+      max-height: 85vh;
+      text-align: right;
       .picture {
+        width: 100%;
         max-width: 100%;
+        max-height: 100%;
       }
     }
     .info {
@@ -114,7 +118,6 @@ export default {
         width: 80%;
         font-size: 1rem;
       }
-
     }
   }
   .body {
@@ -139,5 +142,29 @@ export default {
       margin: 0 20% 0 30%;
     }
   }
+
+  @media screen and (max-width: 767px) {
+    margin: 0;
+    padding: 0;
+    .header {
+      flex-direction: column;
+      .image,.info {
+        width: 100%;
+        margin: 0;
+      }
+      .info {
+        .short-info {
+          flex-direction: row;
+        }
+        .name-contact {
+          .name {
+            font-size: 1em;
+          }
+        }
+      }
+
+    }
+  }
+
 }
 </style>
