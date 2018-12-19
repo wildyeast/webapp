@@ -7,11 +7,11 @@
       </ul>
       <div class="price">
         <h4 class="title">Ermäßigt</h4>
-        <div class="link">{{blok.price_regular}},- / Monat</div>
+        <div class="pricetag">{{blok.price_regular}},- / Monat</div>
       </div>
       <div class="price">
         <h4 class="title">Regulär</h4>
-        <div class="link">{{blok.price_reduced}},- / Monat</div>
+        <div class="pricetag">{{blok.price_reduced}},- / Monat</div>
       </div>
     </div>
   </div>
@@ -72,7 +72,7 @@ export default {
         font-family: $font-secondary;
         font-size: 0.6rem;
       }
-      .link {
+      .pricetag {
         outline: none;
         border: none;
         font-weight: bold;
@@ -81,8 +81,8 @@ export default {
         width: 100%;
         text-decoration: none;
         padding: 10px;
-        background-color: $color-orange;
-        color: #FFF;
+        color: $color-orange;
+        background: $color-bright-bg;
         text-align: center;
       }
     }
