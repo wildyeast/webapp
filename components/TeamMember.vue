@@ -2,24 +2,28 @@
   <div v-editable="blok" class="member-page">
     <div class="header">
       <div class="image">
-        <img class="picture" :src="$resizeImage(blok.image, '700x700')" :alt="blok.name + ', ' + blok.title"/>
+        <img class="picture" v-if="blok.image" :src="$resizeImage(blok.image, '700x700')" :alt="blok.name + ', ' + blok.title"/>
       </div>
       <div class="info">
         <div class="short-info">
           <div class="name-contact">
             <div class="name">{{blok.name}}</div>
-            <div class="contact-icons">
-              <a class="contact-icon email" v-if="blok.email" :href="'mailto:'+blok.email">
-                <img class="svg" src="~/assets/img/icons/envelope.svg" alt=""/>
+            <div class="contact-options">
+              <a class="option email" v-if="blok.email" :href="'mailto:'+blok.email">
+                <img class="icon" src="~/assets/img/icons/envelope.svg" alt=""/>
+                <div class="text">{{blok.email}}</div>
               </a>
-              <a class="contact-icon phone" v-if="blok.phone" :href="'tel:'+blok.phone">
-                <img class="svg" src="~/assets/img/icons/phone.svg" alt=""/>
+              <a class="option phone" v-if="blok.phone" :href="'tel:'+blok.phone">
+                <img class="icon" src="~/assets/img/icons/phone.svg" alt=""/>
+                <div class="text">{{blok.phone}}</div>
               </a>
-              <a class="contact-icon twitter" v-if="blok.twitter" target="_blank" :href="'https://twitter.com/'+blok.twitter">
-                <img class="svg" src="~/assets/img/icons/twitter.svg" alt=""/>
+              <a class="option twitter" v-if="blok.twitter" target="_blank" :href="'https://twitter.com/'+blok.twitter">
+                <img class="icon" src="~/assets/img/icons/twitter.svg" alt=""/>
+                <div class="text">@{{blok.twitter}}</div>
               </a>
-              <a class="contact-icon linkedin" v-if="blok.linkedin" target="_blank" :href="blok.linkedin">
-                <img class="svg" src="~/assets/img/icons/linkedin.svg" alt=""/>
+              <a class="option linkedin" v-if="blok.linkedin" target="_blank" :href="blok.linkedin">
+                <img class="icon" src="~/assets/img/icons/linkedin.svg" alt=""/>
+                <div class="text">LinkedIn Profil</div>
               </a>
             </div>
           </div>
@@ -30,10 +34,13 @@
         </div>
       </div>
     </div>
+    <div class="short-description-mobile">
+      {{blok.short_description}}
+    </div>
     <div class="body">
       <div class="future-slogan">
         <div class="first">Die Zukunft</div>
-        <div class="second">gehört {{blok.future}}</div>
+        <div class="second">gehört {{blok.future}}<span v-if="!blok.future">uns allen</span></div>
       </div>
       <div class="description">
         <markdown :value="blok.description"></markdown>
@@ -55,15 +62,12 @@ export default {
   display: inline-block;
   @include margin-page-wide();
   min-height: 150px;
-  width: 100%;
-
   .header {
     display: flex;
     .image {
       flex-grow: 1;
-      width: 48%;
+      width: 46%;
       margin-right: 2%;
-      max-height: 85vh;
       text-align: right;
       .picture {
         width: 100%;
@@ -75,7 +79,7 @@ export default {
       display: flex;
       flex-direction: column;
       flex-grow: 1;
-      width: 48%;
+      width: 50%;
       margin-left: 2%;
       .short-info {
         display: flex;
@@ -96,13 +100,23 @@ export default {
             line-height: 1.2;
             max-width: 60%;
           }
-          .contact-icons {
+          .contact-options {
+            font-size: .9rem;
             margin-bottom: .8rem;
             display: flex;
-            .contact-icon {
-              .svg {
+            flex-direction: column;
+            .option {
+              display: flex;
+              flex-direction: row-reverse;
+              align-items: center;
+              padding: .4em 0;
+              color: inherit;
+              text-decoration: none;
+              .icon {
                 width: 18px;
                 margin-left: .5em;
+              }
+              .text {
               }
             }
           }
@@ -115,16 +129,24 @@ export default {
       }
       .short-description {
         line-height: 1.5;
-        width: 80%;
+        @include media-breakpoint-up(xl) {
+          width: 80%;
+        }
         font-size: 1rem;
       }
     }
+  }
+  .short-description-mobile {
+    display: none;
   }
   .body {
     padding: 100px 0;
     .future-slogan {
       transform: rotate(-5deg);
       font-size: 2rem;
+      @include media-breakpoint-down(sm) {
+        font-size: 1.4rem;
+      }
       width: 40%;
       min-width: 15em;
       margin-left: 12%;
@@ -143,28 +165,56 @@ export default {
     }
   }
 
-  @media screen and (max-width: 767px) {
-    margin: 0;
-    padding: 0;
+  @include media-breakpoint-down(md) {
     .header {
-      flex-direction: column;
-      .image,.info {
-        width: 100%;
-        margin: 0;
-      }
       .info {
         .short-info {
-          flex-direction: row;
-        }
-        .name-contact {
-          .name {
-            font-size: 1em;
+          justify-content: flex-start;
+          .name-contact {
+            flex-direction: column-reverse;
+            .name {
+              align-self: flex-start;
+              font-size: 2.5em;
+            }
           }
         }
+        .short-description {
+          display: none;
+        }
       }
-
+    }
+    .short-description-mobile {
+      display: flex;
+      margin: 1em 0;
+      line-height: 1.4;
+      font-size: 1rem;
     }
   }
+
+  @include media-breakpoint-down(sm) {
+    .header {
+      flex-direction: column;
+      .info {
+        width: 100%;
+        .short-info {
+          .name-contact {
+            .name {
+            }
+          }
+        }
+        .short-description {
+        }
+      }
+      .image {
+        width: 400px;
+        max-width: 100%;
+      }
+    }
+    .short-description-mobile {
+    }
+  }
+
+
 
 }
 </style>
