@@ -111,8 +111,7 @@ const createStore = () => {
       },
       findMachines ({state}, filters) {
         return this.$storyapi.get(`cdn/stories`, {
-          filter_query: filters.filter_query,
-          search_term: filters.search_term,
+          ...filters,
           version: version,
           cv: state.cacheVersion,
         }).then((res) => {
@@ -123,8 +122,7 @@ const createStore = () => {
       },
       findWorkshops ({state}, filters) {
         return this.$storyapi.get(`cdn/stories`, {
-          filter_query: filters.filter_query,
-          search_term: filters.search_term,
+          ...filters,
           version: version,
           cv: state.cacheVersion,
         }).then((res) => {
@@ -145,7 +143,6 @@ const createStore = () => {
         });
       },
       findNews ({state}, filters) {
-        //console.log(filters);
         return this.$storyapi.get('cdn/stories', {
           filter_query: filters.filter_query,
           version: version,

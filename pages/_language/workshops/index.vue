@@ -2,6 +2,7 @@
   <section class="workshop-overview">
     <div class="workshop-filters">
       <code class="loading" v-if="loading">loading…</code>
+      <!--
       <div class="tags">
         <div class="headline">
           Bereiche
@@ -15,6 +16,7 @@
           </div>
         </div>
       </div>
+      -->
       <div class="search">
         <input type="text" placeholder="Kurse und Workshops suchen" v-model="search" name="" id=""/>
         <input type="button" value="Suchen" name="" id=""/>
@@ -54,18 +56,12 @@ import Checkbox from "~/components/Checkbox.vue";
 
 export default {
   components: {
-    'checkbox': Checkbox,
+    Checkbox,
   },
   data () {
     return {
       loading: false,
-      date: '2019-01-01',
       search: '',
-      tags: [
-        { name: '3D-Druck', key: '3d-print', value: false },
-        { name: 'CAD/CAM', key: 'cad-cam', value: false },
-        { name: 'Lasercutter', key: 'lazzor', value: false },
-      ],
     }
   },
   created() {
@@ -80,6 +76,7 @@ export default {
   },
   methods: {
     update() {
+      console.log(this.filters);
       this.loading = true;
       let result = this.$store.dispatch("findWorkshops", this.filters).then((data) => {
         this.loading = false;
@@ -95,8 +92,16 @@ export default {
             'in': 'workshop'
           }
         },
-        search_term: this.search
+        search_term: this.search,
+        with_tag: this.filterTags.join(',')
       }
+    },
+    filterTags() {
+      return this.tags.filter((t) => {
+        return t.value;
+      }).map((t) => {
+        return t.name;
+      });
     }
   },
   async asyncData (context) {

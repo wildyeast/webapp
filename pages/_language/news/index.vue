@@ -2,6 +2,7 @@
   <section>
     <div class="source-list">
       <checkbox
+        theme="news"
         v-model="source.selected"
         v-for="source in sources"
         :key="source.name"
@@ -85,8 +86,8 @@ const monthDict = [
 
 export default {
   components: {
-    'checkbox': Checkbox,
-    'loading': Loading
+    Checkbox,
+    Loading
   },
 
   data() {
