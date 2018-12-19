@@ -35,6 +35,7 @@ import JobTeaser from '~/components/JobTeaser.vue'
 import JobList from '~/components/JobList.vue'
 import JobOpening from '~/components/JobOpening.vue'
 
+import ImageGallery from '~/components/ImageGallery.vue'
 import ImageSlideshow from '~/components/ImageSlideshow.vue'
 import ImageSlideshowBlue from '~/components/ImageSlideshowBlue.vue'
 import SpotlightSlider from '~/components/SpotlightSlider.vue'
@@ -82,6 +83,7 @@ Vue.component('login-form', LoginForm)
 Vue.component('register-form', RegisterForm)
 
 Vue.component('spotlight-slider', SpotlightSlider)
+Vue.component('image-gallery', ImageGallery)
 Vue.component('image-slideshow', ImageSlideshow)
 Vue.component('image-slideshow-blue', ImageSlideshowBlue)
 Vue.component('text-image', TextImage)

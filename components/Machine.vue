@@ -18,6 +18,9 @@
           </div>
         </li>
       </ul>
+      <div class="images">
+        <image-gallery :images="blok.images"></image-gallery>
+      </div>
     </div>
   </div>
 </template>
