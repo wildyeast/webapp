@@ -36,6 +36,7 @@ module.exports = {
     '~/plugins/map',
     '~/plugins/libs',
     '~/plugins/routersync',
+    { src: '~/plugins/lightbox', ssr: false },
     { src: '~/plugins/swiper', ssr: false }
   ],
   router: {

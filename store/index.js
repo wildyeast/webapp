@@ -41,16 +41,6 @@ const createStore = () => {
             if (err) reject(err);
             resolve();
           });
-          /*
-          webAuth.login({
-            connection: 'Username-Password-Authentication',
-            email: context.email,
-            password: context.password,
-          }, function (err) {
-            if (err) reject(err);
-            resolve();
-          });
-          */
         });
       },
       registerUser({ commit }, context) {
@@ -68,6 +58,12 @@ const createStore = () => {
       },
       setSidebar({state}, value) {
         state.sidebar = value;
+      },
+      loadTags ({state}) {
+        return this.$storyapi.get(`cdn/tags`, {
+        }).then((res) => {
+          return res.data.tags;
+        });
       },
       loadTeam ({state}) {
         return this.$storyapi.get(`cdn/stories`, {
@@ -113,10 +109,20 @@ const createStore = () => {
           console.log(res);
         });
       },
+      findMachines ({state}, filters) {
+        return this.$storyapi.get(`cdn/stories`, {
+          ...filters,
+          version: version,
+          cv: state.cacheVersion,
+        }).then((res) => {
+          return res.data;
+        }).catch((res) => {
+          console.log(res);
+        });
+      },
       findWorkshops ({state}, filters) {
         return this.$storyapi.get(`cdn/stories`, {
-          filter_query: filters.filter_query,
-          search_term: filters.search_term,
+          ...filters,
           version: version,
           cv: state.cacheVersion,
         }).then((res) => {
@@ -137,7 +143,6 @@ const createStore = () => {
         });
       },
       findNews ({state}, filters) {
-        //console.log(filters);
         return this.$storyapi.get('cdn/stories', {
           filter_query: filters.filter_query,
           version: version,
@@ -169,9 +174,6 @@ const createStore = () => {
           console.log(e);
         });
       },
-      createMember ({ state, commit }, context) {
-        console.log(context);
-      }
     }
   })
 }

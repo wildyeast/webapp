@@ -9,16 +9,16 @@
             <span class="title" :class="{ 'dark': s.dark }">{{s.title}}</span>
           </div>
         </div>
+        <svg class="dot" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100mm" height="100mm" viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="a"><stop offset="0" stop-color="#ebe223"/><stop offset="1" stop-color="#ebe223" stop-opacity="0"/></linearGradient>
+            <radialGradient xlink:href="#a" id="b" cx="50" cy="63.304" fx="50" fy="63.304" r="50" gradientUnits="userSpaceOnUse" gradientTransform="translate(0 183.696)"></radialGradient>
+          </defs>
+          <circle cx="50" cy="247" r="50" fill="url(#b)" transform="translate(0 -197)" />
+        </svg>
       </div>
       <div class="swiper-pagination"></div>
     </div>
-    <svg class="dot" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100mm" height="100mm" viewBox="0 0 100 100">
-      <defs>
-        <linearGradient id="a"><stop offset="0" stop-color="#ebe223"/><stop offset="1" stop-color="#ebe223" stop-opacity="0"/></linearGradient>
-        <radialGradient xlink:href="#a" id="b" cx="50" cy="63.304" fx="50" fy="63.304" r="50" gradientUnits="userSpaceOnUse" gradientTransform="translate(0 183.696)"></radialGradient>
-      </defs>
-      <circle cx="50" cy="247" r="50" fill="url(#b)" transform="translate(0 -197)" />
-    </svg>
   </div>
 </template>
 
@@ -48,9 +48,11 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .mainstage {
-  height: calc(100vh - 64px - 80px); // 100vh - top-header height -
+  height: calc(100vh - 64px - 80px); // 100vh - top-header height - margin
   position: relative;
-  margin: 0 80px;
+  @include margin-page-wide();
+  z-index: 3;
+
   .placeholder {
     top: 0;
     bottom: 0;
@@ -66,7 +68,6 @@ export default {
       background-position: center;
       display: flex;
       align-items: flex-end;
-
       .wrapper {
         padding: 20px;
         width: 60%;
@@ -95,7 +96,7 @@ export default {
     position: absolute;
     right: 0;
     transform: scale(1.2) translateX(-75px) translateY(-200px);
-    z-index: 2;
+    z-index: 1;
   }
 }
 </style>

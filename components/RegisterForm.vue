@@ -4,6 +4,16 @@
       loading…
     </div>
     <div v-else>
+      <div class="header-item">
+        <div class="headline">Werde GRAND GARAGE Mitglied</div>
+        <div class="subtitle" @click="login">
+          Bereits Mitglied? Zum Login.
+        </div>
+        <div class="info">
+          Werde Teil einer lebendigen Community aus Kreativen, Makern und Start-ups!
+          Ob Professional oder Starter – such' dir ganz einfach die für dich passende Mitgliedschaft aus und erhalte Zugang zur GRAND GARAGE.
+        </div>
+      </div>
       <div class="form-item">
         <span class="label">Vorname</span>
         <input type="text" v-model="firstName" placeholder="Vorname" @input="checkName" />
@@ -129,6 +139,9 @@ export default {
         }
       });
     },
+    login() {
+      this.$store.dispatch('setSidebar', 'login');
+    },
     clearError() {
       this.errorMessage = null;
     },
@@ -150,6 +163,30 @@ export default {
 
 .register-form {
   margin: 0 -10px;
+  padding: 50px;
+  background-color: $color-bright-bg;
+  .header-item {
+    margin-bottom: 40px;
+    .headline {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      font-family: $font-secondary;
+    }
+    .info {
+      margin: 20px 0;
+      font-size: 0.9em;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: $color-orange;
+      font-family: $font-mono;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
   .form-item {
     padding: 10px;
     display: flex;

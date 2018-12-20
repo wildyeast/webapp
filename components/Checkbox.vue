@@ -1,30 +1,20 @@
 <template>
-  <label v-bind:class="isChecked ? 'checkbox checkbox-selected' : 'checkbox'">
-    <input v-model="isChecked" type="checkbox" v-on:change="onchange">
-
-    <div class="checkmark">
-      <img v-if="isChecked" src="~/assets/img/icons/check.svg">
+  <label class="checkbox" :class="theme">
+    <input :value="value" @input="$emit('input', !value);" type="checkbox">
+    <div class="checkmark" :class="{'selected': value}">
+      <svg v-if="value" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 200"><path d="M20 130l40 40L200 30" stroke-width="25" fill="none"/></svg>
     </div>
-
-    {{text}}
+    <slot />
   </label>
 </template>
 
 <script>
 export default {
-  props: ["text", "checked", "onchange", "theme"], // !!
-
-  data() {
-    return { isChecked: this.checked };
-  },
-
-  created() {
-    this.$watch("isChecked", newVal => this.onchange(newVal));
-  }
+  props: ["value", "theme"],
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "~/assets/scss/styles.scss";
 
 .checkbox {
@@ -36,32 +26,57 @@ export default {
   }
 
   .checkmark {
+    display: inline-block;
     width: 0.9em;
     height: 0.9em;
-    border: 2px solid #000;
     border-radius: 2px;
     margin-right: 5px;
     padding: 2px;
 
-    img {
+    svg {
       display: block;
-      width: 100%;
-      color: #fff;
     }
   }
-}
 
-.checkbox:hover {
-  .checkmark {
-    background-color: $color-blue;
-    border: none;
+
+  /* news theme*/
+  &.news {
+    .checkmark {
+      border: 2px solid #000;
+      svg {
+        stroke: #fff;
+      }
+      &.selected {
+        background-color: $color-blue;
+        border: none;
+      }
+    }
+    &:hover {
+      .checkmark {
+        background-color: $color-blue;
+        border: none;
+      }
+    }
   }
-}
 
-.checkbox-selected {
-  .checkmark {
-    background-color: $color-blue;
-    border: none;
+  /* white theme*/
+  &.white {
+    .checkmark {
+      border: 2px solid #FFF;
+      svg {
+        stroke: #000;
+      }
+      &.selected {
+        background-color: #FFF;
+        border: none;
+      }
+    }
+    &:hover {
+      .checkmark {
+        background-color: #FFF;
+        border: none;
+      }
+    }
   }
 }
 </style>

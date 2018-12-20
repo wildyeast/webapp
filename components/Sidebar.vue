@@ -2,18 +2,11 @@
   <transition name="fade">
   <div class="sidebar" v-if="sidebar">
     <div class="backdrop" @click="close"></div>
-    <div class="content">
-      <transition name="slide">
-      <login-form v-if="sidebar == 'login'"></login-form>
-      <register-form v-else-if="sidebar == 'register'"></register-form>
-      <div v-else-if="sidebar == 'register-success'">
-        <h3>Willkommen</h3>
-        <p>Bitte prüfe deine Email um deinen Account zu bestätigen.</p>
-        <button @click="close">Zurück</button>
-        <button @click="login">Zum Login</button>
-      </div>
-      </transition>
-    </div>
+    <transition name="slide" appear>
+      <login-form class="pane" v-if="sidebar == 'login'"></login-form>
+      <register-form class="pane" v-else-if="sidebar == 'register'"></register-form>
+      <register-success-form class="pane" v-else-if="sidebar == 'register-success'"></register-success-form>
+    </transition>
   </div>
   </transition>
 </template>
@@ -47,16 +40,26 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
-  display: flex;
   .backdrop {
-    flex: 1;
+    height: 100%;
+    width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     cursor: pointer;
   }
-  .content {
-    padding: 50px;
-    flex-basis: 500px;
-    background-color: $color-bright-bg;
+  .pane {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    max-width: 50vw;
   }
+}
+
+.slide-enter-active, .slide-leave-active {
+  transition: all .5s;
+}
+.slide-enter, .slide-leave-to {
+  opacity: 0;
+  transform: translateX(200px);
 }
 </style>

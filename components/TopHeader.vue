@@ -1,25 +1,27 @@
 <template>
   <div class="header-wrapper">
     <header class="top-header">
-      <main-nav-item class="desktop" :item="item" :key="item.id" v-for="item in main">
-      </main-nav-item>
-      <div class="menu-icon" @click="toggleMenu()">
-        <img src="~/assets/img/icons/menu-icon.svg">
-      </div>
-      <div class="spacer">
-      </div>
-      <div class="logo">
-        <nuxt-link class="top-header__link" to="/">
-          <img src="~/assets/img/icons/gg-logo-icon.svg">
-        </nuxt-link>
-        <div class="dropdown" v-if="home && home.length > 0">
-          <div v-for="child in home" :key="child.id" class="child">
-            <sb-link :link="child.link" class="child-nav-item">
-              {{ child.name }}
-            </sb-link>
-          </div>
-          <div class="child">
-            <button @click="login" class="login-button">Login</button>
+      <div class="top-header-inner">
+        <main-nav-item class="desktop" :item="item" :key="item.id" v-for="item in main">
+        </main-nav-item>
+        <div class="menu-icon" @click="toggleMenu()">
+          <img src="~/assets/img/icons/menu-icon.svg">
+        </div>
+        <div class="spacer">
+        </div>
+        <div class="logo">
+          <nuxt-link class="top-header__link" to="/">
+            <img src="~/assets/img/icons/gg-logo-icon.svg">
+          </nuxt-link>
+          <div class="dropdown" v-if="home && home.length > 0">
+            <div v-for="child in home" :key="child.id" class="child">
+              <sb-link :link="child.link" class="child-nav-item">
+                {{ child.name }}
+              </sb-link>
+            </div>
+            <div class="child">
+              <button @click="login" class="login-button">MEMBER-AREA</button>
+            </div>
           </div>
         </div>
       </div>
@@ -74,14 +76,19 @@ export default {
 }
 
 .top-header {
-  margin: 0 80px 0 80px - 25;
-  display: flex;
-  justify-content: space-between;
+  @include margin-page-wide();
   font-size: 1.1em;
+  @media screen and (min-width: 1149px) {
+    letter-spacing: .1em;
+  }
+  .top-header-inner {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 -20px 0 -25px; // compensate paddings from logo and nav items
+  }
 
   .logo {
     position: relative;
-    margin-right: -20px;
     &:hover {
       .dropdown {
         display: block;
@@ -143,11 +150,13 @@ export default {
 }
 
 /* Mobile */
-@media screen and (max-width: $menu-min-width) {
+@include media-breakpoint-down(sm) {
   .top-header {
-    display: flex;
-    justify-content: flex-end;
-
+    .top-header-inner {
+      display: flex;
+      justify-content: flex-end;
+      margin: 0 -20px 0 -20px; // compensate paddings from logo and burger button
+    }
     .nav-item.desktop {
       display: none;
     }
@@ -158,7 +167,7 @@ export default {
       }
     }
     .menu-icon {
-      margin: 20px 0;
+      padding: 20px;
       img {
         height: 1.1em;
       }
