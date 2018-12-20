@@ -1,5 +1,11 @@
 <template>
   <div class="login-form">
+    <div class="header-item">
+      <div class="headline">Login für GRAND GARAGE Mitglieder</div>
+      <div class="subtitle" @click="register">
+          Noch kein Mitglied? Hier anmelden.
+      </div>
+    </div>
     <div class="form-item">
       <span class="label">Email</span>
       <input class="input" type="text" v-model="email" placeholder="deine email" @input="clearErrorMessage" />
@@ -30,6 +36,9 @@ export default {
   computed: {
   },
   methods: {
+    register() {
+      this.$store.dispatch('setSidebar', 'register');
+    },
     submit() {
       let data = {
         email: this.email,
@@ -53,6 +62,24 @@ export default {
 
 .login-form {
   margin: 0 -10px;
+  .header-item {
+    margin-bottom: 40px;
+    .headline {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      font-family: $font-secondary;
+    }
+    .subtitle {
+      font-size: 0.9rem;
+      color: $color-orange;
+      font-family: $font-mono;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
   .form-item {
     padding: 10px;
     display: flex;

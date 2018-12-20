@@ -174,9 +174,6 @@ const createStore = () => {
           console.log(e);
         });
       },
-      createMember ({ state, commit }, context) {
-        console.log(context);
-      }
     }
   })
 }
