@@ -38,6 +38,7 @@ export default {
 .info-box {
   .box-content {
     margin: 50px 0;
+    @include margin-page-middle();
     display: flex;
     flex-direction: column;
     .title {
@@ -46,6 +47,7 @@ export default {
       line-height: 1.5;
       font-weight: bold;
       font-family: $font-primary;
+      letter-spacing: .05em;
       text-transform: uppercase;
       width: 50%;
     }
@@ -61,10 +63,11 @@ export default {
       }
       .col-text {
         flex: 2;
-        padding: 20px;
+        padding: 0 5%;
         p {
-          font-size: 1.2rem;
-          line-height: 1.2;
+          font-size: 1rem;
+          letter-spacing: 0.03em;
+          line-height: 1.4;
           margin-top: 0;
         }
         .register-button {

@@ -85,6 +85,9 @@ export default {
     .pre-footer-bottom {
       z-index: 1;
       display: flex;
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+      }
       .col {
         padding: 25px;
         flex: 1;
@@ -168,6 +171,10 @@ export default {
       }
       .bottom-footer {
         margin: 3rem 0;
+        display: flex;
+        @include media-breakpoint-down(sm) {
+          flex-direction: column;
+        }
         .footer-navigation {
           .nav-item {
             font-size: 1rem;
@@ -180,7 +187,6 @@ export default {
             }
           }
         }
-        display: flex;
         .spacer {
           flex: 1;
         }
