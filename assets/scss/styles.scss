@@ -13,36 +13,126 @@ $menu-min-width: 860px;
 $mobile-small: 576px;
 $mobile-large: 992px;
 
+
+// Genral Layout Margins
+
+// "Desktop view"
 $margin-page-wide: 0 80px; // for layout-related images/areas etc (with enough space for vertical breadcrumb)
 $margin-page-narrow: 0 176px 268px; // for text, content etc
 
-body {
-  background-color: $color-bright-bg;
-  width: 100%;
-  overflow-x: hidden;
-  font-family: $font-primary;
-  line-height: 1;
-  font-size: 18px;
-  color: #000;
-  margin: 0;
-  padding: 0;
+
+// Mixins for breakpoints
+// Copypasta + modified from https://github.com/twbs/bootstrap/blob/v4-dev/scss/mixins/_breakpoints.scss
+// inspiration for breakpoint values: https://gs.statcounter.com/screen-resolution-stats/all/austria/2018
+
+$grid-breakpoints: (
+  'xs': 360px,
+  'sm': 576px,
+  'md': 800px,
+  'lg': 992px,
+  'xl': 1366px
+) !default;
+
+// Name of the next breakpoint, or null for the last breakpoint.
+@function breakpoint-next($name, $breakpoints: $grid-breakpoints, $breakpoint-names: map-keys($breakpoints)) {
+  $n: index($breakpoint-names, $name);
+  @return if($n != null and $n < length($breakpoint-names), nth($breakpoint-names, $n + 1), null);
+}
+// Minimum breakpoint width. Null for the smallest (first) breakpoint.
+@function breakpoint-min($name, $breakpoints: $grid-breakpoints) {
+  $min: map-get($breakpoints, $name);
+  @return if($min != 0, $min, null);
+}
+// Maximum breakpoint width. Null for the largest (last) breakpoint.
+@function breakpoint-max($name, $breakpoints: $grid-breakpoints) {
+  $next: breakpoint-next($name, $breakpoints);
+  @return if($next, breakpoint-min($next, $breakpoints) - .02, null);
+}
+// Returns a blank string if smallest breakpoint, otherwise returns the name with a dash in front.
+@function breakpoint-infix($name, $breakpoints: $grid-breakpoints) {
+  @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
 }
 
-* {
-  box-sizing: border-box;
+// Media of at least the minimum breakpoint width. No query for the smallest breakpoint.
+// Makes the @content apply to the given breakpoint and wider.
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
+// Media of at most the maximum breakpoint width. No query for the largest breakpoint.
+// Makes the @content apply to the given breakpoint and narrower.
+@mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {
+  $max: breakpoint-max($name, $breakpoints);
+  @if $max {
+    @media (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
 }
 
-.page-enter-active, .page-leave-active {
-  transition: all .30s ease-out;
+// Media that spans multiple breakpoint widths.
+// Makes the @content apply between the min and max breakpoints
+@mixin media-breakpoint-between($lower, $upper, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($lower, $breakpoints);
+  $max: breakpoint-max($upper, $breakpoints);
+
+  @if $min != null and $max != null {
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else if $max == null {
+    @include media-breakpoint-up($lower, $breakpoints) {
+      @content;
+    }
+  } @else if $min == null {
+    @include media-breakpoint-down($upper, $breakpoints) {
+      @content;
+    }
+  }
 }
-.page-enter, .page-leave-active {
-  opacity: 0;
-  transform-origin: 50% 50%;
+
+// Media between the breakpoint's minimum and maximum widths.
+// No minimum for the smallest breakpoint, and no maximum for the largest one.
+// Makes the @content apply only to the given breakpoint, not viewports any wider or narrower.
+@mixin media-breakpoint-only($name, $breakpoints: $grid-breakpoints) {
+  $min: breakpoint-min($name, $breakpoints);
+  $max: breakpoint-max($name, $breakpoints);
+
+  @if $min != null and $max != null {
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else if $max == null {
+    @include media-breakpoint-up($name, $breakpoints) {
+      @content;
+    }
+  } @else if $min == null {
+    @include media-breakpoint-down($name, $breakpoints) {
+      @content;
+    }
+  }
+}
+
+// layout margins
+@mixin margin-page-wide() {
+    margin-left: 4%;
+    margin-right: 4%;
+}
+
+@mixin margin-page-middle() {
+    margin-left: 8%;
+    margin-right: 7%;
+}
+@mixin margin-page-narrow() {
+    margin-left: 12%;
+    margin-right: 9%;
 }

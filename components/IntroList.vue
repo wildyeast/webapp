@@ -62,7 +62,7 @@ $color-blue-intro: #005eff;
   .content {
     display: flex;
     align-items: flex-start;
-    margin: $margin-page-wide;
+    @include margin-page-wide();
     margin-top: -10%;
     .primary-col, .secondary-col {
       flex-grow: 1;

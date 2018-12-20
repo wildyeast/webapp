@@ -50,7 +50,7 @@ export default {
 .mainstage {
   height: calc(100vh - 64px - 80px); // 100vh - top-header height - margin
   position: relative;
-  margin: 0 80px;
+  @include margin-page-wide();
   z-index: 3;
 
   .placeholder {
