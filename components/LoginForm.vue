@@ -3,7 +3,7 @@
     <div class="header-item">
       <div class="headline">Login für GRAND GARAGE Mitglieder</div>
       <div class="subtitle" @click="register">
-          Noch kein Mitglied? Hier anmelden.
+        Noch kein Mitglied? Hier anmelden.
       </div>
     </div>
     <div class="form-item">
@@ -62,6 +62,8 @@ export default {
 
 .login-form {
   margin: 0 -10px;
+  padding: 50px;
+  background-color: $color-bright-bg;
   .header-item {
     margin-bottom: 40px;
     .headline {

@@ -163,6 +163,8 @@ export default {
 
 .register-form {
   margin: 0 -10px;
+  padding: 50px;
+  background-color: $color-bright-bg;
   .header-item {
     margin-bottom: 40px;
     .headline {

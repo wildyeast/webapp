@@ -20,7 +20,7 @@
               </sb-link>
             </div>
             <div class="child">
-              <button @click="login" class="login-button">Login</button>
+              <button @click="login" class="login-button">MEMBER-AREA</button>
             </div>
           </div>
         </div>
