@@ -5,26 +5,34 @@
     <h1 class="number">{{number}}</h1>
     <div class="text">
       <h2 class="title">{{blok.title}}</h2>
-      <img class="arrow" src="~/assets/img/arrow-right.svg">
+      <img v-if="blok.areas" class="arrow" src="~/assets/img/arrow-right.svg">
     </div>
-    <h3 class="areas">{{blok.subtitle}}</h3>
+    <div v-if="blok.areas" class="areas">
+      <h3 class="area" v-for="(area, index) in blok.areas.split(',')" v-bind:key="index">
+        {{area}}
+        <br>
+      </h3>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["blok", "number"],
+  props: ["blok", "number"]
 };
 </script>
 
 <style lang="scss">
+@import "~/assets/scss/styles.scss";
+
 .level-description {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   .number {
     font-size: 80px;
     margin: 0;
+    // font-family: $font-mono; // !! font from design missng
   }
 
   .level-indicator {
@@ -37,8 +45,12 @@ export default {
   }
 
   .areas {
-    font-size: 12px;
-    margin-left: 10px;
+    margin-top: 20px;
+
+    .area {
+      font-size: 12px;
+      margin: 0 0 4px 10px;
+    }
   }
 
   .text {
