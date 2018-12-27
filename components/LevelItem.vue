@@ -1,5 +1,5 @@
 <template>
-  <div class="level-description">
+  <div class="level-item">
     <!-- .level-indicator content must be loaded from storyblok language -->
     <h3 class="level-indicator">Ebene</h3>
     <h1 class="number">{{number}}</h1>
@@ -25,9 +25,11 @@ export default {
 <style lang="scss">
 @import "~/assets/scss/styles.scss";
 
-.level-description {
+.level-item {
   display: flex;
-  margin-bottom: 10px;
+  user-select: none;
+  cursor: default;
+  padding-right: 20px;
 
   .number {
     font-size: 80px;
@@ -45,7 +47,7 @@ export default {
   }
 
   .areas {
-    margin-top: 20px;
+    margin-top: 25px;
 
     .area {
       font-size: 12px;
@@ -66,6 +68,11 @@ export default {
       width: 180px;
     }
   }
+}
+
+.level-item:hover {
+  // background-color: rgba(255, 255, 255, .7);
+  background-color: rgba(0, 0, 0, .2);
 }
 </style>
 
