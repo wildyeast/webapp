@@ -34,7 +34,7 @@ export default {
   .number {
     font-size: 80px;
     margin: 0;
-    // font-family: $font-mono; // !! font from design missng
+    // font-family: $font-mono; // !! font from design missing
   }
 
   .level-indicator {
@@ -73,6 +73,7 @@ export default {
 .level-item:hover {
   // background-color: rgba(255, 255, 255, .7);
   background-color: rgba(0, 0, 0, .2);
+  cursor: pointer;
 }
 </style>
 
