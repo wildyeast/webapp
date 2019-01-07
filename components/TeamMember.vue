@@ -59,7 +59,6 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .member-page {
-  display: inline-block;
   @include margin-page-wide();
   min-height: 150px;
   .header {
@@ -165,7 +164,7 @@ export default {
     }
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(lg) {
     .header {
       .info {
         .short-info {

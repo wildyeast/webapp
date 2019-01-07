@@ -1,11 +1,16 @@
 <template>
-  <div v-editable="blok" class="location-descriptio">
+  <div v-editable="blok" class="location-description">
     <div class="col-left">
-      <markdown :value="blok.left"></markdown>
+      <div>
+        <h3 class="headline">{{blok.headline}}</h3>
+        <div class="teaser">{{blok.teaser}}</div>
+        <markdown :value="blok.left"></markdown>
+      </div>
     </div>
     <div class="col-right">
       <markdown :value="blok.right"></markdown>
     </div>
+
   </div>
 </template>
 
@@ -16,14 +21,51 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/styles.scss';
+
 .location-description {
-  display: flex;
-  flex-direction: row;
-  .col-left {
-    flex: 1;
+  @include media-breakpoint-up(lg) {
+    display: flex;
+    flex-direction: row;
+    @include margin-page-middle();
+    margin-top: 2em;
+    .col-left {
+      flex-basis: 40%;
+      .headline {
+          font-size: 3em;
+          max-width: 5em;
+          line-height: 1.25;
+          letter-spacing: .06em;
+          text-transform: uppercase;
+          margin: 0 0 .3em;
+      }
+      .teaser {
+        color: $color-orange;
+        margin-bottom: 3em;
+      }
+    }
+    .col-right {
+      flex-basis: 60%;
+      margin-top: 2em;
+      line-height: 1.7;
+    }
   }
-  .col-right {
-    flex: 3;
+  @include media-breakpoint-down(md) {
+    display: flex;
+    flex-direction: column;
+    @include margin-page-middle();
+    .headline {
+      font-size: 3em;
+      margin: 1em 0 .3em;
+      text-transform: uppercase;
+    }
+    .teaser {
+      color: $color-orange;
+      margin-bottom: 2em;
+    }
+    .col-right {
+      line-height: 1.7;
+    }
   }
 }
 </style>
