@@ -72,7 +72,7 @@ export default {
         align-items: center;
         line-height: 1.2;
         height: 100%;
-        background-color: $color-yellow;
+        background-color: $color-blue;
         padding: 10px;
       }
     }
