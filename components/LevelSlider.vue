@@ -52,6 +52,7 @@ export default {
   margin: 10px;
   border: 6px solid #000;
   display: flex;
+  height: calc(100vh - 64px - 80px); // 100vh - top-header height - margin
 
   .level-container {
     padding: 20px 0;
