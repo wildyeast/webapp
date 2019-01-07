@@ -48,6 +48,11 @@ body {
   box-sizing: border-box;
 }
 
+a {
+  color: $color-orange;
+  text-decoration: none;
+}
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
