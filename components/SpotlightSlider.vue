@@ -58,8 +58,7 @@ export default {
     height: 50vh;
     width: 100%;
     .swiper-slide {
-      // background-size: contain;
-      background-size: cover;
+      background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
       width: 100%;
