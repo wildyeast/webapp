@@ -33,7 +33,7 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .about-teaser {
-  height: 100vh;
+  // height: 100vh;
   color: #000;
   display: flex;
   flex-direction: row;

@@ -4,9 +4,7 @@
       <code class="loading" v-if="loading">loading…</code>
       <!--
       <div class="tags">
-        <div class="headline">
-          Bereiche
-        </div>
+        <div class="headline">Bereiche</div>
         <div class="tag-list">
           <div v-for="t in tags" :key="t.key" class="tag">
             <checkbox
@@ -18,9 +16,10 @@
       </div>
       -->
       <div class="search">
-        <input type="text" placeholder="Kurse und Workshops suchen" v-model="search" name="" id=""/>
-        <input type="button" value="Suchen" name="" id=""/>
+        <input type="text" placeholder="Kurse und Workshops suchen" v-model="search" name id>
+        <input type="button" value="Suchen" name id>
       </div>
+      <loading class="loading" v-if="loading">loading…</loading>
     </div>
     <!--
     <div class="workshop-orders">
@@ -36,7 +35,12 @@
     <div class="workshop-list-wrapper">
       <div v-if="workshops && workshops.length > 0" class="workshop-list">
         <transition-group name="list">
-          <workshop-list-item v-for="item in workshops" :blok="item" :key="item.id" class="list-item"></workshop-list-item>
+          <workshop-list-item
+            v-for="item in workshops"
+            :blok="item"
+            :key="item.id"
+            class="list-item"
+          ></workshop-list-item>
         </transition-group>
       </div>
       <div v-else class="workshop-list-none">
@@ -65,9 +69,13 @@ export default {
     }
   },
   created() {
-    this.$watch('tags', (newVal, oldVal) => {
-      this.update();
-    }, { deep: true });
+    this.$watch(
+      "tags",
+      (newVal, oldVal) => {
+        this.update();
+      },
+      { deep: true }
+    );
   },
   watch: {
     search() {
@@ -78,18 +86,20 @@ export default {
     update() {
       console.log(this.filters);
       this.loading = true;
-      let result = this.$store.dispatch("findWorkshops", this.filters).then((data) => {
-        this.loading = false;
-        this.workshops = data.stories;
-      });
+      let result = this.$store
+        .dispatch("findWorkshops", this.filters)
+        .then(data => {
+          this.loading = false;
+          this.workshops = data.stories;
+        });
     }
   },
   computed: {
     filters() {
       return {
         filter_query: {
-          'component': {
-            'in': 'workshop'
+          component: {
+            in: "workshop"
           }
         },
         search_term: this.search,
@@ -108,8 +118,8 @@ export default {
     let tags = await context.store.dispatch("loadTags");
     let filters = {
       filter_query: {
-        'component': {
-          'in': 'workshop'
+        component: {
+          in: "workshop"
         }
       }
     };
@@ -125,16 +135,19 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/styles.scss';
+@import "@/assets/scss/styles.scss";
 
 .workshop-overview {
   .loading {
     position: absolute;
+    left: 50%;
+    transform: translate(-50%, -40px);
   }
+
   .workshop-filters {
     .tags {
       .headline {
-        color: #FFF;
+        color: #fff;
         font-weight: bold;
         font-size: 1.8rem;
         margin-bottom: 20px;
@@ -145,30 +158,19 @@ export default {
           display: inline-block;
           padding: 0 20px;
           font-family: $font-mono;
-          color: #FFF;
+          color: #fff;
           user-select: none;
-          input[type=checkbox] {
-            outline: none;
-            -webkit-appearance: none;
-            padding: 5px;
-            border: 1px solid #FFF;
-            border-radius: 3px;
-            position: relative;
-            top: 0;
-            &:checked {
-              background-color: #FFF;
-            }
-          }
         }
       }
       padding: 40px;
       background-color: $color-orange;
     }
+
     .search {
       display: flex;
       padding: 10px;
       padding-bottom: 5rem;
-      input[type=text] {
+      input[type="text"] {
         flex: 1;
         display: block;
         width: 100%;
@@ -178,7 +180,7 @@ export default {
         font-size: 1.1rem;
         border: none;
       }
-      input[type=button] {
+      input[type="button"] {
         font-size: 1.1rem;
         margin-left: 10px;
         text-transform: uppercase;
@@ -198,7 +200,8 @@ export default {
       .list-item {
         margin-right: 10px;
       }
-      .list-enter-active, .list-leave-active {
+      .list-enter-active,
+      .list-leave-active {
         transition: all 0.5s;
       }
       .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {

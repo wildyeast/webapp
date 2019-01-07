@@ -9,7 +9,7 @@
         <markdown :value="blok.description"></markdown>
       </div>
       <ul class="feature-list">
-        <li class="feature-item" v-for="i in blok.features">
+        <li class="feature-item" v-for="(i, index) in blok.features" v-bind:key="index">
           <div class="title">
             {{i.title}}
           </div>
