@@ -42,16 +42,20 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .image-slideshow {
-  margin: 0 -20px;
-  padding: 30px;
   color: $color-blue;
   .text {
-    padding: 3rem 5rem 5rem 5rem;
+    @include margin-page-middle();
+    padding: 5rem 0 4rem;
     font-size: 1.8rem;
     font-family: $font-secondary;
     line-height: 1.4;
     letter-spacing: 1.4px;
   }
+  .swiper-wrapper {
+    margin: 0 -20px;
+    padding: 0 30px;
+  }
+  // class via javascript
   .swiper-container {
     height: 50vh;
     .swiper-slide {
