@@ -1,7 +1,6 @@
 <template>
   <section class="workshop-overview">
     <div class="workshop-filters">
-      <code class="loading" v-if="loading">loading…</code>
       <!--
       <div class="tags">
         <div class="headline">Bereiche</div>
@@ -16,10 +15,10 @@
       </div>
       -->
       <div class="search">
-        <input type="text" placeholder="Kurse und Workshops suchen" v-model="search" name id>
-        <input type="button" value="Suchen" name id>
+        <input type="text" placeholder="Kurse und Workshops suchen" v-model="search">
+        <input type="button" value="Suchen">
       </div>
-      <loading class="loading" v-if="loading">loading…</loading>
+      <loading class="loading" v-if="loading"></loading>
     </div>
     <!--
     <div class="workshop-orders">
@@ -84,7 +83,6 @@ export default {
   },
   methods: {
     update() {
-      console.log(this.filters);
       this.loading = true;
       let result = this.$store
         .dispatch("findWorkshops", this.filters)
