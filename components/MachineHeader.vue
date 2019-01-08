@@ -1,17 +1,26 @@
 <template>
   <div class="machine-header">
-    <div class="header-image" :style="{ 'background-image': 'url(' + $resizeImage(blok.image, '1600x0') + ')' }">
+    <div class="header-image" :style="{ 'background-image': 'url(' + $resizeImage(machine.image, '1600x0') + ')' }">
     </div>
-    <div class="header-title" v-if="blok.title">
-      <div class="title">{{blok.title}}</div>
-      <div class="subtitle">{{blok.subtitle}}</div>
+    <div class="header-title" v-if="machine.title">
+      <code>{{tags}}</code>
+      <div class="title">{{machine.title}}</div>
+      <div class="subtitle">{{machine.subtitle}}</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['blok']
+  props: ['story'],
+  computed: {
+    machine() {
+      return this.story.content;
+    },
+    tags() {
+      return this.story.tag_list;
+    }
+  }
 }
 </script>
 
