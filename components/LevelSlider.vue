@@ -2,45 +2,53 @@
   <div class="level-slider">
     <div class="level-container">
       <div v-for="(level, index) in blok.levels" v-bind:key="index" v-on:click="setLevel(index)">
-        <component
+        <level-item
           :key="level._uid"
           :blok="level"
-          :is="level.component"
           :number="blok.levels.length - 1 - index"
+          :active="index === activeLevel"
         />
       </div>
     </div>
 
-    <div class="image-container" v-bind:style="imageStyle" />
+    <div class="image-container">
+      <img
+        class="image"
+        v-for="(level, index) in blok.levels"
+        v-bind:key="level._uid"
+        v-show="index === activeLevel"
+        v-bind:src="level.image"
+      >
+    </div>
   </div>
 </template>
 
 <script>
-// !! Images not being cached!
-
 export default {
   props: ["blok"],
 
   data() {
     return {
-      level: 0,
+      activeLevel: 0,
       imageStyle: ""
     };
   },
 
   created() {
-    this.$watch("level", this.setImage);
+    this.$watch("activeLevel", this.setImage);
     this.setImage();
   },
 
   methods: {
     setLevel(newVal) {
-      this.level = newVal;
+      this.activeLevel = newVal;
     },
 
     setImage() {
       this.imageStyle = {
-        backgroundImage: `url("https:${this.blok.levels[this.level].image}")`
+        backgroundImage: `url("https:${
+          this.blok.levels[this.activeLevel].image
+        }")`
       };
     }
   }
@@ -48,25 +56,41 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/scss/styles.scss";
+
 .level-slider {
-  margin: 10px;
+  margin: 10px 0;
   border: 6px solid #000;
-  display: flex;
-  height: calc(100vh - 64px - 80px); // 100vh - top-header height - margin
+  border-left: none;
+  border-right: none;
+  overflow: hidden;
 
   .level-container {
     padding: 20px 0;
-    width: max-content;
-    border-right: 2px dashed #000;
+    border-bottom: 2px dashed #000;
   }
 
   .image-container {
-    background-repeat: no-repeat;
-    background-size: contain;
-    // background-size: cover;
-    background-position: center center;
     background-color: #fff;
-    width: 100%;
+    overflow: hidden;
+
+    .image {
+      width: 100%;
+    }
+  }
+}
+
+@media (min-width: $mobile-large) {
+  .level-slider {
+    margin: 10px 30px 10px 0;
+    display: flex;
+    border-right: 6px solid #000;
+
+    .level-container {
+      width: max-content;
+      border-right: 2px dashed #000;
+      border-bottom: none;
+    }
   }
 }
 </style>

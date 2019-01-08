@@ -18,7 +18,6 @@
       </div>
       <div class="search">
         <input type="text" placeholder="Maschinen suchen" v-model="search" name="" id=""/>
-        <input type="button" value="Suchen" name="" id=""/>
       </div>
     </div>
     <div class="machine-list-wrapper">

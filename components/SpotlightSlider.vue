@@ -1,25 +1,26 @@
 <template>
   <div v-editable="blok" class="spotlight-slider">
-    <div v-if="blok.text" class="text">
-      {{blok.text}}
-    </div>
+    <div v-if="blok.text" class="text">{{blok.text}}</div>
     <div v-swiper:swiper="swiperOption">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" :key="s._uid" v-for="s in blok.items" :style="{ 'background-image': 'url(' + $resizeImage(s.image, '700x0') + ')' }">
-          <div v-if="s.text" class="swiper-item-content">
-            {{s.text}}
-          </div>
+        <div
+          class="swiper-slide"
+          :key="s._uid"
+          v-for="s in blok.items"
+          :style="{ 'background-image': 'url(' + $resizeImage(s.image, '700x0') + ')' }"
+        >
+          <div v-if="s.text" class="swiper-item-content">{{s.text}}</div>
         </div>
       </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['blok'],
+  props: ["blok"],
   data() {
     return {
       swiperOption: {
@@ -30,24 +31,23 @@ export default {
           disableOnInteraction: true
         },
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
         }
       }
-    }
+    };
   },
-  methods: {
-  }
-}
+  methods: {}
+};
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/styles.scss';
+@import "@/assets/scss/styles.scss";
 
 .spotlight-slider {
   margin: 0 -20px;
   padding: 30px;
-  color: #FFF;
+  color: #fff;
   .text {
     padding: 3rem 5rem 5rem 5rem;
     font-size: 1.6rem;
@@ -56,23 +56,25 @@ export default {
   }
   .swiper-container {
     height: 50vh;
+    width: 100%;
     .swiper-slide {
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
+      width: 100%;
       &:hover {
         .swiper-item-content {
-          transition: opacity 1s;
           opacity: 1;
         }
       }
       .swiper-item-content {
+        transition: opacity ease-in-out .3s;
         opacity: 0;
         display: flex;
         align-items: center;
         line-height: 1.2;
         height: 100%;
-        background-color: $color-yellow;
+        background-color: $color-blue;
         padding: 10px;
       }
     }
