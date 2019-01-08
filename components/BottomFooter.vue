@@ -1,21 +1,25 @@
 <template>
   <footer class="footer">
     <div class="pre-footer">
-      <svg class="icon-bg" xmlns="http://www.w3.org/2000/svg" width="270" height="100"><path d="M101.424.285L0 47.777v51.938h270V46.47L101.424.285" /></svg>
+      <svg class="icon-bg" xmlns="http://www.w3.org/2000/svg" width="270" height="100">
+        <path d="M101.424.285L0 47.777v51.938h270V46.47L101.424.285"></path>
+      </svg>
       <div class="pre-footer-top">
         <div class="logo">
-          <img src="~/assets/img/icons/gg-logo.svg" alt=""/>
+          <img src="~/assets/img/icons/gg-logo.svg" alt>
         </div>
       </div>
       <div class="pre-footer-bottom">
-        <div class="col text">
-          Innovationswerkstatt für Menschen, Wissen und Technologie
-        </div>
-        <div class="col logos">
-          <img src="~/assets/img/icons/gg-logo-icon.svg" alt=""/>
-          <img src="~/assets/img/icons/gg-logo-icon.svg" alt=""/>
-          <img src="~/assets/img/icons/gg-logo-icon.svg" alt=""/>
-          <img src="~/assets/img/icons/gg-logo-icon.svg" alt=""/>
+        <div class="col text">Innovationswerkstatt für Menschen, Wissen und Technologie</div>
+
+        <div v-swiper:swiper="swiperOption">
+          <div class="swiper-wrapper">
+            <img class="swiper-slide" v-for="(logo) in this.logos" :key="logo._uid" :src="logo.image">
+            <!-- <img class="swiper-slide" src="~/assets/img/icons/gg-logo-icon.svg" alt>
+            <img class="swiper-slide" src="~/assets/img/icons/gg-logo-icon.svg" alt>
+            <img class="swiper-slide" src="~/assets/img/icons/gg-logo-icon.svg" alt>
+            <img class="swiper-slide" src="~/assets/img/icons/gg-logo-icon.svg" alt> -->
+          </div>
         </div>
       </div>
     </div>
@@ -24,13 +28,17 @@
         <div class="newsletter-footer">
           <h4>Immer am Ball bleiben</h4>
           <div class="newsletter-subscribe">
-            <input type="email" placeholder="Deine E-Mail Adresse" />
+            <input type="email" placeholder="Deine E-Mail Adresse">
             <button>Meld mich an</button>
           </div>
         </div>
         <div class="bottom-footer">
           <div class="footer-navigation">
-            <div class="nav-item" :key="index" v-for="(navitem, index) in $store.state.settings.footer_navi">
+            <div
+              class="nav-item"
+              :key="index"
+              v-for="(navitem, index) in $store.state.settings.footer_navi"
+            >
               <sb-link :link="navitem.link">{{navitem.name}}</sb-link>
             </div>
           </div>
@@ -48,11 +56,29 @@
 
 <script charset="utf-8">
 export default {
-}
+  data() {
+    return {
+      swiperOption: {
+        slidesPerView: 4,
+        autoplay: {
+          delay: 2000,
+          disableOnInteraction: false
+        },
+        loop: true
+      }
+    };
+  },
+
+  computed: {
+    logos() {
+      return this.$store.state.settings.footer_logos;
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-@import '@/assets/scss/styles.scss';
+@import "@/assets/scss/styles.scss";
 
 .footer {
   display: flex;
@@ -64,7 +90,7 @@ export default {
     .icon-bg {
       overflow: hidden;
       z-index: 0;
-      fill: #FFF;
+      fill: #fff;
       position: relative;
       transform: scale(5) translateX(75%) translateY(50%);
       left: 0;
@@ -84,13 +110,28 @@ export default {
     }
     .pre-footer-bottom {
       z-index: 1;
-      display: flex;
+      margin-bottom: 10px;
+
       @include media-breakpoint-down(md) {
         flex-direction: column;
       }
+
+      .swiper-container {
+        // width: 50%;
+
+        .swiper-wrapper {
+          img {
+            margin: 0 20px;
+            height: 40px;
+            width: auto;
+          }
+        }
+      }
+
       .col {
         padding: 25px;
         flex: 1;
+
         &.text {
           text-transform: uppercase;
           text-align: center;
@@ -110,7 +151,7 @@ export default {
   }
   .background-footer {
     padding: 50px 20px 20px 20px;
-    color: #FFF;
+    color: #fff;
     overflow: hidden;
     background-color: #000;
     position: relative;
@@ -148,24 +189,24 @@ export default {
             font-family: $font-secondary;
             outline: none;
             background: none;
-            color: #FFF;
+            color: #fff;
             border: none;
             flex: 1;
             &::placeholder {
-              color: #FFF;
+              color: #fff;
             }
           }
           button {
             font-family: $font-secondary;
             font-size: 1.3rem;
-            color: #FFF;
+            color: #fff;
             background: none;
             border: none;
             outline: none;
-            &:active,
-            &:hover,
-            &:focus {
-            }
+            // &:active,
+            // &:hover,
+            // &:focus {
+            // }
           }
         }
       }
@@ -180,7 +221,7 @@ export default {
             font-size: 1rem;
             padding: 15px;
             a {
-              color: #FFF;
+              color: #fff;
               text-decoration: none;
               text-transform: uppercase;
               font-weight: bold;
@@ -200,6 +241,29 @@ export default {
         }
       }
     }
+  }
+}
+
+@keyframes slide {
+  0% {
+    margin-left: 0;
+  }
+
+  100% {
+    margin-left: -200%;
+  }
+}
+
+@media (min-width: $mobile-large) {
+  .pre-footer-bottom {
+    display: flex;
+    margin-bottom: 10px;
+
+  }
+
+  .swiper-container {
+    width: 50%;
+    margin-bottom: 0;
   }
 }
 </style>

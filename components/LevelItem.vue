@@ -1,5 +1,5 @@
 <template>
-  <div class="level-item">
+  <div v-bind:class="active ? 'level-item active' : 'level-item'">
     <!-- .level-indicator content must be loaded from storyblok language -->
     <h3 class="level-indicator">Ebene</h3>
     <h1 class="number">{{number}}</h1>
@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  props: ["blok", "number"]
+  props: ["blok", "number", "active"]
 };
 </script>
 
@@ -29,7 +29,9 @@ export default {
   display: flex;
   user-select: none;
   cursor: default;
-  padding-right: 20px;
+  padding-right: 10px;
+  margin-right: 10px;
+  transition: all 100ms;
 
   .number {
     font-size: 80px;
@@ -65,15 +67,24 @@ export default {
     }
 
     .arrow {
-      width: 180px;
+      min-width: 130px;
     }
   }
 }
 
 .level-item:hover {
-  // background-color: rgba(255, 255, 255, .7);
-  background-color: rgba(0, 0, 0, .2);
+  box-shadow: 10px 0 0 $color-yellow;
   cursor: pointer;
+}
+
+.active {
+    box-shadow: 10px 0 0 $color-blue;
+}
+
+@media (min-width: 420px) {
+  .arrow {
+    width: 180px;
+  }
 }
 </style>
 
