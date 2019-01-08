@@ -15,10 +15,6 @@
         <div v-swiper:swiper="swiperOption">
           <div class="swiper-wrapper">
             <img class="swiper-slide" v-for="(logo) in this.logos" :key="logo._uid" :src="logo.image">
-            <!-- <img class="swiper-slide" src="~/assets/img/icons/gg-logo-icon.svg" alt>
-            <img class="swiper-slide" src="~/assets/img/icons/gg-logo-icon.svg" alt>
-            <img class="swiper-slide" src="~/assets/img/icons/gg-logo-icon.svg" alt>
-            <img class="swiper-slide" src="~/assets/img/icons/gg-logo-icon.svg" alt> -->
           </div>
         </div>
       </div>
@@ -255,15 +251,17 @@ export default {
 }
 
 @media (min-width: $mobile-large) {
-  .pre-footer-bottom {
-    display: flex;
-    margin-bottom: 10px;
-
-  }
-
-  .swiper-container {
-    width: 50%;
-    margin-bottom: 0;
+  .footer {
+    .pre-footer {
+      .pre-footer-bottom {
+        display: flex;
+        margin-bottom: 10px;
+        .swiper-container {
+          width: 50%;
+          margin-bottom: 0;
+        }
+      }
+    }
   }
 }
 </style>
