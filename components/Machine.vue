@@ -1,15 +1,15 @@
 <template>
-  <div v-editable="blok" class="machine-page">
-    <machine-header :blok="blok"></machine-header>
+  <div v-editable="machine" class="machine-page">
+    <machine-header :story="story"></machine-header>
     <div class="body">
       <div class="teaser">
-        {{blok.teaser}}
+        {{machine.teaser}}
       </div>
       <div class="description">
-        <markdown :value="blok.description"></markdown>
+        <markdown :value="machine.description"></markdown>
       </div>
       <ul class="feature-list">
-        <li class="feature-item" v-for="(i, index) in blok.features" v-bind:key="index">
+        <li class="feature-item" v-for="(i, index) in machine.features" v-bind:key="index">
           <div class="title">
             {{i.title}}
           </div>
@@ -18,8 +18,8 @@
           </div>
         </li>
       </ul>
-      <div class="images">
-        <image-gallery :images="blok.images"></image-gallery>
+      <div class="images" v-if="machine.images && machine.images.length > 0" >
+        <image-gallery :images="machine.images"></image-gallery>
       </div>
     </div>
   </div>
@@ -32,7 +32,15 @@ export default {
   components: {
     MachineHeader
   },
-  props: ['blok'],
+  props: ['story'],
+  computed: {
+    machine() {
+      return this.story.content;
+    },
+    tags() {
+      return this.story.tag_list;
+    }
+  }
 }
 </script>
 
