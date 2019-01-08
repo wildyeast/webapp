@@ -34,6 +34,7 @@ export default {
     .headline {
       font-weight: bold;
       text-transform: uppercase;
+      margin-bottom: .8em;
     }
 
     background-color: #FFF;
