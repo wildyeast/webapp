@@ -5,7 +5,9 @@ let webAuth = new auth0.WebAuth({
   domain:       'grandgarage.eu.auth0.com',
   clientID:     'lwqb_LrkbU8b2rHfbC05C87xqM4bSfms',
   responseType: 'token id_token',
-  callbackURL:  'http://dev.grandgarage.eu/me'
+  scope: 'openid profile email',
+  //redirectUri:  'https://dev.grandgarage.eu/me'
+  redirectUri:  'http://localhost:3000/me'
 });
 
 let version = 'draft';
@@ -31,14 +33,25 @@ const createStore = () => {
       }
     },
     actions: {
+      auth({ commit }, { hash }) {
+        return new Promise((resolve, reject) => {
+          webAuth.parseHash({ hash }, function(err, authResult) {
+            if (err) {
+              return reject(err);
+            }
+            resolve(authResult);
+          });
+        });
+      },
       loginUser({ commit }, context) {
         return new Promise((resolve, reject) => {
           webAuth.login({
             connection: 'Username-Password-Authentication',
             email: context.email,
             password: context.password,
-          }, function (err) {
+          }, function (err, authResult) {
             if (err) reject(err);
+            console.log(authResult);
             resolve();
           });
         });
