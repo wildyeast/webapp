@@ -21,9 +21,12 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/styles.scss';
+
 .faq-block {
   display: flex;
-
+  align-items: flex-start;
+  @include margin-page-middle();
   .downloads {
     padding: 25px;
     flex: 1;
