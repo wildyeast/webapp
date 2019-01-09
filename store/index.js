@@ -1,7 +1,6 @@
 import Vuex from 'vuex';
 import auth0 from 'auth0-js';
 
-const cookieparser = process.server ? require('cookieparser') : undefined
 const Cookie = process.client ? require('js-cookie') : undefined
 
 let webAuth = new auth0.WebAuth({
@@ -58,7 +57,7 @@ const createStore = () => {
         commit('setAuth', auth)
       },
       */
-      getUser({ state, commit }) {
+      getProfile({ state, commit }) {
         // get profile from fabman
         let user = {};
         commit('setUser', user);
