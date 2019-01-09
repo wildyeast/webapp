@@ -8,6 +8,8 @@
   "dependencies": {
     "auth0-js": "^9.8.2",
     "axios": "^0.18.0",
+    "cookieparser": "^0.1.0",
+    "js-cookie": "^2.2.0",
     "marked": "^0.5.2",
     "nuxt": "^2.3.4",
     "storyblok-nuxt": "0.0.9",

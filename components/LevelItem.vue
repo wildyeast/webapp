@@ -70,12 +70,12 @@ export default {
       min-width: 130px;
     }
   }
+  &.active {
+    box-shadow: 10px 0 0 $color-blue;
+  }
   &:hover {
     box-shadow: 10px 0 0 $color-yellow;
     cursor: pointer;
-    &.active {
-      box-shadow: 10px 0 0 $color-blue;
-    }
   }
 }
 
