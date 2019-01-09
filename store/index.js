@@ -44,6 +44,7 @@ const createStore = () => {
       }
     },
     actions: {
+      /*
       nuxtServerInit({ commit }, { req }) {
         let auth = null
         if (req.headers.cookie) {
@@ -56,6 +57,7 @@ const createStore = () => {
         }
         commit('setAuth', auth)
       },
+      */
       getUser({ state, commit }) {
         // get profile from fabman
         let user = {};
