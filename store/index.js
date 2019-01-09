@@ -1,11 +1,16 @@
 import Vuex from 'vuex';
 import auth0 from 'auth0-js';
 
+const cookieparser = process.server ? require('cookieparser') : undefined
+const Cookie = process.client ? require('js-cookie') : undefined
+
 let webAuth = new auth0.WebAuth({
   domain:       'grandgarage.eu.auth0.com',
   clientID:     'lwqb_LrkbU8b2rHfbC05C87xqM4bSfms',
   responseType: 'token id_token',
-  callbackURL:  'http://dev.grandgarage.eu/me'
+  scope: 'openid profile email',
+  //redirectUri:  'https://dev.grandgarage.eu/auth'
+  redirectUri:  'http://localhost:3000/auth'
 });
 
 let version = 'draft';
@@ -17,9 +22,17 @@ const createStore = () => {
       debug: '',
       language: 'de',
       sidebar: null,
-      settings: {}
+      settings: {},
+      user: null,
+      auth: null
     },
     mutations: {
+      setAuth(state, auth) {
+        state.auth = auth
+      },
+      setUser (state, user) {
+        state.user = user;
+      },
       setSettings (state, settings) {
         state.settings = settings;
       },
@@ -31,15 +44,51 @@ const createStore = () => {
       }
     },
     actions: {
+      nuxtServerInit({ commit }, { req }) {
+        let auth = null
+        if (req.headers.cookie) {
+          const parsed = cookieparser.parse(req.headers.cookie)
+          try {
+            auth = JSON.parse(parsed.auth)
+          } catch (err) {
+            // No valid cookie found
+          }
+        }
+        commit('setAuth', auth)
+      },
+      getUser({ state, commit }) {
+        // get profile from fabman
+        let user = {};
+        commit('setUser', user);
+      },
+      auth({ commit }, { hash }) {
+        return new Promise((resolve, reject) => {
+          webAuth.parseHash({ hash }, function(err, authResult) {
+            if (err) {
+              return reject(err);
+            }
+
+            //set auth
+            let auth = {
+              accessToken: authResult.accessToken,
+              fabmanId: idTokenPayload['https://grandgarage.eu/fabmanId'],
+            }
+            Cookie.set('auth', auth)
+            commit('setAuth', auth);
+            resolve();
+          });
+        });
+      },
+      logout({ commit }) {
+        Cookie.remove('auth')
+        commit('setAuth', null)
+      },
       loginUser({ commit }, context) {
         return new Promise((resolve, reject) => {
           webAuth.login({
             connection: 'Username-Password-Authentication',
             email: context.email,
             password: context.password,
-          }, function (err) {
-            if (err) reject(err);
-            resolve();
           });
         });
       },
