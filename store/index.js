@@ -111,6 +111,18 @@ const createStore = () => {
           return res.data;
         })
       },
+      loadMachineItem ({state}, slug) {
+        let endpoint = `cdn/stories/${state.language}/machines/${slug}`;
+        // TODO: entich with tags
+        return this.$storyapi.get(endpoint, {
+          version: version,
+          cv: state.cacheVersion
+        }).then((res) => {
+          return res.data;
+        }).catch((res) => {
+          console.log(res);
+        });
+      },
       loadWorkshopItem ({state}, slug) {
         let endpoint = `cdn/stories/${state.language}/workshops/${slug}`;
         return this.$storyapi.get(endpoint, {
