@@ -32,13 +32,21 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .machine-header {
-  height: calc(50vh - 89px);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: stretch;
+  align-content: stretch;
   position: relative;
   @include margin-page-wide();
   background-color: #555;
   margin-bottom: 10vh;
   .header-image {
-    height: 100%;
+    min-height: calc(50vh);
+    @include media-breakpoint-down(xs) {
+      min-height: calc(30vh);
+    }
+    width: 100%;
     background-size: cover;
     background-position: center;
     // product images with white background don't look good in this layout
@@ -47,9 +55,12 @@ export default {
     opacity: .9;
   }
   .header-title {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    position: relative;
+    @include media-breakpoint-up(md) {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
     background-color: #FFF;
     padding: 7vh;
     min-width: 60%;
@@ -62,7 +73,10 @@ export default {
     }
     .title {
       margin: 0 0 .8rem;
-      font-size: 2.5rem;
+      font-size: 1.5rem;
+      @include media-breakpoint-up(md) {
+        font-size: 2.5rem;
+      }
       font-family: 'Chakra Petch';
       font-weight: bold;
     }

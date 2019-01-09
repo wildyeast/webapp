@@ -57,7 +57,10 @@ export default {
     .headline {
       font-family: $font-primary;
       font-weight: 600;
-      font-size: 2.8em;
+      font-size: 1.8em;
+      @include media-breakpoint-up(sm) {
+        font-size: 2.8em;
+      }
       letter-spacing: .03em;
       white-space: pre-wrap;
       line-height: 1.24;
@@ -70,19 +73,25 @@ export default {
       font-size: .9rem;
       line-height: 1.4;
       margin-bottom: 4vh;
-      width: 70%;
+      @include media-breakpoint-up(md) {
+        width: 70%;
+      }
     }
     .feature-list {
       color: $color-blue;
       display: grid;
-      grid-template-columns: 50% 50%;
+      @include media-breakpoint-up(sm) {
+        grid-template-columns: 50% 50%;
+      }
       margin: 0;
       padding: 1em;
       max-width: 80em;
       .feature-item {
         margin: 0;
         margin-bottom: 4vh;
-        padding-right: 20%;
+        @include media-breakpoint-up(sm) {
+          padding-right: 20%;
+        }
         font-size: .9rem;
         line-height: 1.4;
         .title {
