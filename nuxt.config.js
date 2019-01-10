@@ -40,7 +40,7 @@ module.exports = {
     { src: '~/plugins/swiper', ssr: false }
   ],
   router: {
-    middleware: 'languageDetection nuxtInit'
+    middleware: 'languageDetection'
   },
   generate: {
     routes: function (callback) {
