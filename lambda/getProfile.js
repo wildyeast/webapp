@@ -1,12 +1,13 @@
 const axios = require('axios');
 const cookieparser = require('cookieparser');
 const jwt = require('jsonwebtoken');
+const jwksClient = require('jwks-rsa');
 
 const baseURL = 'https://fabman.io/api/v1/';
 
 exports.handler = function(event, context, callback) {
 
-  let auth = null
+  let auth = null;
   if (event.headers.cookie) {
     const parsed = cookieparser.parse(event.headers.cookie)
     try {
@@ -17,27 +18,46 @@ exports.handler = function(event, context, callback) {
   }
 
   if (!auth) {
-    return cb(null, {
+    return callback(null, {
       statusCode: 401,
       body: 'Unauthorized'
     });
   }
 
+  /*
+  console.log(auth.accessToken);
+
   let decoded = jwt.verify(auth.accessToken, process.env.AUTH0_CLIENT_SECRET);
   console.log(decoded);
+  */
 
-  const instance = axios.create({
-    baseURL,
-    headers: {'Authorization': `Bearer ${process.env.FABMAN_TOKEN}`}
+  var client = jwksClient({
+    jwksUri: 'https://grandgarage.eu.auth0.com/.well-known/jwks.json'
   });
-
-  instance.get('members').then((r) => {
-    callback(null, {
-      statusCode: 200,
-      body: JSON.stringify(r)
+  function getKey(header, callback) {
+    client.getSigningKey(header.kid, function(err, key) {
+      var signingKey = key.publicKey || key.rsaPublicKey;
+      callback(null, signingKey);
     });
-  }).catch((e) => {
-    console.log('ERROR', e);
-  });
+  }
 
+  jwt.verify(auth.accessToken, getKey, function(err, decoded) {
+    if (!err) {
+      let fabmanId = decoded['https://grandgarage.eu/fabmanId'];
+
+      const instance = axios.create({
+        baseURL,
+        headers: {'Authorization': `Bearer ${process.env.FABMAN_TOKEN}`}
+      });
+
+      instance.get(`members/${fabmanId}`).then((r) => {
+        callback(null, {
+          statusCode: 200,
+          body: JSON.stringify(r.data)
+        });
+      }).catch((e) => {
+        console.log('ERROR', e);
+      });
+    }
+  });
 };
