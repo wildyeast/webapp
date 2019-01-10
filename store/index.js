@@ -43,7 +43,7 @@ const createStore = () => {
     },
     actions: {
       getProfile({ state, commit }) {
-        axios.get('https://grandgarage.eu/.netlify/functions/getProfile').then((r) => {
+        axios.get('https://dev.grandgarage.eu/.netlify/functions/getProfile').then((r) => {
           console.log(r);
         });
         // get profile from fabman
