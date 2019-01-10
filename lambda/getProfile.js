@@ -5,7 +5,6 @@ const jwksClient = require('jwks-rsa');
 
 const baseURL = 'https://fabman.io/api/v1/';
 
-
 // TODO: a hell more of exception handling
 exports.handler = function(event, context, callback) {
   let token = null;
@@ -42,6 +41,8 @@ exports.handler = function(event, context, callback) {
   jwt.verify(token, getKey, function(err, decoded) {
     if (!err) {
       let fabmanId = decoded['https://grandgarage.eu/fabmanId'];
+
+      console.log('token', process.env.FABMAN_TOKEN);
 
       const instance = axios.create({
         baseURL,
