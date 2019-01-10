@@ -7,7 +7,6 @@ const baseURL = 'https://fabman.io/api/v1/';
 
 
 // TODO: a hell more of exception handling
-
 exports.handler = function(event, context, callback) {
   let token = null;
   if (event.headers.cookie) {

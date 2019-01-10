@@ -16,6 +16,6 @@ export const unsetToken = () => {
 }
 
 export const getUserFromLocalStorage = () => {
-  const json = window.localStorage.auth
-  return json ? JSON.parse(json) : undefined
+  const token = window.localStorage.token
+  return token ? token : undefined
 }

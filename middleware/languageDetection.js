@@ -18,7 +18,7 @@ export default function ({ app, route, store, isDev, redirect }) {
   }
 
   if (process.client && !store.state.user) {
-    let auth = getUserFromLocalStorage();
-    return store.commit('setAuth', auth);
+    let jwt = getUserFromLocalStorage();
+    return store.commit('setAuth', {jwt});
   }
 }
