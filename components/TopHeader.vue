@@ -59,7 +59,8 @@ export default {
       return this.$store.state.settings.home_navi;
     },
     user() {
-      return this.$store.state.auth.sub;
+      return "Max Mustermann";
+      //return this.$store.state.user;
     },
     isAuthenticated() {
       return !!this.$store.state.auth;
