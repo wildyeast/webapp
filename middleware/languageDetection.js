@@ -1,5 +1,6 @@
 const languages = ['de', 'en'];
 const defaultLanguage = 'de';
+import { getUserFromLocalStorage } from '~/utils/auth'
 
 export default function ({ app, route, store, isDev, redirect }) {
   let version = route.query._storyblok || isDev ? 'draft' : 'published'
@@ -14,5 +15,10 @@ export default function ({ app, route, store, isDev, redirect }) {
   if (!store.state.settings._uid || language !== store.state.language) {
     store.commit('setLanguage', language)
     return store.dispatch('loadSettings', {version: version, language: language});
+  }
+
+  if (process.client && !store.state.user) {
+    let auth = getUserFromLocalStorage();
+    return store.commit('setAuth', auth);
   }
 }

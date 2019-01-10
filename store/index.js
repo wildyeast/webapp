@@ -1,14 +1,13 @@
 import Vuex from 'vuex';
 import auth0 from 'auth0-js';
-
-const Cookie = process.client ? require('js-cookie') : undefined
+import { setToken, unsetToken } from '~/utils/auth'
 
 let webAuth = new auth0.WebAuth({
   domain:       'grandgarage.eu.auth0.com',
   clientID:     'lwqb_LrkbU8b2rHfbC05C87xqM4bSfms',
   responseType: 'token id_token',
-  redirectUri:  'https://dev.grandgarage.eu/auth'
-  //redirectUri:  'http://localhost:3000/auth'
+  //redirectUri:  'https://dev.grandgarage.eu/auth'
+  redirectUri:  'http://localhost:3000/auth'
 });
 
 let version = 'draft';
@@ -57,17 +56,15 @@ const createStore = () => {
             //set auth
             let auth = {
               accessToken: authResult.accessToken,
-              fabmanId: authResult.idTokenPayload['https://grandgarage.eu/fabmanId'],
             }
-            Cookie.set('auth', auth)
-            commit('setAuth', auth);
+            setToken(authResult.accessToken);
             resolve();
           });
         });
       },
       logout({ commit }) {
-        Cookie.remove('auth')
         commit('setAuth', null)
+        unsetToken();
       },
       loginUser({ commit }, context) {
         return new Promise((resolve, reject) => {

@@ -5,14 +5,17 @@ const jwksClient = require('jwks-rsa');
 
 const baseURL = 'https://fabman.io/api/v1/';
 
-exports.handler = function(event, context, callback) {
 
-  let auth = null;
+// TODO: a hell more of exception handling
+
+exports.handler = function(event, context, callback) {
+  let token = null;
   if (event.headers.cookie) {
     const parsed = cookieparser.parse(event.headers.cookie)
     try {
-      auth = JSON.parse(parsed.auth)
+      token = parsed.jwt
     } catch (err) {
+      console.log(err);
       return callback(null, {
         statusCode: 401,
         body: 'Unauthorized'
@@ -20,18 +23,12 @@ exports.handler = function(event, context, callback) {
     }
   }
 
-  if (!auth) {
+  if (!token) {
     return callback(null, {
       statusCode: 401,
       body: 'Unauthorized'
     });
   }
-
-  /*
-  console.log(auth.accessToken);
-  let decoded = jwt.verify(auth.accessToken, process.env.AUTH0_CLIENT_SECRET);
-  console.log(decoded);
-  */
 
   var client = jwksClient({
     jwksUri: 'https://grandgarage.eu.auth0.com/.well-known/jwks.json'
@@ -43,9 +40,8 @@ exports.handler = function(event, context, callback) {
     });
   }
 
-  jwt.verify(auth.accessToken, getKey, function(err, decoded) {
+  jwt.verify(token, getKey, function(err, decoded) {
     if (!err) {
-      console.log(decoded);
       let fabmanId = decoded['https://grandgarage.eu/fabmanId'];
 
       const instance = axios.create({
@@ -59,6 +55,7 @@ exports.handler = function(event, context, callback) {
           body: JSON.stringify(r.data)
         });
       }).catch((e) => {
+        console.log(e);
         callback(null, {
           statusCode: 500,
           body: 'ERROR'
