@@ -43,20 +43,6 @@ const createStore = () => {
       }
     },
     actions: {
-      /*
-      nuxtServerInit({ commit }, { req }) {
-        let auth = null
-        if (req.headers.cookie) {
-          const parsed = cookieparser.parse(req.headers.cookie)
-          try {
-            auth = JSON.parse(parsed.auth)
-          } catch (err) {
-            // No valid cookie found
-          }
-        }
-        commit('setAuth', auth)
-      },
-      */
       getProfile({ state, commit }) {
         // get profile from fabman
         let user = {};
@@ -72,7 +58,7 @@ const createStore = () => {
             //set auth
             let auth = {
               accessToken: authResult.accessToken,
-              fabmanId: idTokenPayload['https://grandgarage.eu/fabmanId'],
+              fabmanId: authResult.idTokenPayload['https://grandgarage.eu/fabmanId'],
             }
             Cookie.set('auth', auth)
             commit('setAuth', auth);

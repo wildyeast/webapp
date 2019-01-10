@@ -25,7 +25,7 @@ export default {
   created() {
     if (process.client) {
       if (!this.user) {
-        this.$store.dispatch('getUser');
+        this.$store.dispatch('getProfile');
       }
     }
   },
