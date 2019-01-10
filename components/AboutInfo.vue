@@ -12,9 +12,9 @@
       <div class="content">
         <markdown :value="blok.content"></markdown>
       </div>
-    </div>
-    <div class="image-wrapper">
-      <img class="image" :src="blok.image" alt=""/>
+      <div class="image-wrapper">
+        <img class="image" :src="blok.image" alt=""/>
+      </div>
     </div>
   </div>
 </template>
@@ -30,47 +30,59 @@ export default {
 
 .about-info {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
-  background-color: #FFF;
   padding-top: 5rem;
-  margin: 0 -20px;
+  margin: 0 0 0 15%;
   .col-start {
     flex: 1;
+    z-index: 2;
     .headline {
       padding: 0 3rem 3rem 3rem;
       color: $color-blue;
       font-weight: bold;
-      line-height: 70px;
-      font-size: 3.5rem;
+      font-size: 4.2vw;
+      line-height: 1.2;
+      letter-spacing: 0.03em;
+      font-variant-ligatures: no-common-ligatures;
     }
     .list {
-      padding-left: 5rem;
+      background: #fff;
+      padding: 5%;
+      margin: 0 12%;
       font-weight: bold;
       color: $color-blue;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
+      letter-spacing: .02em;
+      font-variant-ligatures: no-common-ligatures;
       line-height: 1.2;
       ul {
         li {
-          margin-bottom: 15px;
+          margin-bottom: 1.3em;
         }
       }
     }
   }
   .col-end {
+    z-index: 1;
     flex: 1;
     .content {
       position: relative;
       z-index: 1;
-      padding: 3rem;
-      line-height: 1.3;
+      padding: 0 3rem;
+      margin-bottom: -3%;
+      font-size: 1rem;
+      letter-spacing: .03em;
+      line-height: 1.6;
+      shape-outside: ellipse(20% 20% at 100% 100%);
     }
   }
   .image {
-    position: absolute;
+    position: relative;
     display: block;
-    width: 60%;
-    right: -20px;
+    mix-blend-mode: multiply;
+    width: 120%;
+    margin-left: -20%;
     bottom: 0px;
   }
 }
