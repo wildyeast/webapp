@@ -14,11 +14,6 @@
             <img src="~/assets/img/icons/gg-logo-icon.svg">
           </nuxt-link>
           <div class="dropdown" v-if="home && home.length > 0">
-            <div v-for="child in home" :key="child.id" class="child">
-              <sb-link :link="child.link" class="child-nav-item">
-                {{ child.name }}
-              </sb-link>
-            </div>
             <div class="child" v-if="isAuthenticated">
               <nuxt-link to="/me" class="child-nav-item">
                 Mein Profil
@@ -26,6 +21,11 @@
             </div>
             <div class="child" v-else>
               <button @click="login" class="login-button">LOGIN</button>
+            </div>
+            <div v-for="child in home" :key="child.id" class="child">
+              <sb-link :link="child.link" class="child-nav-item">
+                {{ child.name }}
+              </sb-link>
             </div>
           </div>
         </div>
@@ -201,6 +201,8 @@ export default {
     display: block;
     position: relative;
     top: 0;
+    overflow-y: auto;
+    height: 100vh;
   }
 }
 

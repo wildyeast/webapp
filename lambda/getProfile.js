@@ -13,7 +13,10 @@ exports.handler = function(event, context, callback) {
     try {
       auth = JSON.parse(parsed.auth)
     } catch (err) {
-      // No valid cookie found
+      return callback(null, {
+        statusCode: 401,
+        body: 'Unauthorized'
+      });
     }
   }
 
@@ -26,7 +29,6 @@ exports.handler = function(event, context, callback) {
 
   /*
   console.log(auth.accessToken);
-
   let decoded = jwt.verify(auth.accessToken, process.env.AUTH0_CLIENT_SECRET);
   console.log(decoded);
   */
@@ -36,13 +38,14 @@ exports.handler = function(event, context, callback) {
   });
   function getKey(header, callback) {
     client.getSigningKey(header.kid, function(err, key) {
-      var signingKey = key.publicKey || key.rsaPublicKey;
+      let signingKey = key.publicKey || key.rsaPublicKey;
       callback(null, signingKey);
     });
   }
 
   jwt.verify(auth.accessToken, getKey, function(err, decoded) {
     if (!err) {
+      console.log(decoded);
       let fabmanId = decoded['https://grandgarage.eu/fabmanId'];
 
       const instance = axios.create({
@@ -56,7 +59,16 @@ exports.handler = function(event, context, callback) {
           body: JSON.stringify(r.data)
         });
       }).catch((e) => {
-        console.log('ERROR', e);
+        callback(null, {
+          statusCode: 500,
+          body: 'ERROR'
+        });
+      });
+    } else {
+      console.log(err);
+      callback(null, {
+        statusCode: 500,
+        body: 'ERROR'
       });
     }
   });
