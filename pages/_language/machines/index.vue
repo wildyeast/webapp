@@ -119,12 +119,15 @@ export default {
         font-weight: bold;
         font-size: 1.8rem;
         margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: .05em;
       }
       .tag-list {
         margin: 0 -20px;
         .tag {
           display: inline-block;
           padding: 0 20px;
+          margin-bottom: 10px;
           font-family: $font-mono;
           color: #FFF;
           user-select: none;
