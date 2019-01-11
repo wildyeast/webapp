@@ -42,9 +42,10 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .image-slideshow-blue {
+  position: relative; // needed for z-index (blue dashed stripe)
   margin: 0 -20px;
   padding: 30px;
-  background-color: $color-blue;
+  background-color: $color-blue-intro;
   color: #FFF;
   .text {
     padding: 3rem 5rem 5rem 5rem;
