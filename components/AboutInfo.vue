@@ -96,13 +96,25 @@ export default {
       line-height: 1.6;
     }
   }
-  .image {
-    position: relative;
-    display: block;
-    mix-blend-mode: multiply;
-    width: 120%;
-    margin-left: -20%;
-    bottom: 0px;
+  .image-wrapper {
+    @include media-breakpoint-up(lg) {
+      .image {
+        position: relative;
+        display: block;
+        width: 120%;
+        margin-left: -20%;
+      }
+    }
+    @include media-breakpoint-down(md) {
+      text-align: right;
+      .image {
+        max-height: 50vh;
+        max-width: 100%;
+        align-self: flex-end;
+        margin-bottom: -2px;
+      }
+    }
   }
+
 }
 </style>

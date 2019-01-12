@@ -50,6 +50,10 @@ export default {
   .text {
     padding: 3rem 5rem 5rem 5rem;
     font-size: 1.8rem;
+    @include media-breakpoint-down(md) {
+      font-size: 1.2rem;
+      padding: 2vh 4vw;
+    }
     font-family: $font-secondary;
     line-height: 1.4;
     letter-spacing: 1.4px;

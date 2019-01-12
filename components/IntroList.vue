@@ -59,10 +59,12 @@ export default {
 @import '../assets/scss/styles.scss';
 .intro-list {
   background-image: url(~assets/img/intro-list-3d-object.svg);
-  background-size: 40vh;
   background-repeat: no-repeat;
-  background-position: bottom left -6vw;
+  background-size: 30vh;
+  background-position: bottom -8vw left -14vw;
   @include media-breakpoint-up(lg) {
+    background-size: 40vh;
+    background-position: bottom left -6vw;
     margin-top: -87vh;
   }
   .content {
@@ -214,14 +216,15 @@ export default {
         background-size: 1.8vw;
         @include media-breakpoint-up(lg) {
           height: 3000px;
+          left: 10%;
         }
         @include media-breakpoint-down(md) {
           background-size: 12px;
-          height: 100vh;
+          height: 3000px;
+          left: 6%;
         }
         width: 4%;
         position: absolute;
-        left: 10%;
       }
     }
     .secondary-col {

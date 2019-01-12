@@ -42,6 +42,9 @@ export default {
   }
   .header {
     padding-bottom: 100px;
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 20px;
+    }
     @include margin-page-wide();
     margin-right: 10%;
     padding-top: 40px;
@@ -53,10 +56,20 @@ export default {
       text-transform: uppercase;
       letter-spacing: 0.03em;
       flex: 1;
+      @include media-breakpoint-down(sm) {
+        max-width: 90%;
+      }
     }
     .subline {
       color: $color-orange;
       display: flex;
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+        .link {
+          margin-top: 2em;
+          margin-left: -1em;
+        }
+      }
       .hr {
         flex: 1;
       }
@@ -69,6 +82,9 @@ export default {
           display: inline-block;
           position: relative;
           width: 4em;
+          @include media-breakpoint-down(sm) {
+            width: 55%;
+          }
           border-top: .1em solid #000;
           margin: .25em 1em;
           transition: transform .15s ease-out;
@@ -94,10 +110,16 @@ export default {
     }
   }
   .grid {
-    padding: 0 8%;
+    padding: 0 10% 0 5%;
+    @include media-breakpoint-down(sm) {
+      padding: 0 10% 0 3%;
+    }
     .col {
       display: inline-block;
       width: 50%;
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
       line-height: 1.3;
     }
   }
