@@ -28,7 +28,9 @@
             </div>
           </transition>
         </div>
-        <img class="intro-bg-image" :class="(selected ? 'has-content' : '')" :src="$resizeImage(blok.image, '700x0')" :alt="blok.headline">
+        <div class="intro-bg-image" :class="(selected ? 'has-content' : '')" :style="'background-image: url('+$resizeImage(blok.image, '700x0')+')'" :alt="blok.headline">
+        </div>
+        <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke-width="1"/></svg>
       </div>
     </div>
   </div>
@@ -57,24 +59,27 @@ export default {
 @import '../assets/scss/styles.scss';
 .intro-list {
   background-image: url(~assets/img/intro-list-3d-object.svg);
-  background-size: 30vh;
+  background-size: 40vh;
   background-repeat: no-repeat;
-  background-position: bottom left;
+  background-position: bottom left -6vw;
+  @include media-breakpoint-up(lg) {
+    margin-top: -87vh;
+  }
   .content {
     display: flex;
     align-items: flex-start;
+    position: relative;
     @include margin-page-wide();
-    margin-top: -20%;
     .primary-col, .secondary-col {
       flex-grow: 1;
-      @include media-breakpoint-up(md) {
+      @include media-breakpoint-up(lg) {
         width: 50%;
       }
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         width: 100%;
       }
     }
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       margin: 0;
       flex-direction: column;
     }
@@ -85,16 +90,18 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        padding: 50% 5% 5%;
+        padding: 5%;
+        height: 50vh;
         .headline-text {
           text-transform: uppercase;
           margin: 0;
           font-size: 4vw;
           line-height: 1.3;
-          width: 5em;
+          width: 40vw;
         }
-        @include media-breakpoint-down(sm) {
-          height: 30vh;
+        @include media-breakpoint-down(md) {
+          height: inherit;
+          min-height: 20vh;
           padding: 5%;
           .headline-text {
             font-size: 2rem;
@@ -104,25 +111,36 @@ export default {
 
       }
       .intro-items {
-        margin: 3vh 0 30vh 20%;
-        @include media-breakpoint-down(sm) {
-          margin: 5vh 0 0 20%;
-          height: 30vh;
+        margin: 10vh 0 30vh 13vw;
+        @include media-breakpoint-down(md) {
+          margin: 5vh 0 5vh 20%;
         }
         .intro-item-title {
           display: flex;
-          padding: 2vh 0;
-          justify-content: stretch;
           cursor: pointer;
-          font-size: 1.2vw;
+          padding: 2vh 0;
+          @include media-breakpoint-up(lg) {
+            justify-content: stretch;
+            font-size: 1.5vw;
+            .arrow {
+              transition: all .3s linear;
+              border-top: 0.12vw solid $color-blue-intro;
+              margin: 0.8vw 10% 0 3%;
+              width: 0%;
+              &:before {
+                content: "";
+                top: 0;
+                right: 0;
+                position: absolute;
+                transform: rotate(45deg);
+                transform-origin: top right;
+                margin-top: -.04vw;
+                margin-right: -.05vw;
+              }
+            }
+          }
           letter-spacing: 0.03em;
           transition: color .3s linear;
-          .arrow {
-            transition: all .3s linear;
-            border-top: 0.1vw solid $color-blue-intro;
-            margin: 0.6vw 10% 0 3%;
-            width: 0%;
-          }
           &:hover {
             color: $color-blue-intro;
           }
@@ -134,18 +152,10 @@ export default {
               width: 10px;
               flex-grow: 1;
               &:before {
-                content: "";
-                top: 0;
-                right: 0;
-                position: absolute;
-                border-top: 0.1vw solid $color-blue-intro;
-                border-right: 0.1vw solid $color-blue-intro;
+                border-top: 0.12vw solid $color-blue-intro;
+                border-right: 0.12vw solid $color-blue-intro;
                 width: 0.4vw;
                 height: 0.4vw;
-                transform: rotate(45deg);
-                transform-origin: top right;
-                margin-top: -.05vw;
-                margin-right: -.05vw;
               }
             }
           }
@@ -157,43 +167,52 @@ export default {
         background-position: 0 -10px;
         background-repeat: repeat-y;
         background-size: 1.8vw;
-        @include media-breakpoint-up(md) {
-          height: 1800px;
+        @include media-breakpoint-up(lg) {
+          height: 3000px;
         }
-        @include media-breakpoint-down(sm) {
+        @include media-breakpoint-down(md) {
           background-size: 12px;
           height: 100vh;
         }
-        width: 2%;
+        width: 4%;
         position: absolute;
         left: 10%;
       }
     }
     .secondary-col {
       position: relative;
-      margin-top: 20%;
-      overflow: hidden;
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-up(lg) {
+        margin-top: 27vh;
+        height: 60vh;
+      }
+      display: flex;
+      align-items: stretch;
+      @include media-breakpoint-down(md) {
         margin: 0;
         height: 40vh;
       }
-
       .intro-bg-image {
+        position: relative;
         max-width: 100%;
         transition: opacity .2s linear;
-        z-index: 1;
+        z-index: 2;
+        background-color: #aaa;
+        background-position: center;
+        background-size: cover;
         width: 100%;
+        height: 100%;
         &.has-content {
           opacity: .2;
         }
       }
       .intro-text {
         position: absolute;
+        overflow: hidden;
         top: 0;
         right: 0;
         bottom: 0;
         left: 0;
-        z-index: 2;
+        z-index: 3;
         display: flex;
         align-items: center;
         .intro-item-text {
@@ -201,8 +220,20 @@ export default {
           padding: 0 15%;
           line-height: 1.5;
           font-size: 1.6vw;
+          @include media-breakpoint-down(md) {
+            font-size: 1em;
+          }
           font-weight: 700;
         }
+      }
+      .circle {
+        position: absolute;
+        stroke: $color-yellow;
+        right: -2vw;
+        bottom: -4vw;
+        width: 6vw;
+        height: 6vw;
+        z-index: 1;
       }
     }
   }
