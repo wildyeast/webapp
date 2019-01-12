@@ -113,14 +113,22 @@ export default {
       .intro-items {
         margin: 10vh 0 30vh 13vw;
         @include media-breakpoint-down(md) {
-          margin: 5vh 0 5vh 20%;
+          margin: 0;
+          padding: 5vh 0 5vh 20%;
+          overflow: hidden;
+          position: relative;
         }
         .intro-item-title {
           display: flex;
           cursor: pointer;
           padding: 2vh 0;
+          justify-content: stretch;
+          letter-spacing: 0.03em;
+          transition: color .3s linear;
+          &:hover {
+            color: $color-blue-intro;
+          }
           @include media-breakpoint-up(lg) {
-            justify-content: stretch;
             font-size: 1.5vw;
             .arrow {
               transition: all .3s linear;
@@ -138,26 +146,63 @@ export default {
                 margin-right: -.05vw;
               }
             }
-          }
-          letter-spacing: 0.03em;
-          transition: color .3s linear;
-          &:hover {
-            color: $color-blue-intro;
-          }
-          &.is-selected {
-            .arrow {
-              display: block;
-              align-self: stretch;
-              position: relative;
-              width: 10px;
-              flex-grow: 1;
-              &:before {
-                border-top: 0.12vw solid $color-blue-intro;
-                border-right: 0.12vw solid $color-blue-intro;
-                width: 0.4vw;
-                height: 0.4vw;
+            &.is-selected {
+              .arrow {
+                display: block;
+                align-self: stretch;
+                position: relative;
+                width: 10px;
+                flex-grow: 1;
+                &:before {
+                  border-top: 0.12vw solid $color-blue-intro;
+                  border-right: 0.12vw solid $color-blue-intro;
+                  width: 0.4vw;
+                  height: 0.4vw;
+                }
               }
             }
+          }
+          @include media-breakpoint-down(md) {
+            .arrow {
+              position: absolute;
+              transition: width .3s linear .3s, height .2s linear 0s;
+              border-top: .1em solid $color-blue-intro;
+              border-right: .1em solid $color-blue-intro;
+              margin: 1.3em 10% 0 0;
+              width: 2%;
+              height: 0;
+//              transform: rotate(45deg);
+              transform-origin: bottom left;
+              pointer-events: none;
+              &:before {
+                content: "";
+                top: 0;
+                right: 0;
+                position: absolute;
+                transform: rotate(45deg);
+                transform-origin: top right;
+                margin-top: -.05em;
+                margin-right: -.05em;
+              }
+            }
+            &.is-selected {
+              .arrow {
+                transition: width .3s linear, height .2s linear .3s;
+                display: block;
+                align-self: stretch;
+                position: absolute;
+                width: 70%;
+                height: 20vh;
+                flex-grow: 1;
+                // &:before {
+                //   border-top: 0.1em solid $color-blue-intro;
+                //   border-right: 0.1em solid $color-blue-intro;
+                //   width: 0.4em;
+                //   height: 0.4em;
+                // }
+              }
+            }
+
           }
         }
       }
@@ -222,6 +267,7 @@ export default {
           font-size: 1.6vw;
           @include media-breakpoint-down(md) {
             font-size: 1em;
+            padding: 0 5% 0 22%;
           }
           font-weight: 700;
         }
