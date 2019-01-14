@@ -3,12 +3,13 @@ import auth0 from 'auth0-js';
 import { setToken, unsetToken } from '~/utils/auth'
 import axios from 'axios';
 
+const redirectUri = process.client ? window.location.origin + '/auth' : undefined;
+
 let webAuth = new auth0.WebAuth({
   domain:       'grandgarage.eu.auth0.com',
   clientID:     'lwqb_LrkbU8b2rHfbC05C87xqM4bSfms',
   responseType: 'token id_token',
-  redirectUri:  'https://dev.grandgarage.eu/auth'
-  //redirectUri:  'http://localhost:3000/auth'
+  redirectUri
 });
 
 let version = 'draft';
@@ -44,11 +45,14 @@ const createStore = () => {
     actions: {
       getProfile({ state, commit }) {
         // get profile from fabman
-        axios.get('https://dev.grandgarage.eu/.netlify/functions/getProfile').then((r) => {
+        return axios.get(`${window.location.origin}/.netlify/functions/getProfile`).then((r) => {
           commit('setUser', r.data);
+        }).catch((err) => {
+          //commit('setUser', { firstName: 'Max', lastName: 'Mustermann' });
+          console.log(err);
         });
       },
-      checkAuth({ commit, dispatch }) {
+      checkAuth({ commit, dispatch, state }) {
         return new Promise((resolve, reject) => {
           webAuth.checkSession({}, function (err, authResult) {
             if (err) return reject(err);
@@ -58,7 +62,13 @@ const createStore = () => {
                 accessToken: authResult.accessToken,
               }
               setToken(authResult.accessToken);
-              return dispatch('getProfile');
+              commit('setAuth', auth);
+              if (!state.user) {
+                return dispatch('getProfile').then(() => {
+                  resolve();
+                });
+              }
+              resolve();
             }
           });
         });

@@ -2,7 +2,7 @@
   <div class="header-wrapper">
     <div class="login-header" v-if="isAuthenticated">
       <nuxt-link to="/me">
-        {{user}}
+        {{username}}
       </nuxt-link>
     </div>
     <header class="top-header">
@@ -58,12 +58,11 @@ export default {
     home() {
       return this.$store.state.settings.home_navi;
     },
-    user() {
-      return "Max Mustermann";
-      //return this.$store.state.user;
+    username() {
+      return this.$store.state.user.firstName + ' ' + this.$store.state.user.lastName;
     },
     isAuthenticated() {
-      return !!this.$store.state.auth;
+      return !!this.$store.state.auth && !!this.$store.state.user;
     }
   },
   methods: {
