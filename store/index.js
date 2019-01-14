@@ -44,18 +44,10 @@ const createStore = () => {
     },
     actions: {
       getUser({ state, commit }) {
-        let profile = axios.get(`${window.location.origin}/.netlify/functions/getProfile`).then(r => r.data).catch((err) => {
+        return axios.get(`${window.location.origin}/.netlify/functions/getUser`).then((r) => {
+          commit('setUser', r.data);
+        }).catch((err) => {
           console.log(err);
-        });
-        let trainings = axios.get(`${window.location.origin}/.netlify/functions/getTrainings`).then(r => r.data).catch((err) => {
-          console.log(err);
-        });
-        let packages = axios.get(`${window.location.origin}/.netlify/functions/getPackages`).then(r => r.data).catch((err) => {
-          console.log(err);
-        });
-        return Promise.all([profile, trainings, packages]).then(([profile, trainings, packages]) => {
-          let user = { profile, trainings, packages };
-          commit("setUser", user);
         });
       },
       checkAuth({ commit, dispatch, state }) {
