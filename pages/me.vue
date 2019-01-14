@@ -2,9 +2,12 @@
   <section class="">
     <div class="profile" v-if="user">
       <div class="header">
-        <h1 class="name">{{user.firstName}} {{user.lastName}}</h1>
-        <code class="number">#{{user.memberNumber}}</code>
+        <h1 class="name">{{user.profile.firstName}} {{user.profile.lastName}}</h1>
+        <code class="number">#{{user.profile.memberNumber}}</code>
         <button @click="logout">Logout</button>
+      </div>
+      <div>
+        <code>{{user}}</code>
       </div>
       <div class="section">
         <h3>Packages</h3>

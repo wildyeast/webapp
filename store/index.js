@@ -43,13 +43,20 @@ const createStore = () => {
       }
     },
     actions: {
-      getProfile({ state, commit }) {
-        // get profile from fabman
-        return axios.get(`${window.location.origin}/.netlify/functions/getProfile`).then((r) => {
-          commit('setUser', r.data);
-        }).catch((err) => {
-          //commit('setUser', { firstName: 'Max', lastName: 'Mustermann' });
+      getUser({ state, commit }) {
+        let profile = axios.get(`${window.location.origin}/.netlify/functions/getProfile`).catch((err) => {
           console.log(err);
+        });
+        let trainings = axios.get(`${window.location.origin}/.netlify/functions/getTrainings`).catch((err) => {
+          console.log(err);
+        });
+        let packages = axios.get(`${window.location.origin}/.netlify/functions/getPackages`).catch((err) => {
+          console.log(err);
+        });
+        return Promise.all([profile, trainings, packages]).then(([profile, trainings, packages]) => {
+          console.log(profile, trainings, packages);
+          let user = { profile, trainings, packages };
+          commit("setUser", user);
         });
       },
       checkAuth({ commit, dispatch, state }) {
@@ -64,7 +71,7 @@ const createStore = () => {
               setToken(authResult.accessToken);
               commit('setAuth', auth);
               if (!state.user) {
-                return dispatch('getProfile').then(() => {
+                return dispatch('getUser').then(() => {
                   resolve();
                 });
               }
