@@ -14,11 +14,11 @@ export default function ({ app, route, store, isDev, redirect }) {
 
   if (!store.state.settings._uid || language !== store.state.language) {
     store.commit('setLanguage', language)
-    return store.dispatch('loadSettings', {version: version, language: language});
+    store.dispatch('loadSettings', {version: version, language: language});
   }
 
   if (process.client && !store.state.user) {
     let jwt = getUserFromLocalStorage();
-    return store.commit('setAuth', {jwt});
+    if (jwt) store.commit('setAuth', {jwt});
   }
 }
