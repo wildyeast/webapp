@@ -1,7 +1,7 @@
 <template>
   <div class="level-slider">
     <div class="level-container">
-      <div v-for="(level, index) in blok.levels" v-bind:key="index" v-on:click="setLevel(index)">
+      <div v-for="(level, index) in blok.levels" :key="index" @click="setLevel(index)">
         <level-item
           :key="level._uid"
           :blok="level"
@@ -15,9 +15,9 @@
       <img
         class="image"
         v-for="(level, index) in blok.levels"
-        v-bind:key="level._uid"
+        :key="level._uid"
         v-show="index === activeLevel"
-        v-bind:src="level.image"
+        :src="level.image"
       >
     </div>
   </div>
@@ -34,23 +34,10 @@ export default {
     };
   },
 
-  created() {
-    this.$watch("activeLevel", this.setImage);
-    this.setImage();
-  },
-
   methods: {
     setLevel(newVal) {
       this.activeLevel = newVal;
     },
-
-    setImage() {
-      this.imageStyle = {
-        backgroundImage: `url("https:${
-          this.blok.levels[this.activeLevel].image
-        }")`
-      };
-    }
   }
 };
 </script>
