@@ -45,31 +45,23 @@ const createStore = () => {
       getProfile({ state, commit }) {
         // get profile from fabman
         axios.get('https://dev.grandgarage.eu/.netlify/functions/getProfile').then((r) => {
-          console.log(r);
-          //commit('setUser', user);
+          commit('setUser', r.data);
         });
       },
-      checkAuth({ commit }) {
+      checkAuth({ commit, dispatch }) {
         return new Promise((resolve, reject) => {
           webAuth.checkSession({}, function (err, authResult) {
             if (err) return reject(err);
             if (authResult && authResult.accessToken) {
-              resolve();
-              commit('setAuth', { jwt: authResult.accessToken });
+              //set auth
+              let auth = {
+                accessToken: authResult.accessToken,
+              }
+              setToken(authResult.accessToken);
+              return dispatch('getProfile');
             }
           });
         });
-
-        /*
-        auth0.checkSession({
-          audience: 'https://grandgarage.eu.auth0.com/api/v2/',
-          scope: ''
-        }, function (err, authResult) {
-        // Authentication tokens or error
-          console.log(err);
-          console.log(authResult);
-        });
-        */
       },
       auth({ commit }, { hash }) {
         return new Promise((resolve, reject) => {

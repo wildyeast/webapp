@@ -23,11 +23,6 @@ export default {
     return {}
   },
   created() {
-    if (process.client) {
-      if (!this.user) {
-        this.$store.dispatch('getProfile');
-      }
-    }
   },
   methods: {
     logout() {
