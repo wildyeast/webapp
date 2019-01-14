@@ -54,7 +54,6 @@ const createStore = () => {
           console.log(err);
         });
         return Promise.all([profile, trainings, packages]).then(([profile, trainings, packages]) => {
-          console.log(profile, trainings, packages);
           let user = { profile, trainings, packages };
           commit("setUser", user);
         });

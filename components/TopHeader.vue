@@ -59,7 +59,7 @@ export default {
       return this.$store.state.settings.home_navi;
     },
     username() {
-      return this.$store.state.user.firstName + ' ' + this.$store.state.user.lastName;
+      return this.$store.state.user.profile.firstName + ' ' + this.$store.state.user.profile.lastName;
     },
     isAuthenticated() {
       return !!this.$store.state.auth && !!this.$store.state.user;

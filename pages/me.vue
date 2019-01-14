@@ -6,14 +6,23 @@
         <code class="number">#{{user.profile.memberNumber}}</code>
         <button @click="logout">Logout</button>
       </div>
-      <div>
-        <code>{{user}}</code>
-      </div>
       <div class="section">
         <h3>Packages</h3>
+        <ul v-if="user.packages && user.packages.length > 0">
+          <li v-for="p in user.packages">{{p}}</li>
+        </ul>
+        <div v-else>
+          <code>No Packages to show</code>
+        </div>
       </div>
       <div class="section">
         <h3>Trainings</h3>
+        <ul v-if="user.trainings && user.trainings.length > 0">
+          <li v-for="p in user.trainings">{{p}}</li>
+        </ul>
+        <div v-else>
+          <code>No Trainings to show</code>
+        </div>
       </div>
     </div>
   </section>
