@@ -150,8 +150,9 @@ export default {
     }
     .search {
       display: flex;
-      padding: 10px;
-      padding-bottom: 5rem;
+      padding-top: 3vh;
+      @include margin-page-wide();
+      padding-bottom: 5vh;
       input[type=text] {
         flex: 1;
         display: block;
@@ -176,11 +177,24 @@ export default {
   }
   .machine-list-wrapper {
     display: flex;
-    padding: 20px;
+    @include margin-page-wide();
     .machine-list {
+      > span {
+        display: grid;
+        @include media-breakpoint-up(lg) {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        @include media-breakpoint-up(xl) {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+        grid-column-gap: 2vw;
+        grid-row-gap: 2vw;
+      }
       flex: 3;
       .list-item {
-        margin-right: 10px;
+        width: 80%;
+        max-width: 25em;
       }
       .list-enter-active, .list-leave-active {
         transition: all 0.5s;

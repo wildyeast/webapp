@@ -63,6 +63,9 @@ export default {
     background-repeat: repeat-y;
     background-position: 71% -10px;
     background-size: 1.8vw;
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 85vh;
+    }
     @include media-breakpoint-down(sm) {
       background-size: 12px;
     }
@@ -72,8 +75,8 @@ export default {
       align-items: flex-start;
       margin: 15vh 8vw 0;
       .headline {
-        font-size: .8em;
-        @include media-breakpoint-up(sm) {
+        font-size: 1.2em;
+        @include media-breakpoint-up(lg) {
           width: 45vw;
           font-size: 2.8vw;
         }
@@ -99,22 +102,22 @@ export default {
       display: flex;
       justify-content: flex-end;
       .text {
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(lg) {
           width: 35vw;
           margin-right: 10vw;
-          margin-bottom: 30%;
+          margin-bottom: 10%;
         }
-        @include media-breakpoint-down(sm) {
+        @include media-breakpoint-down(md) {
           margin: 3vh 15% 10vh;
-          font-size: .9rem;
+          font-size: 1rem;
           line-height: 1.6;
         }
         margin-top: 0;
         font-weight: normal;
         font-family: $font-primary;
-        line-height: 2;
-        font-size: 1.0rem;
-        letter-spacing: 1.6px;
+        line-height: 1.6;
+        font-size: 1.4vw;
+        letter-spacing: .03em;
       }
     }
     /*
@@ -138,11 +141,14 @@ export default {
     */
   }
   .start-down-arrow {
-    width: 25vh;
-    height: 25vh;
+    width: 18vh;
+    max-width: 20vw;
+    height: 18vh;
+    max-height: 20vw;
     position: absolute;
     right: 13%;
     margin-top: -2vh;
+    cursor: pointer;
   }
 }
 </style>
