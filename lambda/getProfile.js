@@ -46,7 +46,8 @@ exports.handler = function(event, context, callback) {
       console.log('verified');
       let fabmanId = decoded['https://grandgarage.eu/fabmanId'];
 
-      console.log('token', process.env.FABMAN_TOKEN);
+      console.log('keys', Object.keys(process.env));
+      console.log('token', process.env);
 
       const instance = axios.create({
         baseURL,
