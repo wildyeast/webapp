@@ -75,6 +75,9 @@ const createStore = () => {
             connection: 'Username-Password-Authentication',
             email: context.email,
             password: context.password,
+          }, function (err, r) {
+            if (err) reject(err);
+            resolve(r);
           });
         });
       },

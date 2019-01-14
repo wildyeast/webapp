@@ -14,7 +14,7 @@
       <span class="label">Password</span>
       <input class="input" type="password" v-model="password" placeholder="dein passwort" @input="clearErrorMessage" />
     </div>
-    <div class="form-item error-message" v-if="errorMessage">
+    <div class="error-message" v-if="errorMessage">
       <span>{{errorMessage}}</span>
     </div>
     <div class="form-item button-row">
@@ -47,7 +47,7 @@ export default {
       this.$store.dispatch('loginUser', data).then((r) => {
         console.log(r);
       }).catch((e) => {
-        console.log(e);
+        this.errorMessage = e.description || e.error || e.code;
       });
     },
     clearErrorMessage() {
@@ -135,6 +135,10 @@ export default {
     }
   }
   .error-message {
+    font-size: 14px;
+    font-family: $font-mono;
+    padding: 5px 0;
+    display: flex;
     color: red;
   }
 }
