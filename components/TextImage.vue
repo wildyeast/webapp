@@ -30,7 +30,9 @@ export default {
   }
   .image {
     flex: 1;
-    padding: 3rem;
+    margin-top: 3em;
+    padding-left: 3em;
+    padding-right: 0;
     img {
       margin: auto;
       display: block;
