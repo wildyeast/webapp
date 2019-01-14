@@ -59,10 +59,8 @@ export default {
 @import "@/assets/scss/styles.scss";
 
 .level-slider {
-  margin: 10px 0;
+  margin: 0 4%;
   border: 6px solid #000;
-  border-left: none;
-  border-right: none;
   overflow: hidden;
 
   .level-container {
@@ -82,7 +80,6 @@ export default {
 
 @media (min-width: $mobile-large) {
   .level-slider {
-    margin: 10px 30px 10px 0;
     display: flex;
     border-right: 6px solid #000;
 

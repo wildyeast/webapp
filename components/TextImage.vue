@@ -19,11 +19,12 @@ export default {
 <style lang="scss">
 .text-image {
   height: 80vh;
+  margin: 0 4%;
+  margin-top: 3rem;
   display: flex;
   .text {
     flex: 1;
     display: flex;
-    padding: 3rem;
     line-height: 1.2;
     font-size: 1.5rem;
   }
