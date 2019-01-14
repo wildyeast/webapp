@@ -16,6 +16,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
+  margin: 0 4%;
   height: calc(100vh - 89px);
   position: relative;
   .header-image {

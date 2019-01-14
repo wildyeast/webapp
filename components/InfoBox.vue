@@ -8,7 +8,7 @@
       </div>
       <div class="row">
         <div class="col-image">
-          <img :src="blok.image" alt=""/>
+          <img :src="$resizeImage(blok.image, '500x0')" alt=""/>
         </div>
         <div class="col-text">
           <markdown :value="blok.text"></markdown>
