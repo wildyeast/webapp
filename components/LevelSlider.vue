@@ -17,7 +17,7 @@
         v-for="(level, index) in blok.levels"
         :key="level._uid"
         v-show="index === activeLevel"
-        :src="level.image"
+        :src="$resizeImage(level.image, '1800x0')"
       >
     </div>
   </div>
