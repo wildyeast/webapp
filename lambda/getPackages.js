@@ -3,8 +3,6 @@ const axios = require('axios');
 const baseURL = 'https://fabman.io/api/v1/';
 
 exports.handler = function(event, context, callback) {
-  let fabmanId = decoded['https://grandgarage.eu/fabmanId'];
-
   const instance = axios.create({
     baseURL,
     headers: {'Authorization': `Bearer ${process.env.FABMAN_TOKEN}`}
