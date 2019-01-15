@@ -11,6 +11,9 @@
           {{blok.teaser}}
         </p>
       </div>
+      <div class="col-end">
+        <a v-if="blok.link" :href="blok.link.cached_url" target="_blank">Termine und Anmeldung</a>
+      </div>
     </div>
   </div>
 </template>
