@@ -43,6 +43,11 @@ const createStore = () => {
       }
     },
     actions: {
+      init({ state }) {
+        if (state.auth && !state.user) {
+          return dispatch('getUser');
+        }
+      },
       getUser({ state, commit }) {
         return axios.get(`${window.location.origin}/.netlify/functions/getUser`).then((r) => {
           commit('setUser', r.data);
@@ -51,7 +56,7 @@ const createStore = () => {
         });
       },
       checkAuth({ commit, dispatch, state }) {
-        if (!state.user || !state.auth) return Promise.resolve();
+        if (!state.auth) return Promise.resolve();
         return new Promise((resolve, reject) => {
           webAuth.checkSession({}, function (err, authResult) {
             if (err) return reject(err);
@@ -62,11 +67,6 @@ const createStore = () => {
               }
               setToken(authResult.accessToken);
               commit('setAuth', auth);
-              if (!state.user) {
-                return dispatch('getUser').then(() => {
-                  resolve();
-                });
-              }
               resolve();
             }
           });
