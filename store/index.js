@@ -32,6 +32,9 @@ const createStore = () => {
       setUser (state, user) {
         state.user = user;
       },
+      setPackages (state, p) {
+        state.p = p;
+      },
       setSettings (state, settings) {
         state.settings = settings;
       },
@@ -43,6 +46,13 @@ const createStore = () => {
       }
     },
     actions: {
+      nuxtServerInit({ state }) {
+        return axios.get(`${window.location.origin}/.netlify/functions/getPackages`).then((r) => {
+          commit('setPackages', r.data);
+        }).catch((err) => {
+          console.log(err);
+        });
+      },
       init({ state }) {
         if (state.auth && !state.user) {
           return dispatch('getUser');
@@ -161,7 +171,6 @@ const createStore = () => {
       },
       loadMachineItem ({state}, slug) {
         let endpoint = `cdn/stories/${state.language}/machines/${slug}`;
-        // TODO: entich with tags
         return this.$storyapi.get(endpoint, {
           version: version,
           cv: state.cacheVersion
