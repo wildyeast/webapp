@@ -29,6 +29,7 @@ const createStore = () => {
     },
     mutations: {
       setAuth(state, auth) {
+        console.log('setAuth', auth);
         state.auth = auth;
       },
       setUser (state, user) {
@@ -49,7 +50,6 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit({ state }, context) {
-        /*
         if (!context.isDev) {
           let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
           let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
@@ -58,14 +58,16 @@ const createStore = () => {
             commit('setTrainings', trainings);
           });
         }
-        */
       },
-      init({ state }) {
+      init({ state }, context) {
         if (state.auth && !state.user) {
-          return dispatch('getUser');
+          return dispatch('getUser', context);
         }
       },
-      getUser({ state, commit }) {
+      getUser({ state, commit }, context) {
+        if (context.isDev) {
+          commit('setUser', { profile: { firstName: 'foo', lastName: 'bar' }});
+        }
         return axios.get(`${origin}/.netlify/functions/getUser`).then((r) => {
           commit('setUser', r.data);
         }).catch((err) => {
@@ -83,6 +85,7 @@ const createStore = () => {
                 let auth = {
                   accessToken: authResult.accessToken,
                 }
+                console.log(authResult);
                 setToken(authResult.accessToken);
                 commit('setAuth', auth);
                 resolve();
