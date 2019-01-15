@@ -29,7 +29,6 @@ const createStore = () => {
     },
     mutations: {
       setAuth(state, auth) {
-        console.log('setAuth', auth);
         state.auth = auth;
       },
       setUser (state, user) {
@@ -59,15 +58,15 @@ const createStore = () => {
           });
         }
       },
-      init({ state }, context) {
+      init({ state, dispatch }, context) {
+        if (!state.auth) {
+          return dispatch('checkAuth');
+        }
         if (state.auth && !state.user) {
           return dispatch('getUser', context);
         }
       },
-      getUser({ state, commit }, context) {
-        if (context.isDev) {
-          commit('setUser', { profile: { firstName: 'foo', lastName: 'bar' }});
-        }
+      getUser({ state, commit }) {
         return axios.get(`${origin}/.netlify/functions/getUser`).then((r) => {
           commit('setUser', r.data);
         }).catch((err) => {
@@ -75,6 +74,7 @@ const createStore = () => {
         });
       },
       checkAuth({ commit, dispatch, state }) {
+        console.log('checkAuth');
         if (state.auth || getUserFromLocalStorage()) {
           // renew Token
           return new Promise((resolve, reject) => {
@@ -85,12 +85,15 @@ const createStore = () => {
                 let auth = {
                   accessToken: authResult.accessToken,
                 }
-                console.log(authResult);
                 setToken(authResult.accessToken);
                 commit('setAuth', auth);
                 resolve();
               }
             });
+          }).then(() => {
+            if (!state.user) {
+              dispatch('getUser');
+            }
           });
         }
       },
