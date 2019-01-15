@@ -1,6 +1,6 @@
 import Vuex from 'vuex';
 import auth0 from 'auth0-js';
-import { setToken, unsetToken } from '~/utils/auth';
+import { setToken, unsetToken, getUserFromLocalStorage } from '~/utils/auth';
 import axios from 'axios';
 
 const origin = process.client ? window.location.origin : process.env.ORIGIN;
@@ -71,21 +71,23 @@ const createStore = () => {
         });
       },
       checkAuth({ commit, dispatch, state }) {
-        if (!state.auth) return Promise.resolve();
-        return new Promise((resolve, reject) => {
-          webAuth.checkSession({}, function (err, authResult) {
-            if (err) return reject(err);
-            if (authResult && authResult.accessToken) {
-              //set auth
-              let auth = {
-                accessToken: authResult.accessToken,
+        if (state.auth || getUserFromLocalStorage()) {
+          // renew Token
+          return new Promise((resolve, reject) => {
+            webAuth.checkSession({}, function (err, authResult) {
+              if (err) return reject(err);
+              if (authResult && authResult.accessToken) {
+                //set auth
+                let auth = {
+                  accessToken: authResult.accessToken,
+                }
+                setToken(authResult.accessToken);
+                commit('setAuth', auth);
+                resolve();
               }
-              setToken(authResult.accessToken);
-              commit('setAuth', auth);
-              resolve();
-            }
+            });
           });
-        });
+        }
       },
       auth({ commit }, { hash }) {
         return new Promise((resolve, reject) => {
