@@ -6,7 +6,14 @@ import axios from 'axios';
 const origin = process.client ? window.location.origin : '';
 
 if (!process.client) {
-  console.log(Object.keys(process));
+  console.log(process.domain);
+  console.log('--');
+  console.log(process.config);
+  console.log('--');
+  console.log(process.platform);
+  console.log('--');
+  console.log(process.argv);
+  console.log('==');
 }
 
 let webAuth = new auth0.WebAuth({
