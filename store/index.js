@@ -4,6 +4,7 @@ import { setToken, unsetToken } from '~/utils/auth';
 import axios from 'axios';
 
 const origin = process.client ? window.location.origin : process.env.ORIGIN;
+console.log(origin);
 
 let webAuth = new auth0.WebAuth({
   domain:       'grandgarage.eu.auth0.com',
