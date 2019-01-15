@@ -86,9 +86,9 @@ module.exports = {
 
           callback(null, routes)
         })).catch(callback)
-      })
-    }
-  },
+    })
+  }
+},
   css: [
     '@/assets/scss/styles.scss',
     '@/assets/scss/vueDatePick.scss',
@@ -103,5 +103,13 @@ module.exports = {
    */
   build: {
     transpile: [/^vue2-google-maps($|\/)/],
+    devServer: {
+      proxy: {
+        "/.netlify": {
+          target: "http://localhost:9000",
+          pathRewrite: { "^/.netlify/functions": "" }
+        }
+      }
+    }
   }
 }
