@@ -8,6 +8,7 @@
       </div>
       <div class="section">
         <h3>Packages</h3>
+        <code>{{packages}}</code>
         <ul v-if="user.packages && user.packages.length > 0">
           <li v-for="p in user.packages">{{p}}</li>
         </ul>
@@ -17,6 +18,7 @@
       </div>
       <div class="section">
         <h3>Trainings</h3>
+        <code>{{trainings}}</code>
         <ul v-if="user.trainings && user.trainings.length > 0">
           <li v-for="p in user.trainings">{{p}}</li>
         </ul>
@@ -46,6 +48,12 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
+    },
+    packages() {
+      return this.$store.state.packages;
+    },
+    trainings() {
+      return this.$store.state.trainings;
     }
   }
 }

@@ -6,7 +6,7 @@ import axios from 'axios';
 const origin = process.client ? window.location.origin : process.env.ORIGIN;
 
 let webAuth = new auth0.WebAuth({
-  domain:       'grandgarage.eu.auth0.com',
+  domain:       'auth.grandgarage.eu',
   clientID:     'lwqb_LrkbU8b2rHfbC05C87xqM4bSfms',
   responseType: 'token id_token',
   redirectUri:  origin + '/auth'
@@ -23,7 +23,9 @@ const createStore = () => {
       sidebar: null,
       settings: {},
       user: null,
-      auth: null
+      auth: null,
+      packages: null,
+      trainings: null,
     },
     mutations: {
       setAuth(state, auth) {
@@ -47,10 +49,11 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit({ state }) {
-        return axios.get(`${origin}/.netlify/functions/getPackages`).then((r) => {
-          commit('setPackages', r.data);
-        }).catch((err) => {
-          console.log(err);
+        let packages = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
+        let trainings = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
+        return Promise.all(([packages, trainings]) => {
+          commit('setPackages', packages);
+          commit('setTrainings', trainings);
         });
       },
       init({ state }) {
