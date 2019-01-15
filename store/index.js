@@ -75,7 +75,7 @@ const createStore = () => {
           commit('setTrainings', trainings);
         });
       },
-      getUser({ state, commit }) {
+      getUser({ state, commit, dispatch }) {
         return axios.get(`${origin}/.netlify/functions/getUser`).then((r) => {
           commit('setUser', r.data);
           return dispatch('getData');
