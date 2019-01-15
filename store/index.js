@@ -1,15 +1,9 @@
 import Vuex from 'vuex';
 import auth0 from 'auth0-js';
-import { setToken, unsetToken } from '~/utils/auth'
+import { setToken, unsetToken } from '~/utils/auth';
 import axios from 'axios';
 
-const origin = process.client ? window.location.origin : '';
-
-if (!process.client) {
-  console.log('--');
-  console.log(process);
-  console.log('==');
-}
+const origin = process.client ? window.location.origin : process.env.ORIGIN;
 
 let webAuth = new auth0.WebAuth({
   domain:       'grandgarage.eu.auth0.com',
