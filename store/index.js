@@ -49,14 +49,14 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit({ state }, context) {
-        if (!context.isDev) {
-          let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
-          let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
-          return Promise.all([p, t]).then(([packages, trainings]) => {
-            commit('setPackages', packages);
-            commit('setTrainings', trainings);
-          });
-        }
+        /*
+        let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
+        let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
+        return Promise.all([p, t]).then(([packages, trainings]) => {
+          commit('setPackages', packages);
+          commit('setTrainings', trainings);
+        });
+        */
       },
       init({ state, dispatch }, context) {
         if (!state.auth) {
