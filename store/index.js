@@ -49,6 +49,7 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit({ state }, context) {
+        /*
         if (!context.isDev) {
           let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
           let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
@@ -57,6 +58,7 @@ const createStore = () => {
             commit('setTrainings', trainings);
           });
         }
+        */
       },
       init({ state }) {
         if (state.auth && !state.user) {
