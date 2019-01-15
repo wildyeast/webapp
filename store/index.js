@@ -6,13 +6,8 @@ import axios from 'axios';
 const origin = process.client ? window.location.origin : '';
 
 if (!process.client) {
-  console.log(process.domain);
   console.log('--');
-  console.log(process.config);
-  console.log('--');
-  console.log(process.platform);
-  console.log('--');
-  console.log(process.argv);
+  console.log(process);
   console.log('==');
 }
 
