@@ -1,7 +1,4 @@
 const axios = require('axios');
-const cookieparser = require('cookieparser');
-const jwt = require('jsonwebtoken');
-const jwksClient = require('jwks-rsa');
 
 const baseURL = 'https://fabman.io/api/v1/';
 
