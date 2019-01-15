@@ -3,13 +3,17 @@ import auth0 from 'auth0-js';
 import { setToken, unsetToken } from '~/utils/auth'
 import axios from 'axios';
 
-const redirectUri = process.client ? window.location.origin + '/auth' : undefined;
+const origin = process.client ? window.location.origin : '';
+
+if (!process.client) {
+  console.log(Object.keys(process));
+}
 
 let webAuth = new auth0.WebAuth({
   domain:       'grandgarage.eu.auth0.com',
   clientID:     'lwqb_LrkbU8b2rHfbC05C87xqM4bSfms',
   responseType: 'token id_token',
-  redirectUri
+  redirectUri:  origin + '/auth'
 });
 
 let version = 'draft';
@@ -47,7 +51,7 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit({ state }) {
-        return axios.get(`${window.location.origin}/.netlify/functions/getPackages`).then((r) => {
+        return axios.get(`${origin}/.netlify/functions/getPackages`).then((r) => {
           commit('setPackages', r.data);
         }).catch((err) => {
           console.log(err);
@@ -59,7 +63,7 @@ const createStore = () => {
         }
       },
       getUser({ state, commit }) {
-        return axios.get(`${window.location.origin}/.netlify/functions/getUser`).then((r) => {
+        return axios.get(`${origin}/.netlify/functions/getUser`).then((r) => {
           commit('setUser', r.data);
         }).catch((err) => {
           console.log(err);
