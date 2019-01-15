@@ -59,22 +59,26 @@ const createStore = () => {
           chain.push(dispatch('checkAuth'));
         } else {
           if (!state.user) {
-            chain.push(dispatch('getUser', context));
+            chain.push(dispatch('getUser'));
           } else {
-            let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
-            let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
-            chain.push(Promise.all([p, t]).then(([packages, trainings]) => {
-              console.log(packages, trainings);
-              commit('setPackages', packages);
-              commit('setTrainings', trainings);
-            }));
+            chain.push(dispatch('getData'));
           }
         }
         return Promise.all(chain);
       },
+      getData({ state, commit }) {
+        let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
+        let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
+        return Promise.all([p, t]).then(([packages, trainings]) => {
+          console.log(packages, trainings);
+          commit('setPackages', packages);
+          commit('setTrainings', trainings);
+        });
+      },
       getUser({ state, commit }) {
         return axios.get(`${origin}/.netlify/functions/getUser`).then((r) => {
           commit('setUser', r.data);
+          return dispatch('getData');
         }).catch((err) => {
           console.log(err);
         });
