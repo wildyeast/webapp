@@ -34,8 +34,11 @@ const createStore = () => {
       setUser (state, user) {
         state.user = user;
       },
-      setPackages (state, p) {
-        state.p = p;
+      setPackages (state, data) {
+        state.packages = data;
+      },
+      setTrainings (state, data) {
+        state.trainings = data;
       },
       setSettings (state, settings) {
         state.settings = settings;
@@ -61,6 +64,7 @@ const createStore = () => {
             let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
             let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
             chain.push(Promise.all([p, t]).then(([packages, trainings]) => {
+              console.log(packages, trainings);
               commit('setPackages', packages);
               commit('setTrainings', trainings);
             }));
