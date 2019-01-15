@@ -51,6 +51,7 @@ const createStore = () => {
         });
       },
       checkAuth({ commit, dispatch, state }) {
+        if (!state.user || !state.auth) return Promise.resolve();
         return new Promise((resolve, reject) => {
           webAuth.checkSession({}, function (err, authResult) {
             if (err) return reject(err);

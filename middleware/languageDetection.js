@@ -12,7 +12,7 @@ export default function ({ app, route, store, isDev, redirect }) {
     store.commit('setCacheVersion', app.$storyapi.cacheVersion)
   }
 
-  if (process.client && !store.state.user) {
+  if (process.client) {
     auth = store.dispatch('checkAuth');
   }
 
