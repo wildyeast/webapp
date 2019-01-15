@@ -27,8 +27,15 @@ module.exports = {
       }
     ]
   },
+  proxy: {
+    '/.netlify': {
+      target: 'http://localhost:9000',
+      pathRewrite: {'^/.netlify/functions': ''},
+    },
+  },
   modules: [
-    ['storyblok-nuxt', { accessToken: '1IsgW07t4t5sm0UzdHAD6gtt', cacheProvider: 'memory' }]
+    ['storyblok-nuxt', { accessToken: '1IsgW07t4t5sm0UzdHAD6gtt', cacheProvider: 'memory' }],
+    '@nuxtjs/proxy',
   ],
   plugins: [
     '~/plugins/init',
@@ -103,13 +110,5 @@ module.exports = {
    */
   build: {
     transpile: [/^vue2-google-maps($|\/)/],
-    devServer: {
-      proxy: {
-        "/.netlify": {
-          target: "http://localhost:9000",
-          pathRewrite: { "^/.netlify/functions": "" }
-        }
-      }
-    }
   }
 }
