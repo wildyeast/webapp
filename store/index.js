@@ -49,22 +49,24 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit({ state }, context) {
-        /*
-        let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
-        let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
-        return Promise.all([p, t]).then(([packages, trainings]) => {
-          commit('setPackages', packages);
-          commit('setTrainings', trainings);
-        });
-        */
       },
       init({ state, dispatch }, context) {
+        let chain = [];
         if (!state.auth) {
-          return dispatch('checkAuth');
+          chain.push(dispatch('checkAuth'));
+        } else {
+          if (!state.user) {
+            chain.push(dispatch('getUser', context));
+          } else {
+            let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
+            let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
+            chain.push(Promise.all([p, t]).then(([packages, trainings]) => {
+              commit('setPackages', packages);
+              commit('setTrainings', trainings);
+            }));
+          }
         }
-        if (state.auth && !state.user) {
-          return dispatch('getUser', context);
-        }
+        return Promise.all(chain);
       },
       getUser({ state, commit }) {
         return axios.get(`${origin}/.netlify/functions/getUser`).then((r) => {
@@ -74,7 +76,6 @@ const createStore = () => {
         });
       },
       checkAuth({ commit, dispatch, state }) {
-        console.log('checkAuth');
         if (state.auth || getUserFromLocalStorage()) {
           // renew Token
           return new Promise((resolve, reject) => {
