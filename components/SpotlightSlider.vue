@@ -68,12 +68,14 @@ export default {
         }
       }
       .swiper-item-content {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
         transition: opacity ease-in-out .3s;
         opacity: 0;
         display: flex;
         align-items: center;
         line-height: 1.2;
-        height: 100%;
         background-color: $color-blue;
         padding: 10px;
       }
