@@ -12,7 +12,7 @@
         </div>
         <div class="col-text">
           <markdown :value="blok.text"></markdown>
-          <div class="register-button">
+          <div class="register-button" v-if="hasUser">
             <button @click="register">Jetzt Mitglied werden</button>
           </div>
         </div>
@@ -27,6 +27,11 @@ export default {
   methods: {
     register() {
       this.$store.dispatch('setSidebar', 'register');
+    }
+  },
+  computed: {
+    hasUser() {
+      return !!this.$store.state.user;
     }
   }
 }
