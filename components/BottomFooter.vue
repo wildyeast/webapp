@@ -12,9 +12,13 @@
       <div class="pre-footer-bottom">
         <div class="col text">Innovationswerkstatt für Menschen, Wissen und Technologie</div>
 
-        <div v-swiper:swiper="swiperOption">
-          <div class="swiper-wrapper">
-            <img class="swiper-slide" v-for="(logo) in this.logos" :key="logo._uid" :src="logo.image">
+        <div class="col logos">
+          <div v-swiper:swiper="swiperOption">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide" v-for="(logo) in this.logos" :key="logo._uid">
+                <img :src="$resizeImage(logo.image, '200x0')">
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -55,7 +59,10 @@ export default {
   data() {
     return {
       swiperOption: {
-        slidesPerView: 4,
+        slidesPerView: 7,
+        centeredSlides: true,
+        spaceBetween: 50,
+        freeMode: true,
         autoplay: {
           delay: 2000,
           disableOnInteraction: false
@@ -105,28 +112,13 @@ export default {
       }
     }
     .pre-footer-bottom {
+      display: flex;
       z-index: 1;
       margin-bottom: 10px;
 
-      @include media-breakpoint-down(md) {
-        flex-direction: column;
-      }
-
-      .swiper-container {
-        // width: 50%;
-
-        .swiper-wrapper {
-          img {
-            margin: 0 20px;
-            height: 40px;
-            width: auto;
-          }
-        }
-      }
-
       .col {
+        width: 50%;
         padding: 25px;
-        flex: 1;
 
         &.text {
           text-transform: uppercase;
@@ -134,12 +126,15 @@ export default {
         }
         &.logos {
           display: flex;
-          img {
-            flex: 1;
-            max-width: 100%;
-            display: block;
-            height: auto;
-            max-height: 40px;
+          .swiper-slide {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            img {
+              max-width: 100%;
+              display: block;
+              height: auto;
+            }
           }
         }
       }
@@ -199,10 +194,6 @@ export default {
             background: none;
             border: none;
             outline: none;
-            // &:active,
-            // &:hover,
-            // &:focus {
-            // }
           }
         }
       }
@@ -234,31 +225,6 @@ export default {
           p {
             font-family: $font-secondary;
           }
-        }
-      }
-    }
-  }
-}
-
-@keyframes slide {
-  0% {
-    margin-left: 0;
-  }
-
-  100% {
-    margin-left: -200%;
-  }
-}
-
-@media (min-width: $mobile-large) {
-  .footer {
-    .pre-footer {
-      .pre-footer-bottom {
-        display: flex;
-        margin-bottom: 10px;
-        .swiper-container {
-          width: 50%;
-          margin-bottom: 0;
         }
       }
     }
