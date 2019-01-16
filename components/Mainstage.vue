@@ -80,7 +80,7 @@ export default {
         flex-direction: column;
         align-items: flex-start;
         color: #000;
-        margin-bottom: 2vw;
+        padding-bottom: 3vw;
         &.dark {
           color: #FFF;
         }
