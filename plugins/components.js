@@ -53,6 +53,9 @@ import Checkbox from '~/components/Checkbox.vue'
 import LevelSlider from '~/components/LevelSlider.vue'
 import LevelItem from '~/components/LevelItem.vue'
 
+import Package from '~/components/Package.vue'
+import Training from '~/components/Training.vue'
+
 Vue.component('page', Page)
 Vue.component('general-header', GeneralHeader)
 Vue.component('teaser', Teaser)
@@ -77,6 +80,9 @@ Vue.component('workshop-preview', WorkshopPreview)
 Vue.component('workshop-header', WorkshopHeader)
 Vue.component('workshop-info', WorkshopInfo)
 Vue.component('workshop-list-item', WorkshopListItem)
+
+Vue.component('package', Package)
+Vue.component('training', Training)
 
 Vue.component('machine-list-item', MachineListItem)
 Vue.component('machine', Machine)

@@ -8,7 +8,7 @@ exports.handler = function(event, context, callback) {
     headers: {'Authorization': `Bearer ${process.env.FABMAN_TOKEN}`}
   });
 
-  return instance.get('packages').then((r) => {
+  instance.get('packages').then((r) => {
     callback(null, {
       statusCode: 200,
       body: JSON.stringify(r.data)

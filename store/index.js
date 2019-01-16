@@ -8,6 +8,7 @@ const origin = process.client ? window.location.origin : process.env.ORIGIN;
 let webAuth = new auth0.WebAuth({
   domain:       'auth.grandgarage.eu',
   clientID:     'lwqb_LrkbU8b2rHfbC05C87xqM4bSfms',
+  audience:     'https://api.grandgarage.eu/',
   responseType: 'token id_token',
   redirectUri:  origin + '/auth'
 });
@@ -26,6 +27,14 @@ const createStore = () => {
       auth: null,
       packages: null,
       trainings: null,
+    },
+    getters: {
+      getPackageById: (state) => (id) => {
+        return state.packages.find(p => p.id === id);
+      },
+      getTrainingById: (state) => (id) => {
+        return state.trainings.find(t => t.id === id);
+      }
     },
     mutations: {
       setAuth(state, auth) {
@@ -70,7 +79,6 @@ const createStore = () => {
         let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
         let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
         return Promise.all([p, t]).then(([packages, trainings]) => {
-          console.log(packages, trainings);
           commit('setPackages', packages);
           commit('setTrainings', trainings);
         });
