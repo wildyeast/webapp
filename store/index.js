@@ -25,15 +25,17 @@ const createStore = () => {
       settings: {},
       user: null,
       auth: null,
-      packages: null,
-      trainings: null,
+      fabman: null,
     },
     getters: {
       getPackageById: (state) => (id) => {
-        return state.packages.find(p => p.id === id);
+        return state.fabman.packages.find(p => p.id === id);
       },
       getTrainingById: (state) => (id) => {
-        return state.trainings.find(t => t.id === id);
+        return state.fabman.trainings.find(t => t.id === id);
+      },
+      getResourceById: (state) => (id) => {
+        return state.fabman.resources.find(r => r.id === id);
       }
     },
     mutations: {
@@ -43,11 +45,8 @@ const createStore = () => {
       setUser (state, user) {
         state.user = user;
       },
-      setPackages (state, data) {
-        state.packages = data;
-      },
-      setTrainings (state, data) {
-        state.trainings = data;
+      setFabman (state, data) {
+        state.fabman = data;
       },
       setSettings (state, settings) {
         state.settings = settings;
@@ -75,18 +74,25 @@ const createStore = () => {
         }
         return Promise.all(chain);
       },
-      getData({ state, commit }) {
+      getFabman({ state, commit }) {
+        return axios.get(`${origin}/.netlify/functions/getFabman`).then((r) => {
+          commit('setFabman', r.data);
+        }).catch((err) => {
+          console.log(err);
+        });
+        /*
         let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
         let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
         return Promise.all([p, t]).then(([packages, trainings]) => {
           commit('setPackages', packages);
           commit('setTrainings', trainings);
         });
+        */
       },
       getUser({ state, commit, dispatch }) {
         return axios.get(`${origin}/.netlify/functions/getUser`).then((r) => {
           commit('setUser', r.data);
-          return dispatch('getData');
+          return dispatch('getFabman');
         }).catch((err) => {
           console.log(err);
         });
@@ -109,7 +115,7 @@ const createStore = () => {
             });
           }).then(() => {
             if (!state.user) {
-              dispatch('getUser');
+              return dispatch('getUser');
             }
           });
         }

@@ -1,9 +1,10 @@
 <template>
   <div class="header-wrapper">
-    <div class="login-header" v-if="isAuthenticated">
-      <nuxt-link to="/me">
+    <div class="login-header" v-if="hasAuth">
+      <nuxt-link to="/me" v-if="hasUser">
         {{username}}
       </nuxt-link>
+      <span v-else>Loading</span>
     </div>
     <header class="top-header">
       <div class="top-header-inner">
@@ -19,7 +20,7 @@
             <img src="~/assets/img/icons/gg-logo-icon.svg">
           </nuxt-link>
           <div class="dropdown" v-if="home && home.length > 0">
-            <div class="child" v-if="isAuthenticated">
+            <div class="child" v-if="hasAuth">
             </div>
             <div class="child" v-else>
               <button @click="login" class="login-button">LOGIN</button>
@@ -61,8 +62,11 @@ export default {
     username() {
       return this.$store.state.user.profile.firstName + ' ' + this.$store.state.user.profile.lastName;
     },
-    isAuthenticated() {
-      return !!this.$store.state.auth && !!this.$store.state.user;
+    hasAuth() {
+      return !!this.$store.state.auth;
+    },
+    hasUser() {
+      return !!this.$store.state.user;
     }
   },
   methods: {
@@ -97,6 +101,7 @@ export default {
     color: #FFF;
     text-align: right;
     font-size: 0.9em;
+    height: 1.6em;
     a {
       color: #FFF;
     }

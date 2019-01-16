@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     isAuthenticated() {
-      return !!this.$store.state.auth && !!this.$store.state.user;
+      return !!this.$store.state.auth;
     }
   }
 }

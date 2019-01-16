@@ -4,7 +4,7 @@
   -->
     <div class="machine-list-item">
       <div class="image">
-        <img :src="$resizeImage(content.image, '320x320')" alt=""/>
+        <img :src="$resizeImage(content.image, '320x0')" alt=""/>
       </div>
       <div class="body">
         <div class="title">
@@ -23,9 +23,9 @@
         </div>
       </div>
     </div>
-    <!--
+  <!--
   </nuxt-link>
-    -->
+  -->
 </template>
 
 <script>

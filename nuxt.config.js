@@ -48,7 +48,7 @@ module.exports = {
     { src: '~/plugins/swiper', ssr: false }
   ],
   router: {
-    middleware: 'languageDetection'
+    middleware: 'router'
   },
   generate: {
     routes: function (callback) {
