@@ -12,7 +12,7 @@
         </div>
         <div class="col-text">
           <markdown :value="blok.text"></markdown>
-          <div class="register-button" v-if="hasUser">
+          <div class="register-button" v-if="noUser">
             <button @click="register">Jetzt Mitglied werden</button>
           </div>
         </div>
@@ -30,8 +30,8 @@ export default {
     }
   },
   computed: {
-    hasUser() {
-      return !!this.$store.state.user;
+    noUser() {
+      return !this.$store.state.user;
     }
   }
 }
