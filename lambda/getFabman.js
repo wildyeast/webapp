@@ -10,17 +10,23 @@ exports.handler = function(event, context, callback) {
 
   let p = instance.get('packages').then(r => r.data.map((p) => {
     return {
-      package: p.package,
+      id: p.id,
       name: p.name,
     }
   }));
   let t = instance.get('training-courses').then(r => r.data.map((t) => {
     return {
-      trainingCourse: p.trainingCourse,
-      title: p.title,
+      id: t.id,
+      title: t.title,
     }
   }));
-  let r = instance.get('resources').then(r => r.data);
+  let r = instance.get('resources').then(r => r.data.map((r) => {
+    return {
+      id: r.id,
+      name: r.name,
+      type: r.type
+    }
+  }));
 
   Promise.all([p, t, r]).then(([packages, trainings, resources]) => {
     let data = { packages, trainings, resources };
