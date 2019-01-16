@@ -4,10 +4,16 @@
     </div>
     <div v-swiper:swiper="swiperOption">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" :key="s._uid" v-for="s in blok.slides" :style="{ 'background-image': 'url(' + $resizeImage(s.image, '1600x0') + ')' }">
-          <div class="wrapper">
-            <span class="title" :class="{ 'dark': s.dark }">{{s.title}}</span>
-          </div>
+        <div class="swiper-slide"
+          :key="s._uid" v-for="s in blok.slides"
+          :style="{ 'background-image': 'url(' + $resizeImage(s.image, '1600x0') + ')' }"
+          >
+          <sb-link :link="s.link">
+            <div class="wrapper" :class="{ 'dark': s.dark }">
+              <span class="title">{{s.title}}</span>
+              <span class="teaser">{{s.teaser}}</span>
+            </div>
+          </sb-link>
         </div>
       </div>
       <div class="swiper-pagination"></div>
@@ -70,12 +76,20 @@ export default {
       align-items: flex-end;
       .wrapper {
         padding: 20px;
-        width: 60%;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        color: #000;
+        margin-bottom: 2vw;
+        &.dark {
+          color: #FFF;
+        }
+        .teaser {
+          font-size: 2.0vw;
+          font-family: $font-mono;
+        }
         .title {
-          font-size: 11.5vw;
+          font-size: 6.5vw;
           z-index: 9;
         }
         .teaser,
@@ -83,11 +97,7 @@ export default {
           margin-bottom: 5px;
           padding: 5px 10px;
           display: block;
-          color: #000;
           font-weight: bold;
-          &.dark {
-            color: #FFF;
-          }
         }
       }
     }
