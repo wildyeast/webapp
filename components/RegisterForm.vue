@@ -45,20 +45,22 @@
         <div class="checkbox-wrapper">
           <input type="checkbox" id="agb" v-model="agb" />
         </div>
-        <label for="agb">Ich habe die <nuxt-link :to="'/agb'">Teilnahmebedingungen / AGB</nuxt-link> gelesen und bin damit einverstanden.</label>
+        <label for="agb">Ich habe die <nuxt-link to="/de/agb">Teilnahmebedingungen / AGB</nuxt-link> gelesen und bin damit einverstanden.</label>
       </div>
       <div class="checkbox-item">
         <div class="checkbox-wrapper">
           <input type="checkbox" id="dsg" v-model="dsg" />
         </div>
-        <label for="dsg">Ich habe die <nuxt-link :to="'/datenschutz'">Datenschutzerklärung</nuxt-link> gelesen und bin damit einverstanden.</label>
+        <label for="dsg">Ich habe die <nuxt-link to="/de/datenschutzerklaerung">Datenschutzerklärung</nuxt-link> gelesen und bin damit einverstanden.</label>
       </div>
+      <!--
       <div class="checkbox-item">
         <div class="checkbox-wrapper">
           <input type="checkbox" id="newsletter" v-model="newsletter" />
         </div>
         <label for="newsletter">Ich bin damit einverstanden, Newsletter an meine angegebene E-Mail Adresse zu erhalten.</label>
       </div>
+      -->
       <div class="form-item error-message" v-if="errorMessage">
         <span>{{errorMessage}}</span>
       </div>

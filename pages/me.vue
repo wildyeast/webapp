@@ -52,12 +52,6 @@ export default {
     user() {
       return this.$store.state.user;
     },
-    packages() {
-      return this.$store.state.packages;
-    },
-    trainings() {
-      return this.$store.state.trainings;
-    }
   }
 }
 </script>
