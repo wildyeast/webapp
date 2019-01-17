@@ -60,13 +60,15 @@ export default {
     overflow: hidden;
 
     .image {
-      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
     }
   }
 }
 
 @media (min-width: $mobile-large) {
   .level-slider {
+    max-height: 75vh;
     display: flex;
     border-right: 6px solid #000;
 
