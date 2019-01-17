@@ -1,7 +1,6 @@
 <template>
   <div v-editable="machine" class="machine-page">
     <machine-header :story="story"></machine-header>
-    <machine-status v-if="machine.fabmanId" :id="machine.fabmanId"></machine-status>
     <div class="body">
 
       <div class="headline">{{machine.headline}}</div>

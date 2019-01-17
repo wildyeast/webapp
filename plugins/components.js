@@ -49,6 +49,7 @@ import StoryBlokLink from '~/components/StoryBlokLink.vue'
 import MainNavItem from '~/components/MainNavItem.vue'
 import Markdown from '~/components/Markdown.vue'
 import Loading from '~/components/Loading.vue'
+import LoadingSpinner from '~/components/LoadingSpinner.vue'
 import Checkbox from '~/components/Checkbox.vue'
 
 import LevelSlider from '~/components/LevelSlider.vue'
@@ -56,8 +57,6 @@ import LevelItem from '~/components/LevelItem.vue'
 
 import Package from '~/components/Package.vue'
 import Training from '~/components/Training.vue'
-
-import MachineStatus from '~/components/MachineStatus.vue'
 
 Vue.component('page', Page)
 Vue.component('general-header', GeneralHeader)
@@ -86,8 +85,6 @@ Vue.component('workshop-list-item', WorkshopListItem)
 
 Vue.component('package', Package)
 Vue.component('training', Training)
-
-Vue.component('machine-status', MachineStatus)
 
 Vue.component('machine-list-item', MachineListItem)
 Vue.component('machine', Machine)
@@ -121,4 +118,5 @@ Vue.component('sb-link', StoryBlokLink)
 Vue.component('markdown', Markdown)
 
 Vue.component('loading', Loading)
+Vue.component('loading-spinner', LoadingSpinner)
 Vue.component('checkbox', Checkbox)

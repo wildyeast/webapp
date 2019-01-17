@@ -62,7 +62,7 @@ exports.handler = function(event, context, callback) {
             name: r.data.name,
             type: r.data.type,
             state: r.data.state,
-            maintenanceNote: r.data.maintenanceNote,
+            maintenanceNotes: r.data.maintenanceNotes,
             lastUsed: r.data.lastUsed.at || null,
           }
           /*
@@ -78,9 +78,7 @@ exports.handler = function(event, context, callback) {
         });
 
         Promise.all([resource, bridge]).then(([resource, bridge]) => {
-          console.log('res');
           let data = { ...resource, ...bridge };
-          console.log(data);
           callback(null, {
             statusCode: 200,
             body: JSON.stringify(data)

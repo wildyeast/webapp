@@ -1,6 +1,6 @@
 <template>
-  <div class="machine-status" v-if="hasUser">
-    <div class="resource" v-if="resource" :style="{ color }">
+  <div class="machine-status" :style="{ 'background-color': color }">
+    <div class="resource" v-if="resource">
       <div v-if="resource.state == 'active'">
         <div v-if="resource.offline">
           offline
@@ -12,23 +12,15 @@
           Verfügbar
         </div>
       </div>
-      <div v-else-if="resource.state == 'locked'">
-        <div v-if="resource.offline">
-          out of order & offline
-        </div>
-        <div v-else>
-          out of order
-        </div>
-        <div v-if="resource.maintenanceNote">
-          {{resource.maintenanceNote}}
-        </div>
+      <div v-else-if="resource.state == 'locked'" :title="resource.maintenanceNotes">
+        out of order
       </div>
       <div v-else>
         {{resource.state}}
       </div>
     </div>
     <div v-else>
-      Prüfe...
+      <loading-spinner color="#333"></loading-spinner>
     </div>
   </div>
 </template>
@@ -47,24 +39,21 @@ export default {
     });
   },
   computed: {
-    hasUser() {
-      return !!this.$store.state.user;
-    },
     color() {
       if (!this.resource) {
-        return '#000';
+        return '#FFF';
       }
       if (this.resource.state == 'locked') {
-        return '#FFFF00';
+        return '#ebe223';
       }
       if (this.resource.offline) {
-        return '#FF0000';
+        return '#666';
       }
       if (this.resource.inUse) {
-        return '#0000FF';
+        return '#ff6f00';
       }
       if (this.resource.state == 'active') {
-        return '#00FF00';
+        return '#0069aa';
       }
     }
   }
@@ -75,7 +64,11 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .machine-status {
+  padding: 10px;
   .resource {
+    padding: 10px;
+    font-weight: bold;
+    color: #FFF;
     div {
       display: inline-block;
       text-transform: uppercase;
