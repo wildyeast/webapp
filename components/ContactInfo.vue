@@ -1,6 +1,7 @@
 <template>
   <div v-editable="blok" class="contact-info">
-    <div class="banner" :style="{ 'background-image': 'url(' + $resizeImage(blok.image, '1600x0') + ')' }"></div>
+    <div v-if="blok.image" class="banner" :style="{ 'background-image': 'url(' + $resizeImage(blok.image, '1600x0') + ')' }"></div>
+    <div v-else class="banner-spacer"></div>
     <div class="info" v-if="blok.items && blok.items.length > 0">
       <div class="spacer"></div>
       <div v-for="i in blok.items" :key="i.uid" class="info-item">
@@ -28,6 +29,9 @@ export default {
     height: 50vh;
     background-size: cover;
     background-position: center;
+  }
+  .banner-spacer {
+    height: 15vh;
   }
   .info {
     display: flex;

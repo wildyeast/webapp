@@ -28,12 +28,13 @@ export default {
   display: flex;
   flex-direction: column;
   .title {
+    margin-top: 1em;
     font-weight: bold;
     font-size: 3rem;
     text-transform: uppercase;
-    flex: 1;
   }
   .body {
+    display: flex;
     .text {
       flex: 1;
       display: flex;

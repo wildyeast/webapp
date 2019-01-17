@@ -57,6 +57,8 @@ import LevelItem from '~/components/LevelItem.vue'
 import Package from '~/components/Package.vue'
 import Training from '~/components/Training.vue'
 
+import MachineStatus from '~/components/MachineStatus.vue'
+
 Vue.component('page', Page)
 Vue.component('general-header', GeneralHeader)
 Vue.component('teaser', Teaser)
@@ -84,6 +86,8 @@ Vue.component('workshop-list-item', WorkshopListItem)
 
 Vue.component('package', Package)
 Vue.component('training', Training)
+
+Vue.component('machine-status', MachineStatus)
 
 Vue.component('machine-list-item', MachineListItem)
 Vue.component('machine', Machine)

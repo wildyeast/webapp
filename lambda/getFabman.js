@@ -27,9 +27,15 @@ exports.handler = function(event, context, callback) {
       type: r.type
     }
   }));
+  let rt = instance.get('resource-types').then(r => r.data.map((r) => {
+    return {
+      id: r.id,
+      name: r.name,
+    }
+  }));
 
-  Promise.all([p, t, r]).then(([packages, trainings, resources]) => {
-    let data = { packages, trainings, resources };
+  Promise.all([p, t, r, rt]).then(([packages, trainings, resources, types]) => {
+    let data = { packages, trainings, resources, types };
     callback(null, {
       statusCode: 200,
       body: JSON.stringify(data)

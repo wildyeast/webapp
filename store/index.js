@@ -74,6 +74,13 @@ const createStore = () => {
         }
         return Promise.all(chain);
       },
+      checkStatus({ state }, id) {
+        return axios.get(`${origin}/.netlify/functions/checkStatus\?id\=${id}`).then((r) => {
+          return r.data;
+        }).catch((err) => {
+          console.log(err);
+        });
+      },
       getFabman({ state, commit }) {
         return axios.get(`${origin}/.netlify/functions/getFabman`).then((r) => {
           commit('setFabman', r.data);
