@@ -58,6 +58,7 @@ export default {
   .swiper-container {
     height: 50vh;
     .swiper-slide {
+      display: block;
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
