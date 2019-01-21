@@ -112,4 +112,12 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 1023px) {
+  .nav-item {
+    .caret-down {
+      right: -12px;
+    }
+  }
+}
 </style>
