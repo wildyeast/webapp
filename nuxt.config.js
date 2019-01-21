@@ -36,6 +36,9 @@ module.exports = {
   modules: [
     ['storyblok-nuxt', { accessToken: '1IsgW07t4t5sm0UzdHAD6gtt', cacheProvider: 'memory' }],
     '@nuxtjs/proxy',
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-106370674-4'
+    }]
   ],
   plugins: [
     '~/plugins/init',
