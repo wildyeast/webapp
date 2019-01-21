@@ -8,29 +8,26 @@
     </div>
     <header class="top-header">
       <div class="top-header-inner">
-        <main-nav-item class="desktop" :item="item" :key="item.id" v-for="item in main">
-        </main-nav-item>
-        <div class="menu-icon" @click="toggleMenu()">
-          <img src="~/assets/img/icons/menu-icon.svg">
-        </div>
-        <div class="spacer">
-        </div>
         <div class="logo">
           <nuxt-link class="top-header__link" to="/">
             <img src="~/assets/img/icons/gg-logo-icon.svg">
           </nuxt-link>
           <div class="dropdown" v-if="home && home.length > 0">
-            <div class="child" v-if="hasAuth">
-            </div>
-            <div class="child" v-else>
-              <button @click="login" class="login-button">LOGIN</button>
-            </div>
             <div v-for="child in home" :key="child.id" class="child">
               <sb-link :link="child.link" class="child-nav-item">
                 {{ child.name }}
               </sb-link>
             </div>
           </div>
+        </div>
+        <div class="spacer"></div>
+        <main-nav-item class="desktop" :item="item" :key="item.id" v-for="item in main">
+        </main-nav-item>
+        <div v-if="!hasAuth" class="login-button">
+          <button @click="login">LOGIN</button>
+        </div>
+        <div class="menu-icon" @click="toggleMenu()">
+          <img src="~/assets/img/icons/menu-icon.svg">
         </div>
       </div>
     </header>
@@ -117,7 +114,21 @@ export default {
   .top-header-inner {
     display: flex;
     justify-content: space-between;
-    margin: 0 -20px 0 -25px; // compensate paddings from logo and nav items
+    margin: 0 -15px 0 -20px; // compensate paddings from logo and nav items
+    .login-button {
+      padding: 12px 15px 18px 15px;
+      button {
+        font-weight: bold;
+        padding: 10px;
+        outline: none;
+        width: 100%;
+        color: #FFF;
+        border: none;
+        background-color: $color-orange;
+        margin: 3px 0;
+        cursor: pointer;
+      }
+    }
   }
 
   .logo {
@@ -140,8 +151,8 @@ export default {
       padding: 20px;
       background-color: #FFF;
       min-width: 150px;
-      right: 18px;
-      text-align: right;
+      left: 18px;
+      text-align: left;
       .child {
         .child-nav-item {
           white-space: nowrap;
@@ -152,16 +163,6 @@ export default {
           font-weight: bold;
           font-size: 0.9rem;
           padding: 8px;
-        }
-        .login-button {
-          outline: none;
-          width: 100%;
-          color: #FFF;
-          border: none;
-          background-color: $color-orange;
-          padding: 5px;
-          margin: 3px 0;
-          cursor: pointer;
         }
       }
     }

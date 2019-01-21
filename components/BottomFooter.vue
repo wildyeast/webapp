@@ -25,6 +25,7 @@
     </div>
     <div class="background-footer">
       <div class="background-footer-content">
+        <!--
         <div class="newsletter-footer">
           <h4>Immer am Ball bleiben</h4>
           <div class="newsletter-subscribe">
@@ -32,6 +33,7 @@
             <button>Meld mich an</button>
           </div>
         </div>
+        -->
         <div class="bottom-footer">
           <div class="footer-navigation">
             <div
@@ -219,6 +221,7 @@ export default {
           flex: 1;
         }
         .info-item {
+          padding: 15px;
           h4 {
             text-transform: uppercase;
           }

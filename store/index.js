@@ -109,7 +109,10 @@ const createStore = () => {
           // renew Token
           return new Promise((resolve, reject) => {
             webAuth.checkSession({}, function (err, authResult) {
-              if (err) return reject(err);
+              if (err) {
+                unsetToken();
+                return reject(err);
+              }
               if (authResult && authResult.accessToken) {
                 //set auth
                 let auth = {

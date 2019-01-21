@@ -18,7 +18,7 @@
               <div class="subtitle">{{blok.subtitle}}</div>
             </div>
             <div class="col-button">
-              <button class="apply-button">Bewerben</button>
+              <a href="mailto:office@grandgarage.eu"class="apply-button">Bewerben</a>
             </div>
           </div>
           <markdown :value="blok.description"></markdown>
