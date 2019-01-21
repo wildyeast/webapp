@@ -65,10 +65,9 @@ export default {
     height: 0.9em;
     position: absolute;
     right: 10px;
-    top: calc(50% - 3px);
+    top: 25px;
     svg {
       display: block;
-      transform: translateY(-50%);
       height: 100%;
     }
   }
