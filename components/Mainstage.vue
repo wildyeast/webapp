@@ -9,7 +9,7 @@
           :style="{ 'background-image': 'url(' + $resizeImage(s.image, '1600x0') + ')' }"
           >
           <sb-link :link="s.link">
-            <div class="wrapper" :class="{ 'dark': s.dark }">
+            <div class="wrapper">
               <span class="title">{{s.title}}</span>
               <span class="teaser">{{s.teaser}}</span>
             </div>
@@ -81,9 +81,6 @@ export default {
         align-items: flex-start;
         color: #000;
         padding-bottom: 3vw;
-        &.dark {
-          color: #FFF;
-        }
         .teaser {
           font-size: 2.0vw;
           font-family: $font-mono;
@@ -94,6 +91,7 @@ export default {
         }
         .teaser,
         .title {
+          background-color: #FFF;
           margin-bottom: 5px;
           padding: 5px 10px;
           display: block;
