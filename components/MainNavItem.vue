@@ -2,6 +2,9 @@
   <div class="nav-item">
     <sb-link :link="item.link" class="main-nav-item">
       {{ item.name }}
+      <div v-if="item.children && item.children.length > 0" class="caret-down">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"/></svg>
+      </div>
     </sb-link>
     <div class="dropdown" v-if="item.children && item.children.length > 0">
       <div v-for="child in item.children" :key="child.id" class="child">
@@ -56,6 +59,17 @@ export default {
     .dropdown {
       display: block;
       position: relative;
+    }
+  }
+  .caret-down {
+    height: 0.9em;
+    position: absolute;
+    right: 10px;
+    top: calc(50% - 3px);
+    svg {
+      display: block;
+      transform: translateY(-50%);
+      height: 100%;
     }
   }
   .dropdown {

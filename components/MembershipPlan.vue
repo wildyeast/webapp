@@ -42,7 +42,7 @@ export default {
     margin: 15px;
     padding: 25px;
     background-color: #FFF;
-    width: 300px;
+    width: 35vh;
     h2.title {
       font-weight: normal;
       margin: 0;
