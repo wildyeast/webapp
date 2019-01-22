@@ -10,6 +10,9 @@
         <div class="title">
           {{content.title}}
         </div>
+        <div class="subtitle">
+          {{content.subtitle}}
+        </div>
         <div class="teaser">
           {{content.teaser}}
         </div>
@@ -67,6 +70,9 @@ a {
     .title {
       font-family: $font-secondary;
       font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .subtitle {
       margin-bottom: 20px;
     }
     .teaser {

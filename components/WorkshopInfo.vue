@@ -2,8 +2,8 @@
   <div v-editable="blok" class="workshop-info">
     <div class="teaser-content">
       <div class="col-start">
-        <h2 v-if="blok.title" class="headline">
-          {{blok.title}}
+        <h2 v-if="blok.subtitle" class="headline">
+          {{blok.subtitle}}
         </h2>
       </div>
       <div class="col-end">
