@@ -1,10 +1,8 @@
 <template>
-  <!--
   <nuxt-link :to="'/' + blok.full_slug">
-  -->
     <div class="workshop-list-item">
       <div class="image">
-        <img :src="$resizeImage(content.image, '320x0')" alt=""/>
+        <img :src="$resizeImage(content.image, '320x320')" alt=""/>
       </div>
       <div class="body">
         <div class="title">
@@ -16,16 +14,12 @@
         <div class="teaser">
           {{content.teaser}}
         </div>
-        <div class="cta">
-          <nuxt-link :to="'/' + blok.full_slug">
-            Mehr Info
-          </nuxt-link>
+        <div class="trainer">
+          {{content.trainer}}
         </div>
       </div>
     </div>
-    <!--
   </nuxt-link>
-    -->
 </template>
 
 <script>
@@ -41,18 +35,8 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/styles.scss';
-/*
-a {
-  text-decoration: none;
-  color: #000;
-  &:active,
-  &:focus {
-    color: #000;
-  }
-}
-*/
-
 .workshop-list-item {
+  color: #000;
   display: flex;
   margin-bottom: 25px;
   .image {
@@ -65,6 +49,8 @@ a {
   }
   .body {
     flex: 2;
+    display: flex;
+    flex-direction: column;
     background-color: #FFF;
     padding: 20px;
     .title {
@@ -73,24 +59,19 @@ a {
       margin-bottom: 10px;
     }
     .subtitle {
+      font-family: $font-mono;
+      font-size: 0.9em;
       margin-bottom: 20px;
+      color: $color-orange;
     }
     .teaser {
+      flex: 1;
       font-family: $font-mono;
       line-height: 1.2;
       font-size: 0.9rem;
     }
-    .cta {
-      text-transform: uppercase;
+    .trainer {
       font-weight: bold;
-      font-size: 0.9rem;
-      font-family: $font-secondary;
-      letter-spacing: 0.05rem;
-      padding: 25px 0;
-      a {
-        color: $color-blue;
-        text-decoration: none;
-      }
     }
   }
 }
