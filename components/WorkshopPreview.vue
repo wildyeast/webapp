@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="story">
     <div class="preview-wrapper">
       <div class="workshop-preview">
         <nuxt-link v-if="story" class="story" :to="story.full_slug">
