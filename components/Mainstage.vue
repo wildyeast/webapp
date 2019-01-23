@@ -74,6 +74,9 @@ export default {
       background-position: center;
       display: flex;
       align-items: flex-end;
+      a {
+        width: 100%;
+      }
       .wrapper {
         padding: 20px;
         display: flex;
@@ -81,16 +84,26 @@ export default {
         align-items: flex-start;
         color: #000;
         padding-bottom: 3vw;
+        @include media-breakpoint-down(sm) {
+          padding-bottom: 6vw;
+        }
         .teaser {
           font-size: 2.0vw;
           font-family: $font-mono;
+          @include media-breakpoint-down(sm) {
+            font-size: 2.0vh;
+          }
         }
         .title {
-          font-size: 6.5vw;
+          font-size: 8vw;
           z-index: 9;
+          @include media-breakpoint-down(sm) {
+            font-size: 8vh;
+          }
         }
         .teaser,
         .title {
+          max-width: 100%;
           background-color: #FFF;
           margin-bottom: 5px;
           padding: 5px 10px;

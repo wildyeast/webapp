@@ -80,7 +80,7 @@ export default {
       background-position: center;
       background-repeat: no-repeat;
     }
-    padding-bottom: 60px;
+    padding-bottom: 5vw;
   }
   .swiper-button-prev,
   .swiper-button-next {

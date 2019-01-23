@@ -11,7 +11,6 @@
       </div>
       <div class="pre-footer-bottom">
         <div class="col text">Innovationswerkstatt für Menschen, Wissen und Technologie</div>
-
         <div class="col logos">
           <div v-swiper:swiper="swiperOption">
             <div class="swiper-wrapper">
@@ -61,33 +60,49 @@ export default {
   data() {
     return {}
   },
+  methods: {
+    shuffle(arra1) {
+      let ctr = arra1.length;
+      let temp;
+      let index;
+
+      while (ctr > 0) {
+        index = Math.floor(Math.random() * ctr);
+        ctr--;
+        temp = arra1[ctr];
+        arra1[ctr] = arra1[index];
+        arra1[index] = temp;
+      }
+      return arra1;
+    }
+  },
   computed: {
     logos() {
-      return this.$store.state.settings.footer_logos;
+      return this.shuffle(this.$store.state.settings.footer_logos);
     },
     num() {
       if (process.client && window && window.innerWidth) {
-        if (window.innerWidth < 500) {
+        if (window.innerWidth < 576) {
           return 4;
         }
         if (window.innerWidth < 786) {
-          return 6;
-        }
-        if (window.innerWidth < 1200) {
           return 8;
+        }
+        if (window.innerWidth < 1366) {
+          return 6;
         }
       }
       return 8;
     },
     spaceBetween() {
       if (process.client && window && window.innerWidth) {
-        if (window.innerWidth < 500) {
+        if (window.innerWidth < 576) {
           return 20;
         }
         if (window.innerWidth < 786) {
           return 30;
         }
-        if (window.innerWidth < 1200) {
+        if (window.innerWidth < 1366) {
           return 40;
         }
       }
@@ -124,7 +139,7 @@ export default {
       z-index: 0;
       fill: #fff;
       position: relative;
-      transform: scale(5) translateX(75%) translateY(50%);
+      transform: scale(5) translateX(50%) translateY(50%);
       left: 0;
     }
     .pre-footer-top {
@@ -135,7 +150,7 @@ export default {
       .logo {
         width: 25%;
         @include media-breakpoint-down(sm) {
-          width: 33%;
+          width: 50%;
         }
         img {
           max-width: 100%;
@@ -144,6 +159,7 @@ export default {
       }
     }
     .pre-footer-bottom {
+      height: 8em;
       display: flex;
       @include media-breakpoint-down(sm) {
         flex-direction: column;
@@ -152,17 +168,20 @@ export default {
       margin-bottom: 10px;
 
       .col {
+        flex: 1;
         padding: 0 25px;
         @include media-breakpoint-up(md) {
           width: 50%;
         }
         &.text {
           text-transform: uppercase;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           text-align: center;
         }
         &.logos {
           display: flex;
-          min-height: 80px;
           .swiper-slide {
             display: flex;
             flex-direction: column;
