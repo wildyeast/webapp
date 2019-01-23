@@ -20,24 +20,39 @@
 
 <script>
 export default {
-  props: ["blok"],
-  data() {
-    return {
-      swiperOption: {
-        slidesPerView: 3,
-        spaceBetween: 30,
+  props: ['blok'],
+  computed: {
+    swiperOption() {
+      return {
+        slidesPerView: this.num,
+        spaceBetween: this.spaceBetween,
         autoplay: {
           delay: 5000,
           disableOnInteraction: true
         },
         navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
         }
       }
-    };
-  },
-  methods: {}
+    },
+    spaceBetween() {
+      if (process.client && window && window.innerWidth) {
+        if (window.innerWidth < 786) {
+          return 0;
+        }
+      }
+      return 30;
+    },
+    num() {
+      if (process.client && window && window.innerWidth) {
+        if (window.innerWidth < 786) {
+          return 1;
+        }
+      }
+      return 3;
+    },
+  }
 };
 </script>
 
