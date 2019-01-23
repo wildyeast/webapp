@@ -61,8 +61,7 @@ export default {
 @import "@/assets/scss/styles.scss";
 
 .login-form {
-  margin: 0 -10px;
-  padding: 50px;
+  padding: 5vw;
   background-color: $color-bright-bg;
   .header-item {
     margin-bottom: 40px;
@@ -85,7 +84,9 @@ export default {
   .form-item {
     padding: 0 0 18px;
     display: grid;
-    grid-template-columns: 28% 72%;
+    @include media-breakpoint-up(sm) {
+      grid-template-columns: 28% 72%;
+    }
     align-items: center;
     .label {
       font-weight: bold;
@@ -97,6 +98,9 @@ export default {
       border: 1px solid #fff;
       flex-grow: 1;
       padding: 5px 10px;
+      @include media-breakpoint-down(xs) {
+        margin: 1vh 0;
+      }
       &:focus {
         border-color: $color-orange;
       }
