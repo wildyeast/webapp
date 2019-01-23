@@ -26,22 +26,22 @@
     <div class="background-footer">
       <div class="background-footer-content">
         <!--
-        <div class="newsletter-footer">
+          <div class="newsletter-footer">
           <h4>Immer am Ball bleiben</h4>
           <div class="newsletter-subscribe">
-            <input type="email" placeholder="Deine E-Mail Adresse">
-            <button>Meld mich an</button>
+          <input type="email" placeholder="Deine E-Mail Adresse">
+          <button>Meld mich an</button>
           </div>
-        </div>
+          </div>
         -->
         <div class="bottom-footer">
           <div class="footer-navigation">
             <div
-              class="nav-item"
-              :key="index"
-              v-for="(navitem, index) in $store.state.settings.footer_navi"
-            >
-              <sb-link :link="navitem.link">{{navitem.name}}</sb-link>
+               class="nav-item"
+               :key="index"
+               v-for="(navitem, index) in $store.state.settings.footer_navi"
+               >
+               <sb-link :link="navitem.link">{{navitem.name}}</sb-link>
             </div>
           </div>
           <div class="spacer"></div>
@@ -59,10 +59,44 @@
 <script charset="utf-8">
 export default {
   data() {
-    return {
-      swiperOption: {
-        slidesPerView: 7,
-        centeredSlides: true,
+    return {}
+  },
+  computed: {
+    logos() {
+      return this.$store.state.settings.footer_logos;
+    },
+    num() {
+      if (process.client && window && window.innerWidth) {
+        if (window.innerWidth < 500) {
+          return 4;
+        }
+        if (window.innerWidth < 786) {
+          return 6;
+        }
+        if (window.innerWidth < 1200) {
+          return 8;
+        }
+      }
+      return 8;
+    },
+    spaceBetween() {
+      if (process.client && window && window.innerWidth) {
+        if (window.innerWidth < 500) {
+          return 20;
+        }
+        if (window.innerWidth < 786) {
+          return 30;
+        }
+        if (window.innerWidth < 1200) {
+          return 40;
+        }
+      }
+      return 50;
+    },
+    swiperOption() {
+      return {
+        slidesPerView: this.num,
+        spaceBetween: this.spaceBetween,
         freeMode: true,
         autoplay: {
           delay: 2000,
@@ -70,12 +104,6 @@ export default {
         },
         loop: true
       }
-    };
-  },
-
-  computed: {
-    logos() {
-      return this.$store.state.settings.footer_logos;
     }
   }
 };
@@ -124,10 +152,10 @@ export default {
       margin-bottom: 10px;
 
       .col {
+        padding: 0 25px;
         @include media-breakpoint-up(md) {
           width: 50%;
         }
-        padding: 25px;
         &.text {
           text-transform: uppercase;
           text-align: center;
@@ -140,7 +168,8 @@ export default {
             flex-direction: column;
             justify-content: center;
             img {
-              max-width: 100%;
+              height: auto;
+              width: 100%;
               display: block;
               height: auto;
             }
