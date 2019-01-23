@@ -1,26 +1,27 @@
 <template>
   <div v-editable="blok" class="workshop-info">
     <div class="teaser-content">
-      <div class="col-start">
-        <h2 v-if="blok.subtitle" class="headline">
-          {{blok.subtitle}}
-        </h2>
+      <h2 v-if="blok.subtitle" class="headline">
+        {{blok.subtitle}}
+      </h2>
+      <div v-if="blok.teaser && !blok.info" class="teaser">
+        {{blok.teaser}}
       </div>
-      <div class="col-end">
-        <p v-if="blok.teaser" class="text">
-          {{blok.teaser}}
-        </p>
-      </div>
-      <div class="col-end">
-        <a v-if="blok.link" :href="blok.link.cached_url" target="_blank">Termine und Anmeldung</a>
-      </div>
+      <markdown v-if="blok.info" :value="blok.info" class="info">
+      </markdown>
+      <a v-if="blok.link" :href="blok.link.cached_url" class="link" target="_blank">{{linktitle}}</a>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['blok']
+  props: ['blok'],
+  computed: {
+    linktitle() {
+     return  this.blok.linktitle || 'Mehr Infos'
+    }
+  }
 }
 </script>
 
@@ -34,36 +35,51 @@ export default {
   flex: 1;
   justify-content: center;
   .teaser-content {
-    max-width: 100%;
-    margin: 0 100px;
+    @include margin-page-wide();
+    @include media-breakpoint-up(md) {
+      margin: 0 100px;
+    }
     flex-direction: column;
     position: relative;
-    height: 75%;
     display: flex;
-    .col-start {
-      flex: 1;
-      display: flex;
-      align-items: flex-start;
-      .headline {
+    align-items: flex-start;
+    .headline {
+      position: relative;
+      @include media-breakpoint-up(md) {
         max-width: 50%;
-        position: relative;
         font-size: 2.8rem;
-        line-height: 1.5;
-        font-weight: bold;
-        font-family: $font-secondary;
       }
+      @include media-breakpoint-down(sm) {
+        margin: 3vh 5%;
+      }
+      line-height: 1.5;
+      font-family: $font-secondary;
     }
-    .col-end {
-      flex: 1;
-      display: flex;
-      justify-content: flex-end;
-      .text {
-        max-width: 75%;
-        font-weight: normal;
-        font-family: $font-primary;
-        line-height: 1.8;
-        font-size: 1.1rem;
+    .teaser, .info {
+      max-width: 90%;
+      @include media-breakpoint-up(md) {
+        margin-left: 25%;
       }
+      font-weight: normal;
+      font-family: $font-primary;
+      line-height: 1.8;
+      font-size: 1.1rem;
+      @include media-breakpoint-down(sm) {
+        line-height: 1.4;
+        font-size: 1rem;
+        margin: 0 0 0 5%
+      }
+
+    }
+    .link {
+      background-color: $color-orange;
+      margin: 0 0 0 5%;
+      @include media-breakpoint-up(md) {
+        margin-left: 25%;
+      }
+      color: #fff;
+      padding: .7em .8em;
+      font-weight: 800;
     }
   }
 }

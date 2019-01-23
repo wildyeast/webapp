@@ -114,23 +114,39 @@ export default {
   }
   .machine-filters {
     .tags {
+      padding: 8vh 0;
       .headline {
         color: #FFF;
         font-weight: bold;
         font-size: 1.8rem;
+        @include margin-page-wide();
         margin-bottom: 20px;
         text-transform: uppercase;
         letter-spacing: .05em;
       }
       .tag-list {
-        margin: 0 -20px;
-        .tag {
-          display: inline-block;
-          padding: 0 20px;
-          margin-bottom: 10px;
+        @include margin-page-wide();
+        display: grid;
+        max-width: 70em;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        @include media-breakpoint-down(lg) {
+          grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        }
+        @include media-breakpoint-down(md) {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+        @include media-breakpoint-down(sm) {
+          grid-template-columns: 1fr 1fr;
+        }
+        @include media-breakpoint-down(xs) {
+          grid-template-columns: 1fr;
+        }
+        grid-gap: 15px 20px;
+        >.tag {
           font-family: $font-mono;
           color: #FFF;
           user-select: none;
+          cursor: pointer;
           input[type=checkbox] {
             outline: none;
             -webkit-appearance: none;
@@ -145,7 +161,6 @@ export default {
           }
         }
       }
-      padding: 40px;
       background-color: $color-blue;
     }
     .search {

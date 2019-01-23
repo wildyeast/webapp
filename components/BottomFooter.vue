@@ -106,6 +106,9 @@ export default {
       justify-content: center;
       .logo {
         width: 25%;
+        @include media-breakpoint-down(sm) {
+          width: 33%;
+        }
         img {
           max-width: 100%;
           display: block;
@@ -114,19 +117,24 @@ export default {
     }
     .pre-footer-bottom {
       display: flex;
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
       z-index: 1;
       margin-bottom: 10px;
 
       .col {
-        width: 50%;
+        @include media-breakpoint-up(md) {
+          width: 50%;
+        }
         padding: 25px;
-
         &.text {
           text-transform: uppercase;
           text-align: center;
         }
         &.logos {
           display: flex;
+          min-height: 80px;
           .swiper-slide {
             display: flex;
             flex-direction: column;

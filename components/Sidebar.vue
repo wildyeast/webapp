@@ -2,10 +2,11 @@
   <transition name="fade">
   <div class="sidebar" v-if="sidebar">
     <div class="backdrop" @click="close"></div>
+    <div class="close" @click="close">X</div>
     <transition name="slide" appear>
-      <login-form class="pane" v-if="sidebar == 'login'"></login-form>
-      <register-form class="pane" v-else-if="sidebar == 'register'"></register-form>
-      <register-success-form class="pane" v-else-if="sidebar == 'register-success'"></register-success-form>
+        <login-form class="pane" v-if="sidebar == 'login'"></login-form>
+        <register-form class="pane" v-else-if="sidebar == 'register'"></register-form>
+        <register-success-form class="pane" v-else-if="sidebar == 'register-success'"></register-success-form>
     </transition>
   </div>
   </transition>
@@ -40,6 +41,11 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
+  .close {
+    width: 30px;
+    height: 30px;
+    background-color: #f00;
+  }
   .backdrop {
     height: 100%;
     width: 100%;
@@ -51,7 +57,16 @@ export default {
     top: 0;
     right: 0;
     height: 100vh;
-    max-width: 50vw;
+    @include media-breakpoint-up(lg) {
+      max-width: 50vw;
+    }
+    @include media-breakpoint-down(md) {
+      max-width: 60vw;
+    }
+    @include media-breakpoint-down(sm) {
+      max-width: 100vw;
+    }
+
     overflow: auto;
   }
 }

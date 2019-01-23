@@ -88,8 +88,10 @@ export default {
         .name-contact {
           padding-bottom: 1rem;
           border-bottom: .4rem solid black;
+          margin-top: 1rem;
           margin-bottom: 1rem;
           display: flex;
+          flex-direction: column-reverse;
           align-items: flex-end;
           justify-content: space-between;
           .name {
@@ -97,7 +99,6 @@ export default {
             font-size: 4rem;
             text-transform: uppercase;
             line-height: 1.2;
-            max-width: 60%;
           }
           .contact-options {
             font-size: .9rem;
@@ -195,6 +196,7 @@ export default {
       flex-direction: column;
       .info {
         width: 100%;
+        margin: 0;
         .short-info {
           .name-contact {
             .name {
@@ -211,8 +213,31 @@ export default {
     }
     .short-description-mobile {
     }
+    .body {
+      .future-slogan {
+        margin-left: 2%;
+        margin-bottom: 20%;
+      }
+      .description {
+        margin: 0;
+      }
+    }
   }
 
+  @include media-breakpoint-down(xs) {
+    .header {
+      .info {
+        .short-info {
+          .name-contact {
+            .name {
+              font-size: 2em;
+            }
+          }
+        }
+      }
+    }
+
+  }
 
 
 }

@@ -37,7 +37,9 @@ export default {
     display: flex;
     justify-content: flex-end;
     .info-item {
-      transform:translateY(-50%);
+      @include media-breakpoint-up(sm) {
+        transform:translateY(-50%);
+      }
       background-color: #000;
       a {
         text-decoration: none;
