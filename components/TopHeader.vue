@@ -1,10 +1,12 @@
 <template>
   <div class="header-wrapper">
     <div class="login-header" v-if="hasAuth">
-      <nuxt-link to="/me" v-if="hasUser">
-        {{username}}
-      </nuxt-link>
-      <span v-else>Loading</span>
+      <div class="login-header-content">
+        <nuxt-link to="/me" v-if="hasUser">
+          {{username}}
+        </nuxt-link>
+        <span v-else>Loading</span>
+      </div>
     </div>
     <header class="top-header">
       <div class="top-header-inner">
@@ -97,8 +99,11 @@ export default {
     padding: 5px;
     color: #FFF;
     text-align: right;
-    font-size: 0.9em;
-    height: 1.6em;
+    font-size: 0.85em;
+    height: 1.7em;
+    .login-header-content {
+      @include margin-page-wide();
+    }
     a {
       color: #FFF;
     }

@@ -168,7 +168,6 @@ export default {
 @import "@/assets/scss/styles.scss";
 
 .register-form {
-  margin: 0 -10px;
   padding: 50px;
   background-color: $color-bright-bg;
   .header-item {
@@ -195,9 +194,12 @@ export default {
     }
   }
   .form-item {
-    padding: 0 0 18px;
-    display: grid;
-    grid-template-columns: 28% 72%;
+    padding: 0 0 5px;
+    @include media-breakpoint-up(sm) {
+      padding: 0 0 18px;
+      display: grid;
+      grid-template-columns: 28% 72%;
+    }
     align-items: center;
     .label {
       font-weight: bold;
@@ -208,6 +210,9 @@ export default {
       outline: none;
       flex-grow: 1;
       padding: 5px 10px;
+      @include media-breakpoint-down(xs) {
+        margin: 1vh 0;
+      }
       background: #fff;
       border: 1px solid #fff;
       width: 100%;
