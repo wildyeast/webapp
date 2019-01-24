@@ -3,17 +3,15 @@
     <!-- if item has children -->
     <div
       v-if="item.children && item.children.length > 0"
-      class="main-nav-item"
-      :class="(selected == item._uid ? 'is-selected' : '')"
-      @click="openLayer()">
-      <div class="level-entry">
+      class="main-nav-item">
+      <div class="level-entry" @click="openLayer()">
         {{ item.name }}
       </div>
       <transition name="fadefromright" v-if="item.children && item.children.length > 0">
         <div :key="item._uid" class="nav-layer" v-if="active">
           <div class="level-header">
             <div class="levelUp" @click="closeLayer()"><</div>
-            <div class="close">X</div>
+            <div class="close" @click="closeNav()">X</div>
           </div>
           <sb-link :link="item.link" class="child-nav-item main-item">
             <div>{{ item.name }}</div>
@@ -36,12 +34,8 @@
 <script charset="utf-8">
 export default {
   props: ['item'],
-  created() {
-    this.selected = null;
-  },
   data() {
     return {
-      selected: null,
       active: false
     }
   },
@@ -50,16 +44,13 @@ export default {
       this.active = true;
     },
     closeLayer() {
-      console.log('TODO close Layer!');
-      console.log(this.active);
       this.active = false;
-      console.log(this.active);
     },
     closeNav() {
-      console.log('TODO close NAV!');
+      this.active = false;
+      this.$emit('close');
     }
-  },
-
+  }
 }
 </script>
 
@@ -75,6 +66,9 @@ export default {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: .08em;
+    &.nuxt-link-active {
+      color: $color-orange
+    }
   }
   .main-nav-item {
     color: #000;
@@ -96,6 +90,9 @@ export default {
     }
     .child-nav-item {
       color: #fff;
+      &.nuxt-link-active {
+        color: $color-orange
+      }
     }
     .nav-layer {
       position: absolute;
@@ -105,9 +102,6 @@ export default {
       bottom: 0;
       background: $color-blue;
       color: #fff;
-      a {
-        color: #fff;
-      }
       .level-header {
         display: flex;
         justify-content: space-between;

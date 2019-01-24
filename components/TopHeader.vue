@@ -1,5 +1,5 @@
 <template>
-  <div class="header-wrapper" :class="(scrolled ? 'scrolled' : '')">
+  <div class="header-wrapper" :class="{ 'scrolled': scrolled }">
     <div class="login-header" v-if="hasAuth">
       <div class="login-header-content">
         <nuxt-link to="/me" v-if="hasUser">
@@ -45,7 +45,7 @@
             </nuxt-link>
           </div>
         </div>
-        <main-nav-mobile-item class="mobile" :item="item" @toggleMenu="toggleMenu" :key="item.id" v-for="item in main">
+        <main-nav-mobile-item class="mobile" :item="item" @close="closeMenu" :key="item.id" v-for="item in main">
         </main-nav-mobile-item>
       </div>
     </transition>
@@ -57,8 +57,8 @@ export default {
   props: ['blok'],
   data() {
     return {
-      showMenu: false,
-      scrolled: false
+      scrolled: false,
+      showMenu: false
     }
   },
   computed: {
@@ -82,11 +82,14 @@ export default {
     }
   },
   watch: {
-    '$store.state.route.fullPath': function () {
-      this.showMenu = false;
+    '$store.state.route.fullPath': function() {
+      this.closeMenu();
     }
   },
   methods: {
+    closeMenu() {
+      this.showMenu = false;
+    },
     toggleMenu() {
       this.showMenu = !this.showMenu;
     },
