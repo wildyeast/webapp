@@ -67,7 +67,7 @@ export default {
     }
 
     .arrow {
-      min-width: 130px;
+      width: 180px;
     }
   }
   &.active {
@@ -79,14 +79,11 @@ export default {
   }
 }
 
-@media (min-width: 420px) {
+@media (max-width: 460px) {
   .level-item {
     .text {
-      .arrow {
-        width: 180px;
-      }
+      display: none;
     }
   }
 }
 </style>
-

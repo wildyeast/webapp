@@ -25,6 +25,9 @@ export default {
     margin-right: 4%;
     .headline {
       font-size: 3rem;
+      @include media-breakpoint-down(sm) {
+        font-size: 2em;
+      }
       text-transform: uppercase;
       flex: 1;
     }
