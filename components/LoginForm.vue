@@ -45,7 +45,6 @@ export default {
         password: this.password
       }
       this.$store.dispatch('loginUser', data).then((r) => {
-        console.log(r);
       }).catch((e) => {
         this.errorMessage = e.description || e.error || e.code;
       });
