@@ -2,25 +2,29 @@
   <div v-editable="blok" class="membership-grid">
 
     <div class="membership-info">
-      <div v-if="blok.title" class="title">
-        {{blok.title}}
-      </div>
+      <div>
+        <div v-if="blok.title" class="title">
+          {{blok.title}}
+        </div>
 
-      <div class="info" v-if="blok.info">
-        <markdown :value="blok.info"></markdown>
+        <div class="info" v-if="blok.info">
+          <markdown :value="blok.info"></markdown>
+        </div>
       </div>
-
       <div class="image">
         <img :src="$resizeImage(blok.image, '500x0')" alt=""/>
       </div>
     </div>
     <div class="membership-details">
-      <div class="priceTabs">
-        <div @click="setPriceView('monthly')">
-          monthly
-        </div>
-        <div @click="setPriceView('annually')">
-          annualy
+      <div class="payment-options">
+        <div class="payment-options-title">Zahlungsintervall:</div>
+        <div class="pricetabs">
+          <div @click="setPriceView('monthly')" class="pricetab" :class="(priceView == 'monthly' ? 'active' : '')">
+            monatlich
+          </div>
+          <div @click="setPriceView('annually')" class="pricetab" :class="(priceView == 'annually' ? 'active' : '')">
+            jährlich
+          </div>
         </div>
       </div>
       <div class="membership-plans">
@@ -68,12 +72,27 @@ export default {
 .membership-grid {
   margin: 10vh 0 10vh;
   display: flex;
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
   .membership-info {
     margin-left: 3%;
-    flex-grow: 1;
+    flex-basis: 34%;
+    display: flex;
+    flex-direction: column;
+    @include media-breakpoint-down(md) {
+      flex-direction: row;
+    }
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+
     .title {
       position: relative;
       font-size: 2.8rem;
+      @include media-breakpoint-down(lg) {
+        font-size: 2.35rem;
+      }
       line-height: 1.3;
       font-weight: bold;
       font-family: $font-primary;
@@ -82,10 +101,21 @@ export default {
       width: 50%;
     }
     .image {
-      flex: 1;
       img {
         display: block;
         max-width: 100%;
+        @include media-breakpoint-down(md) {
+          margin-left: 3%;
+          margin-top: 10vh;
+        }
+        @include media-breakpoint-down(sm) {
+          margin-left: 0;
+          margin-top: 1vh;
+        }
+
+        @include media-breakpoint-up(lg) {
+          max-width: 90%;
+        }
         height: auto;
         max-height: 30vh;
       }
@@ -94,6 +124,9 @@ export default {
       margin-top: 0;
       padding: 0;
       width: 80%;
+      @include media-breakpoint-down(md) {
+        width: 95%;
+      }
       font-size: 1rem;
       letter-spacing: 0.03em;
       line-height: 1.4;
@@ -101,11 +134,41 @@ export default {
 
   }
   .membership-details {
-    flex-grow: 3;
+    flex-basis: 66%;
+    .payment-options {
+      margin: 4vh 0 3vh;
+      align-items: center;
+      justify-content: center;
+      font-size: .8em;
+      text-transform: uppercase;
+
+      .payment-options-title {
+        font-weight: bold;
+        margin-right: .7em;
+      }
+      display: flex;
+      .pricetabs {
+        display: inline-flex;
+        .pricetab {
+          cursor: pointer;
+          padding: .4em 1em;
+          &.active {
+            background-color: $color-orange;
+            border-radius: 1em;
+            color: #fff;
+          }
+        }
+      }
+    }
     .membership-plans {
       display: grid;
       grid-column-gap: 1vw;
       grid-template-columns: 1fr 1fr;
+      @include media-breakpoint-down(sm) {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
     }
     .register-button {
       text-align: center;
@@ -119,6 +182,10 @@ export default {
         padding: 15px;
         background-color: $color-orange;
         margin: 1.5em 0;
+        transition: background-color .3s linear;
+        &:hover {
+          background-color: saturate(darken($color-orange, 5%), 100%);
+        }
       }
     }
     .plans-text {
@@ -129,7 +196,7 @@ export default {
         font-size: 4em;
         position: absolute;
         left: -.6em;
-        top: -.6em;
+        top: -.8em;
         color: $color-orange;
       }
       font-size: 0.9rem;

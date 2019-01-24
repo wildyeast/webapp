@@ -2,26 +2,40 @@
   <div v-editable="blok" class="col">
     <div class="plan">
       <h2 class="title">{{ blok.name }}</h2>
-      <div class="pricewrapper" v-if="priceView == 'monthly'">
-        <div class="price">
-          <h4 class="title">Ermäßigt</h4>
-          <div class="pricetag">{{blok.price_reduced}},- / Monat</div>
+      <transition name="changeprice">
+        <div class="pricewrapper" v-if="priceView == 'monthly'">
+          <div class="price">
+            <h4 class="title">Ermäßigt</h4>
+            <div class="pricetag">
+              <div class="price-value">{{blok.price_reduced}},-</div>
+              <div class="interval">p.m.</div>
+            </div>
+          </div>
+          <div class="price">
+            <h4 class="title">Regulär</h4>
+            <div class="pricetag">
+              <div class="price-value">{{blok.price_regular}},-</div>
+              <div class="interval">p.m.</div>
+            </div>
+          </div>
         </div>
-        <div class="price">
-          <h4 class="title">Regulär</h4>
-          <div class="pricetag">{{blok.price_regular}},- / Monat</div>
+        <div class="pricewrapper" v-else-if="priceView == 'annually'">
+          <div class="price">
+            <h4 class="title">Ermäßigt</h4>
+            <div class="pricetag">
+              <div class="price-value">{{blok.price_reduced_annually}},- </div>
+              <div class="interval">p.a.</div>
+            </div>
+          </div>
+          <div class="price">
+            <h4 class="title">Regulär</h4>
+            <div class="pricetag">
+              <div class="price-value">{{blok.price_regular_annually}},- </div>
+              <div class="interval">p.a.</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="pricewrapper" v-if="priceView == 'annually'">
-        <div class="price">
-          <h4 class="title">Ermäßigt</h4>
-          <div class="pricetag">{{blok.price_reduced_annually}},- / Jahr</div>
-        </div>
-        <div class="price">
-          <h4 class="title">Regulär</h4>
-          <div class="pricetag">{{blok.price_regular_annually}},- / Jahr</div>
-        </div>
-      </div>
+      </transition>
       <ul class="feature-list">
         <li class="feature" v-for="item in blok.features" :key="item._uid">{{item.text}}</li>
       </ul>
@@ -62,11 +76,12 @@ export default {
     }
   }
   .plan {
-    /*border: 4px solid #eee;*/
     padding: 3vw;
     background-color: #FFF;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+    margin-bottom: 2vh;
     h2.title {
       font-weight: normal;
       margin: 0;
@@ -91,8 +106,10 @@ export default {
       }
     }
     .pricewrapper {
+      display: flex;
       .price {
-        margin: 15px 0;
+        margin-top: .4em;
+        width: 50%;
         .title {
           margin: 5px 0;
           text-transform: uppercase;
@@ -100,20 +117,29 @@ export default {
           font-size: 0.6rem;
         }
         .pricetag {
-          outline: none;
-          border: none;
           font-weight: bold;
           font-size: 0.8rem;
-          display: block;
+          display: flex;
+          align-items: flex-end;
           width: 100%;
           text-decoration: none;
-          padding: 10px;
-          color: $color-orange;
-          background: $color-bright-bg;
-          text-align: center;
+          .price-value {
+            font-size: 1.4em;
+            margin-right: .2em;
+          }
+          .interval {
+            color: #999;
+          }
         }
       }
     }
+  }
+  .changeprice-enter-active, .changeprice-leave-active {
+    transition: all 0.3s;
+  }
+  .changeprice-enter, .changeprice-leave-to {
+    opacity: 0;
+    transform: translateX(.5em);
   }
 }
 </style>

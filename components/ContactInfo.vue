@@ -36,8 +36,11 @@ export default {
   .info {
     display: flex;
     justify-content: flex-end;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
     .info-item {
-      @include media-breakpoint-up(sm) {
+      @include media-breakpoint-up(md) {
         transform:translateY(-50%);
       }
       background-color: #000;
@@ -46,6 +49,9 @@ export default {
         color: #FFF;
         display: block;
         padding: 50px;
+        @include media-breakpoint-down(sm) {
+          padding: 3vh 10%;
+        }
       }
       h4.title {
         margin: 0;

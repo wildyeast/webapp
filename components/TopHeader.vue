@@ -1,5 +1,5 @@
 <template>
-  <div class="header-wrapper">
+  <div class="header-wrapper" :class="(scrolled ? 'scrolled' : '')">
     <div class="login-header" v-if="hasAuth">
       <div class="login-header-content">
         <nuxt-link to="/me" v-if="hasUser">
@@ -57,7 +57,8 @@ export default {
   props: ['blok'],
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      scrolled: false
     }
   },
   computed: {
@@ -96,6 +97,20 @@ export default {
       this.$store.dispatch('logout').then(() => {
         this.$router.push('/');
       });
+    },
+    // add css-shadow when page is scrolled down
+    handleScroll () {
+      this.scrolled = window.scrollY > 0;
+    },
+  },
+  created () {
+    if (process.client) {
+      window.addEventListener('scroll', this.handleScroll);
+    }
+  },
+  destroyed () {
+    if (process.client) {
+      window.removeEventListener('scroll', this.handleScroll);
     }
   }
 }
@@ -111,6 +126,10 @@ export default {
   z-index: 1000;
   width: 100%;
   max-width: 100%;
+  transition: box-shadow 1s linear;
+  &.scrolled {
+    box-shadow: 0 2px 5px rgba(0,0,0,.2);
+  }
   .login-header {
     background-color: $color-blue-alt;
     padding: 5px;
