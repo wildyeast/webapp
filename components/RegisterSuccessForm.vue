@@ -4,7 +4,6 @@
     <p>Bitte prüfe deine Email um deinen Account zu bestätigen.</p>
     <p>Besuche unsere Info um eine Mitgliedschaft abzuschließen.</p>
     <button @click="close">Zurück</button>
-    <button @click="login">Zum Login</button>
   </div>
 </template>
 
@@ -19,9 +18,6 @@ export default {
   computed: {
   },
   methods: {
-    login() {
-      this.$store.dispatch('setSidebar', 'login');
-    },
     close() {
       this.$store.dispatch('setSidebar', null);
     },

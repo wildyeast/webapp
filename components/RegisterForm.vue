@@ -41,6 +41,13 @@
           <span class="bad" v-if="!passwordValid">Passwörter stimmen nicht überein</span>
         </div>
       </div>
+      <div class="form-item error-message" v-if="errorMessage">
+        <span></span>
+        <div>
+          <span>{{errorMessage}}</span>
+          <markdown class="policy" v-if="errorDescription" :value="errorDescription"></markdown>
+        </div>
+      </div>
       <div class="checkbox-item">
         <div class="checkbox-wrapper">
           <input type="checkbox" id="agb" v-model="agb" />
@@ -61,9 +68,6 @@
         <label for="newsletter">Ich bin damit einverstanden, Newsletter an meine angegebene E-Mail Adresse zu erhalten.</label>
       </div>
       -->
-      <div class="form-item error-message" v-if="errorMessage">
-        <span>{{errorMessage}}</span>
-      </div>
       <div class="form-item button-row">
         <button :disabled="!formValid" @click="submit">Registrieren</button>
       </div>
@@ -88,6 +92,7 @@ export default {
       dsg: false,
       newsletter: false,
       errorMessage: null,
+      errorDescription: '',
       loading: false,
     }
   },
@@ -135,8 +140,7 @@ export default {
               break;
             case 'invalid_password':
               this.errorMessage = 'Das Passwort ist zu schwach.';
-              // not displaying policy, but printing to console
-              console.log(e.policy);
+              this.errorDescription = e.policy;
               break;
             default:
               this.errorMessage = 'Ein Fehler ist aufgetreten: "' + e.code + '"';
@@ -150,6 +154,7 @@ export default {
     },
     clearError() {
       this.errorMessage = null;
+      this.errorDescription = '';
     },
     checkName() {
       this.clearError();
@@ -290,6 +295,10 @@ export default {
   }
   .error-message {
     color: red;
+    .policy {
+      font-size: 0.8em;
+      color: #333;
+    }
   }
 }
 </style>
