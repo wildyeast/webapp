@@ -121,16 +121,17 @@ export default {
     justify-content: space-between;
     margin: 0 -15px 0 -20px; // compensate paddings from logo and nav items
     .login-button {
-      padding: 12px 15px 18px 15px;
+      padding: 12px 15px;
       button {
         font-weight: bold;
+        line-height: 1em;
         padding: 10px;
         outline: none;
         width: 100%;
         color: #FFF;
         border: none;
         background-color: $color-orange;
-        margin: 3px 0;
+        margin: 0;
         cursor: pointer;
       }
     }
