@@ -2,7 +2,7 @@
   <nuxt-link :to="'/' + blok.full_slug">
     <div class="workshop-list-item">
       <div class="image">
-        <img :src="$resizeImage(content.image, '320x320')" alt=""/>
+        <img :src="$resizeImage(content.image, '380x280')" alt=""/>
       </div>
       <div class="body">
         <div class="subtitle">
@@ -45,10 +45,21 @@ export default {
 .workshop-list-item {
   color: #000;
   display: flex;
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+  }
   margin-bottom: 25px;
   .image {
+    @include media-breakpoint-down(sm) {
+      overflow: hidden;
+      margin: 0 -4%;
+    }
     img {
+      @include media-breakpoint-down(sm) {
+        margin: -5vh 0;
+      }
       max-height: calc(40vh - 65px);
+      max-width: 100%;
       display: block;
     }
   }
@@ -57,7 +68,10 @@ export default {
     display: flex;
     flex-direction: column;
     background-color: #FFF;
-    padding: 1.5rem;
+    padding: 1.8rem;
+    @include media-breakpoint-down(sm) {
+      margin-left: 2%;
+    }
     .title {
       font-family: $font-secondary;
       font-size: 2rem;
@@ -76,7 +90,10 @@ export default {
       font-family: $font-mono;
       line-height: 1.6;
       font-size: 0.9rem;
-      width: 80%;
+      width: 85%;
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
     }
     .trainer {
       line-height: 1.6;
