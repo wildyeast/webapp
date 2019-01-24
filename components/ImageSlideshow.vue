@@ -17,11 +17,11 @@
 <script>
 export default {
   props: ['blok'],
-  data() {
-    return {
-      swiperOption: {
-        slidesPerView: 3,
-        spaceBetween: 30,
+  computed: {
+    swiperOption() {
+      return {
+        slidesPerView: this.num,
+        spaceBetween: this.spaceBetween,
         autoplay: {
           delay: 5000,
           disableOnInteraction: true
@@ -31,9 +31,23 @@ export default {
           prevEl: '.swiper-button-prev'
         }
       }
-    }
-  },
-  methods: {
+    },
+    spaceBetween() {
+      if (process.client && window && window.innerWidth) {
+        if (window.innerWidth < 786) {
+          return 0;
+        }
+      }
+      return 30;
+    },
+    num() {
+      if (process.client && window && window.innerWidth) {
+        if (window.innerWidth < 786) {
+          return 1;
+        }
+      }
+      return 3;
+    },
   }
 }
 </script>
@@ -50,10 +64,6 @@ export default {
     font-family: $font-secondary;
     line-height: 1.4;
     letter-spacing: 1.4px;
-  }
-  .swiper-wrapper {
-    margin: 0 -20px;
-    padding: 0 30px;
   }
   .swiper-container {
     height: 50vh;
