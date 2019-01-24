@@ -47,6 +47,8 @@ import RegisterSuccessForm from '~/components/RegisterSuccessForm.vue'
 
 import StoryBlokLink from '~/components/StoryBlokLink.vue'
 import MainNavItem from '~/components/MainNavItem.vue'
+import MainNavMobileItem from '~/components/MainNavMobileItem.vue'
+
 import Markdown from '~/components/Markdown.vue'
 import Loading from '~/components/Loading.vue'
 import LoadingSpinner from '~/components/LoadingSpinner.vue'
@@ -114,6 +116,7 @@ Vue.component('level-item', LevelItem)
 Vue.component('location-description', LocationDescription)
 
 Vue.component('main-nav-item', MainNavItem)
+Vue.component('main-nav-mobile-item', MainNavMobileItem)
 Vue.component('sb-link', StoryBlokLink)
 Vue.component('markdown', Markdown)
 

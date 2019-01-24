@@ -9,7 +9,7 @@
       </div>
       <markdown v-if="blok.info" :value="blok.info" class="info">
       </markdown>
-      <a v-if="blok.link" :href="blok.link.cached_url" class="link" target="_blank">{{linktitle}}</a>
+      <a v-if="blok.link && blok.link.cached_url && blok.link.cached_url != '' " :href="blok.link.cached_url" class="link" target="_blank">{{linktitle}}</a>
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
   props: ['blok'],
   computed: {
     linktitle() {
-     return  this.blok.linktitle || 'Mehr Infos'
+     return  this.blok.linktitle || 'Teilnehmen!'
     }
   }
 }
@@ -73,7 +73,8 @@ export default {
     }
     .link {
       background-color: $color-orange;
-      margin: 0 0 0 5%;
+      margin: 2% 0 0 5%;
+      text-transform: uppercase;
       @include media-breakpoint-up(md) {
         margin-left: 25%;
       }
