@@ -2,26 +2,36 @@
   <div v-editable="blok" class="col">
     <div class="plan">
       <h2 class="title">{{ blok.name }}</h2>
-      <ul class="feature-list">
-        <li class="feature" v-for="item in blok.features" :key="item._uid">{{item.text}}</li>
-      </ul>
-      <div class="pricewrapper">
+      <div class="pricewrapper" v-if="priceView == 'monthly'">
         <div class="price">
           <h4 class="title">Ermäßigt</h4>
-          <div class="pricetag">{{blok.price_regular}},- / Monat</div>
+          <div class="pricetag">{{blok.price_reduced}},- / Monat</div>
         </div>
         <div class="price">
           <h4 class="title">Regulär</h4>
-          <div class="pricetag">{{blok.price_reduced}},- / Monat</div>
+          <div class="pricetag">{{blok.price_regular}},- / Monat</div>
         </div>
       </div>
+      <div class="pricewrapper" v-if="priceView == 'annually'">
+        <div class="price">
+          <h4 class="title">Ermäßigt</h4>
+          <div class="pricetag">{{blok.price_reduced_annually}},- / Jahr</div>
+        </div>
+        <div class="price">
+          <h4 class="title">Regulär</h4>
+          <div class="pricetag">{{blok.price_regular_annually}},- / Jahr</div>
+        </div>
+      </div>
+      <ul class="feature-list">
+        <li class="feature" v-for="item in blok.features" :key="item._uid">{{item.text}}</li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['blok'],
+  props: ['blok', 'priceView'],
   methods: {
     register() {
       this.$store.dispatch('setSidebar', 'register');
