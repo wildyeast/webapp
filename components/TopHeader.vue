@@ -16,7 +16,7 @@
           </nuxt-link>
           <div class="dropdown" v-if="home && home.length > 0">
             <div v-for="child in home" :key="child.id" class="child">
-              <sb-link :link="child.link" class="child-nav-item">
+              <sb-link :link="child.link" class="child-nav-item" target="_blank">
                 {{ child.name }}
               </sb-link>
             </div>
@@ -36,8 +36,8 @@
     <transition name="fadefromright">
       <div class="mobile-nav" v-show="showMenu">
         <div class="mobile-nav-header">
-          <div class="close-nav" @click="toggleMenu()">
-            X
+          <div class="close-nav" @click="toggleMenu">
+            x
           </div>
           <div class="home">
             <nuxt-link to="/">
@@ -81,7 +81,7 @@ export default {
     }
   },
   watch: {
-    '$store.state.route.fullPath': function() {
+    '$store.state.route.fullPath': function () {
       this.showMenu = false;
     }
   },
