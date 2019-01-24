@@ -15,10 +15,18 @@
       </div>
     </div>
     <div class="membership-details">
-      <div class="membership-plans">
-        <component :key="blok.uid" v-for="blok in blok.columns" :blok="blok" :is="blok.component"></component>
+      <div class="priceTabs">
+        <div @click="setPriceView('monthly')">
+          monthly
+        </div>
+        <div @click="setPriceView('annually')">
+          annualy
+        </div>
       </div>
-      <div class="register-button" v-if="noUser">
+      <div class="membership-plans">
+        <component :key="blok.uid" v-for="blok in blok.columns" :blok="blok" :priceView="priceView" :is="blok.component"></component>
+      </div>
+      <div class="register-button" v-if="!hasUser">
         <button @click="register">Jetzt Mitglied werden</button>
       </div>
       <div v-if="blok.plans_text" class="plans-text">
@@ -33,14 +41,22 @@
 <script>
 export default {
   props: ['blok'],
+  data() {
+    return {
+      priceView: 'monthly'
+    }
+  },
   methods: {
+    setPriceView(v) {
+      this.priceView = v;
+    },
     register() {
       this.$store.dispatch('setSidebar', 'register');
     }
   },
   computed: {
-    noUser() {
-      return !this.$store.state.user;
+    hasUser() {
+      return !!this.$store.state.user;
     }
   }
 }
