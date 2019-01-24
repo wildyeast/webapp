@@ -100,17 +100,18 @@ export default {
     },
     // add css-shadow when page is scrolled down
     handleScroll () {
-      console.log(this.scrolled);
       this.scrolled = window.scrollY > 0;
-      console.log(this.scrolled);
     },
   },
   created () {
-    window.addEventListener('scroll', this.handleScroll);
-    console.log('created!');
+    if (process.client) {
+      window.addEventListener('scroll', this.handleScroll);
+    }
   },
   destroyed () {
-    window.removeEventListener('scroll', this.handleScroll);
+    if (process.client) {
+      window.removeEventListener('scroll', this.handleScroll);
+    }
   }
 }
 </script>
