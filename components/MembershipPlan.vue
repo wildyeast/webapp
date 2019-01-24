@@ -5,13 +5,15 @@
       <ul class="feature-list">
         <li class="feature" v-for="item in blok.features" :key="item._uid">{{item.text}}</li>
       </ul>
-      <div class="price">
-        <h4 class="title">Ermäßigt</h4>
-        <div class="pricetag">{{blok.price_regular}},- / Monat</div>
-      </div>
-      <div class="price">
-        <h4 class="title">Regulär</h4>
-        <div class="pricetag">{{blok.price_reduced}},- / Monat</div>
+      <div class="pricewrapper">
+        <div class="price">
+          <h4 class="title">Ermäßigt</h4>
+          <div class="pricetag">{{blok.price_regular}},- / Monat</div>
+        </div>
+        <div class="price">
+          <h4 class="title">Regulär</h4>
+          <div class="pricetag">{{blok.price_reduced}},- / Monat</div>
+        </div>
       </div>
     </div>
   </div>
@@ -37,22 +39,36 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .col {
+  display: flex;
+  justify-content: space-between;
+  &:first-child {
+    .plan {
+    box-shadow: darken($color-bright-bg,5%) 10px 8px;
+    }
+  }
+  &:last-child {
+    .plan {
+    box-shadow: darken($color-bright-bg,5%) 10px 8px;
+    }
+  }
   .plan {
     /*border: 4px solid #eee;*/
-    margin: 15px;
-    padding: 25px;
+    padding: 3vw;
     background-color: #FFF;
-    width: 35vh;
+    display: flex;
+    flex-direction: column;
     h2.title {
       font-weight: normal;
       margin: 0;
       font-family: $font-secondary;
       color: $color-blue-alt;
+      min-height: 2em;
     }
     ul.feature-list {
       margin: 10px 0;
       list-style-type: none;
       padding: 10px 0;
+      flex-grow: 1;
       li.feature {
         padding: 10px 0;
         font-size: 0.8rem;
@@ -64,26 +80,28 @@ export default {
         }
       }
     }
-    .price {
-      margin: 15px 0;
-      .title {
-        margin: 5px 0;
-        text-transform: uppercase;
-        font-family: $font-secondary;
-        font-size: 0.6rem;
-      }
-      .pricetag {
-        outline: none;
-        border: none;
-        font-weight: bold;
-        font-size: 0.8rem;
-        display: block;
-        width: 100%;
-        text-decoration: none;
-        padding: 10px;
-        color: $color-orange;
-        background: $color-bright-bg;
-        text-align: center;
+    .pricewrapper {
+      .price {
+        margin: 15px 0;
+        .title {
+          margin: 5px 0;
+          text-transform: uppercase;
+          font-family: $font-secondary;
+          font-size: 0.6rem;
+        }
+        .pricetag {
+          outline: none;
+          border: none;
+          font-weight: bold;
+          font-size: 0.8rem;
+          display: block;
+          width: 100%;
+          text-decoration: none;
+          padding: 10px;
+          color: $color-orange;
+          background: $color-bright-bg;
+          text-align: center;
+        }
       }
     }
   }
