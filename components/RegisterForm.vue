@@ -41,13 +41,6 @@
           <span class="bad" v-if="!passwordValid">Passwörter stimmen nicht überein</span>
         </div>
       </div>
-      <div class="form-item error-message" v-if="errorMessage">
-        <span></span>
-        <div>
-          <span>{{errorMessage}}</span>
-          <markdown class="policy" v-if="errorDescription" :value="errorDescription"></markdown>
-        </div>
-      </div>
       <div class="checkbox-item">
         <div class="checkbox-wrapper">
           <input type="checkbox" id="agb" v-model="agb" />
@@ -68,6 +61,13 @@
         <label for="newsletter">Ich bin damit einverstanden, Newsletter an meine angegebene E-Mail Adresse zu erhalten.</label>
       </div>
       -->
+      <div class="form-item error-message" v-if="errorMessage">
+        <span></span>
+        <div>
+          <span>{{errorMessage}}</span>
+          <markdown class="policy" v-if="errorDescription" :value="errorDescription"></markdown>
+        </div>
+      </div>
       <div class="form-item button-row">
         <button :disabled="!formValid" @click="submit">Registrieren</button>
       </div>
