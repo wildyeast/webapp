@@ -33,10 +33,22 @@
         </div>
       </div>
     </header>
-    <div class="mobile-nav" v-show="showMenu" @click="toggleMenu()">
-      <main-nav-item class="mobile" :item="item" :key="item.id" v-for="item in main">
-      </main-nav-item>
-    </div>
+    <transition name="fadefromright">
+      <div class="mobile-nav" v-show="showMenu">
+        <div class="mobile-nav-header">
+          <div class="close-nav" @click="toggleMenu()">
+            X
+          </div>
+          <div class="home">
+            <nuxt-link to="/">
+              <img class="logo" src="~/assets/img/icons/gg-logo-icon.svg">
+            </nuxt-link>
+          </div>
+        </div>
+        <main-nav-mobile-item class="mobile" :item="item" @toggleMenu="toggleMenu" :key="item.id" v-for="item in main">
+        </main-nav-mobile-item>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -66,6 +78,11 @@ export default {
     },
     hasUser() {
       return !!this.$store.state.user;
+    }
+  },
+  watch: {
+    '$store.state.route.fullPath': function() {
+      this.showMenu = false;
     }
   },
   methods: {
@@ -187,6 +204,20 @@ export default {
 
 .mobile-nav {
   display: none;
+  .mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    .close-nav {
+      padding: 20px;
+      cursor: pointer;
+    }
+    .home {
+      padding: 20px;
+      .logo {
+        height: 1em;
+      }
+    }
+  }
 }
 
 /* Mobile */
@@ -224,13 +255,24 @@ export default {
 
   .mobile-nav {
     background-color: $color-bright-bg;
-    padding-left: 20px;
     display: block;
-    position: relative;
+    position: absolute;
     top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow-y: auto;
     height: 100vh;
+    background: $color-bright-bg;
   }
+
+    .fadefromright-enter-active, .fadefromright-leave-active {
+      transition: all .3s;
+    }
+    .fadefromright-enter, .fadefromright-leave-to {
+      opacity: 0;
+      transform: translateX(50vw);
+    }
 }
 
 </style>

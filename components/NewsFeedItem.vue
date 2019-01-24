@@ -95,7 +95,8 @@ export default {
   }
 
   .image {
-    width: 100%;
+    max-width: 100%;
+    max-height: 50vh;
   }
 }
 
@@ -104,7 +105,6 @@ export default {
     .top .header {
       display: none;
     }
-
     .bot .header {
       display: flex;
     }
