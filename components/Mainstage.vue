@@ -10,8 +10,8 @@
           >
           <sb-link :link="s.link">
             <div class="wrapper">
-              <span class="title">{{s.title}}</span>
-              <span class="teaser">{{s.teaser}}</span>
+              <span class="title" v-if="s.title">{{s.title}}</span>
+              <span class="teaser" v-if="s.teaser">{{s.teaser}}</span>
             </div>
           </sb-link>
         </div>
