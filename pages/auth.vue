@@ -5,7 +5,7 @@
         <p>Du musst zuerst deine E-Mail bestätigen um dich anmelden zu können. Eine erneute Bestätigungs E-Mail wurde soeben an deine angegebene E-Mail Adresse gesandt.</p>
       </div>
       <div v-else>
-        <p>Ein Fehler ist aufgetreten: <code>{{error.errorDescription}}</code></p>
+        <p>Ein Fehler ist aufgetreten: <code>{{error}}</code></p>
       </div>
     </div>
     <div v-else class="loading">
@@ -27,8 +27,12 @@ export default {
       this.$store.dispatch('auth', { hash }).then((r) => {
         this.$router.push('/me');
       }).catch((err) => {
-        this.$router.replace('/auth');
-        this.error = err;
+        if (err.errorDescription == 'verify-mail') {
+          this.error = err;
+          this.$router.replace('/auth');
+        } else {
+        this.$router.push('/');
+        }
       });
     }
   },
