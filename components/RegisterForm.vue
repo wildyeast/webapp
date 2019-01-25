@@ -173,7 +173,7 @@ export default {
 @import "@/assets/scss/styles.scss";
 
 .register-form {
-  padding: 50px;
+  padding: 50px 50px ;
   background-color: $color-bright-bg;
   .header-item {
     margin-bottom: 40px;
@@ -245,6 +245,7 @@ export default {
     &.button-row {
       display: flex;
       justify-content: flex-end;
+      margin-bottom: 80px; // fix for some strange ios safari error
     }
     button {
       background-color: $color-orange;
@@ -298,6 +299,20 @@ export default {
     .policy {
       font-size: 0.8em;
       color: #333;
+      > ul {
+        list-style-type: circle;
+        padding: 0 0 0 1em;
+        > li {
+          margin: .4em 0 0 0;
+          > ul {
+            padding: 0 0 0 1em;
+            list-style-type: circle;
+            > li {
+              margin: .4em 0 0 0;
+            }
+          }
+        }
+      }
     }
   }
 }
