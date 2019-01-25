@@ -1,10 +1,13 @@
 <template>
   <div class="login-form">
     <div class="header-item">
-      <div class="headline">Login für GRAND GARAGE Mitglieder</div>
-      <div class="subtitle" @click="register">
-        Noch kein Mitglied? Hier anmelden.
+      <div class="space">
+        <div class="headline">Login für GRAND GARAGE Mitglieder</div>
+        <div class="subtitle" @click="register">
+          Noch kein Mitglied? Hier anmelden.
+        </div>
       </div>
+      <div class="close" @click="close">x</div>
     </div>
     <div class="form-item">
       <span class="label">Email</span>
@@ -36,6 +39,9 @@ export default {
   computed: {
   },
   methods: {
+    close() {
+      this.$store.dispatch('setSidebar', null);
+    },
     register() {
       this.$store.dispatch('setSidebar', 'register');
     },
@@ -64,6 +70,15 @@ export default {
   background-color: $color-bright-bg;
   .header-item {
     margin-bottom: 40px;
+    display: flex;
+    & > div {
+      &.space {
+        flex: 1;
+      }
+      &.close {
+        width: 30px;
+      }
+    }
     .headline {
       font-size: 1.4rem;
       font-weight: 700;
