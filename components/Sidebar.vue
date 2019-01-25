@@ -2,7 +2,6 @@
   <transition name="fade">
   <div class="sidebar" v-if="sidebar">
     <div class="backdrop" @click="close"></div>
-    <div class="close" @click="close">X</div>
     <transition name="slide" appear>
         <login-form class="pane" v-if="sidebar == 'login'"></login-form>
         <register-form class="pane" v-else-if="sidebar == 'register'"></register-form>
@@ -41,11 +40,6 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
-  .close {
-    width: 30px;
-    height: 30px;
-    background-color: #f00;
-  }
   .backdrop {
     height: 100%;
     width: 100%;
