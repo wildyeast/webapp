@@ -45,8 +45,18 @@
             </nuxt-link>
           </div>
         </div>
-        <main-nav-mobile-item class="mobile" :item="item" @close="closeMenu" :key="item.id" v-for="item in main">
-        </main-nav-mobile-item>
+        <div class="main-nav-items">
+          <main-nav-mobile-item class="mobile" :item="item" @close="closeMenu" :key="item.id" v-for="item in main">
+          </main-nav-mobile-item>
+        </div>
+        <div class="house-nav-items" v-if="home && home.length > 0">
+          <div v-for="child in home" :key="child.id" class="item">
+            <sb-link :link="child.link" class="item-link" target="_blank">
+              {{ child.name }}
+            </sb-link>
+          </div>
+        </div>
+
       </div>
     </transition>
   </div>
@@ -178,9 +188,12 @@ export default {
 
   .logo {
     position: relative;
-    &:hover {
-      .dropdown {
-        display: block;
+    // only for desktop navigation
+    @include media-breakpoint-up(md) {
+      &:hover {
+        .dropdown {
+          display: block;
+        }
       }
     }
     a {
@@ -240,6 +253,31 @@ export default {
       }
     }
   }
+  .main-nav-items {
+    flex-grow: 1;
+  }
+  .house-nav-items {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='270' height='100'><path fill='white' d='M101.424.285L0 47.777v51.938h270V46.47L101.424.285'></path></svg>");
+    background-size: cover;
+    width: 100%;
+    height: 30vw;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 0 3vw;
+    .item {
+      flex-grow: 1;
+      flex-basis: 100%;
+      font-weight: bold;
+      font-size: .85em;
+      letter-spacing: .05em;
+      .item-link {
+        display: block;
+        text-align: center;
+        padding:  3vh .5em;
+      }
+    }
+  }
 }
 
 /* Mobile */
@@ -277,7 +315,8 @@ export default {
 
   .mobile-nav {
     background-color: $color-bright-bg;
-    display: block;
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 0;
     left: 0;
@@ -288,13 +327,13 @@ export default {
     background: $color-bright-bg;
   }
 
-    .fadefromright-enter-active, .fadefromright-leave-active {
-      transition: all .3s;
-    }
-    .fadefromright-enter, .fadefromright-leave-to {
-      opacity: 0;
-      transform: translateX(50vw);
-    }
+  .fadefromright-enter-active, .fadefromright-leave-active {
+    transition: all .3s;
+  }
+  .fadefromright-enter, .fadefromright-leave-to {
+    opacity: 0;
+    transform: translateX(50vw);
+  }
 }
 
 </style>

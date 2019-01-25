@@ -67,7 +67,7 @@ export default {
     text-transform: uppercase;
     letter-spacing: .08em;
     &.nuxt-link-active {
-      color: $color-orange
+      color: $color-orange;
     }
   }
   .main-nav-item {
@@ -91,7 +91,7 @@ export default {
     .child-nav-item {
       color: #fff;
       &.nuxt-link-active {
-        color: $color-orange
+        color: $color-yellow;
       }
     }
     .nav-layer {

@@ -32,22 +32,35 @@ export default {
     text-transform: uppercase;
     color: #000;
     padding: 25px 25px;
-    @media screen and (max-width: 1023px) {
-      padding: 25px 0 25px 25px;
-    }
     text-decoration: none;
     font-weight: bold;
     font-size: 0.9rem;
     white-space: nowrap;
+    @media screen and (max-width: 1023px) {
+      padding: 25px 10px 25px 25px;
+    }
+    @media screen and (max-width: 919px) {
+      padding: 25px 0 25px 20px;
+      font-size: 0.85rem;
+    }
     &.nuxt-link-active {
       position: relative;
-      &:before {
-        color: $color-orange;
-        position: absolute;
-        font-size: 2.2rem;
-        content: '•';
-        left: 5px;
-        top: 14px;
+      @media screen and (max-width: 920px) {
+        > div {
+          padding-bottom: 4px;
+          border-bottom: 3px solid $color-orange;
+          margin-bottom: -7px;
+        }
+      }
+      @media screen and (min-width: 920px) {
+        &:before {
+          color: $color-orange;
+          position: absolute;
+          font-size: 2.2rem;
+          content: '•';
+          left: 5px;
+          top: 14px;
+        }
       }
     }
     &:focus {
