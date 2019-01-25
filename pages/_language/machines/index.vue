@@ -2,7 +2,9 @@
   <section class="machine-overview">
     <div class="machine-filters">
       <code class="loading" v-if="loading">loading…</code>
-      <div class="tags">
+      <div class="tags" :class="(tagsCollapsed ? 'collapsed' : '')">
+        <div class="expander" @click="toggleTags()">
+        </div>
         <div class="headline">
           Bereiche
         </div>
@@ -44,6 +46,7 @@ export default {
     return {
       loading: false,
       search: '',
+      tagsCollapsed: true,
     }
   },
   created() {
@@ -63,6 +66,9 @@ export default {
         this.loading = false;
         this.machines = data.stories;
       });
+    },
+    toggleTags() {
+      this.tagsCollapsed = !this.tagsCollapsed;
     }
   },
   computed: {
@@ -115,6 +121,9 @@ export default {
   .machine-filters {
     .tags {
       padding: 8vh 0;
+      @include media-breakpoint-down(sm) {
+        padding: 4vh 0;
+      }
       .headline {
         color: #FFF;
         font-weight: bold;
@@ -123,6 +132,10 @@ export default {
         margin-bottom: 20px;
         text-transform: uppercase;
         letter-spacing: .05em;
+        @include media-breakpoint-down(sm) {
+          font-size: 1.2rem;
+          margin-bottom: 10px;
+        }
       }
       .tag-list {
         @include margin-page-wide();
@@ -137,6 +150,7 @@ export default {
         }
         @include media-breakpoint-down(sm) {
           grid-template-columns: 1fr 1fr;
+          font-size: .85em;
         }
         @include media-breakpoint-down(xs) {
           grid-template-columns: 1fr;
@@ -162,6 +176,47 @@ export default {
         }
       }
       background-color: $color-blue;
+      @include media-breakpoint-down(sm) {
+        overflow: hidden;
+        position: relative;
+        max-height: 1000px;
+        transition: all .3s linear;
+        padding-bottom: 30px;
+        .expander {
+          cursor: pointer;
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 20px;
+          transition: all .3s linear;
+          &:after {
+            transition: all .3s linear;
+            content: "";
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            bottom: 8px;
+            border-bottom: 2px solid #fff;
+            border-right: 2px solid #fff;
+            margin-left: -13px;
+            transform: rotate(225deg);
+            transform-origin: center center;
+          }
+        }
+        &.collapsed {
+          max-height: 17vh;
+          .expander {
+            height: 70px;
+            background: linear-gradient(rgba(0,0,0,0), $color-blue 80%);
+            &:after {
+              transform: rotate(45deg);
+              bottom: 18px;
+            }
+          }
+        }
+      }
     }
     .search {
       display: flex;

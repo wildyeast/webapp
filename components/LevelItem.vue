@@ -72,6 +72,9 @@ export default {
   }
   &.active {
     box-shadow: 10px 0 0 $color-blue;
+    &:hover {
+      box-shadow: 10px 0 0 $color-blue;
+    }
   }
   &:hover {
     box-shadow: 10px 0 0 $color-yellow;

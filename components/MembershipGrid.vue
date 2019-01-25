@@ -93,6 +93,9 @@ export default {
       @include media-breakpoint-down(lg) {
         font-size: 2.35rem;
       }
+      @include media-breakpoint-down(xs) {
+        font-size: 1.8rem;
+      }
       line-height: 1.3;
       font-weight: bold;
       font-family: $font-primary;
@@ -136,6 +139,13 @@ export default {
   .membership-details {
     flex-basis: 66%;
     .payment-options {
+      display: flex;
+      @include media-breakpoint-down(xs) {
+        flex-direction: column;
+        .payment-options-title {
+          margin-bottom: .4em;
+        }
+      }
       margin: 4vh 0 3vh;
       align-items: center;
       justify-content: center;
@@ -146,7 +156,6 @@ export default {
         font-weight: bold;
         margin-right: .7em;
       }
-      display: flex;
       .pricetabs {
         display: inline-flex;
         .pricetab {

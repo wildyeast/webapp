@@ -78,6 +78,9 @@ export default {
     .header {
       padding: 20px 0;
       display: flex;
+      @include media-breakpoint-down(sm) {
+          flex-direction: column;
+      }
       .col-title {
         flex: 1;
         .title {
@@ -91,6 +94,7 @@ export default {
         }
       }
       .col-button {
+
         .apply-button {
           font-size: 1.2rem;
           text-transform: uppercase;
@@ -100,6 +104,11 @@ export default {
           background-color: $color-orange;
           color: #FFF;
           cursor: pointer;
+          display: inline-block;
+          margin-top: .2rem;
+          @include media-breakpoint-down(sm) {
+            margin-top: 1rem;
+          }
         }
       }
     }
