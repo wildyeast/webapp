@@ -5,14 +5,17 @@
     </div>
     <div v-else>
       <div class="header-item">
-        <div class="headline">Werde GRAND GARAGE Mitglied</div>
-        <div class="subtitle" @click="login">
-          Bereits Mitglied? Zum Login.
+        <div class="space">
+          <div class="headline">Werde GRAND GARAGE Mitglied</div>
+          <div class="subtitle" @click="login">
+            Bereits Mitglied? Zum Login.
+          </div>
+          <div class="info">
+            Werde Teil einer lebendigen Community aus Kreativen, Makern und Start-ups!
+            Ob Professional oder Starter – such' dir ganz einfach die für dich passende Mitgliedschaft aus und erhalte Zugang zur GRAND GARAGE.
+          </div>
         </div>
-        <div class="info">
-          Werde Teil einer lebendigen Community aus Kreativen, Makern und Start-ups!
-          Ob Professional oder Starter – such' dir ganz einfach die für dich passende Mitgliedschaft aus und erhalte Zugang zur GRAND GARAGE.
-        </div>
+        <div class="close" @click="close">x</div>
       </div>
       <div class="form-item">
         <span class="label">Vorname</span>
@@ -114,6 +117,9 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.$store.dispatch('setSidebar', null);
+    },
     submit() {
       this.loading = true;
       let data = {
@@ -176,7 +182,16 @@ export default {
   padding: 50px;
   background-color: $color-bright-bg;
   .header-item {
+    display: flex;
     margin-bottom: 40px;
+    & > div {
+      &.space {
+        flex: 1;
+      }
+      &.close {
+        width: 30px;
+      }
+    }
     .headline {
       font-size: 1.4rem;
       font-weight: 700;
