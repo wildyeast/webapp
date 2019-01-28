@@ -62,6 +62,10 @@ import Training from '~/components/Training.vue'
 
 import ExtrasGrid from '~/components/ExtrasGrid.vue'
 import ExtraItem from '~/components/ExtraItem.vue'
+import Icon from '~/components/Icon.vue'
+
+import PriceTable from '~/components/PriceTable.vue'
+import PriceTableItem from '~/components/PriceTableItem.vue'
 
 Vue.component('page', Page)
 Vue.component('general-header', GeneralHeader)
@@ -113,7 +117,10 @@ Vue.component('download-item', DownloadItem)
 
 Vue.component('extras-grid', ExtrasGrid)
 Vue.component('extra-item', ExtraItem)
+Vue.component('icon', Icon)
 
+Vue.component('price-table', PriceTable)
+Vue.component('price-table-item', PriceTableItem)
 
 Vue.component('level-slider', LevelSlider)
 Vue.component('level-item', LevelItem)
