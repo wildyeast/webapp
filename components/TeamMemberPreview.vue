@@ -7,11 +7,6 @@
           <div class="info">
             <p class="title">{{member.title}}</p>
 
-            <div class="phone" v-if="member.phone">
-              <img src="~/assets/img/icons/phone.svg">
-              <p>{{member.phone}}</p>
-            </div>
-
             <div class="email" v-if="member.email">
               <img src="~/assets/img/icons/envelope.svg">
               <p>{{member.email}}</p>
@@ -44,7 +39,7 @@ export default {
   display: flex;
   justify-content: center;
   @include media-breakpoint-up(md) {
-    min-height: 150px;
+    min-height: 130px;
   }
   .phone, .email {
     display: none;

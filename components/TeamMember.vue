@@ -13,10 +13,6 @@
                 <img class="icon" src="~/assets/img/icons/envelope.svg" alt=""/>
                 <div class="text">{{blok.email}}</div>
               </a>
-              <a class="option phone" v-if="blok.phone" :href="'tel:'+blok.phone">
-                <img class="icon" src="~/assets/img/icons/phone.svg" alt=""/>
-                <div class="text">{{blok.phone}}</div>
-              </a>
               <a class="option twitter" v-if="blok.twitter" target="_blank" :href="'https://twitter.com/'+blok.twitter">
                 <img class="icon" src="~/assets/img/icons/twitter.svg" alt=""/>
                 <div class="text">@{{blok.twitter}}</div>
