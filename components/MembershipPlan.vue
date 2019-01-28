@@ -65,17 +65,9 @@ export default {
 .col {
   display: flex;
   justify-content: space-between;
-  &:first-child {
-    .plan {
-    box-shadow: darken($color-bright-bg,5%) 10px 8px;
-    }
-  }
-  &:last-child {
-    .plan {
-    box-shadow: darken($color-bright-bg,5%) 10px 8px;
-    }
-  }
   .plan {
+    box-shadow: darken($color-bright-bg,5%) 10px 8px;
+    max-width: 500px;
     padding: 3vw;
     background-color: #FFF;
     display: flex;

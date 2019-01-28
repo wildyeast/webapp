@@ -19,7 +19,7 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .extras-grid-wrapper {
-  margin: 0 4% 0 4%;
+  margin: 0 4% 2em 4%;
   .headline {
     margin-bottom: 1em;
     position: relative;
