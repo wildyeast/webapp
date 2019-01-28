@@ -70,14 +70,13 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .membership-grid {
-  margin: 10vh 0 10vh;
+  margin: 10vh 4% 10vh 4%;
   display: flex;
   @include media-breakpoint-down(md) {
     flex-direction: column;
   }
   .membership-info {
-    margin-left: 3%;
-    flex-basis: 34%;
+    flex-basis: 50%;
     display: flex;
     flex-direction: column;
     @include media-breakpoint-down(md) {
@@ -137,7 +136,7 @@ export default {
 
   }
   .membership-details {
-    flex-basis: 66%;
+    flex-basis: 50%;
     .payment-options {
       display: flex;
       @include media-breakpoint-down(xs) {
@@ -170,14 +169,9 @@ export default {
       }
     }
     .membership-plans {
-      display: grid;
-      grid-column-gap: 1vw;
-      grid-template-columns: 1fr 1fr;
-      @include media-breakpoint-down(sm) {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-      }
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
     }
     .register-button {
       text-align: center;
