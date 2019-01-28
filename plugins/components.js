@@ -60,6 +60,9 @@ import LevelItem from '~/components/LevelItem.vue'
 import Package from '~/components/Package.vue'
 import Training from '~/components/Training.vue'
 
+import ExtrasGrid from '~/components/ExtrasGrid.vue'
+import ExtraItem from '~/components/ExtraItem.vue'
+
 Vue.component('page', Page)
 Vue.component('general-header', GeneralHeader)
 Vue.component('teaser', Teaser)
@@ -107,6 +110,9 @@ Vue.component('text-image', TextImage)
 Vue.component('faq-block', FAQBlock)
 Vue.component('faq-item', FAQItem)
 Vue.component('download-item', DownloadItem)
+
+Vue.component('extras-grid', ExtrasGrid)
+Vue.component('extra-item', ExtraItem)
 
 
 Vue.component('level-slider', LevelSlider)
