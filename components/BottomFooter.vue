@@ -23,10 +23,16 @@
     <div class="background-footer">
       <div class="background-footer-content">
         <div class="newsletter-footer">
-          <form @submit.prevent="handleSubmit">
+          <div class="newsletter-msg" v-if="loading">
+            Loading...
+          </div>
+          <div class="newsletter-msg" v-else-if="subscribed">
+            Subscribed!
+          </div>
+          <form name="newsletter" @submit.prevent="handleSubmit" v-else>
             <h4>Immer am Ball bleiben</h4>
             <div class="newsletter-subscribe">
-              <input type="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
+              <input type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
               <button type="submit">Meld mich an</button>
             </div>
           </form>
@@ -59,6 +65,8 @@ import axios from "axios";
 export default {
   data() {
     return {
+      loading: false,
+      subscribed: true,
       form: {
         email: ''
       }
@@ -87,6 +95,7 @@ export default {
       return arra1;
     },
     handleSubmit () {
+      this.loading = true;
       const axiosConfig = {
         header: { "Content-Type": "application/x-www-form-urlencoded" }
       };
@@ -97,7 +106,12 @@ export default {
           ...this.form
         }),
         axiosConfig
-      );
+      ).then(() => {
+        this.loading = false;
+        this.subscribed = true;
+      }).catch(() => {
+        this.loading = false;
+      });
     }
   },
   computed: {
@@ -209,6 +223,9 @@ export default {
       position: relative;
       z-index: 1;
       .newsletter-footer {
+        .newsletter-msg {
+          text-align: center;
+        }
         h4 {
           max-width: 30%;
           letter-spacing: 0.2rem;
