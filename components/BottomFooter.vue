@@ -23,7 +23,7 @@
     <div class="background-footer">
       <div class="background-footer-content">
         <div class="newsletter-footer">
-          <form netlify name="newsletter" accept-charset="utf-8">
+          <form netlify accept-charset="utf-8">
             <h4>Immer am Ball bleiben</h4>
             <div class="newsletter-subscribe">
               <input type="email" placeholder="Deine E-Mail Adresse">
