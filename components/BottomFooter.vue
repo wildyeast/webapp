@@ -27,10 +27,14 @@
             Loading...
           </div>
           <div class="newsletter-msg" v-else-if="subscribed">
-            Subscribed!
+            Danke für deine Anmeldung!
           </div>
-          <form name="newsletter" @submit.prevent="handleSubmit" v-else>
+          <form name="newsletter" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
+              <p class="hidden">
+    <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
+  </p>
             <h4>Immer am Ball bleiben</h4>
+            <div data-netlify-recaptcha="true"></div>
             <div class="newsletter-subscribe">
               <input type="hidden" value="Neuer Newsletter Subscriber" name="subject" />
               <input type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
