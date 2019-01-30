@@ -66,7 +66,7 @@ export default {
   data() {
     return {
       loading: false,
-      subscribed: true,
+      subscribed: false,
       form: {
         email: ''
       }
