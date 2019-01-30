@@ -114,7 +114,7 @@ export default {
         spaceBetween: this.spaceBetween,
         freeMode: true,
         autoplay: {
-          delay: 2000,
+          delay: 500,
           disableOnInteraction: false
         },
         loop: true
