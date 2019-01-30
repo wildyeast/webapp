@@ -23,10 +23,10 @@
     <div class="background-footer">
       <div class="background-footer-content">
         <div class="newsletter-footer">
-          <form name="newsletter" method="POST" data-netlify="true">
+          <form @submit.prevent="handleSubmit">
             <h4>Immer am Ball bleiben</h4>
             <div class="newsletter-subscribe">
-              <input type="email" placeholder="Deine E-Mail Adresse">
+              <input type="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
               <button type="submit">Meld mich an</button>
             </div>
           </form>
@@ -54,11 +54,24 @@
 </template>
 
 <script charset="utf-8">
+import axios from "axios";
+
 export default {
   data() {
-    return {}
+    return {
+      form: {
+        email: ''
+      }
+    }
   },
   methods: {
+    encode (data) {
+      return Object.keys(data)
+        .map(
+          key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`
+        )
+        .join("&");
+    },
     shuffle(arra1) {
       let ctr = arra1.length;
       let temp;
@@ -72,52 +85,25 @@ export default {
         arra1[index] = temp;
       }
       return arra1;
+    },
+    handleSubmit () {
+      const axiosConfig = {
+        header: { "Content-Type": "application/x-www-form-urlencoded" }
+      };
+      axios.post(
+        "/",
+        this.encode({
+          "form-name": "newsletter",
+          ...this.form
+        }),
+        axiosConfig
+      );
     }
   },
   computed: {
     logos() {
       return this.shuffle(this.$store.state.settings.footer_logos);
     },
-    num() {
-      if (process.client && window && window.innerWidth) {
-        if (window.innerWidth < 576) {
-          return 4;
-        }
-        if (window.innerWidth < 786) {
-          return 8;
-        }
-        if (window.innerWidth < 1366) {
-          return 6;
-        }
-      }
-      return 8;
-    },
-    spaceBetween() {
-      if (process.client && window && window.innerWidth) {
-        if (window.innerWidth < 576) {
-          return 20;
-        }
-        if (window.innerWidth < 786) {
-          return 30;
-        }
-        if (window.innerWidth < 1366) {
-          return 40;
-        }
-      }
-      return 50;
-    },
-    swiperOption() {
-      return {
-        slidesPerView: this.num,
-        spaceBetween: this.spaceBetween,
-        freeMode: true,
-        autoplay: {
-          delay: 500,
-          disableOnInteraction: false
-        },
-        loop: true
-      }
-    }
   }
 };
 </script>
