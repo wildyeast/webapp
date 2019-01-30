@@ -24,15 +24,15 @@
     </div>
     <div class="background-footer">
       <div class="background-footer-content">
-        <!--
-          <div class="newsletter-footer">
-          <h4>Immer am Ball bleiben</h4>
-          <div class="newsletter-subscribe">
-          <input type="email" placeholder="Deine E-Mail Adresse">
-          <button>Meld mich an</button>
-          </div>
-          </div>
-        -->
+        <div class="newsletter-footer">
+          <form netlify accept-charset="utf-8">
+            <h4>Immer am Ball bleiben</h4>
+            <div class="newsletter-subscribe">
+              <input type="email" placeholder="Deine E-Mail Adresse">
+              <button type="submit">Meld mich an</button>
+            </div>
+          </form>
+        </div>
         <div class="bottom-footer">
           <div class="footer-navigation">
             <div
