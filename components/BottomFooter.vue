@@ -36,7 +36,6 @@
             <h4>Immer am Ball bleiben</h4>
             <div data-netlify-recaptcha="true"></div>
             <div class="newsletter-subscribe">
-              <input type="hidden" value="Neuer Newsletter Subscriber" name="subject" />
               <input type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
               <button type="submit">Meld mich an</button>
             </div>
@@ -74,7 +73,6 @@ export default {
       subscribed: false,
       form: {
         email: '',
-        subject: 'Neuer Newsletter Subscriber'
       }
     }
   },
