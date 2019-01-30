@@ -73,7 +73,8 @@ export default {
       loading: false,
       subscribed: false,
       form: {
-        email: ''
+        email: '',
+        subject: 'Neuer Newsletter Subscriber'
       }
     }
   },
@@ -228,6 +229,9 @@ export default {
       position: relative;
       z-index: 1;
       .newsletter-footer {
+        .hidden {
+          display: none;
+        }
         .newsletter-msg {
           text-align: center;
         }
