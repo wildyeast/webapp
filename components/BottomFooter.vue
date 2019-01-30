@@ -32,6 +32,7 @@
           <form name="newsletter" @submit.prevent="handleSubmit" v-else>
             <h4>Immer am Ball bleiben</h4>
             <div class="newsletter-subscribe">
+              <input type="hidden" value="Neuer Newsletter Subscriber" name="subject" />
               <input type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
               <button type="submit">Meld mich an</button>
             </div>
