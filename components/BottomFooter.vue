@@ -12,13 +12,11 @@
       <div class="pre-footer-bottom">
         <div class="col text">Innovationswerkstatt für Menschen, Wissen und Technologie</div>
         <div class="col logos">
-          <div v-swiper:swiper="swiperOption">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide" v-for="(logo) in this.logos" :key="logo._uid">
-                <img :src="$resizeImage(logo.image, '200x0')">
-              </div>
+          <marquee>
+            <div class="logo" v-for="(logo) in this.logos" :key="logo._uid">
+              <img :src="$resizeImage(logo.image, '200x0')">
             </div>
-          </div>
+          </marquee>
         </div>
       </div>
     </div>
@@ -181,16 +179,21 @@ export default {
           text-align: center;
         }
         &.logos {
+          margin: auto;
+          max-height: 40px;
           display: flex;
-          .swiper-slide {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+          .marquee-text-content {
+            height: 100%;
+            .marquee-text-text {
+              height: 100%;
+            }
+          }
+          .logo {
+            margin-right: 50px;
+            height: 100%;
+            display: inline-block;
             img {
-              height: auto;
-              width: 100%;
-              display: block;
-              height: auto;
+              height: 100%;
             }
           }
         }
