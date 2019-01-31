@@ -12,6 +12,7 @@ import FAQBlock from '~/components/FAQBlock.vue'
 import FAQItem from '~/components/FAQItem.vue'
 import DownloadItem from '~/components/DownloadItem.vue'
 import LocationDescription from '~/components/LocationDescription.vue'
+import FeedbackForm from '~/components/FeedbackForm.vue'
 
 import TeamMember from '~/components/TeamMember.vue'
 import TeamMemberPreview from '~/components/TeamMemberPreview.vue'
@@ -136,3 +137,5 @@ Vue.component('markdown', Markdown)
 Vue.component('loading', Loading)
 Vue.component('loading-spinner', LoadingSpinner)
 Vue.component('checkbox', Checkbox)
+
+Vue.component('feedback-form', FeedbackForm)

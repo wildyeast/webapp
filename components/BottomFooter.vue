@@ -12,7 +12,7 @@
       <div class="pre-footer-bottom">
         <div class="col text">Innovationswerkstatt für Menschen, Wissen und Technologie</div>
         <div class="col logos">
-          <marquee>
+          <marquee :duration="Number(50)">
             <div class="logo" v-for="(logo) in this.logos" :key="logo._uid">
               <img :src="$resizeImage(logo.image, '200x0')">
             </div>
@@ -30,9 +30,7 @@
             Danke für deine Anmeldung!
           </div>
           <form name="newsletter" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
-              <p class="hidden">
-    <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
-  </p>
+            <label class="hidden"><input name="bot-field" /></label>
             <h4>Immer am Ball bleiben</h4>
             <div data-netlify-recaptcha="true"></div>
             <div class="newsletter-subscribe">
