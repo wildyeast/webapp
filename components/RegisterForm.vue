@@ -54,13 +54,13 @@
         <div class="checkbox-wrapper">
           <input type="checkbox" id="agb" v-model="agb" />
         </div>
-        <label for="agb">Ich habe die <nuxt-link to="/de/agb">Teilnahmebedingungen / AGB</nuxt-link> gelesen und bin damit einverstanden.</label>
+        <label for="agb">Ich habe die <nuxt-link target="_blank" to="/de/agb">Teilnahmebedingungen / AGB</nuxt-link> gelesen und bin damit einverstanden.</label>
       </div>
       <div class="checkbox-item">
         <div class="checkbox-wrapper">
           <input type="checkbox" id="dsg" v-model="dsg" />
         </div>
-        <label for="dsg">Ich habe die <nuxt-link to="/de/datenschutzerklaerung">Datenschutzerklärung</nuxt-link> gelesen und bin damit einverstanden.</label>
+        <label for="dsg">Ich habe die <nuxt-link target="_blank" to="/de/datenschutzerklaerung">Datenschutzerklärung</nuxt-link> gelesen und bin damit einverstanden.</label>
       </div>
       <!--
       <div class="checkbox-item">
