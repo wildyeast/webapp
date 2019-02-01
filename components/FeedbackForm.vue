@@ -1,5 +1,6 @@
 <template>
   <div v-editable="blok" class="feedback-form">
+    <!--
     <div class="msg" v-if="loading">
       Loading...
     </div>
@@ -32,6 +33,7 @@
       </label>
       <button type="submit">Abschicken</button>
     </form>
+    -->
   </div>
 </template>
 
