@@ -148,21 +148,24 @@ export default {
     }
     .pre-footer-top {
       z-index: 1;
-      padding: 40px 0;
       display: flex;
       justify-content: center;
-      .logo {
-        @include media-breakpoint-up(md) {
+      @include media-breakpoint-up(md) {
+        padding: 7vh 0 6vh;
+        .logo {
           width: 25%;
           min-width: 300px;
         }
-        @include media-breakpoint-down(sm) {
+      }
+      @include media-breakpoint-down(sm) {
+        padding: 5vh 0 2vh;
+        .logo {
           width: 50%;
         }
-        img {
-          max-width: 100%;
-          display: block;
-        }
+      }
+      img {
+        max-width: 100%;
+        display: block;
       }
     }
     .pre-footer-bottom {
