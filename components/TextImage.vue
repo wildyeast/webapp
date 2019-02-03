@@ -1,8 +1,8 @@
 <template>
   <div v-editable="blok" class="text-image">
-    <div class="title">
+    <h3 class="title">
       {{blok.title}}
-    </div>
+    </h3>
     <div class="body">
       <div class="text">
         <markdown :value="blok.text"></markdown>
@@ -30,12 +30,6 @@ export default {
   display: flex;
   flex-direction: column;
   .title {
-    margin-top: 1em;
-    font-weight: bold;
-    font-size: 3rem;
-    @include media-breakpoint-down(sm) {
-      font-size: 2rem;
-    }
     text-transform: uppercase;
   }
   .body {
@@ -46,8 +40,8 @@ export default {
     .text {
       flex: 1;
       display: flex;
-      line-height: 1.2;
-      font-size: 1.5rem;
+      line-height: 1.5;
+      font-size: 1.1rem;
       @include media-breakpoint-down(sm) {
         font-size: 1rem;
         line-height: 1.4;
@@ -55,7 +49,7 @@ export default {
     }
     .image {
       flex: 1;
-      margin-top: 3em;
+      margin-top: 1em;
       padding-left: 3em;
       @include media-breakpoint-down(md) {
         margin-top: 1em;

@@ -89,6 +89,7 @@ export default {
         }
         .teaser {
           font-size: 2.0vw;
+          line-height: 1.3;
           font-family: $font-mono;
           @include media-breakpoint-down(sm) {
             font-size: 2.0vh;
