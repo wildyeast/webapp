@@ -182,20 +182,26 @@ export default {
         }
         &.logos {
           margin: auto;
-          max-height: 40px;
+          height: 40px;
           display: flex;
           .marquee-text-content {
             height: 100%;
             .marquee-text-text {
-              height: 100%;
+              height: 40px;
+              display: inline-flex;
+              float: none;
             }
           }
           .logo {
             margin-right: 50px;
-            height: 100%;
-            display: inline-block;
+            display: flex;
             img {
-              height: 100%;
+              display: block;
+              max-width: 100%;
+              max-height: 40px;
+              width: auto;
+              height: auto;
+              object-fit: contain;
             }
           }
         }
