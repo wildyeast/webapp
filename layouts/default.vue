@@ -88,4 +88,13 @@ a {
 }
 
 
+h3 {
+  margin-top: 1em;
+  font-weight: bold;
+  font-size: 3rem;
+  @include media-breakpoint-down(sm) {
+    font-size: 2rem;
+  }
+}
+
 </style>

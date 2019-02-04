@@ -1,9 +1,7 @@
 <template>
   <footer class="footer">
     <div class="pre-footer">
-      <svg class="icon-bg" xmlns="http://www.w3.org/2000/svg" width="270" height="100">
-        <path d="M101.424.285L0 47.777v51.938h270V46.47L101.424.285"></path>
-      </svg>
+
       <div class="pre-footer-top">
         <div class="logo">
           <img src="~/assets/img/icons/gg-logo.svg" alt>
@@ -130,36 +128,47 @@ export default {
 .footer {
   display: flex;
   flex-direction: column;
+  position: relative;
   .pre-footer {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='270px' height='900px'><path fill='white' d='M 101.424,0.5699981 0,48.061998 V 1000 H 270 V 46.754998 L 101.424,0.5699981'></path></svg>");
+    background-size: cover;
+    background-position: top right;
+    background-repeat: no-repeat;
+    padding-top: 10vh;
     .icon-bg {
       overflow: hidden;
       z-index: 0;
       fill: #fff;
-      position: relative;
-      transform: scale(5) translateX(50%) translateY(50%);
-      left: 0;
+      position: absolute;
+      width: 80%;
+      right: 0;
     }
     .pre-footer-top {
       z-index: 1;
-      padding: 40px 0;
       display: flex;
       justify-content: center;
-      .logo {
-        width: 25%;
-        @include media-breakpoint-down(sm) {
+      @include media-breakpoint-up(md) {
+        padding: 7vh 0 6vh;
+        .logo {
+          width: 25%;
+          min-width: 300px;
+        }
+      }
+      @include media-breakpoint-down(sm) {
+        padding: 5vh 0 2vh;
+        .logo {
           width: 50%;
         }
-        img {
-          max-width: 100%;
-          display: block;
-        }
+      }
+      img {
+        max-width: 100%;
+        display: block;
       }
     }
     .pre-footer-bottom {
-      height: 8em;
       display: flex;
       @include media-breakpoint-down(sm) {
         flex-direction: column;
@@ -169,7 +178,8 @@ export default {
 
       .col {
         flex: 1;
-        padding: 0 25px;
+        margin-top: 3vh;
+        margin-bottom: 3vh;
         @include media-breakpoint-up(md) {
           width: 50%;
         }
@@ -179,23 +189,59 @@ export default {
           justify-content: center;
           align-items: center;
           text-align: center;
+          @include media-breakpoint-up(md) {
+            max-width: 21em;
+            padding: 0 10px 0 40px;
+            text-align: left;
+          }
+          @include media-breakpoint-down(sm) {
+            margin-bottom: 3em;
+          }
+          line-height: 1.2em;
         }
         &.logos {
-          margin: auto;
-          max-height: 40px;
+          height: 40px;
           display: flex;
+          position: relative;
+          overflow: hidden;
+            &:before {
+              content: "";
+              position: absolute;
+              left: 0;
+              top: 0;
+              height: 40px;
+              z-index: 1;
+              @include media-breakpoint-down(sm) {
+                width: 100vw;
+                background: linear-gradient(to right, rgba(255,255,255,1),rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,1));
+              }
+              @include media-breakpoint-up(md) {
+                width: 50%;
+                background: linear-gradient(to right, rgba(255,255,255,1),rgba(255,255,255,0));
+              }
+              pointer-events: none;
+          }
           .marquee-text-content {
             height: 100%;
+            &:hover > .marquee-text-text {
+              animation-play-state: paused;
+            }
             .marquee-text-text {
-              height: 100%;
+              height: 40px;
+              display: inline-flex;
+              float: none;
             }
           }
           .logo {
             margin-right: 50px;
-            height: 100%;
-            display: inline-block;
+            display: flex;
             img {
-              height: 100%;
+              display: block;
+              max-width: 100%;
+              max-height: 40px;
+              width: auto;
+              height: auto;
+              object-fit: contain;
             }
           }
         }
