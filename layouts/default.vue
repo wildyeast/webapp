@@ -98,18 +98,22 @@ h3 {
 }
 
 .form {
-  margin: 0 0 2em;
+  margin: 0 1em 2em;
   .form-item {
     display: grid;
-    grid-template-columns: 28% 72%;
+    @include media-breakpoint-up(sm) {
+      grid-template-columns: 28% 72%;
+    }
     margin-bottom: 1em;
 
     .label {
-      text-align: right;
+      @include media-breakpoint-up(sm) {
+        text-align: right;
+      }
       font-weight: bold;
       text-transform: uppercase;
       font-size: .7em;
-      margin:  7px 10px;
+      margin:  7px 10px 0 0;
     }
     .input-text, .input-textarea {
       outline: none;
