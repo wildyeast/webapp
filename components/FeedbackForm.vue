@@ -4,7 +4,15 @@
       Loading...
     </div>
     <div class="msg" v-else-if="sent">
-      Danke für dein Feedback!
+      <form class="form" @submit.prevent="back">
+        <div class="form-item">
+          <span></span>
+          <p>Danke für dein Feedback!</p>
+        </div>
+        <div class="button-row">
+          <button type="submit "class="input-button-primary">Zurück</button>
+        </div>
+      </form>
     </div>
 
     <form class="form" name="feedback" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
@@ -46,7 +54,7 @@ export default {
   data() {
     return {
       loading: false,
-      sent: false,
+      sent: true,
       form: {
         name: '',
         email: '',
@@ -66,6 +74,9 @@ export default {
     },
   },
   methods: {
+    back() {
+      this.sent = false;
+    },
     encode (data) {
       return Object.keys(data)
         .map(
@@ -87,7 +98,8 @@ export default {
         axiosConfig
       ).then(() => {
         this.loading = false;
-        this.subscribed = true;
+        this.form.msg = '';
+        this.sent = true;
       }).catch(() => {
         this.loading = false;
       });
