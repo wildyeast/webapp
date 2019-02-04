@@ -1,48 +1,50 @@
 <template>
   <div v-editable="blok" class="feedback-form">
-    <div class="msg" v-if="loading">
-      Loading...
-    </div>
-    <div class="msg" v-else-if="sent">
-      <form class="form" @submit.prevent="back">
-        <div class="form-item">
-          <span></span>
-          <p>Danke für dein Feedback!</p>
-        </div>
+    <no-ssr>
+      <div class="msg" v-if="loading">
+        Loading...
+      </div>
+      <div class="msg" v-else-if="sent">
+        <form class="form" @submit.prevent="back">
+          <div class="form-item">
+            <span></span>
+            <p>Danke für dein Feedback!</p>
+          </div>
+          <div class="button-row">
+            <button type="submit "class="input-button-primary">Zurück</button>
+          </div>
+        </form>
+      </div>
+
+      <form class="form" name="feedback" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
+        <label class="hidden"><input name="bot-field" /></label>
+        <div data-netlify-recaptcha="true"></div>
+        <label class="form-item">
+          <span class="label">Name</span>
+          <div class="body" v-if="!user">
+            <input class="input-text" type="name" name="name" v-model="form.name" placeholder="Dein Name">
+          </div>
+          <div class="body" v-else>
+            <span>{{form.name}}</span>
+          </div>
+        </label>
+        <label v-if="!user" class="form-item">
+          <span class="label">E-Mail Adresse</span>
+          <div class="body">
+            <input class="input-text" type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
+          </div>
+        </label>
+        <label class="form-item">
+          <span class="label">Nachricht</span>
+          <div class="body">
+            <textarea class="input-textarea" v-model="form.msg" name="msg"></textarea>
+          </div>
+        </label>
         <div class="button-row">
-          <button type="submit "class="input-button-primary">Zurück</button>
+          <button type="submit" class="input-button-primary">Abschicken</button>
         </div>
       </form>
-    </div>
-
-    <form class="form" name="feedback" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
-      <label class="hidden"><input name="bot-field" /></label>
-      <div data-netlify-recaptcha="true"></div>
-      <label class="form-item">
-        <span class="label">Name</span>
-        <div class="body" v-if="!user">
-          <input class="input-text" type="name" name="name" v-model="form.name" placeholder="Dein Name">
-        </div>
-        <div class="body" v-else>
-          <span>{{form.name}}</span>
-        </div>
-      </label>
-      <label v-if="!user" class="form-item">
-        <span class="label">E-Mail Adresse</span>
-        <div class="body">
-          <input class="input-text" type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
-        </div>
-      </label>
-      <label class="form-item">
-        <span class="label">Nachricht</span>
-        <div class="body">
-          <textarea class="input-textarea" v-model="form.msg" name="msg"></textarea>
-        </div>
-      </label>
-      <div class="button-row">
-        <button type="submit" class="input-button-primary">Abschicken</button>
-      </div>
-    </form>
+    </no-ssr>
   </div>
 </template>
 
