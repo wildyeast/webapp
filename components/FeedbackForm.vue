@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       loading: false,
-      sent: true,
+      sent: false,
       form: {
         name: '',
         email: '',
