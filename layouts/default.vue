@@ -97,4 +97,69 @@ h3 {
   }
 }
 
+.form {
+  margin: 0 1em 2em;
+  .form-item {
+    display: grid;
+    @include media-breakpoint-up(sm) {
+      grid-template-columns: 28% 72%;
+    }
+    margin-bottom: 1em;
+
+    .label {
+      @include media-breakpoint-up(sm) {
+        text-align: right;
+      }
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: .7em;
+      margin:  7px 10px 0 0;
+    }
+    .input-text, .input-textarea {
+      outline: none;
+      border: 1px solid #fff;
+      flex-grow: 1;
+      padding: 5px 10px;
+      width: 100%;
+      max-width: 100%;
+      font-size: .8em;
+      @include media-breakpoint-down(xs) {
+        margin: 1vh 0;
+      }
+      &:focus {
+        border-color: $color-orange;
+      }
+    }
+    .input-textarea {
+      height: 10em;
+      min-height: 30vh;
+      line-height: 1.8;
+      resize: vertical;
+    }
+  }
+  .button-row {
+    text-align: right;
+    .input-button-primary {
+      cursor: pointer;
+      background-color: $color-orange;
+      color: #FFF;
+      min-width: 30%;
+      border: 1px solid lighten($color-orange, 10);
+      padding: 7px 12px 8px;
+      line-height: 1;
+      outline: none;
+      &:focus {
+        background-color: lighten($color-orange, 10);
+      }
+    }
+  }
+  .body {
+    flex: 3;
+    textarea,
+    input {
+      width: 100%;
+    }
+  }
+}
+
 </style>
