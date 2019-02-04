@@ -1,19 +1,19 @@
 <template>
   <div v-editable="blok" class="feedback-form">
-    <!--
     <div class="msg" v-if="loading">
       Loading...
     </div>
     <div class="msg" v-else-if="sent">
       Danke für dein Feedback!
     </div>
-    <form name="feedback" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
+
+    <form class="form" name="feedback" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
       <label class="hidden"><input name="bot-field" /></label>
       <div data-netlify-recaptcha="true"></div>
       <label class="form-item">
         <span class="label">Name</span>
         <div class="body" v-if="!user">
-          <input type="name" name="name" v-model="form.name" placeholder="Dein Name">
+          <input class="input-text" type="name" name="name" v-model="form.name" placeholder="Dein Name">
         </div>
         <div class="body" v-else>
           <span>{{form.name}}</span>
@@ -22,18 +22,19 @@
       <label v-if="!user" class="form-item">
         <span class="label">E-Mail Adresse</span>
         <div class="body">
-          <input type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
+          <input class="input-text" type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
         </div>
       </label>
       <label class="form-item">
         <span class="label">Nachricht</span>
         <div class="body">
-          <textarea v-model="form.msg" name="msg"></textarea>
+          <textarea class="input-textarea" v-model="form.msg" name="msg"></textarea>
         </div>
       </label>
-      <button type="submit">Abschicken</button>
+      <div class="button-row">
+        <button type="submit" class="input-button-primary">Abschicken</button>
+      </div>
     </form>
-    -->
   </div>
 </template>
 
@@ -96,26 +97,13 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/scss/styles.scss";
+
 .feedback-form {
   max-width: 640px;
   margin: auto;
   .hidden {
     display: none;
-  }
-  .form-item {
-    display: flex;
-    .label {
-      padding: 20px;
-      text-align: right;
-      flex: 1;
-    }
-    .body {
-      flex: 3;
-      textarea,
-      input {
-        width: 100%;
-      }
-    }
   }
 }
 </style>
