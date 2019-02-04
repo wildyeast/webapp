@@ -34,6 +34,7 @@ export default {
       font-size: 2.35rem;
     }
     @include media-breakpoint-down(xs) {
+      width: 100%;
       font-size: 1.8rem;
     }
   }
