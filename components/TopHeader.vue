@@ -36,6 +36,11 @@
     <transition name="fadefromright">
       <div class="mobile-nav" v-show="showMenu">
         <div class="mobile-nav-header">
+          <div class="home" @click="toggleMenu()">
+            <nuxt-link to="/">
+              <img class="logo" src="~/assets/img/icons/gg-logo-icon.svg">
+            </nuxt-link>
+          </div>
           <div class="close-nav" @click="toggleMenu">
             <svg
               class="close-nav-icon"
@@ -46,11 +51,6 @@
                 <path d="M 5.5488281 3.8535156 A 2.0002 2.0002 0 0 0 4.15625 7.2890625 L 13.388672 16.519531 L 4.15625 25.751953 A 2.0002 2.0002 0 1 0 6.984375 28.580078 L 16.216797 19.347656 L 25.449219 28.580078 A 2.0002 2.0002 0 1 0 28.277344 25.751953 L 19.044922 16.519531 L 28.277344 7.2890625 A 2.0002 2.0002 0 0 0 26.824219 3.8554688 A 2.0002 2.0002 0 0 0 25.449219 4.4589844 L 16.216797 13.691406 L 6.984375 4.4589844 A 2.0002 2.0002 0 0 0 5.5488281 3.8535156 z " />
               </g>
             </svg>
-          </div>
-          <div class="home" @click="toggleMenu()">
-            <nuxt-link to="/">
-              <img class="logo" src="~/assets/img/icons/gg-logo-icon.svg">
-            </nuxt-link>
           </div>
         </div>
         <div class="main-nav-items">
