@@ -95,6 +95,7 @@ export default {
       return arra1;
     },
     handleSubmit () {
+      if (this.form.email === '') return;
       this.loading = true;
       const axiosConfig = {
         header: { "Content-Type": "application/x-www-form-urlencoded" }
