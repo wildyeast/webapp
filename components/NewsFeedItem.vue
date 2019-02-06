@@ -25,11 +25,13 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   props: ["news", "type"],
   computed: {
     date() {
-      return new Date(this.news.datetime).toLocaleDateString("de-at");
+      return moment(this.news.datetime).locale('de-at').format('LL');
     },
     link() {
       if (this.news.link && this.news.link.url) {
