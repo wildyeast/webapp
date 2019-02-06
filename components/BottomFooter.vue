@@ -127,6 +127,7 @@ export default {
 @import "@/assets/scss/styles.scss";
 
 .footer {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
