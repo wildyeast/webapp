@@ -1,79 +1,38 @@
 <template>
-  <section>
+  <section class="news-page">
+    <!--
     <div class="source-list">
       <checkbox
-        theme="news"
-        v-model="source.selected"
-        v-for="source in sources"
-        :key="source.name"
-        class="source"
-        >{{source.name}}</checkbox>
+         theme="news"
+         v-model="source.selected"
+         v-for="source in sources"
+         :key="source.name"
+         class="source"
+         >{{source.name}}</checkbox>
     </div>
+    -->
 
     <loading v-if="loading" class="loading"/>
 
     <div class="news-feed">
-      <div class="list-item" v-for="(item, i) in items" :key="i">
+      <div class="month" v-for="(month, mi) in items">
+        <div class="container">
+          <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="mi == 0">
+          <h1 class="title">{{month.label}}</h1>
+        </div>
+        <div class="separator"/>
 
-        <div v-if="item.type == 'month'" class="date-separator">
-          <div class="container">
-            <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="i == 0">
-            <h1 class="title">{{item.value}}</h1>
+        <div v-if="month.items && month.items.length == 1">
+          <div class="item" v-for="(item, ii) in month.items" :key="ii">
+            <news-feed-item :news="item.content" :key="item.id" type="horizontal" />
           </div>
-          <div class="separator"/>
         </div>
-
-        <div v-else-if="item.type == 'item'">
-          {{item.name}}
-        </div>
-      </div>
-    </div>
-
-
-      <!--
-    <h1 v-if="!blocks || !blocks.length || blocks.length == 0" class="no-results">Keine Ergebnisse</h1>
-    <div v-else>
-
-    <div class="news-feed" v-for="(month, index) in blocks" v-if="month.items.length" :key="index">
-      <div class="date-separator" v-if="block.length">
-
-        <div class="items">
-          <transition-group name="items-transition">
-            <news-feed-item
-                            v-if="block[1].length == 1"
-                            v-for="item in block[1]"
-                            :news="item.content"
-                            :key="item.id"
-                            :type="'horizontal'"
-                            />
-          </transition-group>
-
-          <div v-if="block[1].length > 1" class="news-block">
-            <div class="column-left">
-              <transition-group name="items-transition">
-                <news-feed-item
-                                v-for="(item, index) in block[1]"
-                                v-if="index % 2 == 0"
-                                :news="item.content"
-                                :key="item.id"
-                                />
-              </transition-group>
-            </div>
-
-            <div class="column-right">
-              <transition-group name="items-transition">
-                <news-feed-item
-                                v-for="(item, index) in block[1]"
-                                v-bind:class="index % 2 == 1 ? '' : 'hidden-item'"
-                                :news="item.content"
-                                :key="item.id"
-                                />
-              </transition-group>
-            </div>
+        <div v-else-if="month.items && month.items.length > 1" class="items">
+          <div class="item" v-for="(item, ii) in month.items" :key="ii">
+            <news-feed-item :news="item.content" :key="item.id" type="vertical" />
           </div>
         </div>
       </div>
-          -->
     </div>
   </section>
 </template>
@@ -137,17 +96,21 @@ export default {
 
   computed: {
     items() {
+      let list = [];
       let temp = [];
       let currentMonth = null;
       this.news.forEach((n) => {
         let month = new Date(n.content.datetime).getMonth();
-        if (currentMonth == null || currentMonth != month) {
-          temp.push({ type: 'month', value: moment(n.content.datetime).lang('de-at').format('MMMM') });
+        if (currentMonth != month) {
+          if (currentMonth != null) {
+            list.push({ items: temp, label: moment(n.content.datetime).locale('de-at').format('MMMM') });
+          }
           currentMonth = month;
+          temp = [];
         }
         temp.push({ type: 'item', ...n });
       });
-      return temp;
+      return list;
     },
     filters() {
       const sources = this.sources
@@ -172,126 +135,73 @@ export default {
 <style lang="scss">
 @import "@/assets/scss/styles.scss";
 
-.list-container {
-}
-
-/*
-.list-item {
-  display: inline-block;
-  transition: all 1s;
-}
-.list-enter, .list-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
-}
-.list-leave-active {
-  position: absolute;
-}
-*/
-
-
-
-
-.no-results {
-  width: 100%;
-  text-align: center;
-  margin-top: 100px;
-}
-
-.items-transition-enter-active,
-.items-transition-leave-active {
-  transition: all 0.5s;
-}
-
-.items-transition-enter,
-.items-transition-leave-to {
-  opacity: 0;
-  transform: translateX(300px);
-}
-
-.source-list {
-  width: max-content;
-  margin: 50px auto 0 auto;
-
-  .source {
-    margin: 5px 10px;
-  }
-}
-
-.loading {
-  margin-top: 20px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.news-feed {
-  .items {
-    margin: 0 15%;
+.news-page {
+  .no-results {
+    width: 100%;
+    text-align: center;
+    margin-top: 100px;
   }
 
-  .date-separator {
-    .container {
-      margin: 100px auto 0 auto;
-      width: 300px;
+  .source-list {
+    width: max-content;
+    margin: 50px auto 0 auto;
 
-      .title {
-        text-align: center;
-        background-color: $color-blue;
-        padding: 5px 10px;
-        color: #fff;
-        margin: 0;
-        white-space: nowrap;
+    .source {
+      margin: 5px 10px;
+    }
+  }
+
+  .loading {
+    margin-top: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .news-feed {
+    margin-right: 4%;
+    margin-left: 4%;
+
+    .month {
+      .container {
+        margin: 100px auto 0 auto;
+        width: 300px;
+
+        .title {
+          text-align: center;
+          background-color: $color-blue;
+          padding: 5px 10px;
+          color: #fff;
+          margin: 0;
+          white-space: nowrap;
+        }
+      }
+
+      .items {
+        column-count: 2;
+        column-gap: 2em;
+        @include media-breakpoint-down(sm) {
+          column-count: 1;
+        }
+
+        .item {
+          display: inline-block;
+          margin: 0 0 2em;
+          width: 100%;
+        }
+      }
+
+      .separator {
+        border-bottom: 2px dashed $color-blue;
+        width: 100%;
+        margin-top: -1em;
+      }
+
+      .decorator {
+        width: 50px;
+        margin-bottom: -7px;
       }
     }
-
-    .separator {
-      border-bottom: 2px dashed $color-blue;
-      width: 100%;
-      margin-top: -1em;
-    }
-
-    .decorator {
-      width: 50px;
-      margin-bottom: -7px;
-    }
-  }
-}
-
-.news-block {
-  display: flex;
-
-  .column-right {
-    width: 50%;
-    margin-top: 200px;
-
-    .hidden-item {
-      display: none;
-    }
-  }
-
-  .column-left {
-    text-align: right;
-    margin-right: 100px;
-    width: 50%;
-    .header {
-      justify-content: flex-end;
-    }
-  }
-}
-
-@media (max-width: $mobile-large) {
-  .column-right {
-    width: 100% !important;
-
-    .hidden-item {
-      display: block !important;
-    }
-  }
-
-  .column-left {
-    display: none;
-    width: 0%;
   }
 }
 
