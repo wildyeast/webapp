@@ -1,4 +1,5 @@
 const axios = require('axios');
+const storyblokToken = '1IsgW07t4t5sm0UzdHAD6gtt';
 
 module.exports = {
   /*
@@ -34,7 +35,7 @@ module.exports = {
     },
   },
   modules: [
-    ['storyblok-nuxt', { accessToken: '1IsgW07t4t5sm0UzdHAD6gtt', cacheProvider: 'memory' }],
+    ['storyblok-nuxt', { accessToken: storyblokToken, cacheProvider: 'memory' }],
     '@nuxtjs/proxy',
     ['@nuxtjs/google-analytics', {
       id: 'UA-106370674-4'
@@ -54,9 +55,9 @@ module.exports = {
   },
   generate: {
     routes: function (callback) {
-      const token = '1IsgW07t4t5sm0UzdHAD6gtt'
-      const per_page = 100
-      const version = 'draft'
+      const token = storyblokToken;
+      const per_page = 100;
+      const version = 'published';
 
       let page = 1
       let routes = []
