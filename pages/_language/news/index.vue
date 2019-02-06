@@ -1,6 +1,5 @@
 <template>
   <section class="news-page">
-    <!--
     <div class="source-list">
       <checkbox
          theme="news"
@@ -10,7 +9,6 @@
          class="source"
          >{{source.name}}</checkbox>
     </div>
-    -->
 
     <loading v-if="loading" class="loading"/>
 
@@ -99,17 +97,22 @@ export default {
       let list = [];
       let temp = [];
       let currentMonth = null;
+      let m = null;
+      if (!this.news || !this.news.length || this.news.length == 0) {
+        return [];
+      }
       this.news.forEach((n) => {
-        let month = new Date(n.content.datetime).getMonth();
-        if (currentMonth != month) {
+        if (currentMonth != moment(n.content.datetime).month()) {
           if (currentMonth != null) {
-            list.push({ items: temp, label: moment(n.content.datetime).locale('de-at').format('MMMM') });
+            list.push({ items: temp, label: m.locale('de-at').format('MMMM') });
+            temp = [];
           }
-          currentMonth = month;
-          temp = [];
+          m = moment(n.content.datetime);
+          currentMonth = m.month();
         }
         temp.push({ type: 'item', ...n });
       });
+      list.push({ items: temp, label: m.locale('de-at').format('MMMM') });
       return list;
     },
     filters() {
@@ -178,16 +181,35 @@ export default {
       }
 
       .items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 4vw;
+        @include media-breakpoint-down(sm) {
+          grid-template-columns: repeat(1, 1fr);
+        }
+        /*
         column-count: 2;
         column-gap: 2em;
         @include media-breakpoint-down(sm) {
           column-count: 1;
         }
+        */
 
         .item {
           display: inline-block;
-          margin: 0 0 2em;
           width: 100%;
+
+        @include media-breakpoint-up(md) {
+          &:nth-child(even) {
+            text-align: left;
+          }
+          &:nth-child(odd) {
+            text-align: right;
+            .header {
+              flex-direction: row-reverse;
+            }
+          }
+        }
         }
       }
 

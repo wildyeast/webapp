@@ -84,7 +84,7 @@ export default {
     .source-img {
       height: 1em;
       width: auto;
-      margin-left: 20px;
+      margin: 0 20px;
     }
 
     p {
