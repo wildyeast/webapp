@@ -10,77 +10,78 @@
         >{{source.name}}</checkbox>
     </div>
 
-    <loading class="loading" :class="{ active: loading }"/>
-    <h1 v-if="!blocks.length" class="no-results">Keine Ergebnisse</h1>
+    <loading v-if="loading" class="loading"/>
 
-    <div class="news-feed" v-for="(block, index) in blocks" v-if="block[1].length" :key="index">
+    <div class="news-feed">
+      <div class="list-item" v-for="(item, i) in items" :key="i">
+
+        <div v-if="item.type == 'month'" class="date-separator">
+          <div class="container">
+            <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="i == 0">
+            <h1 class="title">{{item.value}}</h1>
+          </div>
+          <div class="separator"/>
+        </div>
+
+        <div v-else-if="item.type == 'item'">
+          {{item.name}}
+        </div>
+      </div>
+    </div>
+
+
+      <!--
+    <h1 v-if="!blocks || !blocks.length || blocks.length == 0" class="no-results">Keine Ergebnisse</h1>
+    <div v-else>
+
+    <div class="news-feed" v-for="(month, index) in blocks" v-if="month.items.length" :key="index">
       <div class="date-separator" v-if="block.length">
-        <div class="container">
-          <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="index == 0">
-          <h1 class="title">{{block[0]}}</h1>
-        </div>
-        <div class="separator"/>
-      </div>
 
-      <!-- Horizontal feed items -->
-      <div class="items">
-        <transition-group name="items-transition">
-          <news-feed-item
-            v-if="block[1].length == 1"
-            v-for="item in block[1]"
-            :news="item.content"
-            :key="item.id"
-            :type="'horizontal'"
-          />
-        </transition-group>
+        <div class="items">
+          <transition-group name="items-transition">
+            <news-feed-item
+                            v-if="block[1].length == 1"
+                            v-for="item in block[1]"
+                            :news="item.content"
+                            :key="item.id"
+                            :type="'horizontal'"
+                            />
+          </transition-group>
 
-        <!-- Vertical feed items (two columns) -->
-        <div v-if="block[1].length > 1" class="news-block">
-          <div class="column-left">
-            <transition-group name="items-transition">
-              <news-feed-item
-                v-for="(item, index) in block[1]"
-                v-if="index % 2 == 0"
-                :news="item.content"
-                :key="item.id"
-              />
-            </transition-group>
-          </div>
+          <div v-if="block[1].length > 1" class="news-block">
+            <div class="column-left">
+              <transition-group name="items-transition">
+                <news-feed-item
+                                v-for="(item, index) in block[1]"
+                                v-if="index % 2 == 0"
+                                :news="item.content"
+                                :key="item.id"
+                                />
+              </transition-group>
+            </div>
 
-          <div class="column-right">
-            <transition-group name="items-transition">
-              <news-feed-item
-                v-for="(item, index) in block[1]"
-                v-bind:class="index % 2 == 1 ? '' : 'hidden-item'"
-                :news="item.content"
-                :key="item.id"
-              />
-            </transition-group>
+            <div class="column-right">
+              <transition-group name="items-transition">
+                <news-feed-item
+                                v-for="(item, index) in block[1]"
+                                v-bind:class="index % 2 == 1 ? '' : 'hidden-item'"
+                                :news="item.content"
+                                :key="item.id"
+                                />
+              </transition-group>
+            </div>
           </div>
         </div>
       </div>
+          -->
     </div>
   </section>
 </template>
 
 <script>
+import moment from "moment";
 import Checkbox from "~/components/Checkbox.vue";
 import Loading from "~/components/Loading.vue";
-
-const monthDict = [
-  "Jänner",
-  "Februar",
-  "März",
-  "April",
-  "Mai",
-  "Juni",
-  "Juli",
-  "August",
-  "September",
-  "Oktober",
-  "November",
-  "Dezember"
-];
 
 export default {
   components: {
@@ -90,6 +91,7 @@ export default {
 
   data() {
     return {
+      news: [],
       loading: false,
       sources: [
         { name: "magazin3", key: "m3", selected: false },
@@ -126,51 +128,27 @@ export default {
       let result = this.$store.dispatch("findNews", this.filters).then(data => {
         this.loading = false;
         this.news = data.stories;
+      }).catch((e) => {
+        console.log(e);
+        this.loading = false;
       });
     }
   },
 
   computed: {
-    blocks() {
-      let _blocks = { "Zeitlose News": [] };
-
-      // Sort stories in chronological order (latest first)
-      const stories = this.news.sort((a, b) => {
-        const timeA = new Date(a.content.datetime).getTime();
-        const timeB = new Date(b.content.datetime).getTime();
-
-        return timeB - timeA;
-      });
-
-      stories.map(story => {
-        const date = new Date(story.content.datetime);
-        const month = monthDict[date.getMonth()];
-        const year = date.getFullYear();
-
-        let timeStamp = "Zeitlose News";
-
-        if (month !== undefined || !isNaN(year)) {
-          timeStamp = `${month} ${year}`;
+    items() {
+      let temp = [];
+      let currentMonth = null;
+      this.news.forEach((n) => {
+        let month = new Date(n.content.datetime).getMonth();
+        if (currentMonth == null || currentMonth != month) {
+          temp.push({ type: 'month', value: moment(n.content.datetime).lang('de-at').format('MMMM') });
+          currentMonth = month;
         }
-
-        if (
-          story.content.component === "news-item" &&
-          story.content.image &&
-          story.content.title &&
-          story.content.text
-        ) {
-          if (!_blocks[timeStamp]) {
-            _blocks[timeStamp] = [];
-          }
-
-          _blocks[timeStamp].push(story);
-        }
+        temp.push({ type: 'item', ...n });
       });
-
-      // Convert object to array for usage on the page [ [ key, value ], ... ]
-      return Object.entries(_blocks);
+      return temp;
     },
-
     filters() {
       const sources = this.sources
         .filter(i => i.selected)
@@ -193,6 +171,26 @@ export default {
 
 <style lang="scss">
 @import "@/assets/scss/styles.scss";
+
+.list-container {
+}
+
+/*
+.list-item {
+  display: inline-block;
+  transition: all 1s;
+}
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-leave-active {
+  position: absolute;
+}
+*/
+
+
+
 
 .no-results {
   width: 100%;
@@ -225,10 +223,6 @@ export default {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  display: none;
-  &.active {
-    display: block;
-  }
 }
 
 .news-feed {

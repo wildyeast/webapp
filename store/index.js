@@ -278,6 +278,7 @@ const createStore = () => {
           version: version,
           cv: state.cacheVersion,
           starts_with: `${state.language}/news`,
+          sort_by: 'content.datetime:desc'
         }).then((res) => {
           return res.data;
         }).catch((res) => {
