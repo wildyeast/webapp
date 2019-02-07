@@ -8,7 +8,7 @@
         <button @click="logout" class="logout-button">Logout</button>
       </div>
       <div class="section">
-        <h3>Packages</h3>
+        <h2>Packages</h2>
         <ul class="item-list" v-if="user.packages && user.packages.length > 0">
           <li v-for="p in user.packages"><package :userPackage="p" /></li>
         </ul>
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="section">
-        <h3>Trainings</h3>
+        <h2>Trainings</h2>
         <ul class="item-list" v-if="user.trainings && user.trainings.length > 0">
           <li v-for="t in user.trainings"><training :userTraining="t" /></li>
         </ul>

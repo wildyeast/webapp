@@ -13,7 +13,9 @@ export default function ({ app, route, store, isDev, redirect }) {
   }
 
   if (process.client) {
-    auth = store.dispatch('checkAuth');
+    if (!store.state.auth || store.state.auth.exp > (new Date() - 30000)/1000) {
+      auth = store.dispatch('checkAuth');
+    }
   }
 
   if (!store.state.settings._uid || language !== store.state.language) {
