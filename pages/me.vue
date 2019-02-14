@@ -63,7 +63,10 @@
                 <input class="input-text" type="text" v-model="user.profile.city" name="" id=""/>
               </div>
               <div class="button-row">
-                <button type="submit" class="input-button-primary">Speichern</button>
+                <div v-if="loading">
+                  Saving…
+                </div>
+                <button v-else type="submit" class="input-button-primary">Speichern</button>
               </div>
             </form>
           </div>
@@ -78,6 +81,7 @@ export default {
   middleware: 'authenticated',
   data () {
     return {
+      loading: false,
       activeSection: 'packages'
     }
   },
@@ -97,7 +101,10 @@ export default {
       });
     },
     updateUser(event) {
-      this.$store.dispatch('updateUser', Object.assign({}, this.user.profile));
+      this.loading = true;
+      this.$store.dispatch('updateUser', Object.assign({}, this.user.profile)).then(() => {
+        this.loading = false;
+      });
     }
   },
   computed: {
