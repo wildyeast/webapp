@@ -1,0 +1,360 @@
+<svg id="mermaid-1550160559849" width="100%" xmlns="http://www.w3.org/2000/svg" style="max-width: 257.58984375px;" viewBox="0 0 257.58984375 505"><style>
+
+
+#mermaid-1550160559849 .label {
+  font-family: 'trebuchet ms', verdana, arial;
+  color: #333; }
+
+#mermaid-1550160559849 .node rect,
+#mermaid-1550160559849 .node circle,
+#mermaid-1550160559849 .node ellipse,
+#mermaid-1550160559849 .node polygon {
+  fill: #ECECFF;
+  stroke: #9370DB;
+  stroke-width: 1px; }
+
+#mermaid-1550160559849 .node.clickable {
+  cursor: pointer; }
+
+#mermaid-1550160559849 .arrowheadPath {
+  fill: #333333; }
+
+#mermaid-1550160559849 .edgePath .path {
+  stroke: #333333;
+  stroke-width: 1.5px; }
+
+#mermaid-1550160559849 .edgeLabel {
+  background-color: #e8e8e8; }
+
+#mermaid-1550160559849 .cluster rect {
+  fill: #ffffde !important;
+  stroke: #aaaa33 !important;
+  stroke-width: 1px !important; }
+
+#mermaid-1550160559849 .cluster text {
+  fill: #333; }
+
+#mermaid-1550160559849 div.mermaidTooltip {
+  position: absolute;
+  text-align: center;
+  max-width: 200px;
+  padding: 2px;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-size: 12px;
+  background: #ffffde;
+  border: 1px solid #aaaa33;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 100; }
+
+#mermaid-1550160559849 .actor {
+  stroke: #CCCCFF;
+  fill: #ECECFF; }
+
+#mermaid-1550160559849 text.actor {
+  fill: black;
+  stroke: none; }
+
+#mermaid-1550160559849 .actor-line {
+  stroke: grey; }
+
+#mermaid-1550160559849 .messageLine0 {
+  stroke-width: 1.5;
+  stroke-dasharray: '2 2';
+  stroke: #333; }
+
+#mermaid-1550160559849 .messageLine1 {
+  stroke-width: 1.5;
+  stroke-dasharray: '2 2';
+  stroke: #333; }
+
+#mermaid-1550160559849 #arrowhead {
+  fill: #333; }
+
+#mermaid-1550160559849 #crosshead path {
+  fill: #333 !important;
+  stroke: #333 !important; }
+
+#mermaid-1550160559849 .messageText {
+  fill: #333;
+  stroke: none; }
+
+#mermaid-1550160559849 .labelBox {
+  stroke: #CCCCFF;
+  fill: #ECECFF; }
+
+#mermaid-1550160559849 .labelText {
+  fill: black;
+  stroke: none; }
+
+#mermaid-1550160559849 .loopText {
+  fill: black;
+  stroke: none; }
+
+#mermaid-1550160559849 .loopLine {
+  stroke-width: 2;
+  stroke-dasharray: '2 2';
+  stroke: #CCCCFF; }
+
+#mermaid-1550160559849 .note {
+  stroke: #aaaa33;
+  fill: #fff5ad; }
+
+#mermaid-1550160559849 .noteText {
+  fill: black;
+  stroke: none;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-size: 14px; }
+
+#mermaid-1550160559849 .activation0 {
+  fill: #f4f4f4;
+  stroke: #666; }
+
+#mermaid-1550160559849 .activation1 {
+  fill: #f4f4f4;
+  stroke: #666; }
+
+#mermaid-1550160559849 .activation2 {
+  fill: #f4f4f4;
+  stroke: #666; }
+
+
+#mermaid-1550160559849 .section {
+  stroke: none;
+  opacity: 0.2; }
+
+#mermaid-1550160559849 .section0 {
+  fill: rgba(102, 102, 255, 0.49); }
+
+#mermaid-1550160559849 .section2 {
+  fill: #fff400; }
+
+#mermaid-1550160559849 .section1,
+#mermaid-1550160559849 .section3 {
+  fill: white;
+  opacity: 0.2; }
+
+#mermaid-1550160559849 .sectionTitle0 {
+  fill: #333; }
+
+#mermaid-1550160559849 .sectionTitle1 {
+  fill: #333; }
+
+#mermaid-1550160559849 .sectionTitle2 {
+  fill: #333; }
+
+#mermaid-1550160559849 .sectionTitle3 {
+  fill: #333; }
+
+#mermaid-1550160559849 .sectionTitle {
+  text-anchor: start;
+  font-size: 11px;
+  text-height: 14px; }
+
+
+#mermaid-1550160559849 .grid .tick {
+  stroke: lightgrey;
+  opacity: 0.3;
+  shape-rendering: crispEdges; }
+
+#mermaid-1550160559849 .grid path {
+  stroke-width: 0; }
+
+
+#mermaid-1550160559849 .today {
+  fill: none;
+  stroke: red;
+  stroke-width: 2px; }
+
+
+
+#mermaid-1550160559849 .task {
+  stroke-width: 2; }
+
+#mermaid-1550160559849 .taskText {
+  text-anchor: middle;
+  font-size: 11px; }
+
+#mermaid-1550160559849 .taskTextOutsideRight {
+  fill: black;
+  text-anchor: start;
+  font-size: 11px; }
+
+#mermaid-1550160559849 .taskTextOutsideLeft {
+  fill: black;
+  text-anchor: end;
+  font-size: 11px; }
+
+
+#mermaid-1550160559849 .taskText0,
+#mermaid-1550160559849 .taskText1,
+#mermaid-1550160559849 .taskText2,
+#mermaid-1550160559849 .taskText3 {
+  fill: white; }
+
+#mermaid-1550160559849 .task0,
+#mermaid-1550160559849 .task1,
+#mermaid-1550160559849 .task2,
+#mermaid-1550160559849 .task3 {
+  fill: #8a90dd;
+  stroke: #534fbc; }
+
+#mermaid-1550160559849 .taskTextOutside0,
+#mermaid-1550160559849 .taskTextOutside2 {
+  fill: black; }
+
+#mermaid-1550160559849 .taskTextOutside1,
+#mermaid-1550160559849 .taskTextOutside3 {
+  fill: black; }
+
+
+#mermaid-1550160559849 .active0,
+#mermaid-1550160559849 .active1,
+#mermaid-1550160559849 .active2,
+#mermaid-1550160559849 .active3 {
+  fill: #bfc7ff;
+  stroke: #534fbc; }
+
+#mermaid-1550160559849 .activeText0,
+#mermaid-1550160559849 .activeText1,
+#mermaid-1550160559849 .activeText2,
+#mermaid-1550160559849 .activeText3 {
+  fill: black !important; }
+
+
+#mermaid-1550160559849 .done0,
+#mermaid-1550160559849 .done1,
+#mermaid-1550160559849 .done2,
+#mermaid-1550160559849 .done3 {
+  stroke: grey;
+  fill: lightgrey;
+  stroke-width: 2; }
+
+#mermaid-1550160559849 .doneText0,
+#mermaid-1550160559849 .doneText1,
+#mermaid-1550160559849 .doneText2,
+#mermaid-1550160559849 .doneText3 {
+  fill: black !important; }
+
+
+#mermaid-1550160559849 .crit0,
+#mermaid-1550160559849 .crit1,
+#mermaid-1550160559849 .crit2,
+#mermaid-1550160559849 .crit3 {
+  stroke: #ff8888;
+  fill: red;
+  stroke-width: 2; }
+
+#mermaid-1550160559849 .activeCrit0,
+#mermaid-1550160559849 .activeCrit1,
+#mermaid-1550160559849 .activeCrit2,
+#mermaid-1550160559849 .activeCrit3 {
+  stroke: #ff8888;
+  fill: #bfc7ff;
+  stroke-width: 2; }
+
+#mermaid-1550160559849 .doneCrit0,
+#mermaid-1550160559849 .doneCrit1,
+#mermaid-1550160559849 .doneCrit2,
+#mermaid-1550160559849 .doneCrit3 {
+  stroke: #ff8888;
+  fill: lightgrey;
+  stroke-width: 2;
+  cursor: pointer;
+  shape-rendering: crispEdges; }
+
+#mermaid-1550160559849 .doneCritText0,
+#mermaid-1550160559849 .doneCritText1,
+#mermaid-1550160559849 .doneCritText2,
+#mermaid-1550160559849 .doneCritText3 {
+  fill: black !important; }
+
+#mermaid-1550160559849 .activeCritText0,
+#mermaid-1550160559849 .activeCritText1,
+#mermaid-1550160559849 .activeCritText2,
+#mermaid-1550160559849 .activeCritText3 {
+  fill: black !important; }
+
+#mermaid-1550160559849 .titleText {
+  text-anchor: middle;
+  font-size: 18px;
+  fill: black; }
+
+#mermaid-1550160559849 g.classGroup text {
+  fill: #9370DB;
+  stroke: none;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-size: 10px; }
+
+#mermaid-1550160559849 g.classGroup rect {
+  fill: #ECECFF;
+  stroke: #9370DB; }
+
+#mermaid-1550160559849 g.classGroup line {
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1550160559849 .classLabel .box {
+  stroke: none;
+  stroke-width: 0;
+  fill: #ECECFF;
+  opacity: 0.5; }
+
+#mermaid-1550160559849 .classLabel .label {
+  fill: #9370DB;
+  font-size: 10px; }
+
+#mermaid-1550160559849 .relation {
+  stroke: #9370DB;
+  stroke-width: 1;
+  fill: none; }
+
+#mermaid-1550160559849 #compositionStart {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1550160559849 #compositionEnd {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1550160559849 #aggregationStart {
+  fill: #ECECFF;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1550160559849 #aggregationEnd {
+  fill: #ECECFF;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1550160559849 #dependencyStart {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1550160559849 #dependencyEnd {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1550160559849 #extensionStart {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1550160559849 #extensionEnd {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1550160559849 .commit-id,
+#mermaid-1550160559849 .commit-msg,
+#mermaid-1550160559849 .branch-label {
+  fill: lightgrey;
+  color: lightgrey; }
+</style><style>#mermaid-1550160559849 {
+    color: rgba(0, 0, 0, 0.65);
+    font: ;
+  }</style><g transform="translate(-12, -12)"><g class="output"><g class="clusters"></g><g class="edgePaths"><g class="edgePath" style="opacity: 1;"><path class="path" d="M211.3828125,61L211.3828125,96.5L211.3828125,132" marker-end="url(#arrowhead5522)" style="fill:none"></path><defs><marker id="arrowhead5522" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M66.0078125,61L66.0078125,96.5L66.0078125,132" marker-end="url(#arrowhead5523)" style="fill:none"></path><defs><marker id="arrowhead5523" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M66.0078125,173L66.0078125,208.5L86.19447544642857,244" marker-end="url(#arrowhead5524)" style="fill:none"></path><defs><marker id="arrowhead5524" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M193.01775251116072,173L161.21484375,208.5L121.04704938616072,244" marker-end="url(#arrowhead5525)" style="fill:none"></path><defs><marker id="arrowhead5525" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M97.8515625,285L97.8515625,320.5L97.8515625,356" marker-end="url(#arrowhead5526)" style="fill:none"></path><defs><marker id="arrowhead5526" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M97.8515625,397L97.8515625,432.5L129.65447126116072,468" marker-end="url(#arrowhead5527)" style="fill:none"></path><defs><marker id="arrowhead5527" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g><g class="edgePath" style="opacity: 1;"><path class="path" d="M219.94974190848214,173L234.78515625,208.5L234.78515625,264.5L234.78515625,320.5L234.78515625,376.5L234.78515625,432.5L173.98046875,471.7443724113092" marker-end="url(#arrowhead5528)" style="fill:none"></path><defs><marker id="arrowhead5528" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="strokeWidth" markerWidth="8" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" class="arrowheadPath" style="stroke-width: 1; stroke-dasharray: 1, 0;"></path></marker></defs></g></g><g class="edgeLabels"><g class="edgeLabel" transform="translate(211.3828125,96.5)" style="opacity: 1;"><g transform="translate(-42.46875,-10.5)" class="label"><foreignObject width="84.9375" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">edit content</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(66.0078125,96.5)" style="opacity: 1;"><g transform="translate(-36.0703125,-10.5)" class="label"><foreignObject width="72.140625" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">push code</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(66.0078125,208.5)" style="opacity: 1;"><g transform="translate(-16.8828125,-10.5)" class="label"><foreignObject width="33.765625" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">code</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(161.21484375,208.5)" style="opacity: 1;"><g transform="translate(-26.8046875,-10.5)" class="label"><foreignObject width="53.609375" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">content</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(97.8515625,320.5)" style="opacity: 1;"><g transform="translate(-53.53125,-10.5)" class="label"><foreignObject width="107.0625" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">build static site</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(97.8515625,432.5)" style="opacity: 1;"><g transform="translate(-55.59375,-10.5)" class="label"><foreignObject width="111.1875" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">serve static site</span></div></foreignObject></g></g><g class="edgeLabel" transform="translate(234.78515625,320.5)" style="opacity: 1;"><g transform="translate(-26.8046875,-10.5)" class="label"><foreignObject width="53.609375" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;"><span class="edgeLabel">content</span></div></foreignObject></g></g></g><g class="nodes"><g class="node" id="N" transform="translate(97.8515625,264.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-32.6640625" y="-20.5" width="65.328125" height="41"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-22.6640625,-10.5)"><foreignObject width="45.328125" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Netlify</div></foreignObject></g></g></g><g class="node" id="G" transform="translate(66.0078125,152.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-33.4375" y="-20.5" width="66.875" height="41"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-23.4375,-10.5)"><foreignObject width="46.875" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Github</div></foreignObject></g></g></g><g class="node" id="S" transform="translate(211.3828125,152.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-43.21875" y="-20.5" width="86.4375" height="41"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-33.21875,-10.5)"><foreignObject width="66.4375" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Storyblok</div></foreignObject></g></g></g><g class="node" id="NC" transform="translate(97.8515625,376.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-50.40625" y="-20.5" width="100.8125" height="41"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-40.40625,-10.5)"><foreignObject width="80.8125" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Netlify CDN</div></foreignObject></g></g></g><g class="node" id="D" transform="translate(66.0078125,40.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-46.0078125" y="-20.5" width="92.015625" height="41"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-36.0078125,-10.5)"><foreignObject width="72.015625" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Developer</div></foreignObject></g></g></g><g class="node" id="E" transform="translate(211.3828125,40.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-30.71875" y="-20.5" width="61.4375" height="41"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-20.71875,-10.5)"><foreignObject width="41.4375" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">Editor</div></foreignObject></g></g></g><g class="node" id="U" transform="translate(148.01953125,488.5)" style="opacity: 1;"><rect rx="0" ry="0" x="-25.9609375" y="-20.5" width="51.921875" height="41"></rect><g class="label" transform="translate(0,0)"><g transform="translate(-15.9609375,-10.5)"><foreignObject width="31.921875" height="21"><div xmlns="http://www.w3.org/1999/xhtml" style="display: inline-block; white-space: nowrap;">User</div></foreignObject></g></g></g></g></g></g></svg>
