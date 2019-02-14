@@ -87,14 +87,13 @@ const createStore = () => {
         }).catch((err) => {
           console.log(err);
         });
-        /*
-        let p = axios.get(`${origin}/.netlify/functions/getPackages`).then(r => r.data);
-        let t = axios.get(`${origin}/.netlify/functions/getTrainings`).then(r => r.data);
-        return Promise.all([p, t]).then(([packages, trainings]) => {
-          commit('setPackages', packages);
-          commit('setTrainings', trainings);
+      },
+      updateUser({ state, commit, dispatch }, data) {
+        return axios.post(`${origin}/.netlify/functions/updateUser`, data).then((r) => {
+          console.log(r);
+        }).catch((err) => {
+          console.log(err);
         });
-        */
       },
       getUser({ state, commit, dispatch }) {
         return axios.get(`${origin}/.netlify/functions/getUser`).then((r) => {
