@@ -19,7 +19,7 @@
         <div class="content">
           <div v-if="activeSection == 'packages'" class="section">
             <h2>Packages</h2>
-            <ul class="item-list" v-if="user.packages && user.packages.length > 0">
+            <ul class="item-list" v-if="user && user.packages && user.packages.length > 0">
               <li v-for="p in user.packages"><package :userPackage="p" /></li>
             </ul>
             <div v-else>
