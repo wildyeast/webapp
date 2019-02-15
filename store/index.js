@@ -90,9 +90,9 @@ const createStore = () => {
       },
       updateUser({ state, commit, dispatch }, data) {
         return axios.post(`${origin}/.netlify/functions/updateUser`, data).then((r) => {
-          console.log(r);
-        }).catch((err) => {
-          console.log(err);
+          let patch = { profile: r.data }
+          let user = Object.assign(state.user, patch);
+          commit('setUser', user);
         });
       },
       getUser({ state, commit, dispatch }) {

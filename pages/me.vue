@@ -104,6 +104,17 @@ export default {
       this.loading = true;
       this.$store.dispatch('updateUser', Object.assign({}, this.user.profile)).then(() => {
         this.loading = false;
+        this.$notify({
+          title: 'Yay!',
+          text: 'Änderungen gespeichert.'
+        });
+      }).catch((e) => {
+        this.loading = false;
+        this.$notify({
+          title: 'Error',
+          type: 'error',
+          text: 'Ein Fehler ist aufgetreten.'
+        });
       });
     }
   },

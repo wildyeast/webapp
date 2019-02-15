@@ -8,6 +8,7 @@
       </main>
       <bottom-footer/>
       <sidebar />
+      <notifications position="bottom right" />
       <!--
         <breadcrumbs />
       -->

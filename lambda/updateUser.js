@@ -52,9 +52,21 @@ exports.handler = function(event, context, callback) {
       let data = JSON.parse(event.body);
 
       instance.put(`members/${fabmanId}`, data).then((r) => {
+        let user = {
+          firstName: r.data.firstName,
+          lastName: r.data.lastName,
+          memberNumber: r.data.memberNumber,
+          emailAddress: r.data.emailAddress,
+          address: r.data.address,
+          address2: r.data.address2,
+          city: r.data.city,
+          zip: r.data.zip,
+          lockVersion: r.data.lockVersion,
+        }
+
         callback(null, {
           statusCode: 200,
-          body: 'success'
+          body: JSON.stringify(user)
         });
       }).catch((e) => {
         callback(null, {
