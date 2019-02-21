@@ -34,6 +34,8 @@ export default {
   transition: all 100ms;
 
   .number {
+    text-align: right;
+    width: 80px;
     font-size: 80px;
     margin: 0;
     // font-family: $font-mono; // !! font from design missing
