@@ -20,8 +20,7 @@
     <h3 class="headline">Next Step: Emails checken!</h3>
     <div class="info">
       <p>Wir haben dir eine Mail mit einem Bestätigungslink geschickt.</p>
-      <p>Wenn du deinen Account bestätigt hast kannst du ab dem 1.3.2019 eine Mitgliedschaft in deinem Profil abschließen.</p>
-      <!-- <p>Sobald du deinen Account bestätigt hast kannst du in deinem Profil eine Mitgliedschaft abschließen.</p> -->
+      <p>Wenn du deinen Account bestätigt hast kannst du voll durchstarten.</p>
     </div>
     <button @click="close">Schließen</button>
   </div>
