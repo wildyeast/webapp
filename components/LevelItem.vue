@@ -32,22 +32,24 @@ export default {
   padding-right: 10px;
   margin-right: 10px;
   transition: all 100ms;
+  min-height: 150px;
 
   .number {
     text-align: right;
     width: 80px;
     font-size: 80px;
     margin: 0;
-    // font-family: $font-mono; // !! font from design missing
+    margin-top: auto;
   }
 
   .level-indicator {
-    margin: 0;
+    padding-bottom: 5px;
+    padding-left: 5px;
     font-size: 14px;
     border-bottom: 1px solid #000;
-    margin-top: 60px;
+    margin: 0;
+    margin-top: auto;
     margin-right: 20px;
-    padding-left: 4px;
   }
 
   .areas {

@@ -6,9 +6,9 @@
       <div class="subline">
         <code class="hr">{{blok.subline}}</code>
         <sb-link :link="blok.link">
-          <div class="arrow">
-          </div>
-          Alle Kurse</sb-link>
+          <div class="arrow"></div>
+          Alle Kurse
+        </sb-link>
       </div>
     </div>
     <div class="grid">
