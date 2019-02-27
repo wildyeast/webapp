@@ -136,6 +136,8 @@ const createStore = () => {
               return reject(err);
             }
 
+            console.log(authResult);
+
             //set auth
             let auth = {
               accessToken: authResult.accessToken,

@@ -1,7 +1,7 @@
 <template>
   <div class="register-form">
     <div v-if="loading">
-      loading…
+      <loading-spinner color="black"></loading-spinner>
     </div>
     <div v-else>
       <div class="header-item">
