@@ -39,7 +39,7 @@
         <span class="label">Passwort</span>
         <div class="password-wrapper">
           <input type="password" v-model="password" placeholder="" @input="checkPassword" />
-          <div v-if="showPasswordError" class="form-item password-status">
+          <div v-if="!passwordValid" class="form-item password-status">
           </div>
         </div>
       </div>
