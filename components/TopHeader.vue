@@ -5,7 +5,9 @@
         <nuxt-link to="/me" v-if="hasUser">
           {{username}}
         </nuxt-link>
-        <span v-else>Loading</span>
+        <span v-else>
+          <loading-spinner color="white"></loading-spinner>
+        </span>
       </div>
     </div>
     <header class="top-header">

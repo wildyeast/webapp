@@ -227,6 +227,17 @@ const createStore = () => {
           console.log(res);
         });
       },
+      loadEventItem ({state}, slug) {
+        let endpoint = `cdn/stories/${state.language}/events/${slug}`;
+        return this.$storyapi.get(endpoint, {
+          version: version,
+          cv: state.cacheVersion
+        }).then((res) => {
+          return res.data;
+        }).catch((res) => {
+          console.log(res);
+        });
+      },
       loadWorkshopItem ({state}, slug) {
         let endpoint = `cdn/stories/${state.language}/workshops/${slug}`;
         return this.$storyapi.get(endpoint, {
@@ -239,6 +250,17 @@ const createStore = () => {
         });
       },
       findMachines ({state}, filters) {
+        return this.$storyapi.get(`cdn/stories`, {
+          ...filters,
+          version: version,
+          cv: state.cacheVersion,
+        }).then((res) => {
+          return res.data;
+        }).catch((res) => {
+          console.log(res);
+        });
+      },
+      findEvents ({state}, filters) {
         return this.$storyapi.get(`cdn/stories`, {
           ...filters,
           version: version,

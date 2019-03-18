@@ -28,12 +28,12 @@
             Danke für deine Anmeldung!
           </div>
           <form name="newsletter" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
-            <label class="hidden"><input name="bot-field" /></label>
             <h4>Immer am Ball bleiben</h4>
+            <label class="hidden"><input name="bot-field" /></label>
             <div data-netlify-recaptcha="true"></div>
             <div class="newsletter-subscribe">
               <input type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
-              <button type="submit">Meld mich an</button>
+              <button type="submit">Zum Newsletter anmelden</button>
             </div>
           </form>
         </div>
@@ -288,8 +288,7 @@ export default {
         .newsletter-subscribe {
           border-bottom: 1px solid rgba(255, 255, 255, 0.5);
           display: flex;
-          margin: 2rem;
-          margin-bottom: 4rem;
+          margin: 2rem 0 4rem 0;
           input {
             padding: 10px 0;
             font-size: 1rem;
@@ -302,8 +301,37 @@ export default {
             &::placeholder {
               color: #fff;
             }
+            .arrow {
+              display: inline-block;
+              position: relative;
+              width: 4em;
+              @include media-breakpoint-down(sm) {
+                width: 55%;
+              }
+              border-top: .1em solid #000;
+              margin: .25em 1em;
+              transition: transform .15s ease-out;
+              &:after {
+                content: "";
+                position: absolute;
+                right: -.1em;
+                top: -.05em;
+                border-top: .1em solid #000;
+                border-right: .1em solid #000;
+                width: .5em;
+                height: .5em;
+                transform-origin: right top;
+                transform: rotate(45deg);
+              }
+            }
+            &:hover {
+              .arrow {
+                transform: translateX(.5em);
+              }
+            }
           }
           button {
+            cursor: pointer;
             font-family: $font-secondary;
             font-size: 1.3rem;
             color: #fff;
@@ -323,6 +351,7 @@ export default {
           .nav-item {
             font-size: 1rem;
             padding: 15px;
+            padding-left: 0;
             a {
               color: #fff;
               text-decoration: none;

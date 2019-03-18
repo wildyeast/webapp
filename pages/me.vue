@@ -1,23 +1,14 @@
 <template>
-  <section class="">
-    <div class="profile" v-if="user">
+    <div class="profile" v-if="user !== null">
       <div class="header">
         <h1 class="name">{{user.profile.firstName}} {{user.profile.lastName}}</h1>
         <code class="number">#{{user.profile.memberNumber}}</code>
-        <span class="email">{{user.profile.emailAddress}}</span>
         <div class="spacer"></div>
         <button @click="logout" class="logout-button">Logout</button>
       </div>
-      <div class="body">
-        <div class="tablist">
-          <ul>
-            <li :class="{ active: activeSection == 'packages' }" @click="setTab('packages')" >Packages</li>
-            <li :class="{ active: activeSection == 'trainings' }" @click="setTab('trainings')">Trainings</li>
-            <li :class="{ active: activeSection == 'profile' }" @click="setTab('profile')">Rechnungsdaten</li>
-          </ul>
-        </div>
+      <div class="section">
         <div class="content">
-          <div v-if="activeSection == 'packages'" class="section">
+          <div class="section">
             <h2>Packages</h2>
             <ul class="item-list" v-if="user && user.packages && user.packages.length > 0">
               <li v-for="p in user.packages"><package :userPackage="p" /></li>
@@ -26,7 +17,7 @@
               <code>Keine Mitgliedschaft abgeschlossen</code>
             </div>
           </div>
-          <div v-if="activeSection == 'trainings'" class="section">
+          <div class="section">
             <h2>Trainings</h2>
             <ul class="item-list" v-if="user.trainings && user.trainings.length > 0">
               <li v-for="t in user.trainings"><training :userTraining="t" /></li>
@@ -35,8 +26,8 @@
               <code>Noch keine Trainings vorhanden</code>
             </div>
           </div>
-          <div v-if="activeSection == 'profile'" class="section">
-            <h2>Rechnungsdaten</h2>
+          <div class="section">
+            <h2>Kontakdaten</h2>
             <form class="form" @submit.prevent="updateUser">
               <div class="form-item">
                 <span class="label">Vorname</span>
@@ -73,7 +64,6 @@
         </div>
       </div>
     </div>
-  </section>
 </template>
 
 <script>
@@ -88,9 +78,6 @@ export default {
   created() {
   },
   methods: {
-    setTab(section) {
-      this.activeSection = section;
-    },
     getPackage(p) {
       let data = this.$store.getters.getPackageById(p.package);
       return { ...p, ...data };
@@ -149,32 +136,6 @@ export default {
       outline: none;
       color: #FFF;
       background-color: $color-orange;
-    }
-  }
-  .body {
-    display: flex;
-    flex-direction: row;
-    .tablist {
-      ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        margin-right: 1em;
-        li {
-          background-color: #FFF;
-          cursor: pointer;
-          user-select: none;
-          padding: 0.5em 1em;
-          &.active {
-            font-weight: bold;
-          }
-        }
-      }
-    }
-    .content {
-      flex: 1;
-      .section {
-      }
     }
   }
   .name {

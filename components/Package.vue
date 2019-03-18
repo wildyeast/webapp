@@ -1,5 +1,5 @@
 <template>
-  <div class="package-item">
+  <div class="package-item" v-if="package">
     <div class="body">
       {{package.name}}
     </div>

@@ -5,7 +5,7 @@
         <level-item
           :key="level._uid"
           :blok="level"
-          :number="blok.levels.length - 1 - index"
+          :number="blok.levels.length - 2 - index"
           :active="index === activeLevel"
         />
       </div>
@@ -35,8 +35,12 @@ export default {
   },
 
   methods: {
-    setLevel(newVal) {
-      this.activeLevel = newVal;
+    setLevel(val) {
+      let number = this.blok.levels.length - 2 - val;
+      if (number == -1) {
+        return;
+      }
+      this.activeLevel = val;
     },
   }
 };
