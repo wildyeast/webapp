@@ -30,6 +30,8 @@ import WorkshopHeader from '~/components/WorkshopHeader.vue'
 import WorkshopInfo from '~/components/WorkshopInfo.vue'
 import WorkshopListItem from '~/components/WorkshopListItem.vue'
 
+import EventListItem from '~/components/EventListItem.vue'
+
 import MachineListItem from '~/components/MachineListItem.vue'
 import Machine from '~/components/Machine.vue'
 import JobTeaser from '~/components/JobTeaser.vue'
@@ -92,6 +94,8 @@ Vue.component('workshop-preview', WorkshopPreview)
 Vue.component('workshop-header', WorkshopHeader)
 Vue.component('workshop-info', WorkshopInfo)
 Vue.component('workshop-list-item', WorkshopListItem)
+
+Vue.component('event-list-item', EventListItem)
 
 Vue.component('package', Package)
 Vue.component('training', Training)
