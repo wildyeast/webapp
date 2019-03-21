@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="section">
-            <h2>Kontakdaten</h2>
+            <h2>Kontaktdaten</h2>
             <form class="form" @submit.prevent="updateUser">
               <div class="form-item">
                 <span class="label">Vorname</span>
