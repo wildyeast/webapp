@@ -57,7 +57,7 @@ module.exports = {
     routes: function (callback) {
       const token = storyblokToken;
       const per_page = 100;
-      const version = 'published';
+      const version = process.env.NODE_ENV == 'development' ? 'draft' : 'published';
 
       let page = 1
       let routes = []
