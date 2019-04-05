@@ -13,7 +13,7 @@ let webAuth = new auth0.WebAuth({
   redirectUri:  origin + '/auth'
 });
 
-let version = 'published';
+const version = process.env.NODE_ENV == 'development' ? 'draft' : 'published';
 
 const createStore = () => {
   return new Vuex.Store({

@@ -1,5 +1,5 @@
 <template>
-  <section class="util__container">
+  <section class="util__container" v-if="workshop">
     <workshop-header :blok="workshop"></workshop-header>
     <div v-editable="story.content" class="workshop">
       <workshop-info :blok="workshop"></workshop-info>
@@ -12,7 +12,7 @@ import storyblokLivePreview from '@/mixins/storyblokLivePreview'
 
 export default {
   data () {
-    return {}
+    return { story: { content: null }  }
   },
   mixins: [storyblokLivePreview],
   computed: {
