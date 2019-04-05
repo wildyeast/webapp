@@ -1,8 +1,8 @@
 <template>
-  <label class="checkbox" :class="theme">
-    <input :value="value" @input="$emit('input', !value);" type="checkbox">
-    <div class="checkmark" :class="{'selected': value}">
-      <svg v-if="value" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 200"><path d="M20 130l40 40L200 30" stroke-width="25" fill="none"/></svg>
+  <label class="checkbox" :class="theme" :for="id">
+    <input v-model="dvalue" :id="id" type="checkbox">
+    <div class="checkmark" :class="{'selected': dvalue}">
+      <svg v-if="dvalue" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 200"><path d="M20 130l40 40L200 30" stroke-width="25" fill="none"/></svg>
     </div>
     <slot />
   </label>
@@ -11,6 +11,22 @@
 <script>
 export default {
   props: ["value", "theme"],
+  data: () => {
+    return {
+      dvalue: false
+    }
+  },
+  created() {
+    this.dvalue = this.value;
+    this.$watch('dvalue', () => {
+      this.$emit('input', this.dvalue);
+    });
+  },
+  computed: {
+    id() {
+      return Math.random().toString(36).substring(7);
+    }
+  }
 };
 </script>
 
