@@ -5,12 +5,20 @@
 
       <div class="headline">{{machine.headline}}</div>
 
-      <!-- <div class="teaser">
-        {{machine.teaser}}
-      </div> -->
-      <div class="description">
-        <markdown :value="machine.description"></markdown>
+      <div class="inner-body">
+        <div class="description">
+          <markdown :value="machine.description"></markdown>
+        </div>
+
+        <div class="machine-list">
+          <div class="machine-item">
+            <machine-status class="status" v-if="machine.fabmanId && hasUser" :id="machine.fabmanId"></machine-status>
+            <machine-calendar></machine-calendar>
+          </div>
+        </div>
       </div>
+
+      <!--
       <ul class="feature-list">
         <li class="feature-item" v-for="(i, index) in machine.features" v-bind:key="index">
           <div class="title">
@@ -21,6 +29,8 @@
           </div>
         </li>
       </ul>
+      -->
+
       <!--
       <div class="images" v-if="machine.images && machine.images.length > 0" >
         <image-gallery :images="machine.images" name="test"></image-gallery>
@@ -31,11 +41,15 @@
 </template>
 
 <script>
+import MachineStatus from '@/components/MachineStatus';
+import MachineCalendar from '@/components/MachineCalendar';
 import MachineHeader from '@/components/MachineHeader';
 
 export default {
   components: {
-    MachineHeader
+    MachineHeader,
+    MachineStatus,
+    MachineCalendar,
   },
   props: ['story'],
   computed: {
@@ -44,6 +58,9 @@ export default {
     },
     tags() {
       return this.story.tag_list;
+    },
+    hasUser() {
+      return !!this.$store.state.user;
     }
   }
 }
@@ -57,6 +74,7 @@ export default {
     font-family: $font-mono;
     @include margin-page-middle();
     .headline {
+      text-transform: uppercase;
       font-family: $font-primary;
       font-weight: 600;
       font-size: 1.8em;
@@ -68,17 +86,21 @@ export default {
       line-height: 1.24;
       margin-bottom: 4vh;
     }
-    .teaser {
-      font-weight: bold;
-    }
     .description {
       font-size: .9rem;
-      line-height: 1.4;
+      line-height: 2.2;
       margin-bottom: 4vh;
-      @include media-breakpoint-up(md) {
-        width: 70%;
+    }
+    .inner-body {
+      display: flex;
+      .description {
+        flex: 8;
+      }
+      .machine-list {
+        flex: 4;
       }
     }
+    /*
     .feature-list {
       color: $color-blue;
       display: grid;
@@ -105,6 +127,7 @@ export default {
         }
       }
     }
+      */
   }
 }
 </style>

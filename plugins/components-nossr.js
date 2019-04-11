@@ -5,7 +5,12 @@ import VueAwesomeSwiper from 'vue-awesome-swiper/dist/ssr'
 import DatePick from 'vue-date-pick';
 import MarqueeText from 'vue-marquee-text-component'
 
+import { Kalendar } from 'kalendar-vue';
+
 Vue.use(Lightbox)
 Vue.use(VueAwesomeSwiper)
+Vue.use(Kalendar)
+
 Vue.component('marquee', MarqueeText)
 Vue.component('date-pick', DatePick)
+Vue.component('kalendar', Kalendar)
