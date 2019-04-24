@@ -1,60 +1,54 @@
 <template>
-  <div class="machine-status" :style="{ 'background-color': color }">
-    <div class="resource" v-if="resource">
-      <div v-if="resource.state == 'active'">
-        <div v-if="resource.offline">
-          offline
-        </div>
-        <div v-else-if="resource.inUse">
-          in Verwendung
-        </div>
-        <div v-else>
-          Verfügbar
-        </div>
-      </div>
-      <div v-else-if="resource.state == 'locked'" :title="resource.maintenanceNotes">
-        out of order
-      </div>
-      <div v-else>
-        {{resource.state}}
-      </div>
+  <div class="machine-calendar">
+    <div v-if="bookings">
+      <kalendar :configuration="calendar_settings" :appointments="appointments"/>
+      </kalendar>
     </div>
     <div v-else>
-      <loading-spinner color="#333"></loading-spinner>
+      loading
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   data() {
     return {
-      resource: null
+      bookings: null,
+      calendar_settings: {
+        style: 'material_design',
+        view_type: 'Day',
+        split_value: 30,
+        cell_height: 20,
+        current_day: new Date(),
+        read_only: true
+      },
     }
   },
   props: ['id'],
-  created() {
-    this.$store.dispatch('checkStatus', this.id).then((r) => {
-      this.resource = r;
+  mounted() {
+    this.$store.dispatch('getBookings', this.id).then((r) => {
+      this.bookings = r;
+      console.log(this.appointments);
     });
   },
   computed: {
-    color() {
-      if (!this.resource) {
-        return '#FFF';
-      }
-      if (this.resource.state == 'locked') {
-        return '#ebe223';
-      }
-      if (this.resource.offline) {
-        return '#666';
-      }
-      if (this.resource.inUse) {
-        return '#ff6f00';
-      }
-      if (this.resource.state == 'active') {
-        return '#0069aa';
-      }
+    appointments() {
+      return this.bookings.map((b) => {
+        console.log(b);
+
+        return {
+          data: {
+            title: 'Member Booking',
+            description: b.state
+          },
+          from: b.fromDateTime,
+          to: b.untilDateTime,
+          date: moment(b.fromDateTime).format(''),
+        }
+      });
     }
   }
 }

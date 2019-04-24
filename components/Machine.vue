@@ -10,10 +10,10 @@
           <markdown :value="machine.description"></markdown>
         </div>
 
-        <div class="machine-list">
+        <div class="machine-list" v-if="machine.fabmanId && hasUser">
           <div class="machine-item">
-            <machine-status class="status" v-if="machine.fabmanId && hasUser" :id="machine.fabmanId"></machine-status>
-            <machine-calendar></machine-calendar>
+            <machine-status class="status" :id="machine.fabmanId"></machine-status>
+            <machine-calendar :id="machine.fabmanId"></machine-calendar>
           </div>
         </div>
       </div>
@@ -31,11 +31,9 @@
       </ul>
       -->
 
-      <!--
       <div class="images" v-if="machine.images && machine.images.length > 0" >
         <image-gallery :images="machine.images" name="test"></image-gallery>
       </div>
-      -->
     </div>
   </div>
 </template>
