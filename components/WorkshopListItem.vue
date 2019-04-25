@@ -21,6 +21,27 @@
           <div class="link-arrow"></div>
           <div>{{linktext}}</div>
         </div>
+        <div class="workshop-dates">
+          <div class="workshop-date" v-for="d in content.dates">
+            <div class="info-row">
+              <div class="col date">
+                <icon name="calendar" />
+                {{d.starttime | date}}
+              </div>
+              <div class="col">
+                <icon name="clock" />
+                <span>{{d.starttime | time}}</span>
+                <span v-if="d.endtime"> bis {{d.endtime | time}}</span>
+                <span>Uhr</span>
+              </div>
+              <div class="col">
+                <icon name="user-plus" />
+                <span v-if="d.sold_out">ausgebucht</span>
+                <span v-else>frei</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </nuxt-link>
@@ -125,9 +146,26 @@ export default {
           width: .3em;
           margin-top: -.5px;
         }
-
       }
     }
+  }
+}
+.workshop-date {
+  margin-top: 20px;
+  .info-row {
+    line-height: 1.6;
+    font-family: $font-mono;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin: -4px -8px;
+    display: flex;
+    .col {
+      padding: 4px 8px;
+    }
+      svg {
+        height: 1em;
+        width: 1em;
+      }
   }
 }
 </style>
