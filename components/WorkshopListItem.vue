@@ -150,22 +150,24 @@ export default {
     }
   }
 }
-.workshop-date {
+.workshop-dates {
   margin-top: 20px;
+}
+.workshop-date {
   .info-row {
     line-height: 1.6;
     font-family: $font-mono;
     font-size: 0.9rem;
     font-weight: bold;
-    margin: -4px -8px;
+    margin: -8px;
     display: flex;
     .col {
-      padding: 4px 8px;
+      padding: 8px;
     }
-      svg {
-        height: 1em;
-        width: 1em;
-      }
+    svg {
+      height: 1em;
+      width: 1em;
+    }
   }
 }
 </style>
