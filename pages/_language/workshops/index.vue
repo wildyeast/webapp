@@ -1,15 +1,35 @@
 <template>
   <section class="workshop-overview">
     <div class="workshop-filters">
-      <div class="tags">
-        <div class="headline">Themen</div>
-        <div class="tag-list">
-          <div v-for="t in tags" :key="t.key" class="tag">
-            <checkbox
-              v-model="t.value"
-              class="tag"
-              theme="white"
-              >{{t.name}}</checkbox>
+      <div class="filters">
+        <div class="tags">
+          <div class="headline">Themen</div>
+          <div class="tag-list">
+            <div v-for="t in tags" :key="t.key" class="tag">
+              <checkbox
+                v-model="t.value"
+                class="tag"
+                theme="white"
+                >{{t.name}}</checkbox>
+            </div>
+          </div>
+          <div class="headline">Themen</div>
+          <div class="tag-list">
+            <div v-for="t in tags" :key="t.key" class="tag">
+              <checkbox
+                v-model="t.value"
+                class="tag"
+                theme="white"
+                >{{t.name}}</checkbox>
+            </div>
+          </div>
+        </div>
+        <div class="calendar">
+          <date-pick v-model="date" :hasInputElement="false"></date-pick>
+          <div class="reset">
+            <div v-if="date != ''" class="all" @click="resetDate()">
+              <span>Alle anzeigen</span>
+            </div>
           </div>
         </div>
       </div>
@@ -19,15 +39,15 @@
       <loading class="loading" v-if="loading"></loading>
     </div>
     <!--
-    <div class="workshop-orders">
+      <div class="workshop-orders">
       <div class="headline">
-        Sortieren nach:
+      Sortieren nach:
       </div>
       <div class="order-list">
-        <div class="order-item" v-for="o in orders">
-        </div>
+      <div class="order-item" v-for="o in orders">
       </div>
-    </div>
+      </div>
+      </div>
     -->
     <div class="workshop-list-wrapper">
       <div v-if="workshops && workshops.length > 0" class="workshop-list">
@@ -37,23 +57,19 @@
             :blok="item"
             :key="item.id"
             class="list-item"
-          ></workshop-list-item>
+            ></workshop-list-item>
         </transition-group>
       </div>
       <div v-else class="workshop-list-none">
         <code>Keine Suchergebnisse</code>
       </div>
-      <!--
-      <div class="calendar">
-        <date-pick v-model="date" :hasInputElement="false"></date-pick>
-      </div>
-      -->
     </div>
   </section>
 </template>
 
 <script>
 import Checkbox from "~/components/Checkbox.vue";
+import moment from "moment";
 
 export default {
   components: {
@@ -61,8 +77,11 @@ export default {
   },
   data () {
     return {
+      date: '',
       loading: false,
       search: '',
+      workshops: [],
+      tags: []
     }
   },
   created() {
@@ -80,6 +99,9 @@ export default {
     }
   },
   methods: {
+    resetDate() {
+      this.date = '';
+    },
     update() {
       this.loading = true;
       let result = this.$store
@@ -141,13 +163,37 @@ export default {
   }
 
   .workshop-filters {
+    .filters {
+      background-color: $color-orange;
+      display: flex;
+      .tags {
+        flex: 3;
+      }
+      .calendar {
+        flex: 1;
+        max-width: 320px;
+        .reset {
+          margin-top: -3px;
+          background-color: #000;
+          padding: 10px;
+          .all {
+            padding: 10px;
+            color: #FFF;
+            &:hover {
+              cursor: pointer;
+              color: 000;
+              background-color: $color-yellow;
+            }
+          }
+        }
+      }
+    }
     .tags {
-
-      padding: 8vh 0;
       @include media-breakpoint-down(sm) {
         padding: 4vh 0;
       }
       .headline {
+        padding: 4vh 0 0 0;
         color: #FFF;
         font-weight: bold;
         font-size: 1.8rem;
@@ -161,6 +207,7 @@ export default {
         }
       }
       .tag-list {
+        padding: 0 0 4vh 0;
         @include margin-page-wide();
         display: grid;
         max-width: 70em;
@@ -198,7 +245,6 @@ export default {
           }
         }
       }
-      background-color: $color-orange;
       @include media-breakpoint-down(sm) {
         overflow: hidden;
         position: relative;
@@ -289,10 +335,6 @@ export default {
     .workshop-list-none {
       flex: 3;
       text-align: center;
-    }
-    .calendar {
-      flex: 1;
-      max-width: 320px;
     }
   }
 }
