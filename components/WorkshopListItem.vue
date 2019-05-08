@@ -22,22 +22,20 @@
           <div>{{linktext}}</div>
         </div>
         <div class="workshop-dates">
-          <div class="workshop-date" v-for="d in content.dates">
+          <div class="workshop-date" v-for="d in content.dates" :class="{ soldOut: d.sold_out }">
             <div class="info-row">
-              <div class="col date">
+              <div class="col info">
                 <icon name="calendar" />
                 {{d.starttime | date}}
               </div>
-              <div class="col">
+              <div class="col info">
                 <icon name="clock" />
                 <span>{{d.starttime | time}}</span>
                 <span v-if="d.endtime"> bis {{d.endtime | time}}</span>
                 <span>Uhr</span>
               </div>
-              <div class="col">
-                <icon name="user-plus" />
-                <span v-if="d.sold_out">ausgebucht</span>
-                <span v-else>frei</span>
+              <div class="col soldOut" v-if="d.sold_out">
+                <span>ausgebucht</span>
               </div>
             </div>
           </div>
@@ -154,6 +152,15 @@ export default {
   margin-top: 20px;
 }
 .workshop-date {
+  &.soldOut {
+    color: #666;
+    fill: #666;
+    .col {
+      &.info {
+        text-decoration: line-through;
+      }
+    }
+  }
   .info-row {
     line-height: 1.6;
     font-family: $font-mono;
@@ -163,6 +170,10 @@ export default {
     display: flex;
     .col {
       padding: 8px;
+      &.soldOut {
+        color: $color-orange;
+        text-transform: uppercase;
+      }
     }
     svg {
       height: 1em;
