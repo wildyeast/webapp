@@ -13,14 +13,31 @@
                 >{{t.name}}</checkbox>
             </div>
           </div>
-          <div class="headline">Themen</div>
+          <div class="headline">Options</div>
           <div class="tag-list">
-            <div v-for="t in tags" :key="t.key" class="tag">
+            <div class="tag">
               <checkbox
-                v-model="t.value"
+                v-model="filter.members_only"
                 class="tag"
                 theme="white"
-                >{{t.name}}</checkbox>
+                >Members only</checkbox>
+            </div>
+            <div class="tag">
+              <checkbox
+                v-model="filter.free_only"
+                class="tag"
+                theme="white"
+                >freie Plätze</checkbox>
+            </div>
+          </div>
+          <div class="headline">Kategorie</div>
+          <div class="tag-list">
+            <div v-for="c in categories" :key="c.key" class="tag">
+              <checkbox
+                v-model="c.value"
+                class="tag"
+                theme="white"
+                >{{c.name}}</checkbox>
             </div>
           </div>
         </div>
@@ -77,6 +94,16 @@ export default {
   },
   data () {
     return {
+      filter: {
+        free_only: false,
+        members_only: false
+      },
+      categories: [
+        { key: 'event', name: 'Event', value: false },
+        { key: 'workshop', name: 'Workshop', value: false },
+        { key: 'training', name: 'Einschulung', value: false },
+        { key: 'meetup', name: 'Meetup', value: false },
+      ],
       date: '',
       loading: false,
       search: '',
@@ -87,6 +114,20 @@ export default {
   created() {
     this.$watch(
       "tags",
+      (newVal, oldVal) => {
+        this.update();
+      },
+      { deep: true }
+    );
+    this.$watch(
+      "categories",
+      (newVal, oldVal) => {
+        this.update();
+      },
+      { deep: true }
+    );
+    this.$watch(
+      "filter",
       (newVal, oldVal) => {
         this.update();
       },
@@ -113,13 +154,27 @@ export default {
     }
   },
   computed: {
+    selectedCategories() {
+      return this.categories.filter((c) => {
+        return c.value;
+      }).map((v) => {
+        return v.key;
+      });
+    },
     filters() {
-      return {
-        filter_query: {
-          component: {
-            in: "workshop"
-          }
+      let filter_query = {
+        component: {
+          in: "workshop"
         },
+      };
+
+      if (this.selectedCategories && this.selectedCategories.length > 0) {
+        filter_query.category = {
+          in: this.selectedCategories.join(',')
+        };
+      }
+      return {
+        filter_query,
         search_term: this.search,
         with_tag: this.filterTags.join(',')
       }
@@ -189,11 +244,12 @@ export default {
       }
     }
     .tags {
+      padding-bottom: 4vh;
       @include media-breakpoint-down(sm) {
         padding: 4vh 0;
       }
       .headline {
-        padding: 4vh 0 0 0;
+        padding-top: 4vh;
         color: #FFF;
         font-weight: bold;
         font-size: 1.8rem;
@@ -207,7 +263,6 @@ export default {
         }
       }
       .tag-list {
-        padding: 0 0 4vh 0;
         @include margin-page-wide();
         display: grid;
         max-width: 70em;
