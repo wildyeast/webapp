@@ -5,8 +5,19 @@
         <img :src="$resizeImage(content.image, '380x280')" alt=""/>
       </div>
       <div class="body">
-        <div class="subtitle">
-          {{content.subtitle}}
+        <div class="category">
+          <div v-if="content.category == 'training'">
+            <span>Einschulung</span>
+          </div>
+          <div v-if="content.category == 'event'">
+            <span>Event</span>
+          </div>
+          <div v-if="content.category == 'meetup'">
+            <span>Meetup</span>
+          </div>
+          <div v-if="content.category == 'workshop'">
+            <span>Workshop</span>
+          </div>
         </div>
         <div class="title">
           {{content.title}}
@@ -34,11 +45,18 @@
                 <span v-if="d.endtime"> bis {{d.endtime | time}}</span>
                 <span>Uhr</span>
               </div>
+              <div class="col" v-if="d.members_only">
+                <icon name="user" />
+                <span>Members only!</span>
+              </div>
               <div class="col soldOut" v-if="d.sold_out">
                 <span>ausgebucht</span>
               </div>
             </div>
           </div>
+        </div>
+        <div class="icon">
+          <icon :name="content.category" />
         </div>
       </div>
     </div>
@@ -83,6 +101,7 @@ export default {
     }
   }
   .body {
+    position: relative;
     flex: 2;
     display: flex;
     flex-direction: column;
@@ -91,20 +110,41 @@ export default {
     @include media-breakpoint-down(sm) {
       margin-left: 2%;
     }
+    .icon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 120px;
+      padding: 10px;
+      svg {
+        fill: #EEE;
+      }
+    }
     .title {
+      position: relative;
+      z-index: 1;
       font-family: $font-secondary;
       font-size: 2rem;
       margin-bottom: .4rem;
     }
-    .subtitle {
+    .category {
+      position: relative;
+      z-index: 1;
       font-family: $font-mono;
       font-size: 0.9rem;
       letter-spacing: .1em;
       margin-bottom: .3rem;
       text-transform: uppercase;
       color: $color-orange;
+      svg {
+        fill: $color-orange;
+        height: 1em;
+        width: 1em;
+      }
     }
     .teaser {
+      position: relative;
+      z-index: 1;
       flex: 1;
       font-family: $font-mono;
       line-height: 1.6;
