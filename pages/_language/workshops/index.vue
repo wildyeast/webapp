@@ -173,6 +173,11 @@ export default {
           in: this.selectedCategories.join(',')
         };
       }
+
+      //filter_query['dates.members_only'] = {
+      //  in: true
+      //};
+
       return {
         filter_query,
         search_term: this.search,
@@ -197,7 +202,7 @@ export default {
       }
     };
     let workshops = await context.store.dispatch("findWorkshops", filters).then((data) => {
-      if (data.stories) {
+      if (data && data.stories) {
         return { workshops: data.stories };
       }
       return { workshops: [] };
