@@ -276,8 +276,19 @@ const createStore = () => {
           ...filters,
           version: version,
           cv: state.cacheVersion,
+          resolve_relations: 'workshop'
         }).then((res) => {
-          return res.data;
+          let workshopdates = res.data.stories;
+          let workshops = {};
+          for (let w of workshopdates) {
+            let wid = w.content.workshop.uuid;
+            if (wid in workshops) {
+            } else {
+              workshops[wid] = Object.assign({ dates: [] }, w.content.workshop);
+            }
+            workshops[wid].dates.push(w);
+          }
+          return Object.values(workshops);
         }).catch((res) => {
           console.log(res);
         });

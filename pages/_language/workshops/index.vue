@@ -3,6 +3,7 @@
     <div class="workshop-filters">
       <div class="filters">
         <div class="tags">
+          <!--
           <div class="headline">Themen</div>
           <div class="tag-list">
             <div v-for="t in tags" :key="t.key" class="tag">
@@ -13,6 +14,7 @@
                 >{{t.name}}</checkbox>
             </div>
           </div>
+          -->
           <div class="headline">Options</div>
           <div class="tag-list">
             <div class="tag">
@@ -30,6 +32,7 @@
                 >freie Plätze</checkbox>
             </div>
           </div>
+          <!--
           <div class="headline">Kategorie</div>
           <div class="tag-list">
             <div v-for="c in categories" :key="c.key" class="tag">
@@ -40,6 +43,7 @@
                 >{{c.name}}</checkbox>
             </div>
           </div>
+          -->
         </div>
         <div class="calendar">
           <date-pick v-model="date" :hasInputElement="false"></date-pick>
@@ -149,7 +153,7 @@ export default {
         .dispatch("findWorkshops", this.filters)
         .then(data => {
           this.loading = false;
-          this.workshops = data.stories;
+          this.workshops = data;
         });
     }
   },
@@ -164,19 +168,27 @@ export default {
     filters() {
       let filter_query = {
         component: {
-          in: "workshop"
+          in: "workshop-date"
         },
       };
 
-      if (this.selectedCategories && this.selectedCategories.length > 0) {
-        filter_query.category = {
-          in: this.selectedCategories.join(',')
+      if (this.filter.members_only) {
+        filter_query['members_only'] = {
+          in: true
         };
       }
 
-      //filter_query['dates.members_only'] = {
-      //  in: true
-      //};
+      if (this.filter.free_only) {
+        filter_query['sold_out'] = {
+          in: false
+        };
+      }
+
+      if (this.selectedCategories && this.selectedCategories.length > 0) {
+        filter_query['workshop.category'] = {
+          in: this.selectedCategories.join(',')
+        };
+      }
 
       return {
         filter_query,
@@ -197,13 +209,13 @@ export default {
     let filters = {
       filter_query: {
         component: {
-          in: "workshop"
+          in: "workshop-date"
         }
       }
     };
     let workshops = await context.store.dispatch("findWorkshops", filters).then((data) => {
-      if (data && data.stories) {
-        return { workshops: data.stories };
+      if (data) {
+        return { workshops: data };
       }
       return { workshops: [] };
     });
