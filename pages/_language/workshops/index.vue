@@ -131,6 +131,12 @@ export default {
       { deep: true }
     );
     this.$watch(
+      "date",
+      (newVal, oldVal) => {
+        this.update();
+      },
+    );
+    this.$watch(
       "filter",
       (newVal, oldVal) => {
         this.update();
@@ -181,6 +187,17 @@ export default {
       if (this.filter.free_only) {
         filter_query['sold_out'] = {
           in: false
+        };
+      }
+
+      if (this.date) {
+        let date = moment(this.date).startOf('day');
+        let from = date.format('YYYY-MM-DD HH:mm');
+        let until = date.add(1, 'd').format('YYYY-MM-DD HH:mm');
+        console.log(from, until);
+        filter_query['starttime'] = {
+          'gt-date': from,
+          'lt-date': until,
         };
       }
 
