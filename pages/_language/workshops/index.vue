@@ -3,7 +3,6 @@
     <div class="workshop-filters">
       <div class="filters">
         <div class="tags">
-          <!--
           <div class="headline">Themen</div>
           <div class="tag-list">
             <div v-for="t in tags" :key="t.key" class="tag">
@@ -14,7 +13,6 @@
                 >{{t.name}}</checkbox>
             </div>
           </div>
-          -->
           <div class="headline">Options</div>
           <div class="tag-list">
             <div class="tag">
@@ -32,7 +30,6 @@
                 >freie Plätze</checkbox>
             </div>
           </div>
-          <!--
           <div class="headline">Kategorie</div>
           <div class="tag-list">
             <div v-for="c in categories" :key="c.key" class="tag">
@@ -43,7 +40,6 @@
                 >{{c.name}}</checkbox>
             </div>
           </div>
-          -->
         </div>
         <div class="calendar">
           <date-pick v-model="date" :hasInputElement="false"></date-pick>
@@ -55,12 +51,12 @@
         </div>
       </div>
       <div class="search">
-        <input type="text" placeholder="Kurse und Workshops suchen" v-model="search">
+        <input type="text" placeholder="Events und Workshops suchen" v-model="search">
       </div>
       <loading class="loading" v-if="loading"></loading>
     </div>
     <!--
-      <div class="workshop-orders">
+    <div class="workshop-orders">
       <div class="headline">
       Sortieren nach:
       </div>
@@ -68,7 +64,7 @@
       <div class="order-item" v-for="o in orders">
       </div>
       </div>
-      </div>
+    </div>
     -->
     <div class="workshop-list-wrapper">
       <div v-if="workshops && workshops.length > 0" class="workshop-list">
@@ -155,8 +151,9 @@ export default {
     },
     update() {
       this.loading = true;
+      let localfilters = {};
       let result = this.$store
-        .dispatch("findWorkshops", this.filters)
+        .dispatch("findWorkshops", this.filters, localfilters)
         .then(data => {
           this.loading = false;
           this.workshops = data;
@@ -194,10 +191,14 @@ export default {
         let date = moment(this.date).startOf('day');
         let from = date.format('YYYY-MM-DD HH:mm');
         let until = date.add(1, 'd').format('YYYY-MM-DD HH:mm');
-        console.log(from, until);
         filter_query['starttime'] = {
           'gt-date': from,
           'lt-date': until,
+        };
+      } else {
+        let today = moment().startOf('day').format('YYYY-MM-DD HH:mm');
+        filter_query['starttime'] = {
+          'gt-date': today,
         };
       }
 
@@ -223,14 +224,18 @@ export default {
   },
   async asyncData (context) {
     let tags = await context.store.dispatch("loadTags");
+    let today = moment().startOf('day').format('YYYY-MM-DD HH:mm');
     let filters = {
       filter_query: {
         component: {
           in: "workshop-date"
+        },
+        starttime: {
+          'gt-date': today
         }
       }
     };
-    let workshops = await context.store.dispatch("findWorkshops", filters).then((data) => {
+    let workshops = await context.store.dispatch("findWorkshops", filters, {}).then((data) => {
       if (data) {
         return { workshops: data };
       }

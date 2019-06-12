@@ -271,13 +271,16 @@ const createStore = () => {
           console.log(res);
         });
       },
-      findWorkshops ({state}, filters) {
+      findWorkshops ({state}, filters, localfilters) {
         return this.$storyapi.get(`cdn/stories`, {
           ...filters,
           version: version,
           cv: state.cacheVersion,
           resolve_relations: 'workshop'
         }).then((res) => {
+          console.log('client filters');
+          console.log(res.data);
+          console.log(filters);
           let workshopdates = res.data.stories;
           let workshops = {};
           for (let w of workshopdates) {
