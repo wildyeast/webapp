@@ -96,17 +96,12 @@ export default {
   },
   data () {
     return {
-      filter: {
-        free_only: false,
-        members_only: false
-      },
       categories: [
         { key: 'event', name: 'Event', value: false },
         { key: 'workshop', name: 'Workshop', value: false },
         { key: 'training', name: 'Einschulung', value: false },
         { key: 'meetup', name: 'Meetup', value: false },
       ],
-      date: '',
       loading: false,
       search: '',
       workshops: [],
@@ -114,33 +109,6 @@ export default {
     }
   },
   created() {
-    this.$watch(
-      "tags",
-      (newVal, oldVal) => {
-        this.update();
-      },
-      { deep: true }
-    );
-    this.$watch(
-      "categories",
-      (newVal, oldVal) => {
-        this.update();
-      },
-      { deep: true }
-    );
-    this.$watch(
-      "date",
-      (newVal, oldVal) => {
-        this.update();
-      },
-    );
-    this.$watch(
-      "filter",
-      (newVal, oldVal) => {
-        this.update();
-      },
-      { deep: true }
-    );
   },
   watch: {
     search() {
@@ -148,11 +116,9 @@ export default {
     }
   },
   methods: {
-    resetDate() {
-      this.date = '';
-    },
     update() {
       this.loading = true;
+      console.log(this.filters);
       let result = this.$store
         .dispatch("findWorkshops", this.filters)
         .then(data => {
@@ -174,49 +140,15 @@ export default {
         component: {
           in: "workshop-date"
         },
+        starttime: {
+          "gt-date": moment().format("YYYY-MM-DD HH:mm")
+        }
       };
-
-      if (this.filter.members_only) {
-        filter_query['members_only'] = {
-          in: true
-        };
-      }
-
-      if (this.filter.free_only) {
-        filter_query['sold_out'] = {
-          in: false
-        };
-      }
-
-      if (this.date) {
-        let date = moment(this.date).startOf('day');
-        let from = date.format('YYYY-MM-DD HH:mm');
-        let until = date.add(1, 'd').format('YYYY-MM-DD HH:mm');
-        console.log(from, until);
-        filter_query['starttime'] = {
-          'gt-date': from,
-          'lt-date': until,
-        };
-      }
-
-      if (this.selectedCategories && this.selectedCategories.length > 0) {
-        filter_query['workshop.category'] = {
-          in: this.selectedCategories.join(',')
-        };
-      }
 
       return {
         filter_query,
         search_term: this.search,
-        with_tag: this.filterTags.join(',')
       }
-    },
-    filterTags() {
-      return this.tags.filter((t) => {
-        return t.value;
-      }).map((t) => {
-        return t.name;
-      });
     }
   },
   async asyncData (context) {
@@ -225,6 +157,9 @@ export default {
       filter_query: {
         component: {
           in: "workshop-date"
+        },
+        starttime: {
+          "gt-date": moment().subtract(24, "hours").format("YYYY-MM-DD HH:mm")
         }
       }
     };
