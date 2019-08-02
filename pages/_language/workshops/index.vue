@@ -2,8 +2,8 @@
   <section class="workshop-overview">
     <div class="workshop-filters">
       <div class="filters">
-        <div class="tags">
           <!--
+        <div class="tags">
           <div class="headline">Themen</div>
           <div class="tag-list">
             <div v-for="t in tags" :key="t.key" class="tag">
@@ -14,7 +14,6 @@
                 >{{t.name}}</checkbox>
             </div>
           </div>
-          -->
           <div class="headline">Options</div>
           <div class="tag-list">
             <div class="tag">
@@ -32,7 +31,6 @@
                 >freie Plätze</checkbox>
             </div>
           </div>
-          <!--
           <div class="headline">Kategorie</div>
           <div class="tag-list">
             <div v-for="c in categories" :key="c.key" class="tag">
@@ -43,7 +41,6 @@
                 >{{c.name}}</checkbox>
             </div>
           </div>
-          -->
         </div>
         <div class="calendar">
           <date-pick v-model="date" :hasInputElement="false"></date-pick>
@@ -53,6 +50,7 @@
             </div>
           </div>
         </div>
+          -->
       </div>
       <div class="search">
         <input type="text" placeholder="Kurse und Workshops suchen" v-model="search">
