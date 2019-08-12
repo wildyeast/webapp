@@ -2,6 +2,7 @@ import Vuex from 'vuex';
 import auth0 from 'auth0-js';
 import { setToken, unsetToken, getUserFromLocalStorage } from '~/utils/auth';
 import axios from 'axios';
+import moment from 'moment';
 
 const origin = process.client ? window.location.origin : process.env.ORIGIN;
 
@@ -240,7 +241,7 @@ const createStore = () => {
       },
       loadWorkshopItem ({state}, slug) {
         let endpoint = `cdn/stories/${state.language}/workshops/${slug}`;
-        return this.$storyapi.get(endpoint, {
+        let wdata = this.$storyapi.get(endpoint, {
           version: version,
           cv: state.cacheVersion
         }).then((res) => {
@@ -248,6 +249,9 @@ const createStore = () => {
         }).catch((res) => {
           console.log(res);
         });
+        console.log(wdata);
+        return wdata;
+        let dates = this.findDatesForWorkshop();
       },
       findMachines ({state}, filters) {
         return this.$storyapi.get(`cdn/stories`, {
@@ -271,12 +275,35 @@ const createStore = () => {
           console.log(res);
         });
       },
+      findDatesForWorkshop ({state}, workshop) {
+        return this.$storyapi.get(`cdn/stories`, {
+          workshop: {
+            in: workshop
+          },
+          component: {
+            in: "workshop-date"
+          },
+          starttime: {
+            "gt-date": moment().format("YYYY-MM-DD HH:mm")
+          },
+          version: version,
+          cv: state.cacheVersion,
+          sort_by: 'content.starttime:asc'
+        }).then((res) => {
+          let dates = res.data.stories;
+          console.log(dates);
+          return dates;
+        }).catch((res) => {
+          console.log(res);
+        });
+      },
       findWorkshops ({state}, filters) {
         return this.$storyapi.get(`cdn/stories`, {
           ...filters,
           version: version,
           cv: state.cacheVersion,
-          resolve_relations: 'workshop'
+          resolve_relations: 'workshop',
+          sort_by: 'content.starttime:asc'
         }).then((res) => {
           let workshopdates = res.data.stories;
           let workshops = {};

@@ -19,7 +19,7 @@ export default {
   props: ['blok'],
   computed: {
     linktitle() {
-     return  this.blok.linktitle || 'Teilnehmen!'
+     return  this.blok.linktitle;
     }
   }
 }
