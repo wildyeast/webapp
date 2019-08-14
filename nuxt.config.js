@@ -58,17 +58,16 @@ module.exports = {
       const token = storyblokToken;
       const per_page = 100;
       const version = process.env.NODE_ENV == 'development' ? 'draft' : 'published';
-      console.log(version);
+      const time = new Date().getTime();
 
       let page = 1
       let routes = []
 
       // Call first Page of the Links API: https://www.storyblok.com/docs/Delivery-Api/Links
-      axios.get(`https://api.storyblok.com/v1/cdn/links?token=${token}&version=${version}&per_page=${per_page}&page=${page}`).then((res) => {
+      axios.get(`https://api.storyblok.com/v1/cdn/links?token=${token}&version=${version}&per_page=${per_page}&page=${page}&ts=${time}`).then((res) => {
 
         Object.keys(res.data.links).forEach((key) => {
-          let slug = res.data.links[key].slug;
-          if (slug != 'home' && !slug.startsWith('de/machines')) {
+          if (res.data.links[key].slug != 'home') {
             routes.push('/' + res.data.links[key].slug)
           }
         })
