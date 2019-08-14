@@ -120,7 +120,7 @@ export default {
     }
     &.v-collapse-content-end {
       transition:max-height .3s ease-in;
-      max-height: 200vh;
+      max-height: 500vh;
     }
     .inner-content {
       padding: 0 20px 20px 20px;

@@ -58,6 +58,7 @@ module.exports = {
       const token = storyblokToken;
       const per_page = 100;
       const version = process.env.NODE_ENV == 'development' ? 'draft' : 'published';
+      console.log(version);
 
       let page = 1
       let routes = []
@@ -66,7 +67,8 @@ module.exports = {
       axios.get(`https://api.storyblok.com/v1/cdn/links?token=${token}&version=${version}&per_page=${per_page}&page=${page}`).then((res) => {
 
         Object.keys(res.data.links).forEach((key) => {
-          if (res.data.links[key].slug != 'home') {
+          let slug = res.data.links[key].slug;
+          if (slug != 'home' && !slug.startsWith('de/machines')) {
             routes.push('/' + res.data.links[key].slug)
           }
         })
