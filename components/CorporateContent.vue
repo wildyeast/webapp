@@ -21,6 +21,9 @@ export default {
   methods: {
   },
   computed: {
+    created() {
+      console.log('creating corporate content');
+    }
   }
 }
 </script>
