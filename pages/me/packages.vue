@@ -10,7 +10,7 @@
         <div class="link-text">
           <div class="link-arrow">
           </div>
-          <Nuxt-Link to="/de/workshops">Mitglied werden</Nuxt-Link>
+          <Nuxt-Link to="/wizard/onboarding/">Mitglied werden</Nuxt-Link>
         </div>
       </div>
     </div>
