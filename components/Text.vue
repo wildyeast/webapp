@@ -16,7 +16,6 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .text-blok {
-  margin: 0 4%;
   display: flex;
   .text {
     flex: 1;

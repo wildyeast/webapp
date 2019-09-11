@@ -6,6 +6,13 @@
     </ul>
     <div v-else>
       <code>Keine Mitgliedschaft abgeschlossen</code>
+      <div class="link-with-arrow">
+        <div class="link-text">
+          <div class="link-arrow">
+          </div>
+          <Nuxt-Link to="/de/workshops">Mitglied werden</Nuxt-Link>
+        </div>
+      </div>
     </div>
   </div>
 </template>

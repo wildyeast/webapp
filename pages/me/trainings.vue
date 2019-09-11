@@ -6,6 +6,13 @@
     </ul>
     <div v-else>
       <code>Noch keine Trainings vorhanden</code>
+      <div class="link-with-arrow">
+        <div class="link-text">
+          <div class="link-arrow">
+          </div>
+          <Nuxt-Link to="/de/workshops">Zu den Workshops</Nuxt-Link>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -29,4 +36,37 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/assets/scss/styles.scss';
+
+.link-with-arrow {
+  .link-text {
+    a {
+      text-transform: uppercase;
+      color: $color-blue;
+    }
+    margin: 1em 0 .5em;
+    display: flex;
+    align-items: center;
+    min-width: 200px;
+    .link-arrow {
+      border-top: $color-blue 1px solid;
+      width: 1em;
+      position: relative;
+      margin-right: .3em;
+      &:before {
+        position: absolute;
+        right: 0;
+        content: "";
+        border-top: $color-blue 1px solid;
+        border-right: $color-blue 1px solid;
+        transform: rotateZ(45deg);
+        transform-origin: top right;
+        height: .3em;
+        width: .3em;
+        margin-top: -.5px;
+      }
+    }
+  }
+}
+
 </style>
