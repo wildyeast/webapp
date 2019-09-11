@@ -58,7 +58,7 @@ export default {
       padding-left: 100px;
       flex: 2;
       img {
-        width: 100%;
+        width: 60%;
         height: auto;
       }
     }
