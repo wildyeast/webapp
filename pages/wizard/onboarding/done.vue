@@ -1,6 +1,11 @@
 <template>
   <div class="section">
     <h2>FIN</h2>
+    <div class="form">
+      <div class="button-row">
+        <button class="input-button-primary">Abschicken</button>
+      </div>
+    </div>
   </div>
 </template>
 

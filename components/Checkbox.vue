@@ -89,5 +89,23 @@ export default {
       }
     }
   }
+
+  /* form theme*/
+  &.form {
+    .checkmark {
+      border: 2px solid $color-orange;
+      svg {
+        stroke: #FFF;
+      }
+      &.selected {
+        background-color: $color-orange;
+      }
+    }
+    &:hover {
+      .checkmark {
+        background-color: $color-orange;
+      }
+    }
+  }
 }
 </style>

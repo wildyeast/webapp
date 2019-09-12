@@ -24,6 +24,7 @@
         <div class="form">
           <div class="button-row">
             <button class="input-button-primary" v-if="index > 0" @click="back()">Zurück</button>
+            <div class="spacer"></div>
             <button class="input-button-primary" v-if="index < steps.length-1" @click="next()">Weiter</button>
           </div>
         </div>
@@ -45,10 +46,18 @@ export default {
   methods: {
     back() {
       let ni = this.index - 1 < 0 ? 0 : this.index - 1;
-      let path = steps[ni] || ''
+      let path = this.steps[ni];
+      if (ni == 0) {
+      console.log(ni);
+      console.log(ni);
+        path = '';
+      }
       this.$router.push('/wizard/onboarding/' + path);
     },
     next() {
+      let ni = this.index + 1 < 0 ? 0 : this.index + 1;
+      let path = this.steps[ni];
+      this.$router.push('/wizard/onboarding/' + path);
     },
   },
   computed: {
@@ -85,9 +94,9 @@ export default {
             position: absolute;
             margin-top: -3px;
             top: 50%;
-            right: 0;
+            right: -10px;
             border-bottom: 6px solid #999;
-            width: 40px;
+            width: 50px;
           }
           &.color {
             .dot {
@@ -137,7 +146,9 @@ export default {
       .button-row {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        .spacer {
+          flex: 1;
+        }
       }
     }
   }

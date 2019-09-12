@@ -1,6 +1,6 @@
 <template>
   <div class="section onboarding-wizard">
-    <h2>Möchtest du monatlich oder jährlich zahlen?</h2>
+    <h2>Wie möchtest du zahlen?</h2>
     <div class="options">
       <div class="option">
         <b>monatliche Zahlung</b>
@@ -11,8 +11,8 @@
         <p>400 / Jahr</p>
       </div>
     </div>
-    
-    <form class="form" @submit.prevent="updateUser">
+    <p><b>Tipp:</b> Bei jährlicher Zahlung bekommst du 2 Monate geschenkt.</p>
+    <form class="form wizard">
       <div class="form-item">
         <span class="label">IBAN</span>
         <input class="input-text" type="text" v-model="user.payment.iban" name="" id=""/>
@@ -23,12 +23,9 @@
       </div>
     </form>
 
-    <div>
+    <div class="wizard-checkbox">
       <label>
-        <!--
-        <Checkbox :value="true">Meine Mitgliedsbeiträge und zusätzlich anfallende Kosten werden per SEPA-Lastschrift von meinem angegeben Konto eingehoben.</Checkbox>
-        <span></span>
-        -->
+        <Checkbox :value="sepaBool" theme="form">Meine Mitgliedsbeiträge und zusätzlich anfallende Kosten werden per SEPA-Lastschrift von meinem angegeben Konto eingehoben.</Checkbox>
       </label>
     </div>
 
@@ -45,6 +42,7 @@ export default {
   },
   data () {
     return {
+      sepaBool: false,
       loading: false
     }
   },
@@ -65,9 +63,10 @@ export default {
 
 .onboarding-wizard {
   .options {
-    padding-top: 20px;
+    padding: 20px 0;
     display: flex;
     justify-content: space-around;
+    margin: 0 -10px;
     .option {
       margin: 10px;
       flex: 1;
@@ -78,6 +77,14 @@ export default {
       &:hover {
         border: 2px solid $color-orange;
       }
+    }
+  }
+  .wizard-checkbox {
+    max-width: 500px;
+  }
+  .form {
+    &.wizard {
+      margin: 20px 0;
     }
   }
 }
