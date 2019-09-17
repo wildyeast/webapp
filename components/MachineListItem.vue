@@ -12,13 +12,8 @@
           {{content.subtitle}}
         </div>
         <div class="teaser">
-          {{content.teaser}}
+          <markdown :value="content.teaser"></markdown>
         </div>
-        <!--
-        <div class="teaser">
-          <markdown :value="content.description"></markdown>
-        </div>
-        -->
       </div>
     </div>
   </nuxt-link>
