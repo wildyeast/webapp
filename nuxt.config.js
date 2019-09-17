@@ -95,8 +95,6 @@ module.exports = {
             })
           })
 
-          console.log(routes);
-
           callback(null, routes)
         })).catch(callback)
     })
