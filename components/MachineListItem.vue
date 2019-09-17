@@ -13,13 +13,8 @@
         <div class="subtitle">
           {{content.subtitle}}
         </div>
-        <!--
         <div class="teaser">
-          {{content.teaser}}
-        </div>
-        -->
-        <div class="teaser">
-          <markdown :value="content.description"></markdown>
+          <markdown :value="content.teaser"></markdown>
         </div>
       </div>
     </div>
