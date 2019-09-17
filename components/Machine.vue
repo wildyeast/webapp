@@ -2,30 +2,23 @@
   <div v-editable="machine" class="machine-page">
     <machine-header :story="story"></machine-header>
     <div class="body">
+      <text-image :blok="teaser"></text-image>
 
-      <div class="headline">{{machine.headline}}</div>
-
-      <!-- <div class="teaser">
-        {{machine.teaser}}
-      </div> -->
       <div class="description">
         <markdown :value="machine.description"></markdown>
       </div>
-      <ul class="feature-list">
-        <li class="feature-item" v-for="(i, index) in machine.features" v-bind:key="index">
+
+      <image-slideshow :blok="images"></image-slideshow>
+
+      <h3 class="blue">Links</h3>
+      <ul class="link-list">
+        <li class="link-item" v-for="(i, index) in machine.links" v-bind:key="index">
           <div class="title">
             {{i.title}}
           </div>
-          <div class="text">
-            {{i.text}}
-          </div>
+          <a class="url" :href="i.url" target="_blank">{{i.url}}</a>
         </li>
       </ul>
-      <!--
-      <div class="images" v-if="machine.images && machine.images.length > 0" >
-        <image-gallery :images="machine.images" name="test"></image-gallery>
-      </div>
-      -->
     </div>
   </div>
 </template>
@@ -44,6 +37,18 @@ export default {
     },
     tags() {
       return this.story.tag_list;
+    },
+    images() {
+      return {
+        items: this.machine.images
+      }
+    },
+    teaser() {
+      return {
+        text: this.machine.teaser,
+        title: this.machine.title,
+        image: this.machine.image
+      }
     }
   }
 }
@@ -53,6 +58,11 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .machine-page {
+  h3 {
+    &.blue {
+      color: $color-blue;
+    }
+  }
   .body {
     font-family: $font-mono;
     @include margin-page-middle();
@@ -79,29 +89,31 @@ export default {
         width: 70%;
       }
     }
-    .feature-list {
+    .link-list {
       color: $color-blue;
-      display: grid;
-      @include media-breakpoint-up(sm) {
-        grid-template-columns: 50% 50%;
-      }
+      display: block;
       margin: 0;
       padding: 1em;
+      padding-left: 0;
       max-width: 80em;
-      .feature-item {
+      .link-item {
+        word-break: break-all;
+        list-style-type: none;
         margin: 0;
         margin-bottom: 4vh;
-        @include media-breakpoint-up(sm) {
-          padding-right: 20%;
-        }
-        font-size: .9rem;
+        font-size: 1.1rem;
         line-height: 1.4;
         .title {
           font-weight: 700;
           text-transform: uppercase;
         }
-        .text {
-
+        .url {
+          color: $color-blue;
+          font-size: 0.9rem;
+          font-family: $font-mono;
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
     }
