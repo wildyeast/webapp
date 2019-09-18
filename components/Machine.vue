@@ -24,7 +24,7 @@
     <div class="body">
       <image-slideshow :blok="images"></image-slideshow>
     </div>
-    <div class="body">
+    <div class="body" v-if="machine.links && machine.links.length > 0">
       <h3 class="blue">Links</h3>
       <ul class="link-list">
         <li class="link-item" v-for="(i, index) in machine.links" v-bind:key="index">
