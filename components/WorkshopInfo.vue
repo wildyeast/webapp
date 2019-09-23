@@ -7,32 +7,7 @@
       <div v-if="blok.teaser && !blok.info" class="teaser">
         {{blok.teaser}}
       </div>
-      <code>{{dates}}</code>
-      <div class="workshop-dates">
-        <div class="workshop-date" v-for="d in dates" :class="{ soldOut: d.content.sold_out }">
-          <div class="info-row">
-            <div class="col info">
-              <icon name="calendar" />
-              {{d.content.starttime | date}}
-            </div>
-            <div class="col info">
-              <icon name="clock" />
-              <span>{{d.content.starttime | time}}</span>
-              <span v-if="d.content.endtime"> bis {{d.content.endtime | time}}</span>
-              <span>Uhr</span>
-            </div>
-            <div class="col" v-if="d.content.members_only">
-              <icon name="user" />
-              <span>Members only!</span>
-            </div>
-            <div class="col soldOut" v-if="d.content.sold_out">
-              <span>ausgebucht</span>
-            </div>
-          </div>
-        </div>
-      </div>
       <markdown v-if="blok.info" :value="blok.info" class="info"></markdown>
-      <a v-if="blok.link && blok.link.cached_url && blok.link.cached_url != '' " :href="blok.link.cached_url" class="link" target="_blank">{{linktitle}}</a>
     </div>
   </div>
 </template>

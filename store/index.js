@@ -239,20 +239,34 @@ const createStore = () => {
           console.log(res);
         });
       },
-      loadWorkshopItem ({state, dispatch}, slug) {
+      async loadWorkshopItem ({state, dispatch}, slug) {
         let endpoint = `cdn/stories/${state.language}/workshops/${slug}`;
-        let wdata = this.$storyapi.get(endpoint, {
+        let workshop = await this.$storyapi.get(endpoint, {
           version: version,
           cv: state.cacheVersion
         }).then((res) => {
-          return res.data;
-        }).catch((res) => {
-          console.log(res);
+          return res.data.story;
         });
-        let ddata = dispatch('findDatesForWorkshop', endpoint);
-        return Promise.all([wdata, ddata]).then(({workshop, dates}) => {
-          return {workshop, dates}
+
+        let dates = await this.$storyapi.get(`cdn/stories`, {
+          workshop: {
+            in: workshop.uuid
+          },
+          component: {
+            in: "workshop-date"
+          },
+          starttime: {
+            "gt-date": moment().format("YYYY-MM-DD HH:mm")
+          },
+          version: version,
+          cv: state.cacheVersion,
+          sort_by: 'content.starttime:asc'
+        }).then((res) => {
+          return res.data.stories;
         });
+
+
+        return { workshop, dates }
       },
       findMachines ({state}, filters) {
         return this.$storyapi.get(`cdn/stories`, {
@@ -272,28 +286,6 @@ const createStore = () => {
           cv: state.cacheVersion,
         }).then((res) => {
           return res.data;
-        }).catch((res) => {
-          console.log(res);
-        });
-      },
-      findDatesForWorkshop ({state}, workshop) {
-        return this.$storyapi.get(`cdn/stories`, {
-          workshop: {
-            in: workshop
-          },
-          component: {
-            in: "workshop-date"
-          },
-          starttime: {
-            "gt-date": moment().format("YYYY-MM-DD HH:mm")
-          },
-          version: version,
-          cv: state.cacheVersion,
-          sort_by: 'content.starttime:asc'
-        }).then((res) => {
-          let dates = res.data.stories;
-          console.log(dates);
-          return dates;
         }).catch((res) => {
           console.log(res);
         });
