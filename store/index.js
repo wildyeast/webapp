@@ -248,15 +248,19 @@ const createStore = () => {
           return res.data.story;
         });
 
+        console.log(workshop.uuid);
+
         let dates = await this.$storyapi.get(`cdn/stories`, {
-          workshop: {
-            in: workshop.uuid
-          },
-          component: {
-            in: "workshop-date"
-          },
-          starttime: {
-            "gt-date": moment().format("YYYY-MM-DD HH:mm")
+          filter_query: {
+            workshop: {
+              in: workshop.uuid
+            },
+            component: {
+              in: "workshop-date"
+            },
+            starttime: {
+              "gt-date": moment().format("YYYY-MM-DD HH:mm")
+            },
           },
           version: version,
           cv: state.cacheVersion,
@@ -264,8 +268,6 @@ const createStore = () => {
         }).then((res) => {
           return res.data.stories;
         });
-
-
         return { workshop, dates }
       },
       findMachines ({state}, filters) {

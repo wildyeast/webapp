@@ -1,5 +1,5 @@
 <template>
-  <div class="workshop-info">
+  <div class="workshop-dates-block">
     <div class="workshop-dates">
       <div class="workshop-date" v-for="d in dates" :class="{ soldOut: d.content.sold_out }">
         <div class="info-row">
@@ -21,6 +21,7 @@
             <span>ausgebucht</span>
 
           </div>
+          <div class="spacer"></div>
           <div class="col soldOut" v-if="d.content.sold_out">
             <a v-if="d.content.link && d.content.link.cached_url && d.content.link.cached_url != '' " :href="d.content.link.cached_url" class="link" target="_blank">Zur Anmeldung</a>
           </div>
@@ -44,15 +45,24 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/styles.scss';
 
-.workshop-info {
+.workshop-dates-block {
   color: #000;
   display: flex;
   flex-direction: row;
   flex: 1;
   justify-content: center;
+  @include margin-page-wide();
+  @include media-breakpoint-up(md) {
+    margin: 0 100px;
+  }
   .workshop-dates {
+    width: 100%;
     margin-top: 20px;
+    margin-left: 25%;
     .workshop-date {
+      margin-top: 4px;
+      padding: 10px;
+      background-color: #FFF;
       &.soldOut {
         color: #666;
         fill: #666;
@@ -75,6 +85,9 @@ export default {
             color: $color-orange;
             text-transform: uppercase;
           }
+        }
+        .spacer {
+          flex: 1;
         }
         svg {
           height: 1em;
