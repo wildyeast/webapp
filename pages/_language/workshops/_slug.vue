@@ -12,16 +12,13 @@ import storyblokLivePreview from '@/mixins/storyblokLivePreview'
 
 export default {
   data () {
-    return { story: { content: null }  }
+    return {}
   },
   mixins: [storyblokLivePreview],
-  computed: {
-    workshop() {
-      return this.story.content;
-    }
-  },
   asyncData (context) {
-    return context.store.dispatch("loadWorkshopItem", context.params.slug);
+    let d = context.store.dispatch("loadWorkshopItem", context.params.slug);
+    console.log(d);
+    return d;
   }
 }
 </script>

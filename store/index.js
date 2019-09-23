@@ -239,7 +239,7 @@ const createStore = () => {
           console.log(res);
         });
       },
-      loadWorkshopItem ({state}, slug) {
+      loadWorkshopItem ({state, dispatch}, slug) {
         let endpoint = `cdn/stories/${state.language}/workshops/${slug}`;
         let wdata = this.$storyapi.get(endpoint, {
           version: version,
@@ -249,9 +249,10 @@ const createStore = () => {
         }).catch((res) => {
           console.log(res);
         });
-        console.log(wdata);
-        return wdata;
-        let dates = this.findDatesForWorkshop();
+        let ddata = dispatch('findDatesForWorkshop', endpoint);
+        return Promise.all([wdata, ddata]).then(({workshop, dates}) => {
+          return {workshop, dates}
+        });
       },
       findMachines ({state}, filters) {
         return this.$storyapi.get(`cdn/stories`, {
@@ -316,6 +317,18 @@ const createStore = () => {
             workshops[wid].dates.push(w);
           }
           return Object.values(workshops);
+        }).catch((res) => {
+          console.log(res);
+        });
+      },
+      findWorkshopDates ({state}, filters) {
+        return this.$storyapi.get(`cdn/stories`, {
+          ...filters,
+          version: version,
+          cv: state.cacheVersion,
+          sort_by: 'content.starttime:asc'
+        }).then((res) => {
+          return res.data.stories;
         }).catch((res) => {
           console.log(res);
         });

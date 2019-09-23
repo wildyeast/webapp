@@ -7,8 +7,31 @@
       <div v-if="blok.teaser && !blok.info" class="teaser">
         {{blok.teaser}}
       </div>
-      <markdown v-if="blok.info" :value="blok.info" class="info">
-      </markdown>
+      <code>{{dates}}</code>
+      <div class="workshop-dates">
+        <div class="workshop-date" v-for="d in dates" :class="{ soldOut: d.content.sold_out }">
+          <div class="info-row">
+            <div class="col info">
+              <icon name="calendar" />
+              {{d.content.starttime | date}}
+            </div>
+            <div class="col info">
+              <icon name="clock" />
+              <span>{{d.content.starttime | time}}</span>
+              <span v-if="d.content.endtime"> bis {{d.content.endtime | time}}</span>
+              <span>Uhr</span>
+            </div>
+            <div class="col" v-if="d.content.members_only">
+              <icon name="user" />
+              <span>Members only!</span>
+            </div>
+            <div class="col soldOut" v-if="d.content.sold_out">
+              <span>ausgebucht</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <markdown v-if="blok.info" :value="blok.info" class="info"></markdown>
       <a v-if="blok.link && blok.link.cached_url && blok.link.cached_url != '' " :href="blok.link.cached_url" class="link" target="_blank">{{linktitle}}</a>
     </div>
   </div>
@@ -17,6 +40,11 @@
 <script>
 export default {
   props: ['blok'],
+  data() {
+    return {
+      dates: []
+    }
+  },
   computed: {
     linktitle() {
      return  this.blok.linktitle;
@@ -34,6 +62,39 @@ export default {
   flex-direction: row;
   flex: 1;
   justify-content: center;
+  .workshop-dates {
+    margin-top: 20px;
+    .workshop-date {
+      &.soldOut {
+        color: #666;
+        fill: #666;
+        .col {
+          &.info {
+            text-decoration: line-through;
+          }
+        }
+      }
+      .info-row {
+        line-height: 1.6;
+        font-family: $font-mono;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin: -8px;
+        display: flex;
+        .col {
+          padding: 8px;
+          &.soldOut {
+            color: $color-orange;
+            text-transform: uppercase;
+          }
+        }
+        svg {
+          height: 1em;
+          width: 1em;
+        }
+      }
+    }
+  }
   .teaser-content {
     @include margin-page-wide();
     @include media-breakpoint-up(md) {

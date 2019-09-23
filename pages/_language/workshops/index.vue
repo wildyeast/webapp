@@ -2,7 +2,7 @@
   <section class="workshop-overview">
     <div class="workshop-filters">
       <div class="filters">
-          <!--
+        <!--
         <div class="tags">
           <div class="headline">Themen</div>
           <div class="tag-list">
@@ -50,7 +50,7 @@
             </div>
           </div>
         </div>
-          -->
+        -->
       </div>
       <div class="search">
         <input type="text" placeholder="Kurse und Workshops suchen" v-model="search">
@@ -118,7 +118,6 @@ export default {
   methods: {
     update() {
       this.loading = true;
-      console.log(this.filters);
       let result = this.$store
         .dispatch("findWorkshops", this.filters)
         .then(data => {
@@ -141,10 +140,9 @@ export default {
           in: "workshop-date"
         },
         starttime: {
-          "gt-date": moment().format("YYYY-MM-DD HH:mm")
+          "gt-date": moment().subtract(24, "hours").format("YYYY-MM-DD HH:mm")
         }
       };
-
       return {
         filter_query,
         search_term: this.search,
@@ -152,7 +150,7 @@ export default {
     }
   },
   async asyncData (context) {
-    let tags = await context.store.dispatch("loadTags");
+    //let tags = await context.store.dispatch("loadTags");
     let filters = {
       filter_query: {
         component: {
@@ -169,7 +167,7 @@ export default {
       }
       return { workshops: [] };
     });
-    return {tags, ...workshops};
+    return {...workshops};
   },
 }
 </script>
