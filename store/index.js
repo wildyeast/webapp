@@ -247,9 +247,6 @@ const createStore = () => {
         }).then((res) => {
           return res.data.story;
         });
-
-        console.log(workshop.uuid);
-
         let dates = await this.$storyapi.get(`cdn/stories`, {
           filter_query: {
             workshop: {
