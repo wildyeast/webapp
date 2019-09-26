@@ -68,6 +68,10 @@ export default {
     }
     .workshop-dates {
       width: 100%;
+      @include media-breakpoint-down(sm) {
+        margin: 3vh 5%;
+        width: 90%;
+      }
     }
     .teaser, .info-text {
       font-weight: normal;
