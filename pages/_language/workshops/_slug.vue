@@ -1,8 +1,7 @@
 <template>
   <section class="util__container" v-if="workshop">
     <workshop-header :blok="workshop.content"></workshop-header>
-    <workshop-info :blok="workshop.content"></workshop-info>
-    <workshop-dates :dates="dates"></workshop-dates>
+    <workshop-info :blok="workshop.content" :dates="dates"></workshop-info>
   </section>
 </template>
 

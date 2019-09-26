@@ -1,23 +1,26 @@
 <template>
   <div v-editable="blok" class="workshop-info">
-    <div class="teaser-content">
+    <div class="left-content">
       <h2 v-if="blok.subtitle" class="headline">
         {{blok.subtitle}}
       </h2>
-      <div v-if="blok.teaser && !blok.info" class="teaser">
+    </div>
+    <div class="right-content">
+      <div v-if="blok.teaser" class="teaser">
         {{blok.teaser}}
       </div>
-      <markdown v-if="blok.info" :value="blok.info" class="info"></markdown>
+      <markdown v-if="blok.facts" :value="blok.facts" class="info-text"></markdown>
+      <workshop-dates :dates="dates" class="workshop-dates"></workshop-dates>
+      <markdown v-if="blok.info" :value="blok.info" class="info-text"></markdown>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['blok'],
+  props: ['blok', 'dates'],
   data() {
     return {
-      dates: []
     }
   },
   computed: {
@@ -28,57 +31,20 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/scss/styles.scss';
 
 .workshop-info {
   color: #000;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex: 1;
   justify-content: center;
-  .workshop-dates {
-    margin-top: 20px;
-    .workshop-date {
-      &.soldOut {
-        color: #666;
-        fill: #666;
-        .col {
-          &.info {
-            text-decoration: line-through;
-          }
-        }
-      }
-      .info-row {
-        line-height: 1.6;
-        font-family: $font-mono;
-        font-size: 0.9rem;
-        font-weight: bold;
-        margin: -8px;
-        display: flex;
-        .col {
-          padding: 8px;
-          &.soldOut {
-            color: $color-orange;
-            text-transform: uppercase;
-          }
-        }
-        svg {
-          height: 1em;
-          width: 1em;
-        }
-      }
-    }
+  @include margin-page-wide();
+  @include media-breakpoint-up(md) {
+    margin: 0 100px;
   }
-  .teaser-content {
-    @include margin-page-wide();
-    @include media-breakpoint-up(md) {
-      margin: 0 100px;
-    }
-    flex-direction: column;
-    position: relative;
-    display: flex;
-    align-items: flex-start;
+  .left-content {
     .headline {
       position: relative;
       @include media-breakpoint-up(md) {
@@ -91,11 +57,19 @@ export default {
       line-height: 1.5;
       font-family: $font-secondary;
     }
-    .teaser, .info {
-      max-width: 90%;
-      @include media-breakpoint-up(md) {
-        margin-left: 25%;
-      }
+  }
+  .right-content {
+    flex-direction: column;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    @include media-breakpoint-up(md) {
+      margin-left: 25%;
+    }
+    .workshop-dates {
+      width: 100%;
+    }
+    .teaser, .info-text {
       font-weight: normal;
       font-family: $font-primary;
       line-height: 1.8;
@@ -105,7 +79,9 @@ export default {
         font-size: 1rem;
         margin: 0 0 0 5%
       }
-
+    }
+    .teaser {
+      font-weight: bold;
     }
     .link {
       background-color: $color-orange;
