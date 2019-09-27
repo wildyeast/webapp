@@ -295,7 +295,8 @@ const createStore = () => {
           version: version,
           cv: state.cacheVersion,
           resolve_relations: 'workshop',
-          sort_by: 'content.starttime:asc'
+          sort_by: 'content.starttime:asc',
+          per_page: 50
         }).then((res) => {
           let workshopdates = res.data.stories;
           let workshops = {};

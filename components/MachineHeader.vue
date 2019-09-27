@@ -1,6 +1,6 @@
 <template>
   <div class="machine-header">
-    <div class="header-image" :style="{ 'background-image': 'url(' + $resizeImage(machine.image, '1600x0') + ')' }">
+    <div class="header-image" :style="{ 'background-image': 'url(' + $resizeImage(machine.headerImage, '1600x0') + ')' }">
     </div>
     <div class="header-title" v-if="machine.title">
       <div class="tags">

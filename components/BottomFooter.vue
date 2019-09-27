@@ -21,21 +21,18 @@
     <div class="background-footer">
       <div class="background-footer-content">
         <div class="newsletter-footer">
-          <div class="newsletter-msg" v-if="loading">
-            Loading...
+          <div>
+            <div id="mc_embed_signup">
+              <form action="https://grandgarage.us20.list-manage.com/subscribe/post?u=ab921bf052a64b20bb1f16123&amp;id=8006406cc5" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                <h4>Immer am Ball bleiben</h4>
+                <div class="newsletter-subscribe">
+                  <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL"placeholder="Deine E-Mail Adresse">
+                  <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ab921bf052a64b20bb1f16123_8006406cc5" tabindex="-1" value=""></div>
+                  <button type="submit">Zum Newsletter anmelden</button>
+                </div>
+              </form>
           </div>
-          <div class="newsletter-msg" v-else-if="subscribed">
-            Danke für deine Anmeldung!
-          </div>
-          <form name="newsletter" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
-            <h4>Immer am Ball bleiben</h4>
-            <label class="hidden"><input name="bot-field" /></label>
-            <div data-netlify-recaptcha="true"></div>
-            <div class="newsletter-subscribe">
-              <input type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
-              <button type="submit">Zum Newsletter anmelden</button>
-            </div>
-          </form>
+        </div>
         </div>
         <div class="bottom-footer">
           <div class="footer-navigation">

@@ -13,12 +13,12 @@
             <span v-if="d.content.endtime"> bis {{d.content.endtime | time}}</span>
             <span>Uhr</span>
           </div>
+        </div>
+        <div class="info-block">
           <div class="col" v-if="d.content.members_only">
             <icon name="user" />
             <span>Members only!</span>
           </div>
-        </div>
-        <div class="info-block">
           <div class="col soldOut" v-if="d.content.sold_out">
             <span>ausgebucht</span>
           </div>

@@ -7,7 +7,7 @@
       <span>Von: {{fromDate}}</span>
       <span v-if="userPackage.untilDate">Bis: {{untilDate}}</span>
       <span v-else>Bis: -</span>
-      <span>Bezahlt bis: {{chargedDate}}</span>
+      <!--<span>Bezahlt bis: {{chargedDate}}</span>-->
     </div>
   </div>
 </template>
