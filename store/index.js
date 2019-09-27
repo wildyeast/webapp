@@ -190,6 +190,7 @@ const createStore = () => {
               'in': 'team-member'
             }
           },
+          per_page: 50,
           version: version,
           cv: state.cacheVersion
         }).then((res) => {
