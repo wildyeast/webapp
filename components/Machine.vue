@@ -11,8 +11,8 @@
         <div class="image">
           <img :src="$resizeImage(machine.image, '700x0')" alt=""/>
         </div>
-        <div class="text">
-          <markdown :value="machine.teaser"></markdown>
+        <div class="description text">
+          <markdown :value="machine.details"></markdown>
         </div>
       </div>
     </div>
@@ -95,8 +95,9 @@ export default {
         display: flex;
         padding: 0 3em;
         line-height: 1.5;
-        font-size: 1.1rem;
+        font-size: 1rem;
         @include media-breakpoint-down(sm) {
+          padding: 0;
           font-size: 1rem;
           line-height: 1.4;
         }
