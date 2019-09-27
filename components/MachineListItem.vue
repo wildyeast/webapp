@@ -1,5 +1,7 @@
 <template>
+  <!--
   <nuxt-link :to="'/' + blok.full_slug">
+  -->
     <div class="machine-list-item">
       <div class="image">
         <img :src="$resizeImage(content.image, '450x450')" alt=""/>
@@ -16,7 +18,9 @@
         </div>
       </div>
     </div>
+    <!--
   </nuxt-link>
+    -->
 </template>
 
 <script>
