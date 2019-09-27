@@ -1,8 +1,24 @@
 <template>
-  <!--
-  <nuxt-link :to="'/' + blok.full_slug">
-  -->
-    <div class="machine-list-item">
+  <div>
+    <nuxt-link :to="'/' + blok.full_slug" v-if="content.hasContent">
+      <div class="machine-list-item">
+        <div class="image">
+          <img :src="$resizeImage(content.image, '450x450')" alt=""/>
+        </div>
+        <div class="body">
+          <div class="title">
+            {{content.title}}
+          </div>
+          <div class="subtitle">
+            {{content.subtitle}}
+          </div>
+          <div class="teaser">
+            <markdown :value="content.teaser"></markdown>
+          </div>
+        </div>
+      </div>
+    </nuxt-link>
+    <div class="machine-list-item" v-else>
       <div class="image">
         <img :src="$resizeImage(content.image, '450x450')" alt=""/>
       </div>
@@ -18,9 +34,7 @@
         </div>
       </div>
     </div>
-    <!--
-  </nuxt-link>
-    -->
+  </div>
 </template>
 
 <script>
