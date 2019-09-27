@@ -28,6 +28,7 @@ import WorkshopBestOf from '~/components/WorkshopBestOf.vue'
 import WorkshopPreview from '~/components/WorkshopPreview.vue'
 import WorkshopHeader from '~/components/WorkshopHeader.vue'
 import WorkshopInfo from '~/components/WorkshopInfo.vue'
+import WorkshopDates from '~/components/WorkshopDates.vue'
 import WorkshopListItem from '~/components/WorkshopListItem.vue'
 
 import CorporateContent from '~/components/CorporateContent.vue'
@@ -96,6 +97,7 @@ Vue.component('workshop-best-of', WorkshopBestOf)
 Vue.component('workshop-preview', WorkshopPreview)
 Vue.component('workshop-header', WorkshopHeader)
 Vue.component('workshop-info', WorkshopInfo)
+Vue.component('workshop-dates', WorkshopDates)
 Vue.component('workshop-list-item', WorkshopListItem)
 
 Vue.component('corporate-content', CorporateContent)

@@ -1,17 +1,56 @@
 <template>
   <section class="workshop-overview">
     <div class="workshop-filters">
-      <div class="tags">
-        <div class="headline">Themen</div>
-        <div class="tag-list">
-          <div v-for="t in tags" :key="t.key" class="tag">
-            <checkbox
-              v-model="t.value"
-              class="tag"
-              theme="white"
-              >{{t.name}}</checkbox>
+      <div class="filters">
+        <!--
+        <div class="tags">
+          <div class="headline">Themen</div>
+          <div class="tag-list">
+            <div v-for="t in tags" :key="t.key" class="tag">
+              <checkbox
+                v-model="t.value"
+                class="tag"
+                theme="white"
+                >{{t.name}}</checkbox>
+            </div>
+          </div>
+          <div class="headline">Options</div>
+          <div class="tag-list">
+            <div class="tag">
+              <checkbox
+                v-model="filter.members_only"
+                class="tag"
+                theme="white"
+                >Members only</checkbox>
+            </div>
+            <div class="tag">
+              <checkbox
+                v-model="filter.free_only"
+                class="tag"
+                theme="white"
+                >freie Plätze</checkbox>
+            </div>
+          </div>
+          <div class="headline">Kategorie</div>
+          <div class="tag-list">
+            <div v-for="c in categories" :key="c.key" class="tag">
+              <checkbox
+                v-model="c.value"
+                class="tag"
+                theme="white"
+                >{{c.name}}</checkbox>
+            </div>
           </div>
         </div>
+        <div class="calendar">
+          <date-pick v-model="date" :hasInputElement="false"></date-pick>
+          <div class="reset">
+            <div v-if="date != ''" class="all" @click="resetDate()">
+              <span>Alle anzeigen</span>
+            </div>
+          </div>
+        </div>
+        -->
       </div>
       <div class="search">
         <input type="text" placeholder="Kurse und Workshops suchen" v-model="search">
@@ -19,15 +58,15 @@
       <loading class="loading" v-if="loading"></loading>
     </div>
     <!--
-    <div class="workshop-orders">
+      <div class="workshop-orders">
       <div class="headline">
-        Sortieren nach:
+      Sortieren nach:
       </div>
       <div class="order-list">
-        <div class="order-item" v-for="o in orders">
-        </div>
+      <div class="order-item" v-for="o in orders">
       </div>
-    </div>
+      </div>
+      </div>
     -->
     <div class="workshop-list-wrapper">
       <div v-if="workshops && workshops.length > 0" class="workshop-list">
@@ -37,23 +76,19 @@
             :blok="item"
             :key="item.id"
             class="list-item"
-          ></workshop-list-item>
+            ></workshop-list-item>
         </transition-group>
       </div>
       <div v-else class="workshop-list-none">
         <code>Keine Suchergebnisse</code>
       </div>
-      <!--
-      <div class="calendar">
-        <date-pick v-model="date" :hasInputElement="false"></date-pick>
-      </div>
-      -->
     </div>
   </section>
 </template>
 
 <script>
 import Checkbox from "~/components/Checkbox.vue";
+import moment from "moment";
 
 export default {
   components: {
@@ -61,18 +96,19 @@ export default {
   },
   data () {
     return {
+      categories: [
+        { key: 'event', name: 'Event', value: false },
+        { key: 'workshop', name: 'Workshop', value: false },
+        { key: 'training', name: 'Einschulung', value: false },
+        { key: 'meetup', name: 'Meetup', value: false },
+      ],
       loading: false,
       search: '',
+      workshops: [],
+      tags: []
     }
   },
   created() {
-    this.$watch(
-      "tags",
-      (newVal, oldVal) => {
-        this.update();
-      },
-      { deep: true }
-    );
   },
   watch: {
     search() {
@@ -86,46 +122,52 @@ export default {
         .dispatch("findWorkshops", this.filters)
         .then(data => {
           this.loading = false;
-          this.workshops = data.stories;
+          this.workshops = data;
         });
     }
   },
   computed: {
-    filters() {
-      return {
-        filter_query: {
-          component: {
-            in: "workshop"
-          }
-        },
-        search_term: this.search,
-        with_tag: this.filterTags.join(',')
-      }
-    },
-    filterTags() {
-      return this.tags.filter((t) => {
-        return t.value;
-      }).map((t) => {
-        return t.name;
+    selectedCategories() {
+      return this.categories.filter((c) => {
+        return c.value;
+      }).map((v) => {
+        return v.key;
       });
+    },
+    filters() {
+      let filter_query = {
+        component: {
+          in: "workshop-date"
+        },
+        starttime: {
+          "gt-date": moment().subtract(24, "hours").format("YYYY-MM-DD HH:mm")
+        }
+      };
+      return {
+        filter_query,
+        search_term: this.search,
+      }
     }
   },
   async asyncData (context) {
-    let tags = await context.store.dispatch("loadTags");
+    //let tags = await context.store.dispatch("loadTags");
     let filters = {
       filter_query: {
         component: {
-          in: "workshop"
+          in: "workshop-date"
+        },
+        starttime: {
+          "gt-date": moment().subtract(24, "hours").format("YYYY-MM-DD HH:mm")
         }
       }
     };
     let workshops = await context.store.dispatch("findWorkshops", filters).then((data) => {
-      if (data.stories) {
-        return { workshops: data.stories };
+      if (data) {
+        return { workshops: data };
       }
       return { workshops: [] };
     });
-    return {tags, ...workshops};
+    return {...workshops};
   },
 }
 </script>
@@ -141,13 +183,38 @@ export default {
   }
 
   .workshop-filters {
+    .filters {
+      background-color: $color-orange;
+      display: flex;
+      .tags {
+        flex: 3;
+      }
+      .calendar {
+        flex: 1;
+        max-width: 320px;
+        .reset {
+          margin-top: -3px;
+          background-color: #000;
+          padding: 10px;
+          .all {
+            padding: 10px;
+            color: #FFF;
+            &:hover {
+              cursor: pointer;
+              color: 000;
+              background-color: $color-yellow;
+            }
+          }
+        }
+      }
+    }
     .tags {
-
-      padding: 8vh 0;
+      padding-bottom: 4vh;
       @include media-breakpoint-down(sm) {
         padding: 4vh 0;
       }
       .headline {
+        padding-top: 4vh;
         color: #FFF;
         font-weight: bold;
         font-size: 1.8rem;
@@ -198,7 +265,6 @@ export default {
           }
         }
       }
-      background-color: $color-orange;
       @include media-breakpoint-down(sm) {
         overflow: hidden;
         position: relative;
@@ -289,10 +355,6 @@ export default {
     .workshop-list-none {
       flex: 3;
       text-align: center;
-    }
-    .calendar {
-      flex: 1;
-      max-width: 320px;
     }
   }
 }

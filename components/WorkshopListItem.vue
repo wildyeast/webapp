@@ -5,8 +5,19 @@
         <img :src="$resizeImage(content.image, '380x280')" alt=""/>
       </div>
       <div class="body">
-        <div class="subtitle">
-          {{content.subtitle}}
+        <div class="category">
+          <div v-if="content.category == 'training'">
+            <span>Einschulung</span>
+          </div>
+          <div v-if="content.category == 'event'">
+            <span>Event</span>
+          </div>
+          <div v-if="content.category == 'meetup'">
+            <span>Meetup</span>
+          </div>
+          <div v-if="content.category == 'workshop'">
+            <span>Workshop</span>
+          </div>
         </div>
         <div class="title">
           {{content.title}}
@@ -22,25 +33,30 @@
           <div>{{linktext}}</div>
         </div>
         <div class="workshop-dates">
-          <div class="workshop-date" v-for="d in content.dates">
+          <div class="workshop-date" v-for="d in dates" :class="{ soldOut: d.content.sold_out }">
             <div class="info-row">
-              <div class="col date">
+              <div class="col info">
                 <icon name="calendar" />
-                {{d.starttime | date}}
+                {{d.content.starttime | date}}
               </div>
-              <div class="col">
+              <div class="col info">
                 <icon name="clock" />
-                <span>{{d.starttime | time}}</span>
-                <span v-if="d.endtime"> bis {{d.endtime | time}}</span>
+                <span>{{d.content.starttime | time}}</span>
+                <span v-if="d.content.endtime"> bis {{d.content.endtime | time}}</span>
                 <span>Uhr</span>
               </div>
-              <div class="col">
-                <icon name="user-plus" />
-                <span v-if="d.sold_out">ausgebucht</span>
-                <span v-else>frei</span>
+              <div class="col" v-if="d.content.members_only">
+                <icon name="user" />
+                <span>Members only!</span>
+              </div>
+              <div class="col soldOut" v-if="d.content.sold_out">
+                <span>ausgebucht</span>
               </div>
             </div>
           </div>
+        </div>
+        <div class="icon">
+          <icon :name="content.category" />
         </div>
       </div>
     </div>
@@ -51,6 +67,9 @@
 export default {
   props: ['blok'],
   computed: {
+    dates() {
+      return this.blok.dates;
+    },
     content() {
       return this.blok.content;
     },
@@ -85,6 +104,7 @@ export default {
     }
   }
   .body {
+    position: relative;
     flex: 2;
     display: flex;
     flex-direction: column;
@@ -93,20 +113,41 @@ export default {
     @include media-breakpoint-down(sm) {
       margin-left: 2%;
     }
+    .icon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 120px;
+      padding: 10px;
+      svg {
+        fill: #EEE;
+      }
+    }
     .title {
+      position: relative;
+      z-index: 1;
       font-family: $font-secondary;
       font-size: 2rem;
       margin-bottom: .4rem;
     }
-    .subtitle {
+    .category {
+      position: relative;
+      z-index: 1;
       font-family: $font-mono;
       font-size: 0.9rem;
       letter-spacing: .1em;
       margin-bottom: .3rem;
       text-transform: uppercase;
       color: $color-orange;
+      svg {
+        fill: $color-orange;
+        height: 1em;
+        width: 1em;
+      }
     }
     .teaser {
+      position: relative;
+      z-index: 1;
       flex: 1;
       font-family: $font-mono;
       line-height: 1.6;
@@ -152,21 +193,34 @@ export default {
 }
 .workshop-dates {
   margin-top: 20px;
-}
-.workshop-date {
-  .info-row {
-    line-height: 1.6;
-    font-family: $font-mono;
-    font-size: 0.9rem;
-    font-weight: bold;
-    margin: -8px;
-    display: flex;
-    .col {
-      padding: 8px;
+  .workshop-date {
+    &.soldOut {
+      color: #666;
+      fill: #666;
+      .col {
+        &.info {
+          text-decoration: line-through;
+        }
+      }
     }
-    svg {
-      height: 1em;
-      width: 1em;
+    .info-row {
+      line-height: 1.6;
+      font-family: $font-mono;
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin: -8px;
+      display: flex;
+      .col {
+        padding: 8px;
+        &.soldOut {
+          color: $color-orange;
+          text-transform: uppercase;
+        }
+      }
+      svg {
+        height: 1em;
+        width: 1em;
+      }
     }
   }
 }
