@@ -24,7 +24,10 @@
           </div>
           <div class="spacer"></div>
           <div class="col register" v-if="!d.content.sold_out">
+            <button @click="checkout">Checkout</button>
+            <!--
             <a v-if="d.content.link && d.content.link.cached_url && d.content.link.cached_url != '' " :href="d.content.link.cached_url" class="link" target="_blank">Zur Anmeldung</a>
+            -->
           </div>
         </div>
 
@@ -40,6 +43,10 @@ export default {
     return {}
   },
   computed: {
+  },
+  methods: {
+    checkout() {
+    }
   }
 }
 </script>

@@ -2,9 +2,14 @@
   <div class="header-wrapper" :class="{ 'scrolled': scrolled }">
     <div class="login-header" v-if="hasAuth">
       <div class="login-header-content">
-        <nuxt-link to="/me" v-if="hasUser">
-          {{username}}
-        </nuxt-link>
+        <div v-if="hasUser">
+          <nuxt-link to="/me">
+            {{username}}
+          </nuxt-link>
+          <div class="cart-indicator" @click="showCart()">
+            show Cart
+          </div>
+        </div>
         <span v-else>
           <loading-spinner color="white"></loading-spinner>
         </span>
@@ -107,6 +112,9 @@ export default {
     }
   },
   methods: {
+    showCart() {
+      this.$store.dispatch('setSidebar', 'cart');
+    },
     closeMenu() {
       this.showMenu = false;
     },
@@ -162,6 +170,9 @@ export default {
     height: 1.7em;
     .login-header-content {
       @include margin-page-wide();
+      .cart-indicator {
+        display: inline-block;
+      }
     }
     a {
       color: #FFF;

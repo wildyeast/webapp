@@ -27,6 +27,9 @@ const createStore = () => {
       user: null,
       auth: null,
       fabman: null,
+      checkout: { lineItems: [] },
+      products: [],
+      shop: null
     },
     getters: {
       getPackageById: (state) => (id) => {
@@ -57,12 +60,37 @@ const createStore = () => {
       },
       setCacheVersion (state, version) {
         state.cacheVersion = version;
-      }
+      },
+      setShop(state, payload) {
+        for (let item in payload) {
+          state[item] = payload[item];
+        }
+      },
     },
     actions: {
-      nuxtServerInit({ state }, context) {
+      async nuxtServerInit({ state, commit }, { app }) {
+        const shopCheckoutID = app.$cookies.get("shopCheckoutID");
+        let checkout = {};
+        if (shopCheckoutID) {
+          checkout = await app.$shopify.checkout.fetch(shopCheckoutID);
+          if (checkout.completedAt) {
+            checkout = await app.$shopify.checkout.create();
+          }
+        } else {
+          checkout = await app.$shopify.checkout.create();
+        }
+
+        let shop = {
+          checkout: await checkout,
+          products: await app.$shopify.product.fetchAll(),
+          shop: await app.$shopify.shop.fetchInfo()
+        };
+
+        await app.$cookies.set("shopCheckoutID", shop.checkout.id);
+
+        commit("setShop", shop);
       },
-      init({ state, dispatch }, context) {
+      init({ state, dispatch, commit }, { app }) {
         let chain = [];
         if (!state.auth) {
           chain.push(dispatch('checkAuth'));

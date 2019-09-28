@@ -6,13 +6,25 @@
         <login-form class="pane" v-if="sidebar == 'login'"></login-form>
         <register-form class="pane" v-else-if="sidebar == 'register'"></register-form>
         <register-success-form class="pane" v-else-if="sidebar == 'register-success'"></register-success-form>
+        <cart class="pane" v-else-if="sidebar == 'cart'"></cart>
     </transition>
   </div>
   </transition>
 </template>
 
 <script charset="utf-8">
+import RegisterSuccessForm from "~/components/RegisterSuccessForm";
+import RegisterForm from "~/components/RegisterForm";
+import LoginForm from "~/components/LoginForm";
+import Cart from "~/components/Cart";
+
 export default {
+  components: {
+    Cart,
+    LoginForm,
+    RegisterSuccessForm,
+    RegisterForm
+  },
   created() {
   },
   methods: {

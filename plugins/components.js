@@ -48,10 +48,6 @@ import SpotlightSlider from '~/components/SpotlightSlider.vue'
 import TextImage from '~/components/TextImage.vue'
 import Text from '~/components/Text.vue'
 
-import LoginForm from '~/components/LoginForm.vue'
-import RegisterForm from '~/components/RegisterForm.vue'
-import RegisterSuccessForm from '~/components/RegisterSuccessForm.vue'
-
 import StoryBlokLink from '~/components/StoryBlokLink.vue'
 import MainNavItem from '~/components/MainNavItem.vue'
 import MainNavMobileItem from '~/components/MainNavMobileItem.vue'
@@ -112,10 +108,6 @@ Vue.component('machine', Machine)
 Vue.component('job-teaser', JobTeaser)
 Vue.component('job-list', JobList)
 Vue.component('job-opening', JobOpening)
-
-Vue.component('login-form', LoginForm)
-Vue.component('register-form', RegisterForm)
-Vue.component('register-success-form', RegisterSuccessForm)
 
 Vue.component('spotlight-slider', SpotlightSlider)
 Vue.component('image-gallery', ImageGallery)

@@ -39,7 +39,9 @@ module.exports = {
     '@nuxtjs/proxy',
     ['@nuxtjs/google-analytics', {
       id: 'UA-106370674-4'
-    }]
+    }],
+    ['nuxt-shopify'],
+    ['cookie-universal-nuxt']
   ],
   plugins: [
     '~/plugins/init',
@@ -50,6 +52,10 @@ module.exports = {
     '~/plugins/routersync',
     { src: '~/plugins/components-nossr', ssr: false },
   ],
+  shopify: {
+    domain: 'grandgarage.myshopify.com',
+    storefrontAccessToken: 'db23ab5ce3dd1efdeee8c680ea81d26b',
+  },
   router: {
     middleware: 'router'
   },
