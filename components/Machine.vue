@@ -2,11 +2,6 @@
   <div v-editable="machine" class="machine-page" v-if="machine">
     <machine-header :story="story"></machine-header>
     <div class="machine-teaser">
-      <!--
-        <h3 class="title">
-        {{blok.title}}
-        </h3>
-      -->
       <div class="body">
         <div class="image">
           <img :src="$resizeImage(machine.image, '700x0')" alt=""/>

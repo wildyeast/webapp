@@ -10,7 +10,7 @@
       </div>
       <div class="title">{{machine.title}}</div>
       <div class="subtitle">{{machine.subtitle}}</div>
-      <machine-status class="status" v-if="machine.fabmanId && hasUser" :id="machine.fabmanId"></machine-status>
+      <machine-status class="status" v-if="singleMachine && hasUser" :id="machine.machine_status_items[0].fabmanId"></machine-status>
     </div>
   </div>
 </template>
@@ -32,6 +32,9 @@ export default {
     },
     hasUser() {
       return !!this.$store.state.user;
+    },
+    singleMachine() {
+      return this.machine && this.machine.machine_status_items && this.machine.machine_status_items.length == 1;
     }
   }
 }
