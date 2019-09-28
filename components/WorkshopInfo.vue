@@ -10,7 +10,7 @@
         {{blok.teaser}}
       </div>
       <markdown v-if="blok.facts" :value="blok.facts" class="info-text"></markdown>
-      <workshop-dates :dates="dates" class="workshop-dates"></workshop-dates>
+      <workshop-dates :dates="dates" :workshop="blok" class="workshop-dates"></workshop-dates>
       <markdown v-if="blok.info" :value="blok.info" class="info-text"></markdown>
     </div>
   </div>

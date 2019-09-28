@@ -24,7 +24,17 @@
           </div>
           <div class="spacer"></div>
           <div class="col register" v-if="!d.content.sold_out">
+            <!--
             <a v-if="d.content.link && d.content.link.cached_url && d.content.link.cached_url != '' " :href="d.content.link.cached_url" class="link" target="_blank">Zur Anmeldung</a>
+            -->
+                  <button
+        class="snipcart-add-item"
+        :data-item-id="d.content._uid"
+        :data-item-name="workshop.title"
+        :data-item-price="15"
+        :data-item-url="$nuxt.$route.path">
+            Buy {{workshop.title}}
+      </button>
           </div>
         </div>
 
@@ -35,7 +45,7 @@
 
 <script>
 export default {
-  props: ['dates'],
+  props: ['dates', 'workshop'],
   data() {
     return {}
   },

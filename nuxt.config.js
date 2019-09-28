@@ -25,6 +25,22 @@ module.exports = {
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css?family=IBM+Plex+Sans+Condensed'
+      },
+      {
+        rel: 'stylesheet',
+        href:'https://cdn.snipcart.com/themes/2.0/base/snipcart.min.css'
+      }
+    ],
+    script: [
+      {
+        src: 'https://code.jquery.com/jquery-3.4.1.min.js',
+        integrity: 'sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=',
+        crossorigin: 'anonymous'
+      },
+      {
+        src: 'https://cdn.snipcart.com/scripts/2.0/snipcart.js',
+        id: 'snipcart',
+        'data-api-key': 'MjNlN2M1ZjYtZTIyOC00MTg4LTg2MjUtMGFlOGViM2YyMWY0NjM3MDUyNzIzNTYxNjQ2MzQ3'
       }
     ]
   },
