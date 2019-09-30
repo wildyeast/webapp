@@ -53,7 +53,7 @@
         -->
       </div>
       <div class="search">
-        <input type="text" placeholder="Kurse und Workshops suchen" v-model="search">
+        <input type="text" placeholder="Workshops und Events suchen" v-model="search">
       </div>
       <loading class="loading" v-if="loading"></loading>
     </div>
