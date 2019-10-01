@@ -44,6 +44,7 @@
           <button type="submit" class="input-button-primary">Abschicken</button>
         </div>
       </form>
+
     </no-ssr>
   </div>
 </template>

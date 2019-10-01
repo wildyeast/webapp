@@ -2,19 +2,26 @@
   <div class="section">
     <h2>FIN</h2>
 
-    <form class="form" name="signup" @submit.prevent="handleSubmit" data-netlify="true" netlify-honeypot="bot-field">
-      <label class="hidden"><input name="bot-field" /></label>
-      <div data-netlify-recaptcha="true"></div>
-      <label class="form-item">
-        <span class="label">Test</span>
-        <div class="body">
-          <input class="input-text" type="name" name="name" v-model="form.name" placeholder="Dein Name">
-        </div>
-      </label>
-      <div class="button-row">
-        <button type="submit" class="input-button-primary">Abschicken</button>
+    <no-ssr>
+
+      <div v-if="loading">
+        Loading...
       </div>
-    </form>
+      <form class="form" name="signup" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
+        <label class="hidden"><input name="bot-field" /></label>
+        <div data-netlify-recaptcha="true"></div>
+        <label class="form-item">
+          <span class="label">Test</span>
+          <div class="body">
+            <input class="input-text" type="name" name="name" v-model="form.name" placeholder="Dein Name">
+          </div>
+        </label>
+        <div class="button-row">
+          <button type="submit" class="input-button-primary">Abschicken</button>
+        </div>
+      </form>
+
+    </no-ssr>
 
   </div>
 </template>
@@ -26,7 +33,8 @@ export default {
   middleware: 'authenticated',
   data () {
     return {
-      loading: false
+      loading: false,
+      sent: false
     }
   },
   created() {
@@ -53,7 +61,6 @@ export default {
         axiosConfig
       ).then(() => {
         this.loading = false;
-        this.form.msg = '';
         this.sent = true;
       }).catch(() => {
         this.loading = false;
