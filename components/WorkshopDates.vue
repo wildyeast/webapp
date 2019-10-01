@@ -63,9 +63,9 @@ export default {
       }
     }
     .info-row {
-        @include media-breakpoint-down(md) {
-          flex-direction: column;
-        }
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+      }
       line-height: 1.6;
       font-family: $font-mono;
       font-size: 0.9rem;
