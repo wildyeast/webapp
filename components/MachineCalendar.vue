@@ -21,7 +21,7 @@ export default {
         style: 'material_design',
         view_type: 'Day',
         split_value: 30,
-        cell_height: 20,
+        cell_height: 15,
         current_day: new Date(),
         read_only: true
       },
