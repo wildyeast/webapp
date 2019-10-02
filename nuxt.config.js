@@ -102,9 +102,7 @@ module.exports = {
 },
   css: [
     '@/assets/scss/styles.scss',
-    '@/assets/scss/vueDatePick.scss',
     'swiper/dist/css/swiper.css',
-    'kalendar-vue/dist/KalendarVue.css'
   ],
   /*
    ** Customize the progress bar color

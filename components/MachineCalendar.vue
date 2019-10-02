@@ -1,8 +1,11 @@
 <template>
   <div class="machine-calendar">
     <div v-if="bookings">
-      <kalendar :configuration="calendar_settings" :appointments="appointments"/>
-      </kalendar>
+      <!--<kalendar :configuration="calendar_settings" :events="events"/></kalendar>-->
+      <vue-cal class="calendar" xsmall
+               default-view="day"
+               :events="events"
+              :disable-views="['years', 'year', 'month']"></vue-cal>
     </div>
     <div v-else>
       loading
@@ -12,41 +15,30 @@
 
 <script>
 import moment from 'moment';
+import VueCal from 'vue-cal'
+import 'vue-cal/dist/vuecal.css'
 
 export default {
+  props: ['id'],
+  components: { VueCal },
   data() {
     return {
       bookings: null,
-      calendar_settings: {
-        style: 'material_design',
-        view_type: 'Day',
-        split_value: 30,
-        cell_height: 15,
-        current_day: new Date(),
-        read_only: true
-      },
     }
   },
-  props: ['id'],
-  mounted() {
+  created() {
     this.$store.dispatch('getBookings', this.id).then((r) => {
       this.bookings = r;
-      console.log(this.appointments);
     });
   },
   computed: {
-    appointments() {
+    events() {
       return this.bookings.map((b) => {
-        console.log(b);
-
         return {
-          data: {
-            title: 'Member Booking',
-            description: b.state
-          },
-          from: b.fromDateTime,
-          to: b.untilDateTime,
-          date: moment(b.fromDateTime).format(''),
+          title: 'Reserviert',
+          content: b.state,
+          start: moment(b.fromDateTime).format('YYYY-MM-DD hh:mm'),
+          end: moment(b.untilDateTime).format('YYYY-MM-DD hh:mm'),
         }
       });
     }
@@ -57,16 +49,9 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/styles.scss';
 
-.machine-status {
-  padding: 10px;
-  .resource {
-    padding: 10px;
-    font-weight: bold;
-    color: #FFF;
-    div {
-      display: inline-block;
-      text-transform: uppercase;
-    }
+.machine-calendar {
+  .calendar {
+    background-color: #FFF;
   }
 }
 </style>

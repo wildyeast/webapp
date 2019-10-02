@@ -59,7 +59,7 @@ exports.handler = function(event, context, callback) {
 
         let untilDate = new moment().add(7, 'days').format('YYYY-MM-DDTHH:mm');
         let fromDate = new moment().subtract(1, 'days').format('YYYY-MM-DDTHH:mm');
-        let url = `bookings?resource=${resourceId}&fromDateTime=${fromDate}&untilDateTime=${untilDate}&order=desc`;
+        let url = `bookings?resource=${resourceId}&fromDateTime=${fromDate}&untilDateTime=${untilDate}&state=confirmed&order=desc`;
         instance.get(url).then((r) => {
           callback(null, {
             statusCode: 200,

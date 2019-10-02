@@ -17,9 +17,9 @@
           <markdown :value="machine.description"></markdown>
         </div>
         <div class="machine-list" v-if="hasUser">
-          <div class="machine-item" v-for="machine in machine.machine_status_items">
-            <machine-status class="status" :id="machine.fabmanId"></machine-status>
-            <machine-calendar :id="machine.fabmanId"></machine-calendar>
+          <div class="machine-item" v-for="m in machine.machine_status_items">
+            <machine-status class="status" :id="m.fabmanId"></machine-status>
+            <machine-calendar :id="m.fabmanId"></machine-calendar>
           </div>
         </div>
       </div>
