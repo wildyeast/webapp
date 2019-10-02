@@ -1,5 +1,7 @@
 <template>
   <div v-editable="blok" class="map">
+    <img class="placeholder" src="~/assets/img/map.png" alt=""/>
+    <!--
     <GmapMap
       :center="{lat: Number(blok.lat), lng: Number(blok.lon) }"
       :zoom="Number(blok.zoom)"
@@ -15,6 +17,7 @@
         @click="center=m.position"
       />
     </GmapMap>
+    -->
   </div>
 </template>
 
@@ -127,6 +130,10 @@ export default {
   .gmaps {
     width: 100%;
     height: 70vh;
+  }
+  .placeholder {
+    width: 100%;
+    height: auto;
   }
 }
 </style>

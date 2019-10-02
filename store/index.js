@@ -2,6 +2,7 @@ import Vuex from 'vuex';
 import auth0 from 'auth0-js';
 import { setToken, unsetToken, getUserFromLocalStorage } from '~/utils/auth';
 import axios from 'axios';
+import moment from 'moment';
 
 const origin = process.client ? window.location.origin : process.env.ORIGIN;
 
@@ -197,6 +198,7 @@ const createStore = () => {
               'in': 'team-member'
             }
           },
+          per_page: 50,
           version: version,
           cv: state.cacheVersion
         }).then((res) => {
@@ -245,16 +247,33 @@ const createStore = () => {
           console.log(res);
         });
       },
-      loadWorkshopItem ({state}, slug) {
+      async loadWorkshopItem ({state, dispatch}, slug) {
         let endpoint = `cdn/stories/${state.language}/workshops/${slug}`;
-        return this.$storyapi.get(endpoint, {
+        let workshop = await this.$storyapi.get(endpoint, {
           version: version,
           cv: state.cacheVersion
         }).then((res) => {
-          return res.data;
-        }).catch((res) => {
-          console.log(res);
+          return res.data.story;
         });
+        let dates = await this.$storyapi.get(`cdn/stories`, {
+          filter_query: {
+            workshop: {
+              in: workshop.uuid
+            },
+            component: {
+              in: "workshop-date"
+            },
+            starttime: {
+              "gt-date": moment().format("YYYY-MM-DD HH:mm")
+            },
+          },
+          version: version,
+          cv: state.cacheVersion,
+          sort_by: 'content.starttime:asc'
+        }).then((res) => {
+          return res.data.stories;
+        });
+        return { workshop, dates }
       },
       findMachines ({state}, filters) {
         return this.$storyapi.get(`cdn/stories`, {
@@ -283,8 +302,33 @@ const createStore = () => {
           ...filters,
           version: version,
           cv: state.cacheVersion,
+          resolve_relations: 'workshop',
+          sort_by: 'content.starttime:asc',
+          per_page: 50
         }).then((res) => {
-          return res.data;
+          let workshopdates = res.data.stories;
+          let workshops = {};
+          for (let w of workshopdates) {
+            let wid = w.content.workshop.uuid;
+            if (wid in workshops) {
+            } else {
+              workshops[wid] = Object.assign({ dates: [] }, w.content.workshop);
+            }
+            workshops[wid].dates.push(w);
+          }
+          return Object.values(workshops);
+        }).catch((res) => {
+          console.log(res);
+        });
+      },
+      findWorkshopDates ({state}, filters) {
+        return this.$storyapi.get(`cdn/stories`, {
+          ...filters,
+          version: version,
+          cv: state.cacheVersion,
+          sort_by: 'content.starttime:asc'
+        }).then((res) => {
+          return res.data.stories;
         }).catch((res) => {
           console.log(res);
         });

@@ -1,8 +1,27 @@
 <template>
-  <div v-editable="machine" class="machine-page">
+  <div v-editable="machine" class="machine-page" v-if="machine">
     <machine-header :story="story"></machine-header>
+    <div class="machine-teaser">
+      <div class="body">
+        <div class="image">
+          <img :src="$resizeImage(machine.image, '700x0')" alt=""/>
+        </div>
+        <div class="description text">
+          <markdown :value="machine.details"></markdown>
+        </div>
+      </div>
+    </div>
     <div class="body">
-
+        <div class="machine-list" v-if="hasUser">
+          <div class="machine-item" v-for="machine in machine.machine_status_items">
+            <code>hello</code>
+            <machine-status class="status" :id="machine.fabmanId"></machine-status>
+            <machine-calendar :id="machine.fabmanId"></machine-calendar>
+          </div>
+        </div>
+    </div>
+    <div class="body">
+      <!--
       <div class="headline">{{machine.headline}}</div>
 
       <div class="inner-body">
@@ -10,30 +29,34 @@
           <markdown :value="machine.description"></markdown>
         </div>
 
-        <div class="machine-list" v-if="machine.fabmanId && hasUser">
-          <div class="machine-item">
-            <machine-status class="status" :id="machine.fabmanId"></machine-status>
-            <machine-calendar :id="machine.fabmanId"></machine-calendar>
-          </div>
-        </div>
       </div>
 
-      <!--
       <ul class="feature-list">
         <li class="feature-item" v-for="(i, index) in machine.features" v-bind:key="index">
-          <div class="title">
-            {{i.title}}
-          </div>
-          <div class="text">
-            {{i.text}}
-          </div>
-        </li>
       </ul>
-      -->
 
       <div class="images" v-if="machine.images && machine.images.length > 0" >
         <image-gallery :images="machine.images" name="test"></image-gallery>
       </div>
+      -->
+
+      <div class="description">
+        <markdown :value="machine.description"></markdown>
+      </div>
+    </div>
+    <div class="body">
+      <image-slideshow :blok="images"></image-slideshow>
+    </div>
+    <div class="body" v-if="machine.links && machine.links.length > 0">
+      <h3 class="blue">Links</h3>
+      <ul class="link-list">
+        <li class="link-item" v-for="(i, index) in machine.links" v-bind:key="index">
+          <div class="title">
+            {{i.title}}
+          </div>
+          <a class="url" :href="i.url" target="_blank">{{i.url}}</a>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -59,7 +82,12 @@ export default {
     },
     hasUser() {
       return !!this.$store.state.user;
-    }
+    },
+    images() {
+      return {
+        items: this.machine.images
+      }
+    },
   }
 }
 </script>
@@ -68,9 +96,56 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .machine-page {
+  h3 {
+    &.blue {
+      color: $color-blue;
+    }
+  }
+  .machine-teaser {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .title {
+      text-transform: uppercase;
+    }
+    .body {
+      display: flex;
+      @include media-breakpoint-down(md) {
+        flex-direction: column;
+      }
+      .text {
+        flex: 2;
+        display: flex;
+        padding: 0 3em;
+        line-height: 1.5;
+        font-size: 1rem;
+        @include media-breakpoint-down(sm) {
+          padding: 0;
+          font-size: 1rem;
+          line-height: 1.4;
+        }
+      }
+      .image {
+        padding: 0 3em;
+        flex: 1;
+        @include media-breakpoint-down(md) {
+          margin-top: 1em;
+          padding-left: 0;
+        }
+        padding-right: 0;
+        img {
+          margin: auto;
+          display: block;
+          max-width: 100%;
+          max-height: 100%;
+        }
+      }
+    }
+  }
   .body {
     font-family: $font-mono;
-    @include margin-page-middle();
+    margin: 0 4%;
+    margin-bottom: 1em;
     .headline {
       text-transform: uppercase;
       font-family: $font-primary;
@@ -98,34 +173,34 @@ export default {
         flex: 4;
       }
     }
-    /*
-    .feature-list {
+    .link-list {
       color: $color-blue;
-      display: grid;
-      @include media-breakpoint-up(sm) {
-        grid-template-columns: 50% 50%;
-      }
+      display: block;
       margin: 0;
       padding: 1em;
+      padding-left: 0;
       max-width: 80em;
-      .feature-item {
+      .link-item {
+        word-break: break-all;
+        list-style-type: none;
         margin: 0;
         margin-bottom: 4vh;
-        @include media-breakpoint-up(sm) {
-          padding-right: 20%;
-        }
-        font-size: .9rem;
+        font-size: 1.1rem;
         line-height: 1.4;
         .title {
           font-weight: 700;
           text-transform: uppercase;
         }
-        .text {
-
+        .url {
+          color: $color-blue;
+          font-size: 0.9rem;
+          font-family: $font-mono;
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
     }
-      */
   }
 }
 </style>

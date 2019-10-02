@@ -6,61 +6,15 @@
         <div class="spacer"></div>
         <button @click="logout" class="logout-button">Logout</button>
       </div>
-      <div class="section">
-        <div class="content">
-          <div class="section">
-            <h2>Packages</h2>
-            <ul class="item-list" v-if="user && user.packages && user.packages.length > 0">
-              <li v-for="p in user.packages"><package :userPackage="p" /></li>
-            </ul>
-            <div v-else>
-              <code>Keine Mitgliedschaft abgeschlossen</code>
-            </div>
-          </div>
-          <div class="section">
-            <h2>Trainings</h2>
-            <ul class="item-list" v-if="user.trainings && user.trainings.length > 0">
-              <li v-for="t in user.trainings"><training :userTraining="t" /></li>
-            </ul>
-            <div v-else>
-              <code>Noch keine Trainings vorhanden</code>
-            </div>
-          </div>
-          <div class="section">
-            <h2>Kontaktdaten</h2>
-            <form class="form" @submit.prevent="updateUser">
-              <div class="form-item">
-                <span class="label">Vorname</span>
-                <input class="input-text" disabled type="text" v-model="user.profile.firstName" name="" id=""/>
-              </div>
-              <div class="form-item">
-                <span class="label">Nachname</span>
-                <input class="input-text" disabled type="text" v-model="user.profile.lastName" name="" id=""/>
-              </div>
-              <div class="form-item">
-                <span class="label">Adresse</span>
-                <input class="input-text" type="text" v-model="user.profile.address" name="" id=""/>
-              </div>
-              <div class="form-item">
-                <span></span>
-                <input class="input-text" type="text" v-model="user.profile.address2" name="" id=""/>
-              </div>
-              <div class="form-item">
-                <span class="label">PLZ</span>
-                <input class="input-text" type="text" v-model="user.profile.zip" name="" id=""/>
-              </div>
-              <div class="form-item">
-                <span class="label">Stadt</span>
-                <input class="input-text" type="text" v-model="user.profile.city" name="" id=""/>
-              </div>
-              <div class="button-row">
-                <div v-if="loading">
-                  Saving…
-                </div>
-                <button v-else type="submit" class="input-button-primary">Speichern</button>
-              </div>
-            </form>
-          </div>
+      <div class="tab-section">
+        <div class="tab-section-menu">
+          <NuxtLink to="/me/">Mein Profil</NuxtLink>
+          <NuxtLink to="/me/packages">Packages</NuxtLink>
+          <NuxtLink to="/me/trainings">Trainings</NuxtLink>
+          <NuxtLink to="/me/shop">Material bestellen</NuxtLink>
+        </div>
+        <div class="tab-section-content">
+          <NuxtChild :key="$route.params.slug"></NuxtChild>
         </div>
       </div>
     </div>
@@ -71,8 +25,6 @@ export default {
   middleware: 'authenticated',
   data () {
     return {
-      loading: false,
-      activeSection: 'packages'
     }
   },
   created() {
@@ -87,23 +39,6 @@ export default {
         this.$router.push('/');
       });
     },
-    updateUser(event) {
-      this.loading = true;
-      this.$store.dispatch('updateUser', Object.assign({}, this.user.profile)).then(() => {
-        this.loading = false;
-        this.$notify({
-          title: 'Yay!',
-          text: 'Änderungen gespeichert.'
-        });
-      }).catch((e) => {
-        this.loading = false;
-        this.$notify({
-          title: 'Error',
-          type: 'error',
-          text: 'Ein Fehler ist aufgetreten.'
-        });
-      });
-    }
   },
   computed: {
     user() {
@@ -117,6 +52,7 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .profile {
+  min-height: 60vh;
   margin-left: 4%;
   margin-right: 4%;
   .header {
@@ -148,6 +84,31 @@ export default {
   .item-list {
     list-style-type: none;
     padding: 0;
+  }
+
+  .tab-section {
+    display: flex;
+    .tab-section-menu {
+      padding-top: 20px;
+      width: 200px;
+      flex: 1;
+      a {
+        color: #000;
+        display: block;
+        padding: 12px;
+        &:hover {
+          background-color: darken($color-bright-bg, 5)
+        }
+        &.nuxt-link-exact-active {
+          color: $color-orange;
+        }
+      }
+    }
+
+    .tab-section-content {
+      padding-left: 20px;
+      flex: 3;
+    }
   }
 }
 </style>

@@ -28,7 +28,10 @@ import WorkshopBestOf from '~/components/WorkshopBestOf.vue'
 import WorkshopPreview from '~/components/WorkshopPreview.vue'
 import WorkshopHeader from '~/components/WorkshopHeader.vue'
 import WorkshopInfo from '~/components/WorkshopInfo.vue'
+import WorkshopDates from '~/components/WorkshopDates.vue'
 import WorkshopListItem from '~/components/WorkshopListItem.vue'
+
+import CorporateContent from '~/components/CorporateContent.vue'
 
 import EventListItem from '~/components/EventListItem.vue'
 
@@ -43,6 +46,7 @@ import ImageSlideshow from '~/components/ImageSlideshow.vue'
 import ImageSlideshowBlue from '~/components/ImageSlideshowBlue.vue'
 import SpotlightSlider from '~/components/SpotlightSlider.vue'
 import TextImage from '~/components/TextImage.vue'
+import Text from '~/components/Text.vue'
 
 import LoginForm from '~/components/LoginForm.vue'
 import RegisterForm from '~/components/RegisterForm.vue'
@@ -93,7 +97,10 @@ Vue.component('workshop-best-of', WorkshopBestOf)
 Vue.component('workshop-preview', WorkshopPreview)
 Vue.component('workshop-header', WorkshopHeader)
 Vue.component('workshop-info', WorkshopInfo)
+Vue.component('workshop-dates', WorkshopDates)
 Vue.component('workshop-list-item', WorkshopListItem)
+
+Vue.component('corporate-content', CorporateContent)
 
 Vue.component('event-list-item', EventListItem)
 
@@ -115,6 +122,7 @@ Vue.component('image-gallery', ImageGallery)
 Vue.component('image-slideshow', ImageSlideshow)
 Vue.component('image-slideshow-blue', ImageSlideshowBlue)
 Vue.component('text-image', TextImage)
+Vue.component('text-blok', Text)
 
 Vue.component('faq-block', FAQBlock)
 Vue.component('faq-item', FAQItem)

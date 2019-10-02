@@ -1,48 +1,50 @@
 <template>
   <div v-editable="blok" class="workshop-info">
-    <div class="teaser-content">
+    <div class="left-content">
       <h2 v-if="blok.subtitle" class="headline">
         {{blok.subtitle}}
       </h2>
-      <div v-if="blok.teaser && !blok.info" class="teaser">
+    </div>
+    <div class="right-content">
+      <div v-if="blok.teaser" class="teaser">
         {{blok.teaser}}
       </div>
-      <markdown v-if="blok.info" :value="blok.info" class="info">
-      </markdown>
-      <a v-if="blok.link && blok.link.cached_url && blok.link.cached_url != '' " :href="blok.link.cached_url" class="link" target="_blank">{{linktitle}}</a>
+      <markdown v-if="blok.facts" :value="blok.facts" class="info-text"></markdown>
+      <workshop-dates :dates="dates" class="workshop-dates"></workshop-dates>
+      <markdown v-if="blok.info" :value="blok.info" class="info-text"></markdown>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['blok'],
+  props: ['blok', 'dates'],
+  data() {
+    return {
+    }
+  },
   computed: {
     linktitle() {
-     return  this.blok.linktitle || 'Teilnehmen!'
+     return  this.blok.linktitle;
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/scss/styles.scss';
 
 .workshop-info {
   color: #000;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex: 1;
   justify-content: center;
-  .teaser-content {
-    @include margin-page-wide();
-    @include media-breakpoint-up(md) {
-      margin: 0 100px;
-    }
-    flex-direction: column;
-    position: relative;
-    display: flex;
-    align-items: flex-start;
+  @include margin-page-wide();
+  @include media-breakpoint-up(md) {
+    margin: 0 100px;
+  }
+  .left-content {
     .headline {
       position: relative;
       @include media-breakpoint-up(md) {
@@ -55,11 +57,23 @@ export default {
       line-height: 1.5;
       font-family: $font-secondary;
     }
-    .teaser, .info {
-      max-width: 90%;
-      @include media-breakpoint-up(md) {
-        margin-left: 25%;
+  }
+  .right-content {
+    flex-direction: column;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    @include media-breakpoint-up(md) {
+      margin-left: 25%;
+    }
+    .workshop-dates {
+      width: 100%;
+      @include media-breakpoint-down(sm) {
+        margin: 3vh 5%;
+        width: 90%;
       }
+    }
+    .teaser, .info-text {
       font-weight: normal;
       font-family: $font-primary;
       line-height: 1.8;
@@ -69,7 +83,9 @@ export default {
         font-size: 1rem;
         margin: 0 0 0 5%
       }
-
+    }
+    .teaser {
+      font-weight: bold;
     }
     .link {
       background-color: $color-orange;

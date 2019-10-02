@@ -47,6 +47,8 @@ exports.handler = function(event, context, callback) {
         headers: {'Authorization': `Bearer ${process.env.FABMAN_TOKEN}`}
       });
 
+      let payment = { iban: '', bank: '' }
+
       let profile = instance.get(`members/${fabmanId}`).then((r) => {
         return {
           firstName: r.data.firstName,
@@ -64,7 +66,7 @@ exports.handler = function(event, context, callback) {
       let packages = instance.get(`members/${fabmanId}/packages`).then(r => r.data);
 
       Promise.all([profile, trainings, packages]).then(([profile, trainings, packages]) => {
-        let user = { profile, trainings, packages };
+        let user = { profile, trainings, packages, payment };
 
         callback(null, {
           statusCode: 200,

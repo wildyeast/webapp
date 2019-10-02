@@ -1,6 +1,6 @@
 <template>
   <div class="machine-header">
-    <div class="header-image" :style="{ 'background-image': 'url(' + $resizeImage(machine.image, '1600x0') + ')' }">
+    <div class="header-image" :style="{ 'background-image': 'url(' + $resizeImage(machine.headerImage, '1600x0') + ')' }">
     </div>
     <div class="header-title" v-if="machine.title">
       <div class="tags">
@@ -9,6 +9,7 @@
         </span>
       </div>
       <div class="title">{{machine.title}}</div>
+      <div class="subtitle">{{machine.subtitle}}</div>
     </div>
   </div>
 </template>
@@ -22,6 +23,12 @@ export default {
     },
     tags() {
       return this.story.tag_list;
+    },
+    hasUser() {
+      return !!this.$store.state.user;
+    },
+    singleMachine() {
+      return this.machine && this.machine.machine_status_items && this.machine.machine_status_items.length == 1;
     }
   }
 }
