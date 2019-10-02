@@ -12,36 +12,16 @@
       </div>
     </div>
     <div class="body">
-        <div class="machine-list" v-if="hasUser">
-          <div class="machine-item" v-for="machine in machine.machine_status_items">
-            <code>hello</code>
-            <machine-status class="status" :id="machine.fabmanId"></machine-status>
-            <machine-calendar :id="machine.fabmanId"></machine-calendar>
-          </div>
-        </div>
-    </div>
-    <div class="body">
-      <!--
-      <div class="headline">{{machine.headline}}</div>
-
       <div class="inner-body">
         <div class="description">
           <markdown :value="machine.description"></markdown>
         </div>
-
-      </div>
-
-      <ul class="feature-list">
-        <li class="feature-item" v-for="(i, index) in machine.features" v-bind:key="index">
-      </ul>
-
-      <div class="images" v-if="machine.images && machine.images.length > 0" >
-        <image-gallery :images="machine.images" name="test"></image-gallery>
-      </div>
-      -->
-
-      <div class="description">
-        <markdown :value="machine.description"></markdown>
+        <div class="machine-list" v-if="hasUser">
+          <div class="machine-item" v-for="machine in machine.machine_status_items">
+            <machine-status class="status" :id="machine.fabmanId"></machine-status>
+            <machine-calendar :id="machine.fabmanId"></machine-calendar>
+          </div>
+        </div>
       </div>
     </div>
     <div class="body">
@@ -170,6 +150,7 @@ export default {
         flex: 8;
       }
       .machine-list {
+        margin-top: 3em;
         flex: 4;
       }
     }
