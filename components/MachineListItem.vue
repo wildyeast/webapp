@@ -9,9 +9,11 @@
           <div class="title">
             {{content.title}}
           </div>
-          <div class="subtitle">
-            {{content.subtitle}}
-          </div>
+          <div class="tags">
+          <span v-for="(tag, index) in tags">
+            {{tag}}<span v-if="index+1 < tags.length">, </span>
+          </span>
+        </div>
           <div class="teaser">
             <markdown :value="content.teaser"></markdown>
           </div>

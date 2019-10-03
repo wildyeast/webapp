@@ -9,7 +9,6 @@
         </span>
       </div>
       <div class="title">{{machine.title}}</div>
-      <div class="subtitle">{{machine.subtitle}}</div>
     </div>
   </div>
 </template>
