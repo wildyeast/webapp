@@ -18,7 +18,7 @@
         </div>
         <div class="machine-list" v-if="hasUser">
           <div class="machine-item" v-for="m in machine.machine_status_items">
-            <machine-status class="status" :id="m.fabmanId"></machine-status>
+            <machine-status v-if="!singleMachine" class="status" :id="m.fabmanId"></machine-status>
             <machine-calendar :id="m.fabmanId"></machine-calendar>
           </div>
         </div>
@@ -63,11 +63,14 @@ export default {
     hasUser() {
       return !!this.$store.state.user;
     },
+    singleMachine() {
+      return this.machine && this.machine.machine_status_items && this.machine.machine_status_items.length == 1;
+    },
     images() {
       return {
         items: this.machine.images
       }
-    },
+    }
   }
 }
 </script>
@@ -147,11 +150,11 @@ export default {
     .inner-body {
       display: flex;
       .description {
-        flex: 8;
+        flex: 2;
       }
       .machine-list {
         margin-top: 3em;
-        flex: 4;
+        flex: 1;
       }
     }
     .link-list {

@@ -5,6 +5,7 @@
                default-view="day"
                :events="events"
                locale="de"
+               :hide-weekdays="[1, 7]"
                :time-from="9 * 60" :time-to="20 * 60" :time-step="30"
                :disable-views="['years', 'year', 'month']"></vue-cal>
     </div>
@@ -38,7 +39,7 @@ export default {
       return this.bookings.map((b) => {
         return {
           title: 'Reserviert',
-          content: b.state,
+          class: b.state,
           start: moment(b.fromDateTime).format('YYYY-MM-DD HH:mm'),
           end: moment(b.untilDateTime).format('YYYY-MM-DD HH:mm'),
         }
