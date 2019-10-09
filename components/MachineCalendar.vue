@@ -8,6 +8,7 @@
                :hide-weekdays="[1, 7]"
                :time-from="9 * 60" :time-to="20 * 60" :time-step="30"
                :disable-views="['years', 'year', 'month']"></vue-cal>
+      <code>{{bookings}}</code>
     </div>
     <div v-else>
       loading
@@ -35,11 +36,14 @@ export default {
     });
   },
   computed: {
+    hasUser() {
+      return !!this.$store.state.user;
+    },
     events() {
       return this.bookings.map((b) => {
         return {
-          title: 'Reserviert',
-          class: b.state,
+          title: b.title,
+          class: b.class,
           start: moment(b.fromDateTime).format('YYYY-MM-DD HH:mm'),
           end: moment(b.untilDateTime).format('YYYY-MM-DD HH:mm'),
         }
