@@ -1,5 +1,6 @@
 <template>
-  <div v-editable="blok" class="member-page">
+  <div v-editable="blok" class="member-page" @touchstart="touch">
+    <a href="#" display="none" ref="hidden"></a>
     <div class="header">
       <div class="image">
         <img class="picture" v-if="blok.image" :src="$resizeImage(blok.image, '700x700')" :alt="blok.name + ', ' + blok.title"/>
@@ -41,6 +42,13 @@
 <script>
 export default {
   props: ['blok'],
+  methods: {
+    touch(e) {
+      if (e.target.localName !== 'img') {
+        this.$refs.hidden.focus();
+      }
+    }
+  }
 }
 </script>
 
