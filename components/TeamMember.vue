@@ -3,6 +3,7 @@
     <div class="header">
       <div class="image">
         <img class="picture" v-if="blok.image" :src="$resizeImage(blok.image, '700x700')" :alt="blok.name + ', ' + blok.title"/>
+        <img class="picture image-alt" v-if="blok.image_alt" :src="$resizeImage(blok.image_alt, '700x700')" :alt="blok.name + ', ' + blok.title"/>
       </div>
       <div class="info">
         <div class="short-info">
@@ -12,14 +13,6 @@
               <a class="option email" v-if="blok.email" :href="'mailto:'+blok.email">
                 <img class="icon" src="~/assets/img/icons/envelope.svg" alt=""/>
                 <div class="text">{{blok.email}}</div>
-              </a>
-              <a class="option twitter" v-if="blok.twitter" target="_blank" :href="'https://twitter.com/'+blok.twitter">
-                <img class="icon" src="~/assets/img/icons/twitter.svg" alt=""/>
-                <div class="text">@{{blok.twitter}}</div>
-              </a>
-              <a class="option linkedin" v-if="blok.linkedin" target="_blank" :href="blok.linkedin">
-                <img class="icon" src="~/assets/img/icons/linkedin.svg" alt=""/>
-                <div class="text">LinkedIn Profil</div>
               </a>
             </div>
           </div>
@@ -60,10 +53,23 @@ export default {
   .header {
     display: flex;
     .image {
+      position: relative;
       flex-grow: 1;
       width: 46%;
       margin-right: 2%;
       text-align: right;
+      &:hover {
+        .image-alt {
+          display: inline;
+        }
+      }
+      .image-alt {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 99;
+      }
       .picture {
         width: 100%;
         max-width: 100%;
@@ -232,9 +238,6 @@ export default {
         }
       }
     }
-
   }
-
-
 }
 </style>
