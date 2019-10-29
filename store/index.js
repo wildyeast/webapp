@@ -248,6 +248,9 @@ const createStore = () => {
         }).then((res) => {
           return res.data.story;
         });
+        if (!workshop) {
+          console.log('workshop not found: ', workshop);
+        }
         let dates = await this.$storyapi.get(`cdn/stories`, {
           filter_query: {
             workshop: {
