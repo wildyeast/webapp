@@ -1,6 +1,6 @@
 <template>
   <nuxt-link :to="'/' + blok.full_slug">
-    <div class="workshop-list-item">
+    <div class="workshop-list-item" :class="{ slim: slim }">
       <div class="image">
         <img :src="$resizeImage(content.image, '380x280')" alt=""/>
       </div>
@@ -22,19 +22,15 @@
         <div class="title">
           {{content.title}}
         </div>
-        <div class="teaser">
+        <div class="teaser" v-if="!slim">
           {{content.teaser}}
         </div>
         <div class="trainer">
           {{content.trainer}}
         </div>
-        <div class="linktext">
-          <div class="link-arrow"></div>
-          <div>{{linktext}}</div>
-        </div>
         <div class="workshop-dates">
-          <div class="workshop-date" v-for="d in dates" :class="{ soldOut: d.content.sold_out }">
-            <div class="info-row">
+          <div class="workshop-date" v-for="d,i in dates" :class="{ soldOut: d.content.sold_out }">
+            <div class="info-row" v-if="!slim || i == 0">
               <div class="info-block">
                 <div class="col info">
                   <icon name="calendar" />
@@ -69,7 +65,7 @@
 
 <script>
 export default {
-  props: ['blok'],
+  props: ['blok', 'slim'],
   computed: {
     dates() {
       return this.blok.dates;
@@ -89,10 +85,19 @@ export default {
 .workshop-list-item {
   color: #000;
   display: flex;
+  margin-bottom: 25px;
+  &.slim {
+    margin-bottom: 0;
+    .image {
+      max-width: 10%;
+    }
+    .body {
+      padding: 0.9em;
+    }
+  }
   @include media-breakpoint-down(sm) {
     flex-direction: column;
   }
-  margin-bottom: 25px;
   .image {
     @include media-breakpoint-down(sm) {
       overflow: hidden;
