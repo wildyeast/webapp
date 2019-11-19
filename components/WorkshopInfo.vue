@@ -13,6 +13,9 @@
       <workshop-dates :dates="dates" class="workshop-dates"></workshop-dates>
       <markdown v-if="blok.info" :value="blok.info" class="info-text"></markdown>
     </div>
+    <div class="body" v-if="blok.images">
+      <image-slideshow :blok="images"></image-slideshow>
+    </div>
   </div>
 </template>
 
@@ -25,7 +28,12 @@ export default {
   },
   computed: {
     linktitle() {
-     return  this.blok.linktitle;
+      return  this.blok.linktitle;
+    },
+    images() {
+      return {
+        items: this.blok.images
+      }
     }
   }
 }
