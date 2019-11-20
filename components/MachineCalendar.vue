@@ -3,12 +3,11 @@
     <div v-if="bookings">
       <vue-cal class="calendar" xsmall
                default-view="day"
-               :events="events"
+               :events="bookings"
                locale="de"
                :hide-weekdays="[1, 7]"
                :time-from="9 * 60" :time-to="20 * 60" :time-step="30"
                :disable-views="['years', 'year', 'month']"></vue-cal>
-      <code>{{bookings}}</code>
     </div>
     <div v-else>
       loading
@@ -32,7 +31,7 @@ export default {
   },
   created() {
     this.$store.dispatch('getBookings', this.id).then((r) => {
-      this.bookings = r;
+      this.bookings = JSON.parse(JSON.stringify(r));
     });
   },
   computed: {

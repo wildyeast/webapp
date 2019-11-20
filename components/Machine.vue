@@ -22,6 +22,11 @@
             <machine-calendar :id="m.fabmanId"></machine-calendar>
           </div>
         </div>
+        <div v-else class="machine-list">
+          <div class="machine-list-warning">
+            Du musst angemeldet sein um die Verfügbarkeit der Maschinen sehen zu können!
+          </div>
+        </div>
       </div>
     </div>
     <div class="body">
@@ -155,6 +160,10 @@ export default {
       .machine-list {
         margin-top: 3em;
         flex: 1;
+        .machine-list-warning {
+          padding: 10px;
+          background-color: $color-yellow;
+        }
       }
     }
     .link-list {

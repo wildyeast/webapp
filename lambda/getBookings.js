@@ -61,7 +61,7 @@ exports.handler = function(event, context, callback) {
         let fromDate = new moment().subtract(1, 'days').format('YYYY-MM-DDTHH:mm');
         let url = `bookings?resource=${resourceId}&fromDateTime=${fromDate}&untilDateTime=${untilDate}&state=confirmed&order=desc`;
         instance.get(url).then((r) => {
-          let bookings = JSON.stringify(r.data).map((b) => {
+          let bookings = r.data.map((b) => {
             return {
               title: 'Reserviert',
               class: b.state,
@@ -71,7 +71,7 @@ exports.handler = function(event, context, callback) {
           });
           callback(null, {
             statusCode: 200,
-            body: bookings
+            body: JSON.stringify(bookings)
           });
         }).catch((err) => {
           console.log(err);
