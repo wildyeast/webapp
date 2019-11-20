@@ -9,8 +9,7 @@
         </span>
       </div>
       <div class="title">{{machine.title}}</div>
-      <div class="subtitle">{{machine.subtitle}}</div>
-      <machine-status class="status" v-if="singleMachine && hasUser" :id="machine.machine_status_items[0].fabmanId"></machine-status>
+      <machine-status class="status" v-if="singleMachine && hasUser && hasBridge" :id="machine.machine_status_items[0].fabmanId"></machine-status>
     </div>
   </div>
 </template>
@@ -19,10 +18,10 @@
 import MachineStatus from '@/components/MachineStatus';
 
 export default {
+  props: ['story'],
   components: {
     MachineStatus
   },
-  props: ['story'],
   computed: {
     machine() {
       return this.story.content;
@@ -35,6 +34,9 @@ export default {
     },
     singleMachine() {
       return this.machine && this.machine.machine_status_items && this.machine.machine_status_items.length == 1;
+    },
+    hasBridge() {
+      return this.machine.machine_status_items[0].hasBridge;
     }
   }
 }
@@ -61,9 +63,6 @@ export default {
     width: 100%;
     background-size: cover;
     background-position: center;
-    // product images with white background don't look good in this layout
-    // -> make them transparent inside dark grey parent.
-    // can be removed when the images get more colorful.
     opacity: .9;
   }
   .header-title {

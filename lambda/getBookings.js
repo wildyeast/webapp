@@ -2,6 +2,7 @@ const axios = require('axios');
 const cookieparser = require('cookieparser');
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
+const moment = require('moment');
 
 const baseURL = 'https://fabman.io/api/v1/';
 
@@ -56,31 +57,21 @@ exports.handler = function(event, context, callback) {
           headers: {'Authorization': `Bearer ${process.env.FABMAN_TOKEN}`}
         });
 
-        let resource = instance.get(`resources/${resourceId}`).then((r) => {
-          return {
-            id: r.data.id,
-            name: r.data.name,
-            type: r.data.type,
-            state: r.data.state,
-            maintenanceNotes: r.data.maintenanceNotes
-          }
-          /*
-            displayTitle: r.displayTitle,
-            safetyMessage: r.safetyMessage,
-          */
-        });
-        let bridge = instance.get(`resources/${resourceId}/bridge`).then((r) => {
-          return {
-            inUse: r.data.inUse,
-            offline: r.data.offline,
-          }
-        });
-
-        Promise.all([resource, bridge]).then(([resource, bridge]) => {
-          let data = { ...resource, ...bridge };
+        let untilDate = new moment().add(7, 'days').format('YYYY-MM-DDTHH:mm');
+        let fromDate = new moment().subtract(1, 'days').format('YYYY-MM-DDTHH:mm');
+        let url = `bookings?resource=${resourceId}&fromDateTime=${fromDate}&untilDateTime=${untilDate}&state=confirmed&order=desc`;
+        instance.get(url).then((r) => {
+          let bookings = r.data.map((b) => {
+            return {
+              title: 'Reserviert',
+              class: b.state,
+              start: moment(b.fromDateTime).format('YYYY-MM-DD HH:mm'),
+              end: moment(b.untilDateTime).format('YYYY-MM-DD HH:mm'),
+            }
+          });
           callback(null, {
             statusCode: 200,
-            body: JSON.stringify(data)
+            body: JSON.stringify(bookings)
           });
         }).catch((err) => {
           console.log(err);

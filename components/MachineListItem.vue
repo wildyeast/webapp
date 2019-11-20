@@ -9,9 +9,11 @@
           <div class="title">
             {{content.title}}
           </div>
-          <div class="subtitle">
-            {{content.subtitle}}
-          </div>
+          <div class="tags">
+          <span v-for="(tag, index) in tags">
+            {{tag}}<span v-if="index+1 < tags.length">, </span>
+          </span>
+        </div>
           <div class="teaser">
             <markdown :value="content.teaser"></markdown>
           </div>
@@ -26,8 +28,10 @@
         <div class="title">
           {{content.title}}
         </div>
-        <div class="subtitle">
-          {{content.subtitle}}
+        <div class="tags">
+          <span v-for="(tag, index) in tags">
+            {{tag}}<span v-if="index+1 < tags.length">, </span>
+          </span>
         </div>
         <div class="teaser">
           <markdown :value="content.teaser"></markdown>
@@ -43,6 +47,9 @@ export default {
   computed: {
     content() {
       return this.blok.content;
+    },
+    tags() {
+      return this.blok.tag_list;
     }
   }
 }
@@ -79,12 +86,20 @@ a {
       font-size: 1.8rem;
       margin-bottom: .4em;
     }
+    .tags {
+      font-size: 0.9rem;
+      color: $color-blue;
+      text-transform: uppercase;
+      margin-bottom: .8rem;
+      letter-spacing: 0.05em;
+      font-weight: 400;
+    }
     .subtitle {
       margin:  0 0 1em 0;
     }
     .teaser {
       font-family: $font-mono;
-      line-height: 1.4;
+      line-height: 2.2;
       font-size: 0.9rem;
     }
     .cta {

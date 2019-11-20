@@ -12,8 +12,21 @@
       </div>
     </div>
     <div class="body">
-      <div class="description">
-        <markdown :value="machine.description"></markdown>
+      <div class="inner-body">
+        <div class="description">
+          <markdown :value="machine.description"></markdown>
+        </div>
+        <div class="machine-list" v-if="hasUser">
+          <div class="machine-item" v-for="m in machine.machine_status_items">
+            <machine-status v-if="!singleMachine" class="status" :id="m.fabmanId"></machine-status>
+            <machine-calendar :id="m.fabmanId"></machine-calendar>
+          </div>
+        </div>
+        <div v-else class="machine-list">
+          <div class="machine-list-warning">
+            Du musst angemeldet sein um die Verfügbarkeit der Maschinen sehen zu können!
+          </div>
+        </div>
       </div>
     </div>
     <div class="body">
@@ -34,11 +47,15 @@
 </template>
 
 <script>
+import MachineStatus from '@/components/MachineStatus';
+import MachineCalendar from '@/components/MachineCalendar';
 import MachineHeader from '@/components/MachineHeader';
 
 export default {
   components: {
-    MachineHeader
+    MachineHeader,
+    MachineStatus,
+    MachineCalendar,
   },
   props: ['story'],
   computed: {
@@ -48,16 +65,15 @@ export default {
     tags() {
       return this.story.tag_list;
     },
+    hasUser() {
+      return !!this.$store.state.user;
+    },
+    singleMachine() {
+      return this.machine && this.machine.machine_status_items && this.machine.machine_status_items.length == 1;
+    },
     images() {
       return {
         items: this.machine.images
-      }
-    },
-    teaser() {
-      return {
-        text: this.machine.teaser,
-        title: this.machine.title,
-        image: this.machine.image
       }
     }
   }
@@ -119,6 +135,7 @@ export default {
     margin: 0 4%;
     margin-bottom: 1em;
     .headline {
+      text-transform: uppercase;
       font-family: $font-primary;
       font-weight: 600;
       font-size: 1.8em;
@@ -130,15 +147,23 @@ export default {
       line-height: 1.24;
       margin-bottom: 4vh;
     }
-    .teaser {
-      font-weight: bold;
-    }
     .description {
       font-size: .9rem;
-      line-height: 1.4;
+      line-height: 2.2;
       margin-bottom: 4vh;
-      @include media-breakpoint-up(md) {
-        width: 70%;
+    }
+    .inner-body {
+      display: flex;
+      .description {
+        flex: 2;
+      }
+      .machine-list {
+        margin-top: 3em;
+        flex: 1;
+        .machine-list-warning {
+          padding: 10px;
+          background-color: $color-yellow;
+        }
       }
     }
     .link-list {

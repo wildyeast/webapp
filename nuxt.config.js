@@ -102,7 +102,6 @@ module.exports = {
 },
   css: [
     '@/assets/scss/styles.scss',
-    '@/assets/scss/vueDatePick.scss',
     'swiper/dist/css/swiper.css',
   ],
   /*

@@ -75,6 +75,13 @@ const createStore = () => {
         }
         return Promise.all(chain);
       },
+      getBookings({ state }, id) {
+        return axios.get(`${origin}/.netlify/functions/getBookings\?id\=${id}`).then((r) => {
+          return r.data;
+        }).catch((err) => {
+          console.log(err);
+        });
+      },
       checkStatus({ state }, id) {
         return axios.get(`${origin}/.netlify/functions/checkStatus\?id\=${id}`).then((r) => {
           return r.data;
