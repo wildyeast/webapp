@@ -307,7 +307,7 @@ const createStore = () => {
           cv: state.cacheVersion,
           resolve_relations: 'workshop',
           sort_by: 'content.starttime:asc',
-          per_page: 50
+          per_page: 100
         }).then((res) => {
           let workshopdates = res.data.stories;
           let workshops = {};
@@ -330,7 +330,7 @@ const createStore = () => {
           version: version,
           cv: state.cacheVersion,
           sort_by: 'content.starttime:asc',
-          per_page: 50
+          per_page: 100
         }).then((res) => {
           return res.data.stories;
         }).catch((res) => {
