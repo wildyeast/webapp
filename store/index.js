@@ -329,7 +329,8 @@ const createStore = () => {
           ...filters,
           version: version,
           cv: state.cacheVersion,
-          sort_by: 'content.starttime:asc'
+          sort_by: 'content.starttime:asc',
+          per_page: 50
         }).then((res) => {
           return res.data.stories;
         }).catch((res) => {
