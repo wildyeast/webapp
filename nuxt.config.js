@@ -34,7 +34,7 @@ module.exports = {
       pathRewrite: {'^/.netlify/functions': ''},
     },
   },
-  modules: [
+  buildModules: [
     ['storyblok-nuxt', { accessToken: storyblokToken, cacheProvider: 'memory' }],
     '@nuxtjs/proxy',
     ['@nuxtjs/google-analytics', {
