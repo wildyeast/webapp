@@ -256,7 +256,7 @@ export default {
         }
 
         @include media-breakpoint-up(xl) {
-          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-columns: 1fr 1fr 1fr 1fr;
         }
         grid-column-gap: 2vw;
         grid-row-gap: 2vw;
