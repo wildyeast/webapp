@@ -263,8 +263,11 @@ export default {
       }
       flex: 3;
       .list-item {
-        width: 80%;
-        max-width: 25em;
+        min-width: 150px;
+        padding: 0 30px;
+        @include media-breakpoint-up(lg) {
+          min-width: 200px;
+        }
       }
       .list-enter-active, .list-leave-active {
         transition: all 0.5s;
