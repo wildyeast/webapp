@@ -12,6 +12,9 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'GRAND GARAGE webapp' }
     ],
+      script: [
+          { hid: 'stripe', src: 'https://js.stripe.com/v3/', defer: true }
+      ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
       {
