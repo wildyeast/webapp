@@ -83,7 +83,7 @@ a {
     padding: 20px 0;
     .title {
       font-family: $font-secondary;
-      font-size: 1.8rem;
+      font-size: 1.2rem;
       margin-bottom: .4em;
     }
     .tags {
