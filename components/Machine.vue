@@ -20,7 +20,7 @@
         -->
         <div class="machine-list" v-if="hasUser">
           <div class="machine-item" v-for="m in machine.machine_status_items">
-            <machine-status v-if="!singleMachine" class="status" :id="m.fabmanId"></machine-status>
+            <machine-status v-if="!singleMachine" class="status" :id="m.fabmanId" :name="m.name"></machine-status>
             <machine-calendar :id="m.fabmanId"></machine-calendar>
           </div>
         </div>
@@ -164,6 +164,7 @@ export default {
         flex: 1;
         display: flex;
         flex-direction: row;
+        justify-content: space-around;
         .machine-item {
           max-width: 750px;
           flex: 1;

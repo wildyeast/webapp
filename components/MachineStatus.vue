@@ -1,5 +1,8 @@
 <template>
   <div class="machine-status" :style="{ 'background-color': color }">
+    <div class="machine-name" v-if="name">
+      {{name}}
+    </div>
     <div class="resource" v-if="resource">
       <div v-if="resource.state == 'active'">
         <div v-if="resource.offline">
@@ -32,7 +35,7 @@ export default {
       resource: null
     }
   },
-  props: ['id'],
+  props: ['id', 'name'],
   created() {
     this.$store.dispatch('checkStatus', this.id).then((r) => {
       this.resource = r;
@@ -65,6 +68,10 @@ export default {
 
 .machine-status {
   padding: 10px;
+  .machine-name {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
   .resource {
     padding: 10px;
     font-weight: bold;
