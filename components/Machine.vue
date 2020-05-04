@@ -13,9 +13,11 @@
     </div>
     <div class="body">
       <div class="inner-body">
+        <!--
         <div class="description">
           <markdown :value="machine.description"></markdown>
         </div>
+        -->
         <div class="machine-list" v-if="hasUser">
           <div class="machine-item" v-for="m in machine.machine_status_items">
             <machine-status v-if="!singleMachine" class="status" :id="m.fabmanId"></machine-status>
@@ -160,7 +162,14 @@ export default {
       .machine-list {
         margin-top: 3em;
         flex: 1;
+        display: flex;
+        flex-direction: row;
+        .machine-item {
+          max-width: 750px;
+          flex: 1;
+        }
         .machine-list-warning {
+          max-width: 400px;
           padding: 10px;
           background-color: $color-yellow;
         }
