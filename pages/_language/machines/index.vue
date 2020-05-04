@@ -256,15 +256,18 @@ export default {
         }
 
         @include media-breakpoint-up(xl) {
-          grid-template-columns: 1fr 1fr 1fr;
+          grid-template-columns: 1fr 1fr 1fr 1fr;
         }
         grid-column-gap: 2vw;
         grid-row-gap: 2vw;
       }
       flex: 3;
       .list-item {
-        width: 80%;
-        max-width: 25em;
+        min-width: 150px;
+        padding: 0 30px;
+        @include media-breakpoint-up(lg) {
+          min-width: 200px;
+        }
       }
       .list-enter-active, .list-leave-active {
         transition: all 0.5s;
