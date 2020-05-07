@@ -91,6 +91,9 @@ export default {
       .list-item {
         min-width: 150px;
         padding: 0 30px;
+        .machine-list-item {
+          margin-bottom: 0;
+        }
       }
       .list-enter-active, .list-leave-active {
         transition: all 0.5s;
