@@ -278,6 +278,25 @@ const createStore = () => {
         });
         return { workshop, dates }
       },
+      findStatusMachines ({state}) {
+        return this.$storyapi.get(`cdn/stories`, {
+          filter_query: {
+            'component': {
+              'in': 'machine'
+            },
+            'machine_status_items': {
+              'is': 'not_empty_array'
+            }
+          },
+          version: version,
+          cv: state.cacheVersion,
+          per_page: 150
+        }).then((res) => {
+          return res.data;
+        }).catch((res) => {
+          console.log(res);
+        });
+      },
       findMachines ({state}, filters) {
         return this.$storyapi.get(`cdn/stories`, {
           ...filters,

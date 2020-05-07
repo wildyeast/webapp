@@ -36,6 +36,7 @@ import CorporateContent from '~/components/CorporateContent.vue'
 import EventListItem from '~/components/EventListItem.vue'
 
 import MachineListItem from '~/components/MachineListItem.vue'
+import MachineStatusListItem from '~/components/MachineStatusListItem.vue'
 import Machine from '~/components/Machine.vue'
 import JobTeaser from '~/components/JobTeaser.vue'
 import JobList from '~/components/JobList.vue'
@@ -108,6 +109,7 @@ Vue.component('package', Package)
 Vue.component('training', Training)
 
 Vue.component('machine-list-item', MachineListItem)
+Vue.component('machine-status-list-item', MachineStatusListItem)
 Vue.component('machine', Machine)
 Vue.component('job-teaser', JobTeaser)
 Vue.component('job-list', JobList)
