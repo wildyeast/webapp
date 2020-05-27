@@ -1,6 +1,12 @@
 <template>
   <div class="section">
-    <h2>Trainings</h2>
+    <h2>Unterweisungen</h2>
+    <ul class="item-list" v-if="courses">
+      <li v-for="c in courses"><course :course="c" /></li>
+    </ul>
+    <div v-else>
+    </div>
+    <h2>Fabman Trainings</h2>
     <ul class="item-list" v-if="user.trainings && user.trainings.length > 0">
       <li v-for="t in user.trainings"><training :userTraining="t" /></li>
     </ul>
@@ -28,6 +34,12 @@ export default {
   methods: {
   },
   computed: {
+    memberCourses() {
+      return this.$store.state.memberCourses;
+    },
+    courses() {
+      return this.$store.state.courses;
+    },
     user() {
       return this.$store.state.user;
     },

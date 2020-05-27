@@ -14,6 +14,8 @@ let webAuth = new auth0.WebAuth({
   redirectUri:  origin + '/auth'
 });
 
+let connector;
+
 const version = process.env.NODE_ENV == 'development' ? 'draft' : 'published';
 
 const createStore = () => {
@@ -27,8 +29,13 @@ const createStore = () => {
       user: null,
       auth: null,
       fabman: null,
+      courses: null,
+      memberCourses: null,
     },
     getters: {
+      getMemberCourseById: (state) => (id) => {
+        return state.memberCourses.find(c => c.course_id === id);
+      },
       getPackageById: (state) => (id) => {
         return state.fabman.packages.find(p => p.id === id);
       },
@@ -48,6 +55,12 @@ const createStore = () => {
       },
       setFabman (state, data) {
         state.fabman = data;
+      },
+      setCourses (state, data) {
+        state.courses = data;
+      },
+      setMemberCourses (state, data) {
+        state.memberCourses = data;
       },
       setSettings (state, settings) {
         state.settings = settings;
@@ -74,6 +87,16 @@ const createStore = () => {
           }
         }
         return Promise.all(chain);
+      },
+      getQuiz({state }, id) {
+        let params = {
+          course_id: id
+        }
+        return connector.get('/courses/get-quiz', { params }).then((r) => {
+          if (r.data.success) {
+            return r.data.data
+          }
+        });
       },
       getBookings({ state }, id) {
         return axios.get(`${origin}/.netlify/functions/getBookings\?id\=${id}`).then((r) => {
@@ -127,6 +150,11 @@ const createStore = () => {
                 }
                 setToken(authResult.accessToken);
                 commit('setAuth', auth);
+                connector = axios.create({
+                  baseURL: 'https://connector.grandgarage.eu/api/',
+                  headers: {'Authorization': `Bearer ${auth.accessToken}`}
+                });
+                dispatch('getCourses');
                 resolve();
               }
             });
@@ -157,6 +185,13 @@ const createStore = () => {
         commit('setAuth', null)
         unsetToken();
       },
+      startCourse({ commit }, context) {
+        return connector.post('/courses/start-course', context).then((r) => {
+          if (r.data.success) {
+            return r.data.data;
+          }
+        });
+      },
       loginUser({ commit }, context) {
         return new Promise((resolve, reject) => {
           webAuth.login({
@@ -184,6 +219,23 @@ const createStore = () => {
       },
       setSidebar({state}, value) {
         state.sidebar = value;
+      },
+      getCourses({ state, commit }, id) {
+        if (!state.auth) return null;
+
+        let allCourses = connector.get('/courses/get-courses');
+        let memberCourses = connector.get('/courses/get-member-courses');
+
+        return Promise.all([allCourses, memberCourses]).then((r) => {
+          let d0 = r[0].data;
+          let d1 = r[1].data;
+          if (d0.success && d1.success) {
+            commit('setCourses', d0.data);
+            commit('setMemberCourses', d1.data);
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
       },
       loadTags ({state}) {
         return this.$storyapi.get(`cdn/tags`, {
