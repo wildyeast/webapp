@@ -1,35 +1,46 @@
 <template>
-  <section class="">
+  <section class="course-slug">
     <div v-if="quiz && !done">
       <h2>{{quiz.name}}</h2>
-      <p>{{quiz.description}}</p>
       <a :href="quiz.slides_url" target="_blank">zu den Folien</a>
+      <p>{{quiz.description}}</p>
       <div>
         <div class="question" v-for="(q, i) in quiz.quiz_questions" v-if="i === activeQuestion">
-          <div class="question">
-            <h3>{{q.title}}</h3>
-            <p>{{q.description}}</p>
-            <div class="answers">
-              <div class="answer">
+          <div class="question-header">
+            <img :src="q.imagePath" alt=""/>
+            <div class="title">
+              <h3>{{q.title}}</h3>
+              <p>{{q.description}}</p>
+            </div>
+          </div>
+          <div class="answers">
+            <div class="answer">
+              <input type="checkbox" v-model="c1" name="" id="choice1"/>
+              <label for="choice1">
                 <img :src="q.choice1ImagePath" alt=""/>
-                <input type="checkbox" v-model="c1" name="" id="choice1"/>
-                <label for="choice1">{{q.choice_1_text}}</label>
-              </div>
-              <div class="answer">
+                <p>{{q.choice_1_text}}</p>
+              </label>
+            </div>
+            <div class="answer">
+              <input type="checkbox" v-model="c2" name="" id="choice2"/>
+              <label for="choice2">
                 <img :src="q.choice2ImagePath" alt=""/>
-                <input type="checkbox" v-model="c2" name="" id="choice2"/>
-                <label for="choice2">{{q.choice_2_text}}</label>
-              </div>
-              <div class="answer">
+                {{q.choice_2_text}}
+              </label>
+            </div>
+            <div class="answer">
+              <input type="checkbox" v-model="c3" name="" id="choice3"/>
+              <label for="choice3">
                 <img :src="q.choice3ImagePath" alt=""/>
-                <input type="checkbox" v-model="c3" name="" id="choice3"/>
-                <label for="choice3">{{q.choice_3_text}}</label>
-              </div>
-              <div class="answer">
+                {{q.choice_3_text}}
+              </label>
+            </div>
+            <div class="answer">
+              <input type="checkbox" v-model="c4" name="" id="choice4"/>
+              <label for="choice4">
                 <img :src="q.choice4ImagePath" alt=""/>
-                <input type="checkbox" v-model="c4" name="" id="choice4"/>
-                <label for="choice4">{{q.choice_4_text}}</label>
-              </div>
+                {{q.choice_4_text}}
+              </label>
             </div>
           </div>
           <button @click="saveAnswer(q.id)" class="">weiter</button>
@@ -117,13 +128,44 @@ export default {
 
 
 <style lang="scss" scoped>
-.workshop {
-  .info {
-    display: flex;
-    justify-content: center;
-    padding: 20px 100px;
-    .markdown {
+@import "@/assets/scss/styles.scss";
+
+.course-slug {
+  @include margin-page-wide();
+  .question {
+    .question-header {
+      display: flex;
+      img {
+        max-height: 20vh;
+        flex: 1;
+      }
+      .title {
+        flex: 3;
+        padding: 0 4vw;
+      }
+    }
+    .answers {
+      .answer {
+        display: flex;
+        padding: 4vh 0;
+        align-items: center;
+        input[type="checkbox"] {
+          margin: 2vw;
+          transform: scale(2);
+          padding: 10px;
+        }
+        label {
+          flex: 1;
+          img {
+            max-height: 20vh;
+          }
+          p {
+            display: block;
+          }
+        }
+      }
     }
   }
 }
+
 </style>
