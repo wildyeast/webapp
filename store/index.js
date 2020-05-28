@@ -88,6 +88,10 @@ const createStore = () => {
         }
         return Promise.all(chain);
       },
+      saveQuiz({state }, data) {
+        return connector.post('/courses/save-quiz', data).then((r) => {
+        });
+      },
       getQuiz({state }, id) {
         let params = {
           course_id: id
