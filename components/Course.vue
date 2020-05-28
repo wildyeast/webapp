@@ -11,7 +11,7 @@
         <span>gestartet am: {{createdDate}}</span>
         <span>Praxistest: {{!!memberCourse.manual_activation}}</span>
         <span>Online-Quiz: {{!!memberCourse.is_valid}}</span>
-        <div v-if="!memberCourse.is_valid">
+        <div v-if="!memberCourse.is_valid || true">
           <button class="" @click="takeQuiz">Quiz starten</button>
         </div>
       </div>
@@ -30,7 +30,9 @@ export default {
     },
     startCourse() {
       this.$store.dispatch("startCourse", { course_id: this.course.id }).then((memberCourse) => {
-        takeQuiz();
+        this.$store.dispatch("getMemberCourses").then(() => {
+          this.takeQuiz();
+        });
       });
     }
   },

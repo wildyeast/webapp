@@ -90,6 +90,9 @@ const createStore = () => {
       },
       saveQuiz({state }, data) {
         return connector.post('/courses/save-quiz', data).then((r) => {
+          if (r.data.success) {
+            return r.data.data;
+          }
         });
       },
       getQuiz({state }, id) {
@@ -159,6 +162,7 @@ const createStore = () => {
                   headers: {'Authorization': `Bearer ${auth.accessToken}`}
                 });
                 dispatch('getCourses');
+                dispatch('getMemberCourses');
                 resolve();
               }
             });
@@ -224,18 +228,21 @@ const createStore = () => {
       setSidebar({state}, value) {
         state.sidebar = value;
       },
+      getMemberCourses({ state, commit }, id) {
+        if (!state.auth) return null;
+
+        return connector.get('/courses/get-member-courses').then((r) => {
+          if (r.data.success) {
+            commit('setMemberCourses', r.data.data);
+          }
+        });
+      },
       getCourses({ state, commit }, id) {
         if (!state.auth) return null;
 
-        let allCourses = connector.get('/courses/get-courses');
-        let memberCourses = connector.get('/courses/get-member-courses');
-
-        return Promise.all([allCourses, memberCourses]).then((r) => {
-          let d0 = r[0].data;
-          let d1 = r[1].data;
-          if (d0.success && d1.success) {
-            commit('setCourses', d0.data);
-            commit('setMemberCourses', d1.data);
+        return connector.get('/courses/get-courses').then((r) => {
+          if (r.data.success) {
+            commit('setCourses', r.data.data);
           }
         }).catch((err) => {
           console.log(err);
