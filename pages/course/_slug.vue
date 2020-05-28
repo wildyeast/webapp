@@ -18,28 +18,28 @@
               <input type="checkbox" v-model="c1" name="" id="choice1"/>
               <label for="choice1">
                 <img :src="q.choice1ImagePath" alt=""/>
-                <p>{{q.choice_1_text}}</p>
+                <div>{{q.choice_1_text}}</div>
               </label>
             </div>
             <div class="answer">
               <input type="checkbox" v-model="c2" name="" id="choice2"/>
               <label for="choice2">
                 <img :src="q.choice2ImagePath" alt=""/>
-                {{q.choice_2_text}}
+                <div>{{q.choice_2_text}}</div>
               </label>
             </div>
             <div class="answer">
               <input type="checkbox" v-model="c3" name="" id="choice3"/>
               <label for="choice3">
                 <img :src="q.choice3ImagePath" alt=""/>
-                {{q.choice_3_text}}
+                <div>{{q.choice_3_text}}</div>
               </label>
             </div>
             <div class="answer">
               <input type="checkbox" v-model="c4" name="" id="choice4"/>
               <label for="choice4">
                 <img :src="q.choice4ImagePath" alt=""/>
-                {{q.choice_4_text}}
+                <div>{{q.choice_4_text}}</div>
               </label>
             </div>
           </div>

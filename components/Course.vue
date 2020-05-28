@@ -11,7 +11,7 @@
         <span>gestartet am: {{createdDate}}</span>
         <span>Praxistest: {{!!memberCourse.manual_activation}}</span>
         <span>Online-Quiz: {{!!memberCourse.is_valid}}</span>
-        <div v-if="!memberCourse.is_valid || true">
+        <div v-if="!memberCourse.is_valid">
           <button class="" @click="takeQuiz">Quiz starten</button>
         </div>
       </div>
