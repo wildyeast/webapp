@@ -2,6 +2,7 @@
   <section class="course-slug">
     <div v-if="quiz && !done">
       <h2>{{quiz.name}}</h2>
+      <code v-if="activeQuestion < quiz.quiz_questions.length">{{activeQuestion+1}} / {{quiz.quiz_questions.length}}</code>
       <a :href="quiz.slides_url" target="_blank">zu den Folien</a>
       <p>{{quiz.description}}</p>
       <div>
@@ -43,11 +44,11 @@
               </label>
             </div>
           </div>
-          <button @click="saveAnswer(q.id)" class="">weiter</button>
+          <button @click="saveAnswer(q.id)" class="button">weiter</button>
         </div>
         <div v-if="activeQuestion >= quiz.quiz_questions.length">
-          Well done!
-          <button @click="saveQuiz()" class="">Antworten senden</button>
+          Last Step
+          <button @click="saveQuiz()" class="button">Antworten senden</button>
         </div>
       </div>
     </div>
@@ -99,6 +100,7 @@ export default {
 
       this.c1 = this.c2 = this.c3 = this.c4 = false;
       this.activeQuestion++;
+      window.scrollTo(0,0);
     },
     saveQuiz() {
       let data = {
@@ -131,6 +133,15 @@ export default {
 @import "@/assets/scss/styles.scss";
 
 .course-slug {
+  .button {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+    outline: none;
+    color: #FFF;
+    background-color: #ff6f00;
+  }
   @include margin-page-wide();
   .question {
     .question-header {
