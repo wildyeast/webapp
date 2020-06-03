@@ -92,10 +92,11 @@ export default {
             flex: 1;
             span {
               color: #000;
-              font-size: 24px;
+              font-size: 21px;
               margin-right: 20px;
             }
             svg {
+              padding-top: 2px;
             }
           }
       }
