@@ -12,6 +12,8 @@
           <NuxtLink to="/me/packages">Packages</NuxtLink>
           <NuxtLink to="/me/trainings">Unterweisungen</NuxtLink>
           <NuxtLink to="/me/shop">Material bestellen</NuxtLink>
+          <NuxtLink to="/me/invoices">Meine Rechnungen</NuxtLink>
+          <NuxtLink to="/me/log">Meine Nutzung</NuxtLink>
         </div>
         <div class="tab-section-content">
           <NuxtChild :key="$route.params.slug"></NuxtChild>
@@ -33,6 +35,9 @@ export default {
     getPackage(p) {
       let data = this.$store.getters.getPackageById(p.package);
       return { ...p, ...data };
+    },
+    getWorkshops(){
+      // let data = this.$store.getters.getMemberCourseById(p);
     },
     logout() {
       this.$store.dispatch('logout').then(() => {

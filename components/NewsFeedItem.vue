@@ -1,25 +1,30 @@
 <template>
-  <div v-editable="news" :class="'news-feed-item ' + type || 'vertical'">
+  <div v-editable="news.content" :class="'news-feed-item ' + type || 'vertical'">
     <div class="top">
-      <a :href="link" target="_blank">
-        <div class="header">
-          <p class="date" v-if="news.datetime">{{date}}</p>
-          <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
-        </div>
-        <img class="image" :src="$resizeImage(news.image, '600x0')">
-      </a>
-    </div>
+      <!--<a :href="link" target="_blank">-->
+        <Nuxt-link :to="{ path: './'+news.slug}" class="link">
+          <div class="header">
+            <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
+            <img v-if="news.content.source" class="source-img" :src="`/icons/${news.content.source}.png`">
+          </div>
+          <img class="image" :src="$resizeImage(news.content.image, '600x0')">
+        </Nuxt-link>
+      <!--</a>-->
+  </div>
 
-    <div class="bot">
-      <a :href="link" target="_blank">
+  <div class="bot">
+    <!--<a :href="link" target="_blank">
+      <nuxt-link :to="{ path: '/news/detail', query: { item: news }}" class="link">-->
+        <nuxt-link :to="{ path: './'+news.slug, query: { item: news }}" class="link">
         <div class="header">
-          <p class="date" v-if="news.datetime">{{date}}</p>
-          <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
+          <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
+          <img v-if="news.content.source" class="source-img" :src="`/icons/${news.content.source}.png`">
         </div>
 
-        <h4 class="title">{{news.title}}</h4>
-        <span class="text">{{news.text}}</span>
-      </a>
+        <h4 class="title">{{news.content.title}}</h4>
+        <span class="text">{{news.content.text}}</span>
+      </nuxt-link>
+      <!--</a>-->
     </div>
   </div>
 </template>
@@ -28,19 +33,33 @@
 import moment from "moment";
 
 export default {
-  props: ["news", "type"],
-  computed: {
-    date() {
-      return moment(this.news.datetime).locale('de-at').format('LL');
+  props: {
+    news : {},
+  },
+  data() {
+    return {
+      type: null,
+      link: null,
+      loading: false,
+      sources: [
+        { name: "magazin3", key: "m3", selected: false },
+        { name: "youtube", key: "yt", selected: false },
+        { name: "facebook", key: "fb", selected: false },
+        { name: "twitter", key: "tw", selected: false },
+        { name: "instagram", key: "ig", selected: false }
+      ],
+    };
+  },
+    created() {
+      // this.getStory();
     },
-    link() {
-      if (this.news.link && this.news.link.url) {
-        return this.news.link.url;
-      } else {
-        return '#'
+    computed: {
+      getStory(){
+          console.log(this.news);
       }
+    },
+    asyncData (context) {
     }
-  }
 };
 </script>
 

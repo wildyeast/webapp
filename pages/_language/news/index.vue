@@ -27,7 +27,7 @@
         </div>
         <div v-else-if="month.items && month.items.length > 1" class="items">
           <div class="item" v-for="(item, ii) in month.items" :key="ii">
-            <news-feed-item :news="item.content" :key="item.id" type="vertical" />
+            <news-feed-item :news="item" :key="item.id" type="vertical" />
           </div>
         </div>
       </div>
@@ -46,6 +46,7 @@ export default {
     Loading
   },
 
+  props: ['item'],
   data() {
     return {
       news: [],
@@ -74,6 +75,10 @@ export default {
     };
 
     return context.store.dispatch("findNews", filters).then(data => {
+      console.log(data.stories);
+      for (let i = 0; i < data.stories.length; i++){
+        // console.log(data.stories[i].full_slug);
+      }
       return { news: data.stories };
     });
   },

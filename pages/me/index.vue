@@ -30,7 +30,7 @@
         <div v-if="loading">
           Saving…
         </div>
-        <button v-else type="submit" class="input-button-primary">Speichern</button>
+        <button v-else type="submit" class="input-button-primary" @click="updateUser">Speichern</button>
       </div>
     </form>
   </div>

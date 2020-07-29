@@ -21,6 +21,7 @@
     "moment": "^2.24.0",
     "nuxt": "^2.10.0",
     "querystring": "^0.2.0",
+    "save-as": "^0.1.8",
     "storyblok-nuxt": "0.0.9",
     "validator": "^10.11.0",
     "vue-awesome-swiper": "^3.1.3",
