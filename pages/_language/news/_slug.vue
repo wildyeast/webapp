@@ -26,7 +26,7 @@
         </div>
         <div class="blogFeed-detail">
             <div class="left-content"></div>
-            <div class="right-content">
+            <div v-if="item.content.content" class="right-content">
                 <!--<div v-if="item.content.content">{{item.content.content}}</div>-->
                 <div v-html="richtext"></div>
             </div>
