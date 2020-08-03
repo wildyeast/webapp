@@ -27,7 +27,8 @@
         <div class="blogFeed-detail">
             <div class="left-content"></div>
             <div class="right-content">
-                <div v-if="item.content.content">{{item.content.content}}</div>
+                <!--<div v-if="item.content.content">{{item.content.content}}</div>-->
+                <div v-html="richtext"></div>
             </div>
         </div>
         <div v-if="item.content.links">
@@ -40,7 +41,7 @@
     import storyblokLivePreview from '@/mixins/storyblokLivePreview'
 
     export default {
-        props: ['blok'],
+        props: ['blok', 'text'],
         data() {
             return {
                 story: null,
@@ -69,6 +70,9 @@
                 return {
                     items: this.item.content.links,
                 }
+            },
+            richtext() {
+                return this.$storyapi.richTextResolver.render(this.$route.query.item.content.content);
             }
         },
     }
