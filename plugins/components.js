@@ -49,6 +49,8 @@ import SpotlightSlider from '~/components/SpotlightSlider.vue'
 import TextImage from '~/components/TextImage.vue'
 import Text from '~/components/Text.vue'
 
+import LinksSlideshow from "../components/LinksSlideshow";
+
 import LoginForm from '~/components/LoginForm.vue'
 import RegisterForm from '~/components/RegisterForm.vue'
 import RegisterSuccessForm from '~/components/RegisterSuccessForm.vue'
@@ -125,6 +127,7 @@ Vue.component('image-slideshow', ImageSlideshow)
 Vue.component('image-slideshow-blue', ImageSlideshowBlue)
 Vue.component('text-image', TextImage)
 Vue.component('text-blok', Text)
+Vue.component('links-slideshow', LinksSlideshow)
 
 Vue.component('faq-block', FAQBlock)
 Vue.component('faq-item', FAQItem)
