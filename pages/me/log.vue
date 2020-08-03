@@ -62,6 +62,44 @@
                 </div>
             </div>
         </div>
+        <h2>Meine Aktivitäten</h2>
+        <div class="activities">
+            <span v-if="activities.length < 1" class="activity-header">Hier kannst du bald eine Übersicht zur deinen Aktivitäten einsehen</span>
+            <div v-for="a in activities" class="resource-info">
+
+                <div class="info-row">
+                    <div class="info-block">
+                        <div class="col info">
+                            <span class="heading">Datum</span>
+                        </div>
+                    </div>
+                    <div class="info-block">
+                        <div class="col info">
+                            <span class="heading">Item</span>
+                        </div>
+                    </div>
+
+                    <div class="info-block">
+                        <div class="col info">
+                            <span class="heading">Preis</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <br/>
+                    <br/>
+                    <div class="info-block">
+                        <span class="resource-header">{{a.date | date }}</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="resource-header">{{a.item }}</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="resource-header">{{a.cost}} €</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </template>
@@ -80,11 +118,14 @@
                 resource_names: [],
                 items: [],
                 machines: [],
-                machine_items :[]
+                machine_items :[],
+                activities: [],
+                activity_item : {}
             }
         },
         created() {
             this.getLogs();
+            this.getActivity();
         },
         methods: {
             getLogs(){
@@ -137,14 +178,19 @@
                 }
                 console.log(this.empty);
             },
-            checkAmount(value) {
-                console.log(value);
-                if(value <= 1) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
+            getActivity() {
+                this.$store.dispatch('getCurrentActivities').then((data) => {
+                    console.log('activity: ');
+                    console.log(data.data);
+                    for (let i = 0; i < data.data.length; i ++ ){
+                        this.activity_item = {date : data.data[i].service_date, cost: data.data[i].cost_brutto, item: data.data[i].product.internal_name};
+                        this.activities.push(this.activity_item);
+                    }
+                    console.log(this.activities);
+
+                }).catch((err) => {
+                    console.log(err);
+                });
             }
         },
         computed: {
@@ -215,6 +261,76 @@
             color: #ff6f00;
         }
         .resource-header {
+            font-size: large;
+            font-weight: 700;
+        }
+
+        .heading{
+            font-weight: 500;
+        }
+    }
+
+    .activities {
+        width: 100%;
+        margin-top: 20px;
+        .resource-info {
+            margin-top: 4px;
+            padding: 10px;
+            background-color: #FFF;
+            &.soldOut {
+                color: #666;
+                fill: #666;
+                .col {
+                    &.info {
+                        text-decoration: line-through;
+                    }
+                }
+            }
+            .info-row {
+                @include media-breakpoint-down(md) {
+                    flex-direction: column;
+                }
+                line-height: 1.6;
+                font-family: $font-mono;
+                font-size: 0.9rem;
+                font-weight: bold;
+                margin: -8px;
+                display: flex;
+                .info-block {
+                    flex: 1;
+                    flex-direction: row;
+                    display: flex;
+                }
+                .col {
+                    padding: 8px;
+                    &.soldOut {
+                        color: $color-orange;
+                        text-transform: uppercase;
+                    }
+                    &.register {
+                        background-color: $color-orange;
+                        a {
+                            color: #FFF;
+                        }
+                    }
+                }
+                .spacer {
+                    flex: 1;
+                }
+                svg {
+                    height: 1em;
+                    width: 1em;
+                }
+            }
+        }
+        .paid {
+            color: #90ee90;
+        }
+
+        span.activity-header{
+            color: #ff6f00;
+        }
+        .activity-header {
             font-size: large;
             font-weight: 700;
         }
