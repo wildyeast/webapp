@@ -1,5 +1,12 @@
 <template>
   <section class="news-page">
+    <div class="general-header">
+      <div class="header-image">
+      </div>
+      <div class="header-title">
+        <h4>Blog</h4>
+      </div>
+    </div>
     <div class="header-title">
       Blog
     </div>
@@ -48,11 +55,13 @@
           { name: "facebook", key: "fb", selected: false },
           { name: "twitter", key: "tw", selected: false },
           { name: "instagram", key: "ig", selected: false }
-        ]
+        ],
+        url : null,
       };
     },
     created() {
       this.$watch("sources", this.update, { deep: true });
+      this.url = "/assets/img/footer-bg.jpg";
     },
     asyncData(context) {
       let filters = {
@@ -206,23 +215,46 @@
       display: flex;
     }
   }
-  .header-title {
-    display: flex;
-    font-size: 2.8rem;
-    @include media-breakpoint-down(lg) {
-      font-size: 2.35rem;
+  .general-header {
+    margin-left: 4%;
+    margin-right: 4%;
+    height: calc(50vh - 89px);
+    position: relative;
+    .header-image {
+      height: 100%;
+      background-size: cover;
+      background-position: center;
     }
-    @include media-breakpoint-down(xs) {
-      font-size: 1.8rem;
+    .header-title {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background-color: #FFF;
+      padding: 8vh 75px;
+      min-width: 50%;
+      h4 {
+        margin: 0;
+        font-size: 3rem;
+        font-family: 'Chakra Petch';
+        font-weight: bold;
+      }
     }
-    line-height: 1.3;
-    font-weight: bold;
-    font-family: $font-primary;
-    letter-spacing: .05em;
-    justify-content: center;
-    margin-top: 40px;
-    text-transform: uppercase;
-    width: 100%;
+
+    @include media-breakpoint-down(sm) {
+      height: auto;
+      .header-image {
+        height: 20vh;
+        background-image: url("/assets/img/footer-bg.jpg");
+      }
+      .header-title {
+        position: relative;
+        padding: 5%;
+        h4 {
+          font-size: 2rem;
+        }
+
+      }
+    }
   }
 </style>
 © 2020 GitHub, Inc.
