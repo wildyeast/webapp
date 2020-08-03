@@ -1,15 +1,8 @@
 <template>
   <section class="news-page">
-    <div class="source-list">
-      <checkbox
-              theme="news"
-              v-model="source.selected"
-              v-for="source in sources"
-              :key="source.name"
-              class="source"
-      >{{source.name}}</checkbox>
+    <div class="header-title">
+      Blog
     </div>
-
     <loading v-if="loading" class="loading"/>
 
     <div class="news-feed">
@@ -212,6 +205,24 @@
     .source-list {
       display: flex;
     }
+  }
+  .header-title {
+    display: flex;
+    font-size: 2.8rem;
+    @include media-breakpoint-down(lg) {
+      font-size: 2.35rem;
+    }
+    @include media-breakpoint-down(xs) {
+      font-size: 1.8rem;
+    }
+    line-height: 1.3;
+    font-weight: bold;
+    font-family: $font-primary;
+    letter-spacing: .05em;
+    justify-content: center;
+    margin-top: 40px;
+    text-transform: uppercase;
+    width: 100%;
   }
 </style>
 © 2020 GitHub, Inc.
