@@ -30,47 +30,47 @@
         <div v-if="loading">
           Saving…
         </div>
-        <button v-else type="submit" class="input-button-primary" @click="updateUser">Speichern</button>
+        <button v-else type="submit" class="input-button-primary">Speichern</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-export default {
-  middleware: 'authenticated',
-  data () {
-    return {
-      loading: false
-    }
-  },
-  created() {
-  },
-  methods: {
-    updateUser(event) {
-      this.loading = true;
-      this.$store.dispatch('updateUser', Object.assign({}, this.user.profile)).then(() => {
-        this.loading = false;
-        this.$notify({
-          title: 'Yay!',
-          text: 'Änderungen gespeichert.'
-        });
-      }).catch((e) => {
-        this.loading = false;
-        this.$notify({
-          title: 'Error',
-          type: 'error',
-          text: 'Ein Fehler ist aufgetreten.'
-        });
-      });
-    }
-  },
-  computed: {
-    user() {
-      return this.$store.state.user;
+  export default {
+    middleware: 'authenticated',
+    data () {
+      return {
+        loading: false
+      }
     },
+    created() {
+    },
+    methods: {
+      updateUser(event) {
+        this.loading = true;
+        this.$store.dispatch('updateUser', Object.assign({}, this.user.profile)).then(() => {
+          this.loading = false;
+          this.$notify({
+            title: 'Yay!',
+            text: 'Änderungen gespeichert.'
+          });
+        }).catch((e) => {
+          this.loading = false;
+          this.$notify({
+            title: 'Error',
+            type: 'error',
+            text: 'Ein Fehler ist aufgetreten.'
+          });
+        });
+      }
+    },
+    computed: {
+      user() {
+        return this.$store.state.user;
+      },
+    }
   }
-}
 </script>
 
 <style lang="scss">

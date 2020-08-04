@@ -1,8 +1,10 @@
 <template>
   <section class="course-slug">
-    <div v-if="quiz && !done">
-      <h2>{{quiz.name}}</h2>
-      <a :href="quiz.slides_url" target="_blank">zu den Folien</a>
+    <div v-if="quiz && !done" class="container">
+      <h2 class="name">{{quiz.name}}</h2>
+      <div class="separator"></div>
+      <p class="directions">Lies dir zuerst die Folien durch und beantworte dann die Fragen:</p>
+      <a :href="quiz.slides_url" target="_blank">zu den Folien <img class="slides" src="~/assets/img/icons/arrow-right-solid.svg"></a>
       <p>{{quiz.description}}</p>
       <div>
         <div class="question" v-for="(q, i) in quiz.quiz_questions" v-if="i === activeQuestion">
@@ -10,7 +12,7 @@
             <img :src="q.imagePath" alt=""/>
             <div class="title">
               <h3>{{q.title}}</h3>
-              <p>{{q.description}}</p>
+              <p v-if="q.description != '_'">{{q.description}}</p>
             </div>
           </div>
           <div class="answers">
@@ -43,17 +45,19 @@
               </label>
             </div>
           </div>
-          <button @click="saveAnswer(q.id)" class="">weiter</button>
+          <button @click="saveAnswer(q.id)" class="weiter"><span>weiter </span><img src="~/assets/img/icons/arrow-right-solid.svg"></button>
         </div>
         <div v-if="activeQuestion >= quiz.quiz_questions.length">
-          Well done!
-          <button @click="saveQuiz()" class="">Antworten senden</button>
+          Well done! Alle Fragen beantwortet.
+          <p></p>
+          <button @click="saveQuiz()" class="">Antworten absenden</button>
         </div>
       </div>
     </div>
     <div v-if="done">
-      <div v-if="score">
-        Gratuliere! Du hast den test bestanden!
+      <div v-if="score == 1">
+        <p>Gratuliere! Du hast den Test bestanden! <img src="~/assets/img/icons/check-solid.svg" class="done"></p>
+        <p>Als nächstes musst du nur noch den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
         <nuxt-link to="/me/trainings">Zurück</nuxt-link>
       </div>
       <div v-else>
@@ -86,6 +90,9 @@ export default {
   },
   mixins: [storyblokLivePreview],
   middleware: 'authenticated',
+  created() {
+    console.log(this.quiz);
+  },
   methods: {
     saveAnswer(ans) {
       let choices = [this.c1, this.c2, this.c3, this.c4];
@@ -106,6 +113,8 @@ export default {
         answers: this.answers
       };
       this.$store.dispatch("saveQuiz", data).then((result) => {
+        console.log("result ");
+        console.log(result);
         this.done = true;
         this.score = result.score;
 
@@ -131,7 +140,35 @@ export default {
 @import "@/assets/scss/styles.scss";
 
 .course-slug {
+  margin-top: 80px;
   @include margin-page-wide();
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  .name {
+    align-self: center;
+    background-color: $color-blue;
+    color: #fff;
+    margin: 0;
+    padding: 5px 10px;
+    text-align: center;
+    white-space: nowrap;
+    width: 25%;
+  }
+  .separator {
+    border-bottom: 2px dashed #0050ff;
+    width: 100%;
+    margin-top: -1em;
+    z-index: -1;
+  }
+  .directions {
+    margin-top: 40px;
+  }
+  .slides {
+    height: 1%;
+    width: 1%;
+  }
   .question {
     .question-header {
       display: flex;
@@ -145,6 +182,8 @@ export default {
       }
     }
     .answers {
+      display: flex;
+      justify-content: space-evenly;
       .answer {
         display: flex;
         padding: 4vh 0;
@@ -165,6 +204,27 @@ export default {
         }
       }
     }
+  }
+  .weiter {
+    display: flex;
+    height: 4%;
+    margin-right: 12%;
+    position: absolute;
+    right: 0;
+    width: 4%;
+      span {
+        height: 100%;
+        padding-top: 8px;
+      }
+      img {
+        height: 50%;
+        margin-top: 8px;
+        width: 50%;
+      }
+  }
+  .done {
+    height: 1%;
+    width: 1%;
   }
 }
 

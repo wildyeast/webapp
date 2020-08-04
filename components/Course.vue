@@ -4,14 +4,24 @@
       <div class="content">
         {{course.name}}
       </div>
-      <div v-if="!memberCourse">
+      <div class="course-info" v-if="!memberCourse">
         <button class="" @click="startCourse">Kurs starten</button>
       </div>
       <div v-else>
-        <span>gestartet am: {{createdDate}}</span>
-        <span>Praxistest: {{!!memberCourse.manual_activation}}</span>
-        <span>Online-Quiz: {{!!memberCourse.is_valid}}</span>
-        <div v-if="!memberCourse.is_valid">
+        <div class="course-info"><span>gestartet am: {{createdDate}}</span></div>
+        <div class="course-info"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
+          <span>Praxistest: </span>
+          <img v-if="memberCourse.manual_activation == 0" src="~/assets/img/icons/times-solid.svg" class="status">
+          <img v-if="memberCourse.manual_activation != 0" src="~/assets/img/icons/check-solid.svg" class="status"></div>
+        <div class="course-info"><!--<span>Online-Quiz: {{!!memberCourse.is_valid}}</span>-->
+          <span>Online-Quiz: </span>
+          <img v-if="memberCourse.is_valid == 0" src="~/assets/img/icons/times-solid.svg" class="status">
+          <img v-if="memberCourse.is_valid != 0" src="~/assets/img/icons/check-solid.svg" class="status">
+          <p v-if="memberCourse.is_valid != 0 && memberCourse.manual_activation == 0">Als nächstes musst du nur noch den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
+          <p v-if="memberCourse.is_valid != 0 && memberCourse.manual_activation != 0" style="color: green"> Der Kurs ASU ist abgeschlossen</p>
+
+        </div>
+        <div v-if="!memberCourse.is_valid" class="course-info">
           <button class="" @click="takeQuiz">Quiz starten</button>
         </div>
       </div>
@@ -38,6 +48,7 @@ export default {
   },
   computed: {
     memberCourse() {
+      console.log(this.$store.getters.getMemberCourseById(this.course.id));
       return this.$store.getters.getMemberCourseById(this.course.id);
     },
     createdDate() {
@@ -63,6 +74,9 @@ export default {
     .content {
       flex: 1;
     }
+    .course-info {
+      padding: 10px;
+    }
   }
   .footer {
     font-size: 0.8em;
@@ -70,4 +84,7 @@ export default {
     color: #333;
   }
 }
+  .status {
+    width: 5%;
+  }
 </style>
