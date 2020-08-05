@@ -13,15 +13,15 @@
             </div>
             <div class="right-content">
                 <div class="teaser">
-                    {{item.content.teaser}}
-                </div>
+                        {{item.content.teaser}}
+                 </div>
                 <div>
                     {{item.content.text}}
                 </div>
 
             </div>
         </div>
-        <div class="images" v-if="item.content.images">
+        <div class="images" v-if="item.content.images.length != 0">
             <image-slideshow :blok="images"></image-slideshow>
         </div>
         <div class="blogFeed-detail">
@@ -31,7 +31,7 @@
                 <div v-html="richtext"></div>
             </div>
         </div>
-        <div v-if="item.content.links">
+        <div v-if="item.content.links.length != 0">
             <links-slideshow :blok="links"></links-slideshow>
         </div>
     </div>
@@ -50,18 +50,21 @@
         },
         mixins: [storyblokLivePreview],
         asyncData(context) {
-            console.log(context);
+            // console.log(context);
             return context.store.dispatch('loadFullPage', context.route.fullPath).catch((e) => {
                 context.error({statusCode: e.response.status, message: e.response.statusText})
             });
         },
+        created() {
+            console.log(this.item.content.images);
+        },
         computed: {
             item() {
-                console.log(this.$route.query.item);
+                // console.log(this.$route.query.item);
                 return this.$route.query.item;
             },
             images() {
-                console.log(this.item.content.images);
+                // console.log(this.item.content.images);
                 return {
                     items: this.item.content.images,
                 }

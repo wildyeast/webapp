@@ -1,5 +1,5 @@
 <template>
-  <div v-editable="news.content" :class="'news-feed-item ' + type || 'vertical'">
+  <div v-editable="news.content" :class="'news-feed-item ' + type || 'vertical'" v-if="news.content">
     <div class="top">
       <!--<a :href="link" target="_blank">-->
       <Nuxt-link :to="{ path: './'+news.slug , query: { item: news }}" class="link">
@@ -22,7 +22,7 @@
         </div>
 
         <h4 class="title">{{news.content.title}}</h4>
-        <span class="text">{{news.content.text}}</span>
+        <span class="text">{{news.content.teaser}}</span>
       </nuxt-link>
       <!--</a>-->
     </div>
