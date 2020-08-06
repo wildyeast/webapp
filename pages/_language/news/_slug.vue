@@ -26,9 +26,9 @@
         </div>
         <div class="blogFeed-detail">
             <div class="left-content"></div>
-            <div v-if="item.content.content" class="right-content">
-                <!--<div v-if="item.content.content">{{item.content.content}}</div>-->
-                <div v-html="richtext"></div>
+            <div v-if="item.content.contentBloks" v-for="i in item.content.contentBloks" class="right-content">
+                <span v-if="i.text" class="content-text">{{i.text}}</span>
+                <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '700x0')" alt=""/></span>
             </div>
         </div>
         <div v-if="item.content.links.length != 0">
@@ -74,6 +74,11 @@
                     items: this.item.content.links,
                 }
             },
+            content() {
+                return {
+                    content: this.item.content.contentBloks.text,
+                }
+            },
             richtext() {
                 return this.$storyapi.richTextResolver.render(this.$route.query.item.content.content);
             }
@@ -92,6 +97,10 @@
         height: 100%;
         background-size: cover;
         background-position: 50%;
+        @include media-breakpoint-down(sm) {
+            height: 65%;
+            background-position: 0;
+        }
     }
     .header-title{
         position: absolute;
@@ -100,11 +109,17 @@
         background-color: #fff;
         padding: 75px;
         min-width: 50%;
+        @include media-breakpoint-down(sm) {
+            padding: 25px 10px;
+        }
         h4{
             margin: 0;
             font-size: 3rem;
             font-family: Chakra Petch;
             font-weight: 700;
+            @include media-breakpoint-down(sm) {
+                font-size: 2rem;
+            }
         }
     }
     .blogFeed-detail {
@@ -132,9 +147,16 @@
             position: relative;
             display: flex;
             align-items: flex-start;
+
             @include media-breakpoint-up(md) {
                 margin-left: 25%;
             }
+            img{
+                @include media-breakpoint-down(sm) {
+                    width: 100%;
+                }
+            }
+
             .teaser, .info-text {
                 font-weight: normal;
                 font-family: $font-primary;
@@ -160,7 +182,15 @@
                 padding: .7em .8em;
                 font-weight: 800;
             }
+            .content-text {
+                padding: 20px 0;
+            }
         }
+    }
+    .img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
     .images {
         margin: 40px;
