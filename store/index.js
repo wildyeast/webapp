@@ -299,6 +299,17 @@ const createStore = () => {
           console.log(res);
         });
       },
+      loadMachineItemById ({state}, id) {
+        let endpoint = `cdn/stories/${state.language}/machines/${id}`;
+        return this.$storyapi.get(endpoint, {
+          version: version,
+          cv: state.cacheVersion
+        }).then((res) => {
+          return res.data;
+        }).catch((res) => {
+          console.log(res);
+        });
+      },
       loadEventItem ({state}, slug) {
         let endpoint = `cdn/stories/${state.language}/events/${slug}`;
         return this.$storyapi.get(endpoint, {

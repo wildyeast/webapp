@@ -1,122 +1,128 @@
 <template>
-  <div v-editable="news" :class="'news-feed-item ' + type || 'vertical'">
+  <div v-editable="news.content" :class="'news-feed-item ' + type || 'vertical'" v-if="news.content">
     <div class="top">
-      <a :href="link" target="_blank">
+      <!--<a :href="link" target="_blank">-->
+      <Nuxt-link :to="{ path: './'+news.slug , query: { item: news }}" class="link">
         <div class="header">
-          <p class="date" v-if="news.datetime">{{date}}</p>
-          <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
+          <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
+          <img v-if="news.content.source" class="source-img" :src="`/icons/${news.content.source}.png`">
         </div>
-        <img class="image" :src="$resizeImage(news.image, '600x0')">
-      </a>
+        <img class="image" :src="$resizeImage(news.content.image, '600x0')">
+      </Nuxt-link>
+      <!--</a>-->
     </div>
 
     <div class="bot">
-      <a :href="link" target="_blank">
+      <!--<a :href="link" target="_blank">
+        <nuxt-link :to="{ path: '/news/detail', query: { item: news }}" class="link">-->
+      <nuxt-link :to="{ path: './'+news.slug, query: { item: news }}" class="link">
         <div class="header">
-          <p class="date" v-if="news.datetime">{{date}}</p>
-          <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
+          <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
+          <img v-if="news.content.source" class="source-img" :src="`/icons/${news.content.source}.png`">
         </div>
 
-        <h4 class="title">{{news.title}}</h4>
-        <span class="text">{{news.text}}</span>
-      </a>
+        <h4 class="title">{{news.content.title}}</h4>
+        <span class="text">{{news.content.teaser}}</span>
+      </nuxt-link>
+      <!--</a>-->
     </div>
   </div>
 </template>
 
 <script>
-import moment from "moment";
-
-export default {
-  props: ["news", "type"],
-  computed: {
-    date() {
-      return moment(this.news.datetime).locale('de-at').format('LL');
+  import moment from "moment";
+  export default {
+    props: {
+      news : {},
     },
-    link() {
-      if (this.news.link && this.news.link.url) {
-        return this.news.link.url;
-      } else {
-        return '#'
+    data() {
+      return {
+        type: null,
+        link: null,
+        loading: false,
+        sources: [
+          { name: "magazin3", key: "m3", selected: false },
+          { name: "youtube", key: "yt", selected: false },
+          { name: "facebook", key: "fb", selected: false },
+          { name: "twitter", key: "tw", selected: false },
+          { name: "instagram", key: "ig", selected: false }
+        ],
+      };
+    },
+    created() {
+      // this.getStory();
+    },
+    computed: {
+      getStory(){
+        console.log(this.news);
       }
+    },
+    asyncData (context) {
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/styles.scss";
-
-.news-feed-item {
-  margin-top: 69px;
-
-  a {
-    display: block;
-    width: 100%;
-    text-decoration: none;
-    color: #000;
-  }
-
-  .top .header {
-    display: flex;
-  }
-
-  .bot {
-    .title {
-      margin: 15px 0;
-      font-weight: bold;
-      font-size: 2rem;
-    }
-
-    .header {
-      display: none;
-    }
-
-    .text {
-      font-size: 1rem;
-      font-family: $font-mono;
-      line-height: 150%;
-    }
-  }
-
-  .header {
-    display: flex;
-    margin: 20px 0;
-
-    .source-img {
-      height: 1em;
-      width: auto;
-      margin: 0 20px;
-    }
-
-    p {
-      margin: 0;
-      font-size: 1rem;
-      font-family: $font-mono;
-    }
-  }
-
-  .image {
-    max-width: 100%;
-    max-height: 50vh;
-  }
-}
-
-@media (min-width: $mobile-large) {
+  @import "@/assets/scss/styles.scss";
   .news-feed-item {
-    .top .header {
-      display: none;
+    margin-top: 69px;
+    a {
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      color: #000;
     }
-    .bot .header {
+    .top .header {
       display: flex;
     }
+    .bot {
+      .title {
+        margin: 15px 0;
+        font-weight: bold;
+        font-size: 2rem;
+      }
+      .header {
+        display: none;
+      }
+      .text {
+        font-size: 1rem;
+        font-family: $font-mono;
+        line-height: 150%;
+      }
+    }
+    .header {
+      display: flex;
+      margin: 20px 0;
+      .source-img {
+        height: 1em;
+        width: auto;
+        margin: 0 20px;
+      }
+      p {
+        margin: 0;
+        font-size: 1rem;
+        font-family: $font-mono;
+      }
+    }
+    .image {
+      max-width: 100%;
+      max-height: 50vh;
+    }
   }
-
-  .horizontal {
-    display: grid;
-    grid-gap: 100px;
-    grid-template-columns: 1fr 3fr;
-    text-align: left;
+  @media (min-width: $mobile-large) {
+    .news-feed-item {
+      .top .header {
+        display: none;
+      }
+      .bot .header {
+        display: flex;
+      }
+    }
+    .horizontal {
+      display: grid;
+      grid-gap: 100px;
+      grid-template-columns: 1fr 3fr;
+      text-align: left;
+    }
   }
-}
 </style>
