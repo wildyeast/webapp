@@ -25,7 +25,6 @@
             <image-slideshow :blok="images"></image-slideshow>
         </div>
         <div class="blogFeed-detail">
-            <div class="left-content"></div>
             <div v-if="item.content.contentBloks" v-for="i in item.content.contentBloks" class="right-content">
                 <span v-if="i.text" class="content-text">{{i.text}}</span>
                 <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '700x0')" alt=""/></span>
@@ -138,6 +137,9 @@
         }
         .left-content {
             margin-top: 40px;
+            @include media-breakpoint-down(sm) {
+                margin-bottom: 20px;
+            }
             .info-block {
                 margin: 20px;
             }
@@ -165,7 +167,7 @@
                 @include media-breakpoint-down(sm) {
                     line-height: 1.4;
                     font-size: 1rem;
-                    margin: 0 0 0 5%
+                    margin: 0 0 20px 5%
                 }
             }
             .teaser {
