@@ -93,6 +93,9 @@ export default {
 
   .tab-section {
     display: flex;
+    @include media-breakpoint-down(sm) {
+      display: block;
+    }
     .tab-section-menu {
       padding-top: 20px;
       width: 200px;
@@ -113,6 +116,9 @@ export default {
     .tab-section-content {
       padding-left: 20px;
       flex: 3;
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+      }
     }
   }
 }

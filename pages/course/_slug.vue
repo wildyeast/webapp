@@ -20,32 +20,32 @@
               <input type="checkbox" v-model="c1" name="" id="choice1"/>
               <label for="choice1">
                 <img :src="q.choice1ImagePath" alt=""/>
-                <div>{{q.choice_1_text}}</div>
+                <div class="answer-text">{{q.choice_1_text}}</div>
               </label>
             </div>
             <div class="answer">
               <input type="checkbox" v-model="c2" name="" id="choice2"/>
               <label for="choice2">
                 <img :src="q.choice2ImagePath" alt=""/>
-                <div>{{q.choice_2_text}}</div>
+                <div class="answer-text">{{q.choice_2_text}}</div>
               </label>
             </div>
             <div class="answer">
               <input type="checkbox" v-model="c3" name="" id="choice3"/>
               <label for="choice3">
                 <img :src="q.choice3ImagePath" alt=""/>
-                <div>{{q.choice_3_text}}</div>
+                <div class="answer-text">{{q.choice_3_text}}</div>
               </label>
             </div>
             <div class="answer">
               <input type="checkbox" v-model="c4" name="" id="choice4"/>
               <label for="choice4">
                 <img :src="q.choice4ImagePath" alt=""/>
-                <div>{{q.choice_4_text}}</div>
+                <div class="answer-text">{{q.choice_4_text}}</div>
               </label>
             </div>
           </div>
-          <button @click="saveAnswer(q.id)" class="weiter"><span>weiter </span><img src="~/assets/img/icons/arrow-right-solid.svg"></button>
+          <button @click="saveAnswer(q.id)" class="weiter"><span>weiter </span><img class="arrow" src="~/assets/img/icons/arrow-right-solid.svg"></button>
         </div>
         <div v-if="activeQuestion >= quiz.quiz_questions.length">
           Well done! Alle Fragen beantwortet.
@@ -155,6 +155,9 @@ export default {
     text-align: center;
     white-space: nowrap;
     width: 25%;
+    @include media-breakpoint-down(sm) {
+      width: 75%;
+    }
   }
   .separator {
     border-bottom: 2px dashed #0050ff;
@@ -172,6 +175,9 @@ export default {
   .question {
     .question-header {
       display: flex;
+      @include media-breakpoint-down(sm) {
+        display: block;
+      }
       img {
         max-height: 20vh;
         flex: 1;
@@ -184,6 +190,9 @@ export default {
     .answers {
       display: flex;
       justify-content: space-evenly;
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
       .answer {
         display: flex;
         padding: 4vh 0;
@@ -202,16 +211,28 @@ export default {
             display: block;
           }
         }
+        .answer-text {
+          @include media-breakpoint-down(sm) {
+            padding: 10px;
+          }
+        }
+      }
+    }
+    .arrow {
+      @include media-breakpoint-down(sm) {
+        display: none;
       }
     }
   }
   .weiter {
-    display: flex;
-    height: 4%;
-    margin-right: 12%;
-    position: absolute;
-    right: 0;
-    width: 4%;
+    @include media-breakpoint-up(sm) {
+      display: flex;
+      height: 4%;
+      margin-right: 12%;
+      position: absolute;
+      right: 0;
+      width: 4%;
+    }
       span {
         height: 100%;
         padding-top: 8px;

@@ -71,11 +71,21 @@ export default {
     padding: 10px 0;
     color: $color-orange;
     display: flex;
+    @include media-breakpoint-down(sm) {
+      display: block;
+    }
     .content {
       flex: 1;
+      @include media-breakpoint-down(sm) {
+        border-bottom: 1px solid #d3d3d3;
+        padding: 10px 0;
+      }
     }
     .course-info {
       padding: 10px;
+      @include media-breakpoint-down(sm) {
+        padding: 10px 0;
+      }
     }
   }
   .footer {
