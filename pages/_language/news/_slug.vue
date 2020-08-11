@@ -133,7 +133,7 @@
             margin: 0 100px;
         }
         .teaser {
-            margin: 20px 0 20px 0;
+            margin: 20px 40px;
         }
         .left-content {
             margin-top: 40px;
@@ -185,7 +185,7 @@
                 font-weight: 800;
             }
             .content-text {
-                padding: 20px 0;
+                padding: 20px 40px;
             }
         }
     }

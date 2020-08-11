@@ -1,37 +1,36 @@
 <template>
-  <section class="news-page">
-    <div class="general-header">
-      <div class="header-image">
-      </div>
-      <div class="header-title">
-        <h4>Blog</h4>
-      </div>
-    </div>
-    <div class="header-title">
-      Blog
-    </div>
-    <loading v-if="loading" class="loading"/>
-
-    <div class="news-feed">
-      <div class="month" v-for="(month, mi) in items">
-        <div class="container">
-          <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="mi == 0">
-          <h1 class="title">{{month.label}}</h1>
+  <section>
+    <div class="team-wrapper">
+      <img class="blog-header-image" style="background-image: url('https://d33wubrfki0l68.cloudfront.net/eb296affd7b1c59df31b97b9543d7596ce47608f/ad947/_nuxt/img/ae62387.jpg')">
+      <div class="team">
+        <div class="headline">
+          <p>Blog</p>
         </div>
-        <div class="separator"/>
+        <div class="news-page">
+          <div class="news-feed">
+            <div class="month" v-for="(month, mi) in items">
+              <div class="container">
+                <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="mi == 0">
+                <h1 class="title">{{month.label}}</h1>
+              </div>
+              <div class="separator"/>
 
-        <div v-if="month.items && month.items.length == 1">
-          <div class="item" v-for="(item, ii) in month.items" :key="ii">
-            <news-feed-item :news="item.content" :key="item.id" type="horizontal" />
+              <div v-if="month.items && month.items.length == 1">
+                <div class="item" v-for="(item, ii) in month.items" :key="ii">
+                  <news-feed-item :news="item.content" :key="item.id" type="horizontal" />
+                </div>
+              </div>
+              <div v-else-if="month.items && month.items.length > 1" class="items">
+                <div class="item" v-for="(item, ii) in month.items" :key="ii">
+                  <news-feed-item :news="item" :key="item.id" type="vertical" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div v-else-if="month.items && month.items.length > 1" class="items">
-          <div class="item" v-for="(item, ii) in month.items" :key="ii">
-            <news-feed-item :news="item" :key="item.id" type="vertical" />
-          </div>
-        </div>
       </div>
     </div>
+
   </section>
 </template>
 
@@ -133,6 +132,112 @@
 
 <style lang="scss">
   @import "@/assets/scss/styles.scss";
+
+  .team-wrapper {
+    padding-left: 15%;
+    padding-top: 15%;
+    position: relative;
+
+    @media (max-width: $mobile-small) {
+      padding-left: 0;
+      padding-top: 200px;
+    }
+
+    .blog-header-image {
+     /*background-image: url("https://d33wubrfki0l68.cloudfront.net/eb296affd7b1c59df31b97b9543d7596ce47608f/ad947/_nuxt/img/ae62387.jpg");*/
+      background-size: contain;
+      background-repeat: no-repeat;
+      display: block;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      max-height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .team {
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+      background-color: #fff;
+
+      @media (max-width: $mobile-small) {
+        padding: 20px;
+      }
+
+      .headline {
+        font-weight: bold;
+        margin-bottom: 20px;
+        font-size: 3.2rem;
+        text-transform: uppercase;
+        .strike {
+          text-decoration: line-through;
+        }
+
+        @media (max-width: $mobile-small) {
+          font-size: 2.5rem;
+        }
+      }
+
+      .subline {
+        font-family: $font-mono;
+        font-size: 1.2rem;
+        margin-bottom: 80px;
+        line-height: 1.5;
+      }
+
+      .member-filters {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin: 10px;
+
+        .department-label {
+          margin: 0 5px;
+          background-color: #eee;
+          padding: 2px 5px;
+
+          label {
+            display: block;
+            user-select: none;
+            padding: 10px;
+          }
+
+          input {
+            display: none;
+          }
+
+          &.active {
+            background-color: $color-orange;
+            color: #fff;
+          }
+        }
+      }
+
+      .member-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+
+        .member-item {
+          width: 100%;
+        }
+
+        @media (min-width: $mobile-large) {
+          display: grid;
+        }
+      }
+    }
+  }
+
+  .image-footer {
+    height: 50vh;
+    background-size: cover;
+    background-position: center;
+  }
+
+
   .news-page {
     .no-results {
       width: 100%;
