@@ -3,11 +3,13 @@
     <div v-if="quiz && !done" class="container">
       <h2 class="name">{{quiz.name}}</h2>
       <div class="separator"></div>
-      <p class="directions">Lies dir zuerst die Folien durch und beantworte dann die Fragen:</p>
-      <a :href="quiz.slides_url" target="_blank">zu den Folien <img class="slides" src="~/assets/img/icons/arrow-right-solid.svg"></a>
-      <p>{{quiz.description}}</p>
-      <div>
-        <div class="question" v-for="(q, i) in quiz.quiz_questions" v-if="i === activeQuestion">
+      <div class="overview" v-if="overview">
+        <p class="directions">Lies dir zuerst die Folien durch und beantworte dann die Fragen:</p>
+        <a :href="quiz.slides_url" target="_blank">zu den Folien</a>
+        <p>{{quiz.description}}</p>
+      </div>
+      <div class="quiz">
+        <div class="question" v-for="(q, i) in quiz.quiz_questions" v-if="i === activeQuestion && !overview">
           <div class="question-header">
             <img :src="q.imagePath" alt=""/>
             <div class="title">
@@ -45,16 +47,17 @@
               </label>
             </div>
           </div>
-          <button @click="saveAnswer(q.id)" class="weiter"><span>weiter </span><img class="arrow" src="~/assets/img/icons/arrow-right-solid.svg"></button>
+          <button @click="saveAnswer(q.id)" class="weiter"><span>weiter </span></button>
         </div>
-        <div v-if="activeQuestion >= quiz.quiz_questions.length">
+        <button @click="startQuiz" class="" v-if="overview">Los geht's</button>
+        <div v-if="activeQuestion >= quiz.quiz_questions.length" class="quizDone">
           Well done! Alle Fragen beantwortet.
           <p></p>
           <button @click="saveQuiz()" class="">Antworten absenden</button>
         </div>
       </div>
     </div>
-    <div v-if="done">
+    <div v-if="done" class="wellDone">
       <div v-if="score == 1">
         <p>Gratuliere! Du hast den Test bestanden! <img src="~/assets/img/icons/check-solid.svg" class="done"></p>
         <p>Als nächstes musst du nur noch den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
@@ -85,7 +88,8 @@ export default {
       c2: false,
       c3: false,
       c4: false,
-      score: null
+      score: null,
+      overview: true,
     }
   },
   mixins: [storyblokLivePreview],
@@ -106,6 +110,7 @@ export default {
 
       this.c1 = this.c2 = this.c3 = this.c4 = false;
       this.activeQuestion++;
+      window.scrollTo(0, 0);
     },
     saveQuiz() {
       let data = {
@@ -120,6 +125,9 @@ export default {
 
         this.$store.dispatch("getMemberCourses");
       });
+    },
+    startQuiz() {
+      this.overview = false;
     }
   },
   async asyncData(context) {
@@ -175,8 +183,10 @@ export default {
   .question {
     .question-header {
       display: flex;
+      margin-top: 40px;
       @include media-breakpoint-down(sm) {
-        display: block;
+        flex-direction: column;
+        align-items: center;
       }
       img {
         max-height: 20vh;
@@ -185,6 +195,9 @@ export default {
       .title {
         flex: 3;
         padding: 0 4vw;
+        @include media-breakpoint-down(sm) {
+          text-align: center;
+        }
       }
     }
     .answers {
@@ -197,21 +210,31 @@ export default {
         display: flex;
         padding: 4vh 0;
         align-items: center;
+        @include media-breakpoint-up(sm) {
+          width: 50%;
+        }
         input[type="checkbox"] {
           margin: 2vw;
           transform: scale(2);
           padding: 10px;
         }
         label {
-          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
           img {
+            margin-bottom: 25px;
             max-height: 20vh;
+            width: 50%;
           }
           p {
             display: block;
           }
         }
         .answer-text {
+          @include media-breakpoint-up(sm) {
+            text-align: center;
+          }
           @include media-breakpoint-down(sm) {
             padding: 10px;
           }
@@ -227,26 +250,37 @@ export default {
   .weiter {
     @include media-breakpoint-up(sm) {
       display: flex;
-      height: 4%;
+      height: 3%;
       margin-right: 12%;
       position: absolute;
       right: 0;
-      width: 4%;
+      width: 3%;
+      justify-content: center;
+      align-items: center;
     }
-      span {
-        height: 100%;
-        padding-top: 8px;
-      }
-      img {
-        height: 50%;
-        margin-top: 8px;
-        width: 50%;
-      }
   }
   .done {
     height: 1%;
     width: 1%;
   }
 }
+  .quiz {
+    @include media-breakpoint-down(sm) {
+      margin-top: 50px;
+    }
+  }
+
+  .quizDone {
+    margin-top: 40px;
+    @include media-breakpoint-down(sm) {
+      margin-top: 20px;
+    }
+  }
+
+  .wellDone {
+    @include media-breakpoint-down(sm) {
+      padding: 20px;
+    }
+  }
 
 </style>

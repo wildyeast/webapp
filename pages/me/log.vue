@@ -1,5 +1,43 @@
 <template>
     <div>
+        <h2>Meine Aktivitäten</h2>
+        <div class="activities">
+            <span v-if="activities.length < 1" class="activity-header">Hier kannst du bald eine Übersicht zur deinen Aktivitäten einsehen</span>
+            <div v-for="a in activities" class="resource-info">
+
+                <div class="info-row">
+                    <div class="info-block">
+                        <div class="col info">
+                            <span class="heading">Datum</span>
+                        </div>
+                    </div>
+                    <div class="info-block">
+                        <div class="col info">
+                            <span class="heading">Item</span>
+                        </div>
+                    </div>
+
+                    <div class="info-block">
+                        <div class="col info">
+                            <span class="heading">Preis</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <br/>
+                    <br/>
+                    <div class="info-block">
+                        <span class="resource-header">{{a.date | date }}</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="resource-header">{{a.item }}</span>
+                    </div>
+                    <div class="info-block">
+                        <span class="resource-header">{{a.cost}} €</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <h2>Meine Maschinen Nutzung</h2>
         <div class="resources">
             <span v-if="machines.length < 1" class="resource-header">Hier kannst du bald eine Übersicht zur Nutzung der Maschinen einsehen</span>
@@ -62,44 +100,7 @@
                 </div>
             </div>
         </div>
-        <h2>Meine Aktivitäten</h2>
-        <div class="activities">
-            <span v-if="activities.length < 1" class="activity-header">Hier kannst du bald eine Übersicht zur deinen Aktivitäten einsehen</span>
-            <div v-for="a in activities" class="resource-info">
 
-                <div class="info-row">
-                    <div class="info-block">
-                        <div class="col info">
-                            <span class="heading">Datum</span>
-                        </div>
-                    </div>
-                    <div class="info-block">
-                        <div class="col info">
-                            <span class="heading">Item</span>
-                        </div>
-                    </div>
-
-                    <div class="info-block">
-                        <div class="col info">
-                            <span class="heading">Preis</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-row">
-                    <br/>
-                    <br/>
-                    <div class="info-block">
-                        <span class="resource-header">{{a.date | date }}</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="resource-header">{{a.item }}</span>
-                    </div>
-                    <div class="info-block">
-                        <span class="resource-header">{{a.cost}} €</span>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
 </template>

@@ -7,7 +7,7 @@
       <div class="course-info" v-if="!memberCourse">
         <button class="" @click="startCourse">Kurs starten</button>
       </div>
-      <div v-else>
+      <div v-else class="info">
         <div class="course-info"><span>gestartet am: {{createdDate}}</span></div>
         <div class="course-info"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
           <span>Praxistest: </span>
@@ -97,4 +97,9 @@ export default {
   .status {
     width: 5%;
   }
+.info {
+  @include media-breakpoint-up(sm) {
+    width: 25%;
+  }
+}
 </style>

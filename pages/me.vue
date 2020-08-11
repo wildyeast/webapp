@@ -13,7 +13,7 @@
           <NuxtLink to="/me/trainings">Unterweisungen</NuxtLink>
           <NuxtLink to="/me/shop">Material bestellen</NuxtLink>
           <NuxtLink to="/me/invoices">Meine Rechnungen</NuxtLink>
-          <NuxtLink to="/me/log">Meine Nutzung</NuxtLink>
+          <NuxtLink to="/me/log">Meine Aktivitäten</NuxtLink>
         </div>
         <div class="tab-section-content">
           <NuxtChild :key="$route.params.slug"></NuxtChild>
@@ -117,7 +117,7 @@ export default {
       padding-left: 20px;
       flex: 3;
       @include media-breakpoint-down(sm) {
-        padding: 0;
+        padding: 0 15px;
       }
     }
   }
