@@ -27,7 +27,7 @@
         <div class="blogFeed-detail">
             <div v-if="item.content.contentBloks" v-for="i in item.content.contentBloks" class="right-content">
                 <span v-if="i.text" class="content-text">{{i.text}}</span>
-                <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '700x0')" alt=""/></span>
+                <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '600x0')" alt=""/></span>
             </div>
         </div>
         <div v-if="item.content.links.length != 0">
@@ -55,7 +55,7 @@
             });
         },
         created() {
-            console.log(this.item.content.images);
+            // console.log(this.item.content.images);
         },
         computed: {
             item() {
@@ -102,12 +102,14 @@
         }
     }
     .header-title{
-        position: absolute;
         right: 0;
         bottom: 0;
         background-color: #fff;
         padding: 75px;
         min-width: 50%;
+        @include media-breakpoint-up(sm) {
+            position: absolute;
+        }
         @include media-breakpoint-down(sm) {
             padding: 25px 10px;
         }
@@ -185,7 +187,10 @@
                 font-weight: 800;
             }
             .content-text {
-                padding: 20px 40px;
+                padding: 20px 80px;
+                @include media-breakpoint-down(sm) {
+                    padding: 20px 20px;
+                }
             }
         }
     }
@@ -193,6 +198,10 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
+        @include media-breakpoint-down(sm) {
+            margin-left: 20px;
+            margin-right: 20px;
+        }
     }
     .images {
         margin: 40px;

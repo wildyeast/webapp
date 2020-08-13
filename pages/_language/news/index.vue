@@ -4,7 +4,7 @@
       <img class="blog-header-image" style="background-image: url('https://d33wubrfki0l68.cloudfront.net/eb296affd7b1c59df31b97b9543d7596ce47608f/ad947/_nuxt/img/ae62387.jpg')">
       <div class="team">
         <div class="headline">
-          <p>Blog</p>
+          <p class="headline-text">Blog</p>
         </div>
         <div class="news-page">
           <div class="news-feed">
@@ -71,7 +71,6 @@
         }
       };
       return context.store.dispatch("findNews", filters).then(data => {
-        console.log(data.stories);
         for (let i = 0; i < data.stories.length; i++){
           // console.log(data.stories[i].full_slug);
         }
@@ -85,7 +84,6 @@
           this.loading = false;
           this.news = data.stories;
         }).catch((e) => {
-          console.log(e);
           this.loading = false;
         });
       }
@@ -169,11 +167,10 @@
 
       .headline {
         font-weight: bold;
-        margin-bottom: 20px;
         font-size: 3.2rem;
         text-transform: uppercase;
-        .strike {
-          text-decoration: line-through;
+        .headline-text {
+          margin: 20px 20px;
         }
 
         @media (max-width: $mobile-small) {
@@ -239,6 +236,7 @@
 
 
   .news-page {
+    margin-top: -60px;
     .no-results {
       width: 100%;
       text-align: center;
