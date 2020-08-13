@@ -11,7 +11,7 @@
       <div class="quiz">
         <div class="question" v-for="(q, i) in quiz.quiz_questions" v-if="i === activeQuestion && !overview">
           <div class="question-header">
-            <img :src="q.imagePath" alt=""/>
+            <img v-if="q.imagePath != 'https://connector.grandgarage.eu/storage/'" :src="q.imagePath" alt=""/>
             <div class="title">
               <h3>{{q.title}}</h3>
               <p v-if="q.description != '_'">{{q.description}}</p>
@@ -21,28 +21,28 @@
             <div class="answer">
               <input type="checkbox" v-model="c1" name="" id="choice1"/>
               <label for="choice1">
-                <img :src="q.choice1ImagePath" alt=""/>
+                <img v-if="q.choice1ImagePath != undefined " :src="q.choice1ImagePath" alt=""/>
                 <div class="answer-text">{{q.choice_1_text}}</div>
               </label>
             </div>
             <div class="answer">
               <input type="checkbox" v-model="c2" name="" id="choice2"/>
               <label for="choice2">
-                <img :src="q.choice2ImagePath" alt=""/>
+                <img v-if="q.choice2ImagePath != undefined " :src="q.choice2ImagePath" alt=""/>
                 <div class="answer-text">{{q.choice_2_text}}</div>
               </label>
             </div>
             <div class="answer">
               <input type="checkbox" v-model="c3" name="" id="choice3"/>
               <label for="choice3">
-                <img :src="q.choice3ImagePath" alt=""/>
+                <img v-if="q.choice3ImagePath != undefined " :src="q.choice3ImagePath" alt=""/>
                 <div class="answer-text">{{q.choice_3_text}}</div>
               </label>
             </div>
             <div class="answer">
               <input type="checkbox" v-model="c4" name="" id="choice4"/>
               <label for="choice4">
-                <img :src="q.choice4ImagePath" alt=""/>
+                <img v-if="q.choice4ImagePath != undefined " :src="q.choice4ImagePath" alt=""/>
                 <div class="answer-text">{{q.choice_4_text}}</div>
               </label>
             </div>
@@ -58,16 +58,27 @@
       </div>
     </div>
     <div v-if="done" class="wellDone">
-      <div v-if="score == 1">
+      <h2 class="name">{{quiz.name}}</h2>
+      <div class="separator"></div>
+      <div class="result" v-if="score == 1">
         <p>Gratuliere! Du hast den Test bestanden! <img src="~/assets/img/icons/check-solid.svg" class="done"></p>
         <p>Als nächstes musst du nur noch den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
         <nuxt-link to="/me/trainings">Zurück</nuxt-link>
       </div>
-      <div v-else>
+      <div class="result" v-else>
         Oje, das hat leider nicht geklappt. Bitte lese dir nochmal die Unterlagen durch.
         <a :href="quiz.slides_url" target="_blank">zu den Folien</a>
         <br>
         <nuxt-link to="/me/trainings">Zurück</nuxt-link>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="slides">
+        <section>Single Horizontal Slide</section>
+        <section>
+          <section>Vertical Slide 1</section>
+          <section>Vertical Slide 2</section>
+        </section>
       </div>
     </div>
   </section>
@@ -75,6 +86,8 @@
 
 <script>
 import storyblokLivePreview from '@/mixins/storyblokLivePreview'
+import Reveal from 'reveal.js';
+/*import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';*/
 
 export default {
   data () {
@@ -139,6 +152,9 @@ export default {
     memberCourse() {
       return this.$store.getters.getMemberCourseById(Number(this.id));
     }
+  },
+  mounted() {
+    // Reveal.initialize();
   }
 }
 </script>
@@ -146,6 +162,8 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/styles.scss";
+@import "node_modules/reveal.js/dist/reveal.css";
+
 
 .course-slug {
   margin-top: 80px;
@@ -184,7 +202,9 @@ export default {
     .question-header {
       display: flex;
       margin-top: 40px;
+      margin-bottom: 20px;
       @include media-breakpoint-down(sm) {
+        margin-top: 20px;
         flex-direction: column;
         align-items: center;
       }
@@ -207,22 +227,26 @@ export default {
         flex-direction: column;
       }
       .answer {
+        background-color: #FFFFFF;
+        border: 1px solid #FFFFFF;
+        border-radius: 5%;
         display: flex;
-        padding: 4vh 0;
+        padding: 25px;
+        margin: 10px;
         align-items: center;
         @include media-breakpoint-up(sm) {
           width: 50%;
         }
         input[type="checkbox"] {
-          margin: 2vw;
-          transform: scale(2);
-          padding: 10px;
+
+          padding-right: 70%;
         }
         label {
           display: flex;
           flex-direction: column;
           align-items: center;
           img {
+            box-shadow: 5px 3px 5px #d3d3d3;
             margin-bottom: 25px;
             max-height: 20vh;
             width: 50%;
@@ -232,12 +256,8 @@ export default {
           }
         }
         .answer-text {
-          @include media-breakpoint-up(sm) {
-            text-align: center;
-          }
-          @include media-breakpoint-down(sm) {
-            padding: 10px;
-          }
+          text-align: center;
+          padding: 10px 20px;
         }
       }
     }
@@ -248,16 +268,9 @@ export default {
     }
   }
   .weiter {
-    @include media-breakpoint-up(sm) {
-      display: flex;
-      height: 3%;
-      margin-right: 12%;
-      position: absolute;
-      right: 0;
-      width: 3%;
-      justify-content: center;
-      align-items: center;
-    }
+    margin-top: 20px;
+    padding: 10px;
+
   }
   .done {
     height: 1%;
@@ -278,8 +291,13 @@ export default {
   }
 
   .wellDone {
+    flex-direction: column;
+    display: flex;
     @include media-breakpoint-down(sm) {
       padding: 20px;
+    }
+    .result {
+      margin-top: 20px;
     }
   }
 
