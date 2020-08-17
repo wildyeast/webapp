@@ -7,34 +7,32 @@
 
                 <div class="info-row">
                     <div class="info-block">
-                        <div class="col info">
+                        <div class="col log-info">
                             <span class="heading">Datum</span>
                         </div>
                     </div>
                     <div class="info-block">
-                        <div class="col info">
+                        <div class="col log-info">
                             <span class="heading">Item</span>
                         </div>
                     </div>
 
-                    <div class="info-block">
+                    <!--<div class="info-block">
                         <div class="col info">
                             <span class="heading">Preis</span>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="info-row">
-                    <br/>
-                    <br/>
                     <div class="info-block">
                         <span class="resource-header">{{a.date | date }}</span>
                     </div>
                     <div class="info-block">
                         <span class="resource-header">{{a.item }}</span>
                     </div>
-                    <div class="info-block">
+                    <!--<div class="info-block">
                         <span class="resource-header">{{a.cost}} €</span>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>
@@ -43,61 +41,62 @@
             <span v-if="machines.length < 1" class="resource-header">Hier kannst du bald eine Übersicht zur Nutzung der Maschinen einsehen</span>
             <div v-for="m in machines" class="resource-info">
                 <div class="info-row">
-                    <br/>
-                    <br/>
                     <span class="resource-header">{{m.name}}</span>
                 </div>
                 <div class="info-row">
-                    <div class="info-block">
-                        <div class="col info">
+                    <div class="info-block left">
+                        <div class="col log-info">
                             <span class="heading">Datum - Zeit</span>
                         </div>
                     </div>
                     <div v-if="!empty" class="info-block">
-                        <div class="col info">
+                        <div class="col log-info">
                             <span class="heading">Nutzung</span>
                         </div>
                     </div>
-                    <div class="info-block">
-                        <div class="col info">
+                    <div class="info-block  right">
+                        <div class="col log-info">
                             <span class="heading">Gesamtdauer</span>
                         </div>
                     </div>
-                    <div class="info-block">
+                    <!--<div class="info-block">
                         <div class="col info">
                             <span class="heading">Preis</span>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
-                <div v-for="i in m.items" class="info-row">
-                    <div class="info-block">
-                        <div class="col info">
-                            <span>{{i.created_at | date }} - {{i.created_at | time}}</span>
+                <div v-for="c in count">
+                    <div v-for="i in m.items" class="info-row" v-if="c <= (range * 10)">
+                        <div class="info-block left">
+                            <div class="col log-info">
+                                <span>{{i.created_at | date }} - {{i.created_at | time}}</span>
+                            </div>
                         </div>
-                    </div>
-                    <div v-if="!empty" class="info-block">
-                        <div class="col info">
-                            <span>{{i.active_seconds}} Sekunden</span>
+                        <div v-if="!empty" class="info-block">
+                            <div class="col log-info">
+                                <span>{{i.active_seconds}} Sekunden</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="info-block">
-                        <div class="col info">
-                            <span>{{ i.all_seconds >= 120 ||  i.all_seconds < 60 ? (Math.round(i.all_seconds/60)) + ' Minuten' : (Math.round(i.all_seconds/60)) + ' Minute'}}</span>
-                            <!--<span>{{ i.all_seconds < 60 ? 'Sekunde' : 'Sekunden'}}</span>-->
+                        <div class="info-block  right">
+                            <div class="col log-info">
+                                <span>{{ i.all_seconds >= 120 ||  i.all_seconds < 60 ? (Math.round(i.all_seconds/60)) + ' Minuten' : (Math.round(i.all_seconds/60)) + ' Minute'}}</span>
+                                <!--<span>{{ i.all_seconds < 60 ? 'Sekunde' : 'Sekunden'}}</span>-->
+                            </div>
+                            <!--<div class="col info">
+                                Status: <span v-bind:class="{ paid: status_id == 4 || status_id == 5}">{{status}}</span>
+                            </div>
+                            <div class="col info">
+                                <span>Datum: {{date | date}}</span>
+                            </div>-->
                         </div>
-                        <!--<div class="col info">
-                            Status: <span v-bind:class="{ paid: status_id == 4 || status_id == 5}">{{status}}</span>
-                        </div>
-                        <div class="col info">
-                            <span>Datum: {{date | date}}</span>
+                        <!--<div class="info-block">
+                            <div class="col info">
+                                <span>0€</span>
+                            </div>
                         </div>-->
                     </div>
-                    <div class="info-block">
-                        <div class="col info">
-                            <span>0€</span>
-                        </div>
-                    </div>
                 </div>
+                <button class="more" @click="more">more</button>
             </div>
         </div>
 
@@ -121,7 +120,9 @@
                 machines: [],
                 machine_items :[],
                 activities: [],
-                activity_item : {}
+                activity_item : {},
+                count: 43,
+                range: 1,
             }
         },
         created() {
@@ -192,6 +193,10 @@
                 }).catch((err) => {
                     console.log(err);
                 });
+            },
+            more() {
+                this.range = this.range + 1;
+                console.log(this.range);
             }
         },
         computed: {
@@ -202,72 +207,74 @@
 <style lang="scss" scoped>
     @import '@/assets/scss/styles.scss';
     .resources {
-        width: 100%;
+        display: flex;
         margin-top: 20px;
+        width: 100%;
+        @include media-breakpoint-down(sm) {
+            display: block;
+        }
         .resource-info {
-            margin-top: 4px;
-            padding: 10px;
             background-color: #FFF;
-            &.soldOut {
-                color: #666;
-                fill: #666;
-                .col {
-                    &.info {
-                        text-decoration: line-through;
-                    }
-                }
+            border: 1px solid $color-orange;
+            margin-top: 4px;
+            padding: 30px;
+            position: relative;
+            width: 50%;
+            @include media-breakpoint-down(sm) {
+                margin-bottom: 60px;
+                width: 100%;
             }
             .info-row {
-                @include media-breakpoint-down(md) {
-                    flex-direction: column;
-                }
-                line-height: 1.6;
                 font-family: $font-mono;
                 font-size: 0.9rem;
                 font-weight: bold;
                 margin: -8px;
                 display: flex;
+                line-height: 1.6;
                 .info-block {
-                    flex: 1;
                     flex-direction: row;
                     display: flex;
-                }
-                .col {
-                    padding: 8px;
-                    &.soldOut {
-                        color: $color-orange;
-                        text-transform: uppercase;
-                    }
-                    &.register {
-                        background-color: $color-orange;
-                        a {
-                            color: #FFF;
+                    .log-info {
+                        margin-top: 10px;
+                        width: 75%;
+                        .heading{
+                            font-weight: 500;
                         }
                     }
+                    .col {
+                        padding: 8px;
+                    }
                 }
-                .spacer {
+                .info-block.left{
+                    flex: 2;
+                }
+                .info-block.right {
                     flex: 1;
                 }
-                svg {
-                    height: 1em;
-                    width: 1em;
+
+            }
+            .more {
+                background-color: #ff6f00;
+                border: 1px solid #ff8c33;
+                color: #FFF;
+                cursor: pointer;
+                left: 50%;
+                line-height: 1;
+                margin-top: 40px;
+                outline: none;
+                padding: 7px 12px 8px;
+                position: absolute;
+                right: 50%;
+                @include media-breakpoint-down(sm) {
+                    left: 40%;
                 }
             }
         }
-        .paid {
-            color: #90ee90;
-        }
-
         span.resource-header{
             color: #ff6f00;
-        }
-        .resource-header {
             font-size: large;
             font-weight: 700;
-        }
 
-        .heading{
-            font-weight: 500;
         }
     }
 
@@ -278,15 +285,6 @@
             margin-top: 4px;
             padding: 10px;
             background-color: #FFF;
-            &.soldOut {
-                color: #666;
-                fill: #666;
-                .col {
-                    &.info {
-                        text-decoration: line-through;
-                    }
-                }
-            }
             .info-row {
                 @include media-breakpoint-down(md) {
                     flex-direction: column;
@@ -301,44 +299,32 @@
                     flex: 1;
                     flex-direction: row;
                     display: flex;
-                }
-                .col {
-                    padding: 8px;
-                    &.soldOut {
-                        color: $color-orange;
-                        text-transform: uppercase;
-                    }
-                    &.register {
-                        background-color: $color-orange;
-                        a {
-                            color: #FFF;
+                    .log-info {
+                        margin-top: 10px;
+                        width: 75%;
+                        .heading{
+                            font-weight: 500;
                         }
                     }
+                    .col {
+                        padding: 8px;
+                    }
                 }
-                .spacer {
+                .info-block.left{
+                    flex: 2;
+                }
+                .info-block.right {
                     flex: 1;
                 }
-                svg {
-                    height: 1em;
-                    width: 1em;
-                }
             }
-        }
-        .paid {
-            color: #90ee90;
         }
 
         span.activity-header{
             color: #ff6f00;
-        }
-        .activity-header {
             font-size: large;
             font-weight: 700;
         }
-
-        .heading{
-            font-weight: 500;
-        }
     }
+
 
 </style>
