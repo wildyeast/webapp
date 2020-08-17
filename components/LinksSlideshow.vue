@@ -5,14 +5,16 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide" v-for="(i, c) in link_background">
                     <!--<a :href="window+'/'+s.link.cached_url" target="_blank">{{s.link}}</a>-->
+                    <a class="link-slideshow-link" :href="window+'/'+blok.items[c].link.cached_url" target="_blank">
                     <div class="link-slideshow-item" :style="{ 'background-image': 'url(' + i + ')'}">
-                   <a class="link-slideshow-link" :href="window+'/'+blok.items[c].link.cached_url" target="_blank">
                        <img src="~/assets/img/icons/arrow-right-solid.svg" class="decorator">
+
+                    </div>
+                        <div class="link-name">
+                            <span class="link-name">{{slug[c]}}</span>
+                        </div>
                     </a>
-                    </div>
-                    <div class="link-name">
-                        <span class="link-name">{{slug[c]}}</span>
-                    </div>
+
                 </div>
             </div>
             <div class="swiper-button-next"></div>
@@ -196,6 +198,7 @@
         width: 10%;
     }
     .link-slideshow-link {
+        width: 100%;
         .decorator {
             margin-bottom: -7px;
             margin-left: 10px;
