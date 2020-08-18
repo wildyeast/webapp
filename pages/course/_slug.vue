@@ -4,9 +4,14 @@
       <h2 class="name">{{quiz.name}}</h2>
       <div class="separator"></div>
       <div class="overview" v-if="overview">
+        <div class="course-info">
         <p class="directions">Lies dir zuerst die Folien durch und beantworte dann die Fragen:</p>
-        <a :href="quiz.slides_url" target="_blank">zu den Folien</a>
-        <p>{{quiz.description}}</p>
+          <p>{{quiz.description}}</p>
+          <span class="directions"><a :href="quiz.slides_url" target="_blank" @click="showSlides">zu den Folien</a></span>
+        </div>
+        <div class="course-slides">
+          <iframe src="https://slides.com/arwe/template-asu/embed" width="800" height="600" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
       </div>
       <div class="quiz">
         <div class="question" v-for="(q, i) in quiz.quiz_questions" v-if="i === activeQuestion && !overview">
@@ -49,11 +54,11 @@
           </div>
           <button @click="saveAnswer(q.id)" class="weiter"><span>weiter </span></button>
         </div>
-        <button @click="startQuiz" class="" v-if="overview">Los geht's</button>
+        <button @click="startQuiz" class="input-button-primary" v-if="overview">Los geht's</button>
         <div v-if="activeQuestion >= quiz.quiz_questions.length" class="quizDone">
           Well done! Alle Fragen beantwortet.
           <p></p>
-          <button @click="saveQuiz()" class="">Antworten absenden</button>
+          <button @click="saveQuiz()" class="input-button-primary">Antworten absenden</button>
         </div>
       </div>
     </div>
@@ -72,13 +77,12 @@
         <nuxt-link to="/me/trainings">Zurück</nuxt-link>
       </div>
     </div>
+
     <div class="reveal">
       <div class="slides">
-        <section>Single Horizontal Slide</section>
-        <section>
-          <section>Vertical Slide 1</section>
-          <section>Vertical Slide 2</section>
-        </section>
+        <section data-background-iframe="https://slides.com/arwe/template-asu/embed" height="420"
+                 data-background-interactive
+                 data-background-size="cover"></section>
       </div>
     </div>
   </section>
@@ -87,7 +91,7 @@
 <script>
 import storyblokLivePreview from '@/mixins/storyblokLivePreview'
 import Reveal from 'reveal.js';
-/*import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';*/
+import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
 
 export default {
   data () {
@@ -103,6 +107,7 @@ export default {
       c4: false,
       score: null,
       overview: true,
+      big: true
     }
   },
   mixins: [storyblokLivePreview],
@@ -141,6 +146,12 @@ export default {
     },
     startQuiz() {
       this.overview = false;
+    },
+    showSlides(){
+      let deck = new Reveal( {
+        plugins: [ Markdown ]
+      })
+      deck.initialize();
     }
   },
   async asyncData(context) {
@@ -154,7 +165,6 @@ export default {
     }
   },
   mounted() {
-    // Reveal.initialize();
   }
 }
 </script>
@@ -194,10 +204,10 @@ export default {
   .directions {
     margin-top: 40px;
   }
-  .slides {
+/*  .slides {
     height: 1%;
     width: 1%;
-  }
+  }*/
   .question {
     .question-header {
       display: flex;
@@ -270,7 +280,13 @@ export default {
   .weiter {
     margin-top: 20px;
     padding: 10px;
-
+    cursor: pointer;
+    background-color: #ff6f00;
+    color: #FFF;
+    border: 1px solid #ff8c33;
+    padding: 7px 12px 8px;
+    line-height: 1;
+    outline: none;
   }
   .done {
     height: 1%;
@@ -301,4 +317,43 @@ export default {
     }
   }
 
+  .reveal{
+    height: 80vh;
+  }
+  .slide-background .present {
+    height: 100%;
+  }
+  .slide-background-content {
+    height: 100%;
+  }
+
+  .big {
+    height: 100%;
+  }
+
+  .course-slides {
+    display: flex;
+    justify-content: center;
+    iframe {
+      height: 450px;
+    }
+  }
+
+  .course-info {
+    @include media-breakpoint-up(sm) {
+      display: flex;
+      justify-content: space-between;
+    }
+    margin: 0 10px;
+  }
+
+  .input-button-primary {
+    cursor: pointer;
+    background-color: #ff6f00;
+    color: #FFF;
+    border: 1px solid #ff8c33;
+    padding: 7px 12px 8px;
+    line-height: 1;
+    outline: none;
+  }
 </style>
