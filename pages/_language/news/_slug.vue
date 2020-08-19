@@ -21,18 +21,18 @@
 
             </div>
         </div>
-        <div class="images" v-if="item.content.images.length != 0">
+        <!--<div class="images" v-if="item.content.images.length != 0">
             <image-slideshow :blok="images"></image-slideshow>
-        </div>
+        </div>-->
         <div class="blogFeed-detail">
             <div v-if="item.content.contentBloks" v-for="i in item.content.contentBloks" class="right-content">
                 <span v-if="i.text" class="content-text">{{i.text}}</span>
                 <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '600x0')" alt=""/></span>
             </div>
         </div>
-        <div v-if="item.content.links.length != 0">
+        <!--<div v-if="item.content.links.length != 0">
             <links-slideshow :blok="links"></links-slideshow>
-        </div>
+        </div>-->
     </div>
 </template>
 

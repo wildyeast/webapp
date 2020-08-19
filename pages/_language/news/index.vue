@@ -66,7 +66,7 @@
       let filters = {
         filter_query: {
           component: {
-            in: "news-item"
+            in: "news-overview"
           }
         }
       };
@@ -130,19 +130,16 @@
 
 <style lang="scss">
   @import "@/assets/scss/styles.scss";
-
   .team-wrapper {
     padding-left: 15%;
     padding-top: 15%;
     position: relative;
-
     @media (max-width: $mobile-small) {
       padding-left: 0;
       padding-top: 200px;
     }
-
     .blog-header-image {
-     /*background-image: url("https://d33wubrfki0l68.cloudfront.net/eb296affd7b1c59df31b97b9543d7596ce47608f/ad947/_nuxt/img/ae62387.jpg");*/
+      /*background-image: url("https://d33wubrfki0l68.cloudfront.net/eb296affd7b1c59df31b97b9543d7596ce47608f/ad947/_nuxt/img/ae62387.jpg");*/
       background-size: contain;
       background-repeat: no-repeat;
       display: block;
@@ -154,17 +151,14 @@
       top: 0;
       left: 0;
     }
-
     .team {
       display: flex;
       flex-direction: column;
       padding: 40px;
       background-color: #fff;
-
       @media (max-width: $mobile-small) {
         padding: 20px;
       }
-
       .headline {
         font-weight: bold;
         font-size: 3.2rem;
@@ -172,69 +166,56 @@
         .headline-text {
           margin: 20px 20px;
         }
-
         @media (max-width: $mobile-small) {
           font-size: 2.5rem;
         }
       }
-
       .subline {
         font-family: $font-mono;
         font-size: 1.2rem;
         margin-bottom: 80px;
         line-height: 1.5;
       }
-
       .member-filters {
         display: flex;
         flex-direction: row;
         justify-content: center;
         margin: 10px;
-
         .department-label {
           margin: 0 5px;
           background-color: #eee;
           padding: 2px 5px;
-
           label {
             display: block;
             user-select: none;
             padding: 10px;
           }
-
           input {
             display: none;
           }
-
           &.active {
             background-color: $color-orange;
             color: #fff;
           }
         }
       }
-
       .member-grid {
         grid-template-columns: 1fr 1fr;
         grid-gap: 20px;
-
         .member-item {
           width: 100%;
         }
-
         @media (min-width: $mobile-large) {
           display: grid;
         }
       }
     }
   }
-
   .image-footer {
     height: 50vh;
     background-size: cover;
     background-position: center;
   }
-
-
   .news-page {
     margin-top: -60px;
     .no-results {
@@ -342,7 +323,6 @@
         font-weight: bold;
       }
     }
-
     @include media-breakpoint-down(sm) {
       height: auto;
       .header-image {
@@ -355,9 +335,7 @@
         h4 {
           font-size: 2rem;
         }
-
       }
     }
   }
 </style>
-© 2020 GitHub, Inc.
