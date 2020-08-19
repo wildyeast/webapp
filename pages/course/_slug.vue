@@ -4,13 +4,13 @@
       <h2 class="name">{{quiz.name}}</h2>
       <div class="separator"></div>
       <div class="overview" v-if="overview">
-        <div class="course-info">
+        <div class="">
         <p class="directions">Lies dir zuerst die Folien durch und beantworte dann die Fragen:</p>
-          <p>{{quiz.description}}</p>
-          <span class="directions"><a :href="quiz.slides_url" target="_blank" @click="showSlides">zu den Folien</a></span>
+          <p v-if="quiz.description">{{quiz.description}}</p>
+          <p class="directions" v-if="!quiz.slides_url.includes('slides')"><a :href="quiz.slides_url" target="_blank"  @click="showSlides">zu den Folien</a></p>
         </div>
         <div class="course-slides">
-          <iframe src="https://slides.com/arwe/template-asu/embed" width="800" height="600" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          <iframe v-if="quiz.slides_url.includes('slides')" :src="quiz.slides_url" width="800" height="600" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
       </div>
       <div class="quiz">
@@ -107,7 +107,7 @@ export default {
       c4: false,
       score: null,
       overview: true,
-      big: true
+      big: true,
     }
   },
   mixins: [storyblokLivePreview],
@@ -148,11 +148,13 @@ export default {
       this.overview = false;
     },
     showSlides(){
-      let deck = new Reveal( {
-        plugins: [ Markdown ]
-      })
-      deck.initialize();
-    }
+      if(this.quiz.slides_url.includes('slides')){
+        let deck = new Reveal( {
+          plugins: [ Markdown ]
+        })
+        deck.initialize();
+      }
+    },
   },
   async asyncData(context) {
     let courseId = context.params.slug;
