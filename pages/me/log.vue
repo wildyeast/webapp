@@ -1,11 +1,10 @@
 <template>
     <div>
         <h2>Meine Aktivitäten</h2>
-        <div class="activities">
-            <span v-if="activities.length < 1" class="activity-header">Hier kannst du bald eine Übersicht zur deinen Aktivitäten einsehen</span>
-            <div v-for="a in activities" class="resource-info">
+        <div class="resources">
+            <span v-if="machines.length < 1" class="resource-header">Hier kannst du bald eine Übersicht zur Nutzung der Maschinen einsehen</span>
 
-                <div class="info-row">
+          <!--      <div class="info-row">
                     <div class="info-block">
                         <div class="col log-info">
                             <span class="heading">Datum</span>
@@ -17,11 +16,11 @@
                         </div>
                     </div>
 
-                    <!--<div class="info-block">
+                    &lt;!&ndash;<div class="info-block">
                         <div class="col info">
                             <span class="heading">Preis</span>
                         </div>
-                    </div>-->
+                    </div>&ndash;&gt;
                 </div>
                 <div class="info-row">
                     <div class="info-block">
@@ -30,16 +29,15 @@
                     <div class="info-block">
                         <span class="resource-header">{{a.item }}</span>
                     </div>
-                    <!--<div class="info-block">
+                    &lt;!&ndash;<div class="info-block">
                         <span class="resource-header">{{a.cost}} €</span>
-                    </div>-->
+                    </div>&ndash;&gt;
                 </div>
             </div>
         </div>
-        <h2>Meine Maschinen Nutzung</h2>
-        <div class="resources">
-            <span v-if="machines.length < 1" class="resource-header">Hier kannst du bald eine Übersicht zur Nutzung der Maschinen einsehen</span>
-            <div v-for="m in machines" class="resource-info">
+        <h2>Meine Maschinen Nutzung</h2>-->
+
+            <div v-for="m, z in machines" class="resource-info">
                 <div class="info-row">
                     <span class="resource-header">{{m.name}}</span>
                 </div>
@@ -65,8 +63,9 @@
                         </div>
                     </div>-->
                 </div>
-                <div v-for="c in count">
-                    <div v-for="i in m.items" class="info-row" v-if="c <= (range * 10)">
+                <!--<div v-for="c in count">
+                    <div v-for="i in m.items" class="info-row" v-if="count_[i] <= (range * 10)"> -->
+                <div v-for="i, c in m.items" class="info-row" v-if="c <= (range*10)">
                         <div class="info-block left">
                             <div class="col log-info">
                                 <span>{{i.created_at | date }} - {{i.created_at | time}}</span>
@@ -93,10 +92,12 @@
                             <div class="col info">
                                 <span>0€</span>
                             </div>
-                        </div>-->
+                        </div>
+                        -->
+                    <p>{{c}}</p>
                     </div>
-                </div>
-                <button class="more" @click="more">more</button>
+                <!--</div>-->
+                <button v-if="m.items.length >= 10" class="more" @click="more(z)">mehr</button>
             </div>
         </div>
 
@@ -121,7 +122,9 @@
                 machine_items :[],
                 activities: [],
                 activity_item : {},
-                count: 43,
+                count: 15,
+                count_: [],
+                showMore: [],
                 range: 1,
             }
         },
@@ -151,6 +154,13 @@
                         }
                     }
                     console.log(this.machines);
+                    for (let j=0; j < this.machines.length; j++){
+                            console.log(this.machines[j].items.length)
+                        this.count_.push(this.machines[j].items.length);
+                            this.showMore.push(false);
+                    }
+                    console.log(this.showMore);
+                    console.log(this.count_);
                     /*console.log(this.resource_names);
                     for (let j=0; j < this.resource_names.length; j++){
                         console.log(data.data[this.resource_names[j]]);
@@ -171,7 +181,7 @@
             },
             machineType(){
                 for (let i = 0; i < this.machines.length; i++){
-                    console.log(this.machines);
+                    // console.log(this.machines);
                     for (let j= 0; j < this.machines[i].items.length; j ++){
                         if(this.machines[i].items[j].active_seconds == this.machines[i].items[j].all_seconds){
                             this.empty = true;
@@ -194,9 +204,15 @@
                     console.log(err);
                 });
             },
-            more() {
+            more(z) {
+                console.log(z);
+                this.showMore[z] = this.range;
+                console.log(this.showMore);
                 this.range = this.range + 1;
                 console.log(this.range);
+            },
+            getCount(i) {
+                this.count
             }
         },
         computed: {
@@ -207,7 +223,7 @@
 <style lang="scss" scoped>
     @import '@/assets/scss/styles.scss';
     .resources {
-        display: flex;
+        // display: flex;
         margin-top: 20px;
         width: 100%;
         @include media-breakpoint-down(sm) {
@@ -216,12 +232,15 @@
         .resource-info {
             background-color: #FFF;
             border: 1px solid $color-orange;
-            margin-top: 4px;
-            padding: 30px;
+            margin: 10px 10px;
+            padding: 40px 30px;
             position: relative;
-            width: 50%;
+            width: 45%;
+            @include media-breakpoint-up(sm) {
+                float: left;
+            }
             @include media-breakpoint-down(sm) {
-                margin-bottom: 60px;
+                margin: 10px 0px;
                 width: 100%;
             }
             .info-row {
@@ -258,13 +277,13 @@
                 border: 1px solid #ff8c33;
                 color: #FFF;
                 cursor: pointer;
-                left: 50%;
+                left: 45%;
                 line-height: 1;
-                margin-top: 40px;
                 outline: none;
                 padding: 7px 12px 8px;
                 position: absolute;
                 right: 50%;
+                margin-top: 5px;
                 @include media-breakpoint-down(sm) {
                     left: 40%;
                 }
