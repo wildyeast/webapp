@@ -47,6 +47,7 @@
     data() {
       return {
         news: [],
+        root: null,
         loading: false,
         sources: [
           { name: "magazin3", key: "m3", selected: false },
@@ -60,7 +61,8 @@
     },
     created() {
       this.$watch("sources", this.update, { deep: true });
-      this.url = "/assets/img/footer-bg.jpg";
+      console.log(this.news);
+
     },
     asyncData(context) {
       let filters = {
@@ -70,6 +72,14 @@
           }
         }
       };
+      /*root = context.store.dispatch("loadPage", "/news").then(data => {
+                  return data.stories ;
+                }).catch(e => {
+                  context.error({
+                    statusCode: e.response.status,
+                    message: e.response.statusText
+                  });
+                });*/
       return context.store.dispatch("findNews", filters).then(data => {
         for (let i = 0; i < data.stories.length; i++){
           // console.log(data.stories[i].full_slug);
@@ -86,7 +96,7 @@
         }).catch((e) => {
           this.loading = false;
         });
-      }
+      },
     },
     computed: {
       items() {

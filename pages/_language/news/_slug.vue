@@ -9,7 +9,7 @@
         <div class="blogFeed-detail">
             <div class="left-content">
                 <span class="info-block">{{item.content.datetime | date }}</span>
-                <a :href="item.content.link.url" class="info-block"><img v-if="item.content.source" class="source-img" :src="`/icons/${item.content.source}.png`"></a>
+                <a v-if="item.content.link.url != ''" :href="item.content.link.url" class="info-block"><img v-if="item.content.source != ''" class="source-img" :src="`/icons/${item.content.source}.png`"></a>
             </div>
             <div class="right-content">
                 <div class="teaser">
@@ -55,7 +55,7 @@
             });
         },
         created() {
-            // console.log(this.item.content.images);
+            console.log(this.item);
         },
         computed: {
             item() {
