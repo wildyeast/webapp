@@ -10,7 +10,7 @@
           <p class="directions" v-if="!quiz.slides_url.includes('slides')"><a :href="quiz.slides_url" target="_blank"  @click="showSlides">zu den Folien</a></p>
         </div>
         <div class="course-slides">
-          <iframe v-if="quiz.slides_url.includes('slides')" :src="quiz.slides_url" width="800" height="600" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+          <iframe v-if="" :src="quiz.slides_url" width="800" height="600" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
         </div>
       </div>
       <div class="quiz">
@@ -19,7 +19,7 @@
             <img v-if="q.imagePath != 'https://connector.grandgarage.eu/storage/'" :src="q.imagePath" alt=""/>
             <div class="title">
               <h3>{{q.title}}</h3>
-              <p v-if="q.description != '_'">{{q.description}}</p>
+              <p class="quiz-description" v-if="q.description != '_'">{{q.description}}</p>
             </div>
           </div>
           <div class="answers">
@@ -211,13 +211,16 @@ export default {
     width: 1%;
   }*/
   .question {
+    display: flex;
+    flex-direction: column;
     .question-header {
+      align-items: center;
       display: flex;
-      margin-top: 40px;
       margin-bottom: 20px;
+      flex-direction: column-reverse;
       @include media-breakpoint-down(sm) {
-        margin-top: 20px;
-        flex-direction: column;
+        margin-top: 0px;
+        flex-direction: column-reverse;
         align-items: center;
       }
       img {
@@ -289,6 +292,11 @@ export default {
     padding: 7px 12px 8px;
     line-height: 1;
     outline: none;
+    width: 5%;
+    align-self: center;
+    @include media-breakpoint-down(sm) {
+      width: 17%;
+    }
   }
   .done {
     height: 1%;
@@ -305,6 +313,9 @@ export default {
     margin-top: 40px;
     @include media-breakpoint-down(sm) {
       margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
 
@@ -320,7 +331,10 @@ export default {
   }
 
   .reveal{
-    height: 80vh;
+    height: 20vh;
+    @include media-breakpoint-down(sm) {
+      height: 80vh;
+    }
   }
   .slide-background .present {
     height: 100%;
@@ -357,5 +371,21 @@ export default {
     padding: 7px 12px 8px;
     line-height: 1;
     outline: none;
+    align-self: center;
+    margin-top: 20px;
+    /*@include media-breakpoint-up(sm) {
+      position: absolute;
+      left: 48%;
+      right: 45%;
+    }
+    @include media-breakpoint-down(sm) {
+      position: absolute;
+      left: 38%;
+      right: 33%;
+    }*/
+  }
+  .quiz-description {
+    text-align: center;
+    margin-bottom: 20px;
   }
 </style>

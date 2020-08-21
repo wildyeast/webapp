@@ -122,7 +122,7 @@
                 machine_items :[],
                 activities: [],
                 activity_item : {},
-                count: 15,
+                count: 10,
                 count_: [],
                 showMore: [],
                 range: 1,
@@ -142,7 +142,7 @@
                     "Universal Robotics UR 5e", "Voest Alpine DA 250", "Wagner Einhängekabine ID", "Walther Pilot Typ 708", "WEMO TB2024"];
                 let machineName = "";
                 this.$store.dispatch('getRecourseLogs').then((data) =>{
-                    console.log(data.data);
+                    //console.log(data.data);
                     for (let i = 0; i < machineType.length; i++){
                         if(data.data[machineType[i]]) {
                             this.resource_name = machineType[i]; // array mit namen
@@ -150,17 +150,29 @@
                             machineName = machineType[i];
                             this.machines.push(
                                 {"name" : machineName, "items" : data.data[machineName]}
-                                );
+                            );
+
                         }
                     }
-                    console.log(this.machines);
-                    for (let j=0; j < this.machines.length; j++){
-                            console.log(this.machines[j].items.length)
-                        this.count_.push(this.machines[j].items.length);
-                            this.showMore.push(false);
+                    for (let j=0; j < this.machines.length; j++) {
+                        // console.log(this.machines[j].items.length);
+                        for(let k = 0; k < this.machines[j].items.length; k ++) {
+                         console.log(this.machines[j].items[k]);
+                        }
                     }
-                    console.log(this.showMore);
-                    console.log(this.count_);
+                    /*for (let j=0; j < this.machines.length; j++){
+                        // console.log(this.machines[j].items.length)
+                        if(j < this.count){
+                            console.log('in ' + j);
+                            console.log(this.machines[j].items);
+                            for(let k = 0; k < this.machines[j].items.length; k++){
+                                if(k <= this.count) {
+                                    this.showMore.push(this.machines[j].items)
+                                }
+                            }
+                        }
+                    }*/
+
                     /*console.log(this.resource_names);
                     for (let j=0; j < this.resource_names.length; j++){
                         console.log(data.data[this.resource_names[j]]);
@@ -171,7 +183,7 @@
                         // this.items[j].date = data.data[this.resource_name][j].created_at;
                     }*/
 
-                    // console.log(this.machine_items);
+                    console.log(this.showMore);
                     this.machineType();
 
 
@@ -206,8 +218,8 @@
             },
             more(z) {
                 console.log(z);
-                this.showMore[z] = this.range;
-                console.log(this.showMore);
+                /*this.showMore[z] = this.range;
+                console.log(this.showMore);*/
                 this.range = this.range + 1;
                 console.log(this.range);
             },
@@ -232,6 +244,7 @@
         .resource-info {
             background-color: #FFF;
             border: 1px solid $color-orange;
+            border-radius: 5px;
             margin: 10px 10px;
             padding: 40px 30px;
             position: relative;

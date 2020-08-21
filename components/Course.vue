@@ -2,12 +2,12 @@
   <div class="training-item" v-if="course">
     <div class="body">
       <div class="content">
-        {{course.name}}
-      </div>
+        <span class="course-heading"><b>{{course.name}}</b></span>
+      <!--</div>-->
       <div class="course-info" v-if="!memberCourse">
-        <button class="" @click="startCourse">Kurs starten</button>
+        <button class="input-button-primary" @click="startCourse">Kurs starten</button>
       </div>
-      <div v-else class="info">
+      <!--<div v-else class="info">-->
         <div class="course-info"><span>gestartet am: {{createdDate}}</span></div>
         <div class="course-info"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
           <span>Praxistest: </span>
@@ -22,7 +22,7 @@
 
         </div>
         <div v-if="!memberCourse.is_valid" class="course-info">
-          <button class="" @click="takeQuiz">Quiz starten</button>
+          <button class="input-button-primary" @click="takeQuiz">Quiz starten</button>
         </div>
       </div>
     </div>
@@ -64,25 +64,38 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/styles.scss';
 .training-item {
-  margin-bottom: 5px;
   background-color: #FFF;
+  border: 1px solid #ff8c33;
+  border-radius: 5px;
   padding: 0 10px;
+  @include media-breakpoint-up(sm) {
+    float: left;
+    margin: 20px 20px;
+    padding: 0 10px;
+    padding-top: 20px;
+    width: 33%;
+  }
+  @include media-breakpoint-down(sm) {
+    padding: 10px 20px;
+  }
   .body {
     padding: 10px 0;
     color: $color-orange;
-    display: flex;
+    // display: flex;
     @include media-breakpoint-down(sm) {
       display: block;
     }
     .content {
       flex: 1;
-      @include media-breakpoint-down(sm) {
-        border-bottom: 1px solid #d3d3d3;
-        padding: 10px 0;
-      }
     }
     .course-info {
       padding: 10px;
+      @include media-breakpoint-down(sm) {
+        padding: 10px 0;
+      }
+    }
+    .course-heading {
+      padding: 10px 10px;
       @include media-breakpoint-down(sm) {
         padding: 10px 0;
       }
@@ -95,11 +108,34 @@ export default {
   }
 }
   .status {
+    float: right;
     width: 5%;
   }
 .info {
   @include media-breakpoint-up(sm) {
+    flex: 1;
     width: 25%;
   }
+}
+.input-button-primary {
+  cursor: pointer;
+  background-color: #ff6f00;
+  color: #FFF;
+  border: 1px solid #ff8c33;
+  padding: 7px 12px 8px;
+  line-height: 1;
+  outline: none;
+  align-self: center;
+  margin-top: 20px;
+  /*@include media-breakpoint-up(sm) {
+    position: absolute;
+    left: 48%;
+    right: 45%;
+  }
+  @include media-breakpoint-down(sm) {
+    position: absolute;
+    left: 38%;
+    right: 33%;
+  }*/
 }
 </style>

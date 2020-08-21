@@ -1,11 +1,14 @@
 <template>
   <div class="section">
-    <h2>Unterweisungen</h2>
-    <ul class="item-list" v-if="courses">
-      <li v-for="c in courses"><course :course="c" /></li>
-    </ul>
-    <div v-else>
+    <div>
+      <h2>Unterweisungen</h2>
+      <ul class="item-list" v-if="courses">
+        <li v-for="c in courses"><course :course="c" /></li>
+      </ul>
+      <div v-else>
+      </div>
     </div>
+    <div>
     <h2>Fabman Trainings</h2>
     <ul class="item-list" v-if="user.trainings && user.trainings.length > 0">
       <li v-for="t in user.trainings"><training :userTraining="t" /></li>
@@ -20,6 +23,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
@@ -49,7 +53,10 @@ export default {
 
 <style lang="scss">
 @import '@/assets/scss/styles.scss';
-
+.section {
+  display: flex;
+  flex-direction: column;
+}
 .link-with-arrow {
   .link-text {
     a {
