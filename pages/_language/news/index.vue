@@ -1,8 +1,8 @@
 <template>
   <section>
-    <div class="team-wrapper">
-      <img class="blog-header-image" style="background-image: url('https://d33wubrfki0l68.cloudfront.net/eb296affd7b1c59df31b97b9543d7596ce47608f/ad947/_nuxt/img/ae62387.jpg')">
-      <div class="team">
+    <div class="blog-wrapper">
+      <img class="blog-header-image" :src="$resizeImage(url, '1600x0')">
+      <div class="blog">
         <div class="headline">
           <p class="headline-text">Blog</p>
         </div>
@@ -16,13 +16,13 @@
               <div class="separator"/>
 
               <div v-if="month.items && month.items.length == 1">
-                <div class="item" v-for="(item, ii) in month.items" :key="ii">
-                  <news-feed-item :news="item.content" :key="item.id" type="horizontal" />
+                <div class="item" v-for="(item, ii) in month.items" :key="ii" v-if="item.name != 'Header'">
+                  <news-feed-item :news="item.content" :key="item.id" type="horizontal" v-if="item.name != 'Header'"/>
                 </div>
               </div>
               <div v-else-if="month.items && month.items.length > 1" class="items">
                 <div class="item" v-for="(item, ii) in month.items" :key="ii">
-                  <news-feed-item :news="item" :key="item.id" type="vertical" />
+                  <news-feed-item :news="item" :key="item.id" type="vertical" v-if="item.name != 'Header'"/>
                 </div>
               </div>
             </div>
@@ -61,7 +61,13 @@
     },
     created() {
       this.$watch("sources", this.update, { deep: true });
-      console.log(this.news);
+      for(let i = 0; i < this.items.length; i++) {
+        for(let j = 0; j < this.items[i].items.length; j++){
+          if(this.items[i].items[j].name == 'Header'){
+            this.url = this.items[i].items[j].content.image;
+          }
+        }
+      }
 
     },
     asyncData(context) {
@@ -81,6 +87,7 @@
                   });
                 });*/
       return context.store.dispatch("findNews", filters).then(data => {
+        // console.log(data);
         for (let i = 0; i < data.stories.length; i++){
           // console.log(data.stories[i].full_slug);
         }
@@ -116,6 +123,10 @@
             m = moment(n.content.datetime);
             currentMonth = m.month();
           }
+          if(n.name == 'Header'){
+            this.url = n.content.image;
+            console.log(this.url);
+          }
           temp.push({ type: 'item', ...n });
         });
         list.push({ items: temp, label: m.locale('de-at').format('MMMM') });
@@ -127,7 +138,7 @@
                 .map(i => i.key)
                 .join(",");
         const filter_query = {
-          component: { in: "news-item" }
+          component: { in: "news-overview" }
         };
         if (sources) {
           filter_query["source"] = { in: sources };
@@ -140,7 +151,7 @@
 
 <style lang="scss">
   @import "@/assets/scss/styles.scss";
-  .team-wrapper {
+  .blog-wrapper {
     padding-left: 15%;
     padding-top: 15%;
     position: relative;
@@ -149,19 +160,17 @@
       padding-top: 200px;
     }
     .blog-header-image {
-      /*background-image: url("https://d33wubrfki0l68.cloudfront.net/eb296affd7b1c59df31b97b9543d7596ce47608f/ad947/_nuxt/img/ae62387.jpg");*/
       background-size: contain;
       background-repeat: no-repeat;
       display: block;
       width: 100%;
-      height: 100%;
       z-index: -1;
       max-height: 100%;
       position: absolute;
       top: 0;
       left: 0;
     }
-    .team {
+    .blog {
       display: flex;
       flex-direction: column;
       padding: 40px;
@@ -335,10 +344,6 @@
     }
     @include media-breakpoint-down(sm) {
       height: auto;
-      .header-image {
-        height: 20vh;
-        background-image: url("/assets/img/footer-bg.jpg");
-      }
       .header-title {
         position: relative;
         padding: 5%;
