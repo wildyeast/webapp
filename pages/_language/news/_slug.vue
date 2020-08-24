@@ -9,7 +9,7 @@
         <div class="blogFeed-detail">
             <div class="left-content">
                 <span class="info-block">{{item.content.datetime | date }}</span>
-                <a v-if="item.content.link.url != ''" :href="item.content.link.url" class="info-block"><img v-if="item.content.source != ''" class="source-img" :src="`/icons/${item.content.source}.png`"></a>
+                <a v-if="item.content.link.url != ''" :href="item.content.link.url" class="info-block"><img v-if="item.content.source.length != 0" class="source-img" :src="`/icons/${item.content.source}.png`"></a>
             </div>
             <div class="right-content">
                 <div class="teaser">
@@ -45,22 +45,36 @@
             return {
                 story: null,
                 // images: [],
+                reload: null,
+                item: null,
             }
         },
         mixins: [storyblokLivePreview],
         asyncData(context) {
-            // console.log(context);
-            return context.store.dispatch('loadFullPage', context.route.fullPath).catch((e) => {
+            console.log(context.route.fullPath);
+            return context.store.dispatch('loadFullPage', context.route.fullPath)
+                .then((res) => {
+                    console.log(res.story);
+                })
+                /*.catch((e) => {
                 context.error({statusCode: e.response.status, message: e.response.statusText})
-            });
+            });*/
         },
         created() {
+            // console.log(this.$route);
+            // console.log(this.$route.query);
             console.log(this.item);
+            console.log(this.story);
         },
         computed: {
             item() {
-                // console.log(this.$route.query.item);
-                return this.$route.query.item;
+                console.log(this.$route.fullPath);
+                /*return this.$route.query.item;*/
+                let content;
+                this.$store.dispatch("loadFullPage", this.$route.fullPath).then((data) => {
+                    console.log(data.story);
+                    return data.story;
+                });
             },
             images() {
                 // console.log(this.item.content.images);
@@ -130,9 +144,13 @@
         flex: 1;
         justify-content: center;
         line-height: normal;
+        margin-top: 20px;
         @include margin-page-wide();
         @include media-breakpoint-up(md) {
             margin: 0 100px;
+        }
+        @include media-breakpoint-down(xs) {
+            margin-top: 40px;
         }
         .teaser {
             margin: 20px 40px;

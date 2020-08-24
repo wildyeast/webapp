@@ -21,8 +21,9 @@
                 </div>
               </div>
               <div v-else-if="month.items && month.items.length > 1" class="items">
-                <div class="item" v-for="(item, ii) in month.items" :key="ii">
+                <div class="item" v-for="(item, ii) in month.items" :key="ii" v-if="item.name != 'Header'">
                   <news-feed-item :news="item" :key="item.id" type="vertical" v-if="item.name != 'Header'"/>
+                  {{item.id}} {{item.uuid}}
                 </div>
               </div>
             </div>

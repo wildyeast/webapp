@@ -5,7 +5,7 @@
       <Nuxt-link :to="{ path: './'+news.slug , query: { item: news }}" class="link">
         <div class="header">
           <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
-          <img v-if="news.content.source" class="source-img" :src="`/icons/${news.content.source}.png`">
+          <img v-if="news.content.source && news.content.source.length != 0" class="source-img" :src="`/icons/${news.content.source}.png`">
         </div>
         <img class="image" :src="$resizeImage(news.content.image, '600x0')">
       </Nuxt-link>
