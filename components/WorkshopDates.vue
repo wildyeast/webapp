@@ -22,18 +22,30 @@
           <!--<div class="col soldOut" v-if="d.content.sold_out">
             <span>ausgebucht</span>
           </div>-->
-          <div class="col soldOut" v-if="sold">
-            <span>ausgebucht</span>
+
+
+          <div class="col" v-if="metadata != null">
+            <span>Preis: {{ metadata[d.uuid].price }}EUR</span>
           </div>
-          <div class="col occupancy" v-if="!sold">
-            <span>Gebucht: {{ occupancy }}%</span>
+
+          <div class="col" v-if="metadata == null">
+            <span>login required</span>
           </div>
           <div class="spacer"></div>
+
+          <div class="col soldOut" v-if="metadata != null &&metadata[d.uuid].occupancy == 100">
+            <span>ausgebucht</span>
+          </div>
+          <div class="col occupancy" v-if="metadata != null &&metadata[d.uuid].occupancy != 100">
+            <span>Auslastung: {{ metadata[d.uuid].occupancy }}%</span>
+          </div>
+          <div class="spacer"></div>
+
           <!--<div class="col register" v-if="d.content.link && d.content.link.cached_url && d.content.link.cached_url != '' && !d.content.sold_out">
             <a :href="d.content.link.cached_url" class="link" target="_blank">Zur Anmeldung</a>
           </div>
           -->
-          <div class="col register" v-if="!sold"><NuxtLink :to="{ path: '/me/buyWorkshop', query: { date: d }}" class="link">Zur Anmeldung</NuxtLink></div>
+          <div class="col register"  :class="{disabled: metadata == null || metadata[d.uuid].occupancy == 100}" ><NuxtLink :event="metadata == null || metadata[d.uuid].occupancy == 100 ? '': 'click'" :to="{ path: '/me/buyWorkshop', query: { uuid: d.uuid }}" class="link">Zur Anmeldung</NuxtLink></div>
         </div>
 
       </div>
@@ -51,8 +63,7 @@ export default {
   },
   data() {
     return {
-      occupancy: 0,
-      sold: false,
+      metadata: null
     }
   },
   computed: {
@@ -64,47 +75,28 @@ export default {
         console.log(this.dates);
   },
   created() {
-    this.metaData();
+    this.loadMetaData();
   },
   methods: {
-    metaData: function () {
+    loadMetaData: function () {
       let data = {
         "workshop_date_uuids": [],
       }
-      console.log(this.dates);
-      // data.workshop_date_uuids.push("f703768e-fc67-4b60-bc06-c66e21e68aea")
-      for(let i = 0; i <= this.dates.length; i++){
-        if(this.dates[i] !== undefined && i %2 !== 0){
-          // console.log(i);
-          // console.log(this.dates[i].uuid);
-          data.workshop_date_uuids.push(this.dates[i].uuid);
-        }
+
+      for (let date of this.dates){
+        data.workshop_date_uuids.push(date.uuid)
       }
+    console.log(this.$store);
 
-      console.log(data);
-
-      this.$store.dispatch("getWorkshopDateMetadata", data).then((data) => {
-          console.log(data);
-
-        for(let j = 0; j <= this.dates.length; j++){
-          if(this.dates[j] !== undefined && j %2 !== 0){
-
-            console.log(data[this.dates[j].uuid].occupancy);
-            this.occupancy = data[this.dates[j].uuid].occupancy;
-            if(this.occupancy < 100) {
-              console.log("Course is not fully booked yet!");
-            }
-            if(this.occupancy == 100) {
-              console.log("Course is booked!");
-              this.sold = true;
-
-            }
-          }
-        }
-
+        this.$store.dispatch("getWorkshopDateMetadata", data).then((data) => {
+          this.metadata = data;
         }).catch((err) => {
           console.log(err);
         });
+
+
+
+
     }
   }
 }
@@ -164,6 +156,10 @@ export default {
         width: 1em;
       }
     }
+  }
+  .disabled{
+    background-color: lightgray !important;
+    pointer-events: none;
   }
 }
 </style>
