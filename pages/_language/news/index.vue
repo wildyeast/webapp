@@ -1,15 +1,15 @@
 <template>
   <section class="news-page">
-    <div class="source-list">
-      <checkbox
-         theme="news"
-         v-model="source.selected"
-         v-for="source in sources"
-         :key="source.name"
-         class="source"
-         >{{source.name}}</checkbox>
+    <div class="general-header">
+      <div class="header-image">
+      </div>
+      <div class="header-title">
+        <h4>Blog</h4>
+      </div>
     </div>
-
+    <div class="header-title">
+      Blog
+    </div>
     <loading v-if="loading" class="loading"/>
 
     <div class="news-feed">
@@ -36,205 +36,224 @@
 </template>
 
 <script>
-import moment from "moment";
-import Checkbox from "~/components/Checkbox.vue";
-import Loading from "~/components/Loading.vue";
-
-export default {
-  components: {
-    Checkbox,
-    Loading
-  },
-
-  props: ['item'],
-  data() {
-    return {
-      news: [],
-      loading: false,
-      sources: [
-        { name: "magazin3", key: "m3", selected: false },
-        { name: "youtube", key: "yt", selected: false },
-        { name: "facebook", key: "fb", selected: false },
-        { name: "twitter", key: "tw", selected: false },
-        { name: "instagram", key: "ig", selected: false }
-      ]
-    };
-  },
-
-  created() {
-    this.$watch("sources", this.update, { deep: true });
-  },
-
-  asyncData(context) {
-    let filters = {
-      filter_query: {
-        component: {
-          in: "news-item"
-        }
-      }
-    };
-
-    return context.store.dispatch("findNews", filters).then(data => {
-      console.log(data.stories);
-      for (let i = 0; i < data.stories.length; i++){
-        // console.log(data.stories[i].full_slug);
-      }
-      return { news: data.stories };
-    });
-  },
-
-  methods: {
-    update() {
-      this.loading = true;
-
-      let result = this.$store.dispatch("findNews", this.filters).then(data => {
-        this.loading = false;
-        this.news = data.stories;
-      }).catch((e) => {
-        console.log(e);
-        this.loading = false;
-      });
-    }
-  },
-
-  computed: {
-    items() {
-      let list = [];
-      let temp = [];
-      let currentMonth = null;
-      let m = null;
-      if (!this.news || !this.news.length || this.news.length == 0) {
-        return [];
-      }
-      this.news.forEach((n) => {
-        if (currentMonth != moment(n.content.datetime).month()) {
-          if (currentMonth != null) {
-            list.push({ items: temp, label: m.locale('de-at').format('MMMM') });
-            temp = [];
-          }
-          m = moment(n.content.datetime);
-          currentMonth = m.month();
-        }
-        temp.push({ type: 'item', ...n });
-      });
-      list.push({ items: temp, label: m.locale('de-at').format('MMMM') });
-      return list;
+  import moment from "moment";
+  import Checkbox from "~/components/Checkbox.vue";
+  import Loading from "~/components/Loading.vue";
+  export default {
+    components: {
+      Checkbox,
+      Loading
     },
-    filters() {
-      const sources = this.sources
-        .filter(i => i.selected)
-        .map(i => i.key)
-        .join(",");
-
-      const filter_query = {
-        component: { in: "news-item" }
+    props: ['item'],
+    data() {
+      return {
+        news: [],
+        loading: false,
+        sources: [
+          { name: "magazin3", key: "m3", selected: false },
+          { name: "youtube", key: "yt", selected: false },
+          { name: "facebook", key: "fb", selected: false },
+          { name: "twitter", key: "tw", selected: false },
+          { name: "instagram", key: "ig", selected: false }
+        ],
+        url : null,
       };
-
-      if (sources) {
-        filter_query["source"] = { in: sources };
+    },
+    created() {
+      this.$watch("sources", this.update, { deep: true });
+      this.url = "/assets/img/footer-bg.jpg";
+    },
+    asyncData(context) {
+      let filters = {
+        filter_query: {
+          component: {
+            in: "news-item"
+          }
+        }
+      };
+      return context.store.dispatch("findNews", filters).then(data => {
+        console.log(data.stories);
+        for (let i = 0; i < data.stories.length; i++){
+          // console.log(data.stories[i].full_slug);
+        }
+        return { news: data.stories };
+      });
+    },
+    methods: {
+      update() {
+        this.loading = true;
+        let result = this.$store.dispatch("findNews", this.filters).then(data => {
+          this.loading = false;
+          this.news = data.stories;
+        }).catch((e) => {
+          console.log(e);
+          this.loading = false;
+        });
       }
-
-      return { filter_query };
+    },
+    computed: {
+      items() {
+        let list = [];
+        let temp = [];
+        let currentMonth = null;
+        let m = null;
+        if (!this.news || !this.news.length || this.news.length == 0) {
+          return [];
+        }
+        this.news.forEach((n) => {
+          if (currentMonth != moment(n.content.datetime).month()) {
+            if (currentMonth != null) {
+              list.push({ items: temp, label: m.locale('de-at').format('MMMM') });
+              temp = [];
+            }
+            m = moment(n.content.datetime);
+            currentMonth = m.month();
+          }
+          temp.push({ type: 'item', ...n });
+        });
+        list.push({ items: temp, label: m.locale('de-at').format('MMMM') });
+        return list;
+      },
+      filters() {
+        const sources = this.sources
+                .filter(i => i.selected)
+                .map(i => i.key)
+                .join(",");
+        const filter_query = {
+          component: { in: "news-item" }
+        };
+        if (sources) {
+          filter_query["source"] = { in: sources };
+        }
+        return { filter_query };
+      }
     }
-  }
-};
+  };
 </script>
 
 <style lang="scss">
-@import "@/assets/scss/styles.scss";
-
-.news-page {
-  .no-results {
-    width: 100%;
-    text-align: center;
-    margin-top: 100px;
-  }
-
-  .source-list {
-    width: max-content;
-    margin: 50px auto 0 auto;
-
-    .source {
-      margin: 5px 10px;
+  @import "@/assets/scss/styles.scss";
+  .news-page {
+    .no-results {
+      width: 100%;
+      text-align: center;
+      margin-top: 100px;
     }
-  }
-
-  .loading {
-    margin-top: 20px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .news-feed {
-    margin-right: 4%;
-    margin-left: 4%;
-
-    .month {
-      .container {
-        margin: 100px auto 0 auto;
-        width: 300px;
-
-        .title {
-          text-align: center;
-          background-color: $color-blue;
-          padding: 5px 10px;
-          color: #fff;
-          margin: 0;
-          white-space: nowrap;
-        }
+    .source-list {
+      width: max-content;
+      margin: 50px auto 0 auto;
+      .source {
+        margin: 5px 10px;
       }
-
-      .items {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap: 4vw;
-        @include media-breakpoint-down(sm) {
-          grid-template-columns: repeat(1, 1fr);
-        }
-        /*
-        column-count: 2;
-        column-gap: 2em;
-        @include media-breakpoint-down(sm) {
-          column-count: 1;
-        }
-        */
-
-        .item {
-          display: inline-block;
-          width: 100%;
-
-        @include media-breakpoint-up(md) {
-          &:nth-child(even) {
-            text-align: left;
+    }
+    .loading {
+      margin-top: 20px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .news-feed {
+      margin-right: 4%;
+      margin-left: 4%;
+      .month {
+        .container {
+          margin: 100px auto 0 auto;
+          width: 300px;
+          .title {
+            text-align: center;
+            background-color: $color-blue;
+            padding: 5px 10px;
+            color: #fff;
+            margin: 0;
+            white-space: nowrap;
           }
-          &:nth-child(odd) {
-            text-align: right;
-            .header {
-              flex-direction: row-reverse;
+        }
+        .items {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          grid-gap: 4vw;
+          @include media-breakpoint-down(sm) {
+            grid-template-columns: repeat(1, 1fr);
+          }
+          /*
+          column-count: 2;
+          column-gap: 2em;
+          @include media-breakpoint-down(sm) {
+            column-count: 1;
+          }
+          */
+          .item {
+            display: inline-block;
+            width: 100%;
+            @include media-breakpoint-up(md) {
+              &:nth-child(even) {
+                text-align: left;
+              }
+              &:nth-child(odd) {
+                text-align: right;
+                .header {
+                  flex-direction: row-reverse;
+                }
+              }
             }
           }
         }
+        .separator {
+          border-bottom: 2px dashed $color-blue;
+          width: 100%;
+          margin-top: -1em;
         }
-      }
-
-      .separator {
-        border-bottom: 2px dashed $color-blue;
-        width: 100%;
-        margin-top: -1em;
-      }
-
-      .decorator {
-        width: 50px;
-        margin-bottom: -7px;
+        .decorator {
+          width: 50px;
+          margin-bottom: -7px;
+        }
       }
     }
   }
-}
-
-@media (min-width: $mobile-small) {
-  .source-list {
-    display: flex;
+  @media (min-width: $mobile-small) {
+    .source-list {
+      display: flex;
+    }
   }
-}
+  .general-header {
+    margin-left: 4%;
+    margin-right: 4%;
+    height: calc(50vh - 89px);
+    position: relative;
+    .header-image {
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+    .header-title {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background-color: #FFF;
+      padding: 8vh 75px;
+      min-width: 50%;
+      h4 {
+        margin: 0;
+        font-size: 3rem;
+        font-family: 'Chakra Petch';
+        font-weight: bold;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      height: auto;
+      .header-image {
+        height: 20vh;
+        background-image: url("/assets/img/footer-bg.jpg");
+      }
+      .header-title {
+        position: relative;
+        padding: 5%;
+        h4 {
+          font-size: 2rem;
+        }
+
+      }
+    }
+  }
 </style>
