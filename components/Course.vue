@@ -2,33 +2,31 @@
   <div class="training-item" v-if="course">
     <div class="body">
       <div class="content">
-        <div class="col first">
-          <h4>{{course.name}}</h4>
-          <div class="scoretable" v-if="memberCourse">
-            <div class="score">
-              <span>Praxistest</span>
-              <svg v-if="!memberCourse.manual_activation" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="x-circle" role="presentation" class="fill-current text-danger"><path fill="red" d="M4.93 19.07A10 10 0 1 1 19.07 4.93 10 10 0 0 1 4.93 19.07zm1.41-1.41A8 8 0 1 0 17.66 6.34 8 8 0 0 0 6.34 17.66zM13.41 12l1.42 1.41a1 1 0 1 1-1.42 1.42L12 13.4l-1.41 1.42a1 1 0 1 1-1.42-1.42L10.6 12l-1.42-1.41a1 1 0 1 1 1.42-1.42L12 10.6l1.41-1.42a1 1 0 1 1 1.42 1.42L13.4 12z"></path></svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="check-circle" role="presentation" class="fill-current text-success"><path fill="green" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"></path></svg>
-            </div>
-            <div class="score">
-              <span>Online-Quiz</span>
-              <svg v-if="!memberCourse.is_valid" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="x-circle" role="presentation" class="fill-current text-danger"><path fill="red" d="M4.93 19.07A10 10 0 1 1 19.07 4.93 10 10 0 0 1 4.93 19.07zm1.41-1.41A8 8 0 1 0 17.66 6.34 8 8 0 0 0 6.34 17.66zM13.41 12l1.42 1.41a1 1 0 1 1-1.42 1.42L12 13.4l-1.41 1.42a1 1 0 1 1-1.42-1.42L10.6 12l-1.42-1.41a1 1 0 1 1 1.42-1.42L12 10.6l1.41-1.42a1 1 0 1 1 1.42 1.42L13.4 12z"></path></svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="check-circle" role="presentation" class="fill-current text-success"><path fill="green" d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"></path></svg>
-            </div>
-          </div>
+        <span class="course-heading"><b>{{course.name}}</b></span>
+      <!--</div>-->
+      <div class="course-info" v-if="!memberCourse">
+        <button class="input-button-primary" @click="startCourse">Kurs starten</button>
+      </div>
+      <!--<div v-else class="info">-->
+        <div class="course-info"><span>gestartet am: {{createdDate}}</span></div>
+        <div class="course-info"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
+          <span>Praxistest: </span>
+          <img v-if="memberCourse.manual_activation == 0" src="~/assets/img/icons/times-solid.svg" class="status">
+          <img v-if="memberCourse.manual_activation != 0" src="~/assets/img/icons/check-solid.svg" class="status"></div>
+        <div class="course-info"><!--<span>Online-Quiz: {{!!memberCourse.is_valid}}</span>-->
+          <span>Online-Quiz: </span>
+          <img v-if="memberCourse.is_valid == 0" src="~/assets/img/icons/times-solid.svg" class="status">
+          <img v-if="memberCourse.is_valid != 0" src="~/assets/img/icons/check-solid.svg" class="status">
+          <p v-if="memberCourse.is_valid != 0 && memberCourse.manual_activation == 0">Als nächstes musst du nur noch den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
+          <p v-if="memberCourse.is_valid != 0 && memberCourse.manual_activation != 0" style="color: green"> Der Kurs ASU ist abgeschlossen</p>
+
         </div>
-        <div class="col">
-          <div v-if="!memberCourse">
-            <button class="" @click="startCourse">Kurs starten</button>
-          </div>
-          <div v-if="!memberCourse.is_valid">
-            <button class="button" @click="takeQuiz">Quiz starten</button>
-          </div>
+        <div v-if="!memberCourse.is_valid" class="course-info">
+          <button class="input-button-primary" @click="takeQuiz">Quiz starten</button>
         </div>
       </div>
     </div>
     <div class="footer">
-      <span>gestartet am: {{createdDate}}</span>
     </div>
   </div>
 </template>
@@ -50,6 +48,7 @@ export default {
   },
   computed: {
     memberCourse() {
+      console.log(this.$store.getters.getMemberCourseById(this.course.id));
       return this.$store.getters.getMemberCourseById(this.course.id);
     },
     createdDate() {
@@ -65,40 +64,40 @@ export default {
 <style lang="scss">
 @import '@/assets/scss/styles.scss';
 .training-item {
-  margin-bottom: 5px;
   background-color: #FFF;
+  border: 1px solid #ff8c33;
+  border-radius: 5px;
   padding: 0 10px;
-  .button {
-    cursor: pointer;
-    font-weight: bold;
-    padding: 10px;
-    border: none;
-    outline: none;
-    color: #FFF;
-    background-color: #ff6f00;
+  @include media-breakpoint-up(sm) {
+    float: left;
+    margin: 20px 20px;
+    padding: 0 10px;
+    padding-top: 20px;
+    width: 33%;
+  }
+  @include media-breakpoint-down(sm) {
+    padding: 10px 20px;
   }
   .body {
     padding: 10px 0;
+    color: $color-orange;
+    // display: flex;
+    @include media-breakpoint-down(sm) {
+      display: block;
+    }
     .content {
-      display: flex;
-      .col {
-        &.first {
-          flex: 1;
-        }
+      flex: 1;
+    }
+    .course-info {
+      padding: 10px;
+      @include media-breakpoint-down(sm) {
+        padding: 10px 0;
       }
-      .scoretable {
-        display: flex;
-          .score {
-            flex: 1;
-            span {
-              color: #000;
-              font-size: 21px;
-              margin-right: 20px;
-            }
-            svg {
-              padding-top: 2px;
-            }
-          }
+    }
+    .course-heading {
+      padding: 10px 10px;
+      @include media-breakpoint-down(sm) {
+        padding: 10px 0;
       }
     }
   }
@@ -107,5 +106,36 @@ export default {
     padding: 5px 0;
     color: #333;
   }
+}
+  .status {
+    float: right;
+    width: 5%;
+  }
+.info {
+  @include media-breakpoint-up(sm) {
+    flex: 1;
+    width: 25%;
+  }
+}
+.input-button-primary {
+  cursor: pointer;
+  background-color: #ff6f00;
+  color: #FFF;
+  border: 1px solid #ff8c33;
+  padding: 7px 12px 8px;
+  line-height: 1;
+  outline: none;
+  align-self: center;
+  margin-top: 20px;
+  /*@include media-breakpoint-up(sm) {
+    position: absolute;
+    left: 48%;
+    right: 45%;
+  }
+  @include media-breakpoint-down(sm) {
+    position: absolute;
+    left: 38%;
+    right: 33%;
+  }*/
 }
 </style>

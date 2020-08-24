@@ -31,10 +31,14 @@ const createStore = () => {
       fabman: null,
       courses: null,
       memberCourses: null,
+      workshops: null,
     },
     getters: {
       getMemberCourseById: (state) => (id) => {
         return state.memberCourses.find(c => c.course_id === id);
+      },
+      getMemberWorkshopsById: (state) => (id) => {
+        return state.workshops.find(w => w.content.workshop.uuid === id);
       },
       getPackageById: (state) => (id) => {
         return state.fabman.packages.find(p => p.id === id);
@@ -88,6 +92,89 @@ const createStore = () => {
         }
         return Promise.all(chain);
       },
+      getRecourseLogs() {
+        return connector.get('member/resourceLogs').then((r) => {
+          return r;
+        }).catch((err) => {
+          console.log(err);
+        });
+      },
+      getCurrentActivities() {
+        return connector.get('member/currentActivities').then((r) => {
+          return r;
+        }).catch((err) => {
+          console.log(err);
+        });
+      },
+      getWorkshopDateMetadata({state}, data){
+        console.log(state);
+        console.log(data);
+        console.log(connector);
+        return connector.post('/member/getWorkshopDateMetadata', data).then((r) => {
+          if(r.data) {
+            return r.data;
+          }
+        })
+      },
+      bookWorkshop({state}, data){
+        return connector.post('/member/checkoutWorkshopDate', data).then((r) => {
+          if(r.data.success) {
+            return r.data;
+          }
+        })/*.catch((err) => {
+          console.log(err);
+          console.log(err.response.data.msg);
+        })*/;
+      },
+      getInvoices({state}){
+        return connector.get('/member/invoices').then((r) => {
+          console.log(r);
+          return r;
+        })
+      },
+      getPDF({state},id){
+        return connector.get('/member/invoice/'+id, {}, {
+          headers: {
+            'Content-Type' : 'application/pdf'
+          }
+        }).then((r) => {
+          console.log(r);
+          r.responseType = 'arraybuffer';
+          return r;
+        })
+      },
+      getInvoiceDocument({ commit, dispatch, state }, id) {
+        console.log(id);
+        let instance;
+        if (state.auth || getUserFromLocalStorage()) {
+          // renew Token
+          return new Promise((resolve, reject) => {
+            webAuth.checkSession({}, function (err, authResult) {
+              if (err) {
+                unsetToken();
+                return reject(err);
+              }
+              if (authResult && authResult.accessToken) {
+                //set auth
+                let auth = {
+                  accessToken: authResult.accessToken,
+                }
+                setToken(authResult.accessToken);
+                commit('setAuth', auth);
+                instance = axios.create({
+                  baseURL: 'https://connector.grandgarage.eu/api/member/invoice/'+id,
+                  // headers: {'Authorization': `Bearer ${auth.accessToken}`, 'Content-Type' : 'application/pdf'}
+                  headers: {'Authorization': `Bearer ${auth.accessToken}`}
+                });
+                dispatch('getPDF', id);
+                resolve();
+              }
+            });
+          }).then((r) => {
+            console.log(r);
+          });
+        }
+      },
       saveQuiz({state }, data) {
         return connector.post('/courses/save-quiz', data).then((r) => {
           if (r.data.success) {
@@ -131,6 +218,8 @@ const createStore = () => {
           let patch = { profile: r.data }
           let user = Object.assign(state.user, patch);
           commit('setUser', user);
+        }).catch((err) => {
+          console.log(err);
         });
       },
       getUser({ state, commit, dispatch }) {
@@ -158,7 +247,7 @@ const createStore = () => {
                 setToken(authResult.accessToken);
                 commit('setAuth', auth);
                 connector = axios.create({
-                  baseURL: 'https://connector.grandgarage.eu/api/',
+                  baseURL: 'https://connector.grandgarage.eu/api',
                   headers: {'Authorization': `Bearer ${auth.accessToken}`}
                 });
                 dispatch('getCourses');
@@ -274,6 +363,8 @@ const createStore = () => {
           cv: state.cacheVersion
         }).then((res) => {
           return res.data;
+        }).catch((err)=> {
+          console.log(err);
         })
       },
       loadPage ({state}, path) {
@@ -286,6 +377,8 @@ const createStore = () => {
           cv: state.cacheVersion
         }).then((res) => {
           return res.data;
+        }).catch((err)=> {
+          console.log(err);
         })
       },
       loadMachineItem ({state}, slug) {
@@ -406,7 +499,8 @@ const createStore = () => {
           let workshopdates = res.data.stories;
           let workshops = {};
           for (let w of workshopdates) {
-            let wid = w.content.workshop.uuid;
+            let wid;
+            wid = w.content.workshop.uuid;
             if (wid in workshops) {
             } else {
               workshops[wid] = Object.assign({ dates: [] }, w.content.workshop);
