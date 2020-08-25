@@ -4,12 +4,12 @@
       {{blok.text}}
     </div>
     <div v-swiper:swiper="swiperOption">
-      <div class="swiper-wrapper">
+      <div class="swiper-wrapper" v-bind:class="{ center : length }">
         <div class="swiper-slide" :key="s._uid" v-for="s in blok.items" :style="{ 'background-image': 'url(' + $resizeImage(s.image, '700x0') + ')' }">
         </div>
       </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+        <div v-if="!length" class="swiper-button-next"></div>
+        <div v-if="!length" class="swiper-button-prev"></div>
     </div>
   </div>
 </template>
@@ -48,12 +48,21 @@ export default {
       }
       return 3;
     },
+    length() {
+      return this.blok.items.length < 4;
+    }
   }
 }
 </script>
 
 <style lang="scss">
 @import '@/assets/scss/styles.scss';
+
+.swiper-wrapper.center {
+  @include media-breakpoint-up(sm) {
+    justify-content: center;
+  }
+}
 
 .image-slideshow {
   color: $color-blue;

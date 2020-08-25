@@ -9,29 +9,28 @@
         <div class="blogFeed-detail">
             <div class="left-content">
                 <span class="info-block">{{item.content.datetime | date }}</span>
-                <a :href="item.content.link.url" class="info-block"><img v-if="item.content.source" class="source-img" :src="`/icons/${item.content.source}.png`"></a>
+                <a v-if="item.content.link.url != ''" :href="item.content.link.url" class="info-block"><img v-if="item.content.source.length != 0" class="source-img" :src="`/icons/${item.content.source}.png`"></a>
             </div>
             <div class="right-content">
                 <div class="teaser">
-                    {{item.content.teaser}}
-                </div>
+                        {{item.content.teaser}}
+                 </div>
                 <div>
                     {{item.content.text}}
                 </div>
 
             </div>
         </div>
-        <div class="images" v-if="item.content.images">
+        <div class="images" v-if="item.content.images.length != 0">
             <image-slideshow :blok="images"></image-slideshow>
         </div>
         <div class="blogFeed-detail">
-            <div class="left-content"></div>
-            <div v-if="item.content.content" class="right-content">
-                <!--<div v-if="item.content.content">{{item.content.content}}</div>-->
-                <div v-html="richtext"></div>
+            <div v-if="item.content.contentBloks" v-for="i in item.content.contentBloks" class="right-content">
+                <span v-if="i.text" class="content-text">{{i.text}}</span>
+                <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '600x0')" alt=""/></span>
             </div>
         </div>
-        <div v-if="item.content.links">
+        <div v-if="item.content.links.length != 0">
             <links-slideshow :blok="links"></links-slideshow>
         </div>
     </div>
@@ -46,22 +45,39 @@
             return {
                 story: null,
                 // images: [],
+                reload: null,
+                item: null,
             }
         },
         mixins: [storyblokLivePreview],
         asyncData(context) {
-            console.log(context);
-            return context.store.dispatch('loadFullPage', context.route.fullPath).catch((e) => {
+            console.log(context.route.fullPath);
+            return context.store.dispatch('loadFullPage', context.route.fullPath)
+                .then((res) => {
+                    console.log(res.story);
+                })
+                /*.catch((e) => {
                 context.error({statusCode: e.response.status, message: e.response.statusText})
-            });
+            });*/
+        },
+        created() {
+            // console.log(this.$route);
+            // console.log(this.$route.query);
+            console.log(this.item);
+            console.log(this.story);
         },
         computed: {
             item() {
-                console.log(this.$route.query.item);
-                return this.$route.query.item;
+                console.log(this.$route.fullPath);
+                /*return this.$route.query.item;*/
+                let content;
+                this.$store.dispatch("loadFullPage", this.$route.fullPath).then((data) => {
+                    console.log(data.story);
+                    return data.story;
+                });
             },
             images() {
-                console.log(this.item.content.images);
+                // console.log(this.item.content.images);
                 return {
                     items: this.item.content.images,
                 }
@@ -69,6 +85,11 @@
             links() {
                 return {
                     items: this.item.content.links,
+                }
+            },
+            content() {
+                return {
+                    content: this.item.content.contentBloks.text,
                 }
             },
             richtext() {
@@ -89,19 +110,31 @@
         height: 100%;
         background-size: cover;
         background-position: 50%;
+        @include media-breakpoint-down(sm) {
+            height: 65%;
+            background-position: 0;
+        }
     }
     .header-title{
-        position: absolute;
         right: 0;
         bottom: 0;
         background-color: #fff;
         padding: 75px;
         min-width: 50%;
+        @include media-breakpoint-up(sm) {
+            position: absolute;
+        }
+        @include media-breakpoint-down(sm) {
+            padding: 25px 10px;
+        }
         h4{
             margin: 0;
             font-size: 3rem;
             font-family: Chakra Petch;
             font-weight: 700;
+            @include media-breakpoint-down(sm) {
+                font-size: 2rem;
+            }
         }
     }
     .blogFeed-detail {
@@ -111,15 +144,22 @@
         flex: 1;
         justify-content: center;
         line-height: normal;
+        margin-top: 20px;
         @include margin-page-wide();
         @include media-breakpoint-up(md) {
             margin: 0 100px;
         }
+        @include media-breakpoint-down(xs) {
+            margin-top: 40px;
+        }
         .teaser {
-            margin: 20px 0 20px 0;
+            margin: 20px 40px;
         }
         .left-content {
             margin-top: 40px;
+            @include media-breakpoint-down(sm) {
+                margin-bottom: 20px;
+            }
             .info-block {
                 margin: 20px;
             }
@@ -129,9 +169,16 @@
             position: relative;
             display: flex;
             align-items: flex-start;
+
             @include media-breakpoint-up(md) {
                 margin-left: 25%;
             }
+            img{
+                @include media-breakpoint-down(sm) {
+                    width: 100%;
+                }
+            }
+
             .teaser, .info-text {
                 font-weight: normal;
                 font-family: $font-primary;
@@ -140,7 +187,7 @@
                 @include media-breakpoint-down(sm) {
                     line-height: 1.4;
                     font-size: 1rem;
-                    margin: 0 0 0 5%
+                    margin: 0 0 20px 5%
                 }
             }
             .teaser {
@@ -157,6 +204,21 @@
                 padding: .7em .8em;
                 font-weight: 800;
             }
+            .content-text {
+                padding: 20px 80px;
+                @include media-breakpoint-down(sm) {
+                    padding: 20px 20px;
+                }
+            }
+        }
+    }
+    .img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        @include media-breakpoint-down(sm) {
+            margin-left: 20px;
+            margin-right: 20px;
         }
     }
     .images {

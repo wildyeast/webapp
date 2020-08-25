@@ -1,30 +1,37 @@
 <template>
-  <section class="news-page">
-    <div class="header-title">
-      Blog
-    </div>
-    <loading v-if="loading" class="loading"/>
-
-    <div class="news-feed">
-      <div class="month" v-for="(month, mi) in items">
-        <div class="container">
-          <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="mi == 0">
-          <h1 class="title">{{month.label}}</h1>
+  <section>
+    <div class="blog-wrapper">
+      <img class="blog-header-image" :src="$resizeImage(url, '1600x0')">
+      <div class="blog">
+        <div class="headline">
+          <p class="headline-text">Blog</p>
         </div>
-        <div class="separator"/>
+        <div class="news-page">
+          <div class="news-feed">
+            <div class="month" v-for="(month, mi) in items">
+              <div class="container">
+                <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="mi == 0">
+                <h1 class="title">{{month.label}}</h1>
+              </div>
+              <div class="separator"/>
 
-        <div v-if="month.items && month.items.length == 1">
-          <div class="item" v-for="(item, ii) in month.items" :key="ii">
-            <news-feed-item :news="item.content" :key="item.id" type="horizontal" />
-          </div>
-        </div>
-        <div v-else-if="month.items && month.items.length > 1" class="items">
-          <div class="item" v-for="(item, ii) in month.items" :key="ii">
-            <news-feed-item :news="item" :key="item.id" type="vertical" />
+              <div v-if="month.items && month.items.length == 1">
+                <div class="item" v-for="(item, ii) in month.items" :key="ii" v-if="item.name != 'Header'">
+                  <news-feed-item :news="item.content" :key="item.id" type="horizontal" v-if="item.name != 'Header'"/>
+                </div>
+              </div>
+              <div v-else-if="month.items && month.items.length > 1" class="items">
+                <div class="item" v-for="(item, ii) in month.items" :key="ii" v-if="item.name != 'Header'">
+                  <news-feed-item :news="item" :key="item.id" type="vertical" v-if="item.name != 'Header'"/>
+                  {{item.id}} {{item.uuid}}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
   </section>
 </template>
 
@@ -41,6 +48,7 @@
     data() {
       return {
         news: [],
+        root: null,
         loading: false,
         sources: [
           { name: "magazin3", key: "m3", selected: false },
@@ -48,22 +56,39 @@
           { name: "facebook", key: "fb", selected: false },
           { name: "twitter", key: "tw", selected: false },
           { name: "instagram", key: "ig", selected: false }
-        ]
+        ],
+        url : null,
       };
     },
     created() {
       this.$watch("sources", this.update, { deep: true });
+      for(let i = 0; i < this.items.length; i++) {
+        for(let j = 0; j < this.items[i].items.length; j++){
+          if(this.items[i].items[j].name == 'Header'){
+            this.url = this.items[i].items[j].content.image;
+          }
+        }
+      }
+
     },
     asyncData(context) {
       let filters = {
         filter_query: {
           component: {
-            in: "news-item"
+            in: "news-overview"
           }
         }
       };
+      /*root = context.store.dispatch("loadPage", "/news").then(data => {
+                  return data.stories ;
+                }).catch(e => {
+                  context.error({
+                    statusCode: e.response.status,
+                    message: e.response.statusText
+                  });
+                });*/
       return context.store.dispatch("findNews", filters).then(data => {
-        console.log(data.stories);
+        // console.log(data);
         for (let i = 0; i < data.stories.length; i++){
           // console.log(data.stories[i].full_slug);
         }
@@ -77,10 +102,9 @@
           this.loading = false;
           this.news = data.stories;
         }).catch((e) => {
-          console.log(e);
           this.loading = false;
         });
-      }
+      },
     },
     computed: {
       items() {
@@ -100,6 +124,10 @@
             m = moment(n.content.datetime);
             currentMonth = m.month();
           }
+          if(n.name == 'Header'){
+            this.url = n.content.image;
+            console.log(this.url);
+          }
           temp.push({ type: 'item', ...n });
         });
         list.push({ items: temp, label: m.locale('de-at').format('MMMM') });
@@ -111,7 +139,7 @@
                 .map(i => i.key)
                 .join(",");
         const filter_query = {
-          component: { in: "news-item" }
+          component: { in: "news-overview" }
         };
         if (sources) {
           filter_query["source"] = { in: sources };
@@ -124,7 +152,92 @@
 
 <style lang="scss">
   @import "@/assets/scss/styles.scss";
+  .blog-wrapper {
+    padding-left: 15%;
+    padding-top: 15%;
+    position: relative;
+    @media (max-width: $mobile-small) {
+      padding-left: 0;
+      padding-top: 200px;
+    }
+    .blog-header-image {
+      background-size: contain;
+      background-repeat: no-repeat;
+      display: block;
+      width: 100%;
+      z-index: -1;
+      max-height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .blog {
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+      background-color: #fff;
+      @media (max-width: $mobile-small) {
+        padding: 20px;
+      }
+      .headline {
+        font-weight: bold;
+        font-size: 3.2rem;
+        text-transform: uppercase;
+        .headline-text {
+          margin: 20px 20px;
+        }
+        @media (max-width: $mobile-small) {
+          font-size: 2.5rem;
+        }
+      }
+      .subline {
+        font-family: $font-mono;
+        font-size: 1.2rem;
+        margin-bottom: 80px;
+        line-height: 1.5;
+      }
+      .member-filters {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin: 10px;
+        .department-label {
+          margin: 0 5px;
+          background-color: #eee;
+          padding: 2px 5px;
+          label {
+            display: block;
+            user-select: none;
+            padding: 10px;
+          }
+          input {
+            display: none;
+          }
+          &.active {
+            background-color: $color-orange;
+            color: #fff;
+          }
+        }
+      }
+      .member-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+        .member-item {
+          width: 100%;
+        }
+        @media (min-width: $mobile-large) {
+          display: grid;
+        }
+      }
+    }
+  }
+  .image-footer {
+    height: 50vh;
+    background-size: cover;
+    background-position: center;
+  }
   .news-page {
+    margin-top: -60px;
     .no-results {
       width: 100%;
       text-align: center;
@@ -206,23 +319,39 @@
       display: flex;
     }
   }
-  .header-title {
-    display: flex;
-    font-size: 2.8rem;
-    @include media-breakpoint-down(lg) {
-      font-size: 2.35rem;
+  .general-header {
+    margin-left: 4%;
+    margin-right: 4%;
+    height: calc(50vh - 89px);
+    position: relative;
+    .header-image {
+      height: 100%;
+      background-size: cover;
+      background-position: center;
     }
-    @include media-breakpoint-down(xs) {
-      font-size: 1.8rem;
+    .header-title {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      background-color: #FFF;
+      padding: 8vh 75px;
+      min-width: 50%;
+      h4 {
+        margin: 0;
+        font-size: 3rem;
+        font-family: 'Chakra Petch';
+        font-weight: bold;
+      }
     }
-    line-height: 1.3;
-    font-weight: bold;
-    font-family: $font-primary;
-    letter-spacing: .05em;
-    justify-content: center;
-    margin-top: 40px;
-    text-transform: uppercase;
-    width: 100%;
+    @include media-breakpoint-down(sm) {
+      height: auto;
+      .header-title {
+        position: relative;
+        padding: 5%;
+        h4 {
+          font-size: 2rem;
+        }
+      }
+    }
   }
 </style>
-© 2020 GitHub, Inc.

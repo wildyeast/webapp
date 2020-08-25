@@ -1,11 +1,11 @@
 <template>
-  <div v-editable="news.content" :class="'news-feed-item ' + type || 'vertical'">
+  <div v-editable="news.content" :class="'news-feed-item ' + type || 'vertical'" v-if="news.content && news.content.component == 'news-overview' && news.content != 'Header'">
     <div class="top">
       <!--<a :href="link" target="_blank">-->
       <Nuxt-link :to="{ path: './'+news.slug , query: { item: news }}" class="link">
         <div class="header">
           <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
-          <img v-if="news.content.source" class="source-img" :src="`/icons/${news.content.source}.png`">
+          <img v-if="news.content.source && news.content.source.length != 0" class="source-img" :src="`/icons/${news.content.source}.png`">
         </div>
         <img class="image" :src="$resizeImage(news.content.image, '600x0')">
       </Nuxt-link>
@@ -18,11 +18,38 @@
       <nuxt-link :to="{ path: './'+news.slug, query: { item: news }}" class="link">
         <div class="header">
           <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
-          <img v-if="news.content.source" class="source-img" :src="`/icons/${news.content.source}.png`">
+          <img v-if="news.content.source && news.content.source.length != 0" class="source-img" :src="`/icons/${news.content.source}.png`">
         </div>
 
         <h4 class="title">{{news.content.title}}</h4>
-        <span class="text">{{news.content.text}}</span>
+        <span class="text">{{news.content.teaser}}</span>
+      </nuxt-link>
+      <!--</a>-->
+    </div>
+  </div>
+  <div v-else-if="news.content != 'Header'" :class="'news-feed-item ' + type || 'vertical'">
+    <div class="top">
+      <!--<a :href="link" target="_blank">-->
+      <Nuxt-link :to="{ path: './'+news.slug , query: { item: news }}" class="link">
+        <div class="header">
+          <p class="date" v-if="news.datetime">{{news.datetime | date}}</p>
+          <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
+        </div>
+        <img class="image" :src="$resizeImage(news.image, '600x0')">
+      </Nuxt-link>
+      <!--</a>-->
+    </div>
+
+    <div class="bot">
+      <!--<a :href="link" target="_blank">
+        <nuxt-link :to="{ path: '/news/detail', query: { item: news }}" class="link">-->
+      <nuxt-link :to="{ path: './'+news.slug, query: { item: news }}" class="link">
+        <div class="header">
+          <p class="date" v-if="news.datetime">{{news.datetime | date}}</p>
+          <img v-if="news.source && news.source.length != 0" class="source-img" :src="`/icons/${news.source}.png`">
+        </div>
+
+        <h4 class="title">{{news.content}}</h4>
       </nuxt-link>
       <!--</a>-->
     </div>
@@ -51,10 +78,11 @@
     },
     created() {
       // this.getStory();
+      console.log(this.news);
     },
     computed: {
       getStory(){
-        console.log(this.news);
+        // console.log(this.news);
       }
     },
     asyncData (context) {
