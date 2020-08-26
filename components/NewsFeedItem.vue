@@ -20,7 +20,6 @@
           <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
           <img v-if="news.content.source && news.content.source.length != 0" class="source-img" :src="`/icons/${news.content.source}.png`">
         </div>
-
         <h4 class="title">{{news.content.title}}</h4>
         <span class="text">{{news.content.teaser}}</span>
       </nuxt-link>
@@ -48,7 +47,6 @@
           <p class="date" v-if="news.datetime">{{news.datetime | date}}</p>
           <img v-if="news.source && news.source.length != 0" class="source-img" :src="`/icons/${news.source}.png`">
         </div>
-
         <h4 class="title">{{news.content}}</h4>
       </nuxt-link>
       <!--</a>-->
