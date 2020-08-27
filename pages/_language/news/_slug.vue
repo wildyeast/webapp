@@ -1,36 +1,72 @@
 <template>
-    <div>
+    <div v-if="item[0]">
+    <div class="header">
+        <div class="header-image" :style="{ 'background-image': 'url(' + item[0].content.image + ')' }"></div>
+        <div class="header-title">
+            <h4>{{item[0].content.title}}</h4>
+        </div>
+    </div>
+    <div class="blogFeed-detail">
+        <div class="left-content">
+            <span class="info-block">{{item[0].content.datetime | date }}</span>
+            <a v-if="item[0].content.link.url != ''" :href="item[0].content.link.url" class="info-block"><img v-if="item[0].content.source.length != 0" class="source-img" :src="`/icons/${item[0].content.source}.png`"></a>
+        </div>
+        <div class="right-content">
+            <div class="teaser">
+                {{item[0].content.teaser}}
+            </div>
+            <div>
+                {{item[0].content.text}}
+            </div>
+
+        </div>
+    </div>
+    <div class="images" v-if="item[0].content.images && item[0].content.images.length != 0">
+        <image-slideshow :blok="images"></image-slideshow>
+    </div>
+    <div class="blogFeed-detail">
+        <div v-if="item[0].content.contentBloks" v-for="i in item[0].content.contentBloks" class="right-content">
+            <span v-if="i.text" class="content-text">{{i.text}}</span>
+            <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '600x0')" alt=""/></span>
+        </div>
+    </div>
+    <div v-if="item[0].content.links && item[0].content.links.length != 0">
+        <links-slideshow :blok="links"></links-slideshow>
+    </div>
+</div>
+    <div v-else>
         <div class="header">
-            <div class="header-image" :style="{ 'background-image': 'url(' +item.content.image+ ')' }"></div>
+            <div class="header-image" :style="{ 'background-image': 'url(' + item.image + ')' }"></div>
             <div class="header-title">
-                <h4>{{item.content.title}}</h4>
+                <h4>{{item.title}}</h4>
             </div>
         </div>
         <div class="blogFeed-detail">
             <div class="left-content">
-                <span class="info-block">{{item.content.datetime | date }}</span>
-                <a v-if="item.content.link.url != ''" :href="item.content.link.url" class="info-block"><img v-if="item.content.source.length != 0" class="source-img" :src="`/icons/${item.content.source}.png`"></a>
+                <span class="info-block">{{item.datetime | date }}</span>
+                {{item}}
+                <!--<a v-if="item.link.url && item.link.url != ''" :href="item.link.url" class="info-block"><img v-if="item.source.length != 0" class="source-img" :src="`/icons/${item.source}.png`"></a>-->
             </div>
             <div class="right-content">
                 <div class="teaser">
-                        {{item.content.teaser}}
-                 </div>
+                    {{item.teaser}}
+                </div>
                 <div>
-                    {{item.content.text}}
+                    {{item.text}}
                 </div>
 
             </div>
         </div>
-        <div class="images" v-if="item.content.images.length != 0">
+        <div class="images" v-if="item.images && item.images.length != 0">
             <image-slideshow :blok="images"></image-slideshow>
         </div>
         <div class="blogFeed-detail">
-            <div v-if="item.content.contentBloks" v-for="i in item.content.contentBloks" class="right-content">
+            <div v-if="item.contentBloks" v-for="i in item.contentBloks" class="right-content">
                 <span v-if="i.text" class="content-text">{{i.text}}</span>
                 <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '600x0')" alt=""/></span>
             </div>
         </div>
-        <div v-if="item.content.links.length != 0">
+        <div v-if="item.links && item.links.length != 0">
             <links-slideshow :blok="links"></links-slideshow>
         </div>
     </div>
@@ -40,61 +76,127 @@
     import storyblokLivePreview from '@/mixins/storyblokLivePreview'
 
     export default {
-        props: ['blok', 'text'],
         data() {
             return {
-                story: null,
                 // images: [],
                 reload: null,
-                item: null,
+                loading: false,
+                sources: [
+                    { name: "magazin3", key: "m3", selected: false },
+                    { name: "youtube", key: "yt", selected: false },
+                    { name: "facebook", key: "fb", selected: false },
+                    { name: "twitter", key: "tw", selected: false },
+                    { name: "instagram", key: "ig", selected: false }
+                ],
+                news: [],
+                it: []
             }
         },
         mixins: [storyblokLivePreview],
         asyncData(context) {
-            console.log(context.route.fullPath);
-            return context.store.dispatch('loadFullPage', context.route.fullPath)
-                .then((res) => {
-                    console.log(res.story);
-                })
-                /*.catch((e) => {
-                context.error({statusCode: e.response.status, message: e.response.statusText})
-            });*/
+            let filters = {
+                filter_query: {
+                    component: {
+                        in: "news-overview"
+                    }
+                }
+            };
+            /*root = context.store.dispatch("loadPage", "/news").then(data => {
+                        return data.stories ;
+                      }).catch(e => {
+                        context.error({
+                          statusCode: e.response.status,
+                          message: e.response.statusText
+                        });
+                      });*/
+            return context.store.dispatch("findNews", filters).then(data => {
+                // console.log(data);
+                for (let i = 0; i < data.stories.length; i++){
+                    // console.log(data.stories[i].full_slug);
+                }
+                return { news: data.stories };
+            });
         },
         created() {
             // console.log(this.$route);
             // console.log(this.$route.query);
-            console.log(this.item);
-            console.log(this.story);
+            // this.items;
+        },
+        methods: {
+            filters() {
+                const sources = this.sources
+                    .filter(i => i.selected)
+                    .map(i => i.key)
+                    .join(",");
+                const filter_query = {
+                    component: { in: "news-overview" }
+                };
+                if (sources) {
+                    filter_query["source"] = { in: sources };
+                }
+                console.log({ filter_query });
+                return { filter_query };
+            },
         },
         computed: {
-            item() {
+            /*items() {
                 console.log(this.$route.fullPath);
-                /*return this.$route.query.item;*/
-                let content;
-                this.$store.dispatch("loadFullPage", this.$route.fullPath).then((data) => {
-                    console.log(data.story);
-                    return data.story;
-                });
+                console.log(this.$route.fullPath.split('=')[1])
+                    this.loading = true;
+                    let result = this.$store.dispatch("findNews", this.filters).then(data => {
+                        this.loading = false;
+                        this.news = data.stories;
+                        console.log(this.news);
+                    }).catch((e) => {
+                        this.loading = false;
+                    });
+            },*/
+            item(){
+                for(let i = 0; i < this.news.length; i++){
+                    if(this.news[i].uuid == this.$route.fullPath.split('=')[1]){
+                        console.log(this.news[i])
+                        this.it.push(this.news[i]);
+                    }
+                }
+                console.log(this.it);
+              return this.it;
+            },
+            /*filters() {
+                const sources = this.sources
+                    .filter(i => i.selected)
+                    .map(i => i.key)
+                    .join(",");
+                const filter_query = {
+                    component: { in: "news-overview" }
+                };
+                if (sources) {
+                    filter_query["source"] = { in: sources };
+                }
+                console.log({ filter_query });
+                return { filter_query };
+            },*/
+            route(){
+              return this.$route.fullPath;
             },
             images() {
                 // console.log(this.item.content.images);
                 return {
-                    items: this.item.content.images,
+                    items: this.item[0].content.images,
                 }
             },
             links() {
                 return {
-                    items: this.item.content.links,
+                    items: this.item[0].content.links,
                 }
             },
             content() {
                 return {
-                    content: this.item.content.contentBloks.text,
+                    content: this.item[0].content.contentBloks.text,
                 }
             },
-            richtext() {
+            /*richtext() {
                 return this.$storyapi.richTextResolver.render(this.$route.query.item.content.content);
-            }
+            }*/
         },
     }
 </script>
