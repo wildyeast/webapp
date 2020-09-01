@@ -10,10 +10,10 @@
         <div class="tab-section-menu">
           <NuxtLink to="/me/">Mein Profil</NuxtLink>
           <NuxtLink to="/me/packages">Packages</NuxtLink>
-          <NuxtLink to="/me/trainings">Unterweisungen</NuxtLink>
+          <!-- <NuxtLink to="/me/trainings">Unterweisungen</NuxtLink>-->
           <NuxtLink to="/me/shop">Material bestellen</NuxtLink>
           <NuxtLink to="/me/invoices">Meine Rechnungen</NuxtLink>
-          <NuxtLink to="/me/log">Meine Aktivitäten</NuxtLink>
+         <!-- <NuxtLink to="/me/log">Meine Aktivitäten</NuxtLink>-->
         </div>
         <div class="tab-section-content">
           <NuxtChild :key="$route.params.slug"></NuxtChild>
