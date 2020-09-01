@@ -105,6 +105,12 @@ const createStore = () => {
                 }).catch((err) => {
                     console.log(err);
                 });
+            }, getUserMetadata() {
+                return connector.get('member/metadata').then((r) => {
+                    return r;
+                }).catch((err) => {
+                    console.log(err);
+                });
             },
             getWorkshopDateMetadata({state}, data) {
                 if (connector) {
@@ -113,10 +119,10 @@ const createStore = () => {
                             return r.data;
                         }
                     })
-                }else{
-                  return new Promise((resolve, reject) => {
-                    throw new Error({logged_in: false});
-                  })
+                } else {
+                    return new Promise((resolve, reject) => {
+                        throw new Error({logged_in: false});
+                    })
                 }
 
             },
@@ -264,6 +270,10 @@ const createStore = () => {
                             return dispatch('getUser');
                         }
                     });
+                }else{
+                    return new Promise((resolve, reject) => {
+                        throw new Error('not logged in');
+                    })
                 }
             },
             auth({commit}, {hash}) {
@@ -374,7 +384,8 @@ const createStore = () => {
                 return this.$storyapi.get(`cdn/stories/${uuid}`, {
                     version: version,
                     cv: state.cacheVersion,
-                    find_by: 'uuid'
+                    find_by: 'uuid',
+                    resolve_relations:'workshop-date.workshop'
                 }).then((res) => {
                     return res.data;
                 }).catch((err) => {

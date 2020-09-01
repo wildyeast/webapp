@@ -1,35 +1,15 @@
 <template>
     <div class="workshop-overview">
-        <h2>Workshop Overview</h2>
         <div class="left-content" v-if="workshopDate != null">
-            <h2 class="headline">{{workshopDate.name}}
-            </h2>
-            <div>
-                <div class="info-row">
-                    <div class="info-block">
-                        <div class="col info date">
-                            <icon name="calendar"/>
-                            <!-- <icon name="calendar" /> -->
-                            Datum: {{workshopDate.content.starttime | date}}
-                            <icon name="clock"/>
-                            Start: {{workshopDate.content.starttime | time}}
+            <h1>Workshop-Buchung</h1>
 
-                            Ende: {{workshopDate.content.endtime | time}}
-                        </div>
-                        <div class="col info">
-                            <div class="col register">
-                                <NuxtLink :to="{ path: $store.state.route.from.fullPath }" class="link">Zur Übersicht
-                                </NuxtLink>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <workshop-preview class="preview"  :key="workshopDate.content.workshop.uuid" :id="workshopDate.content.workshop.uuid"></workshop-preview>
+            <workshop-dates :dates="[workshopDate]" class="workshop-dates" :hideRegister="true"></workshop-dates>
 
-            </div>
             <div class="spacer"></div>
 
 
-            <div v-if="step == 0">
+            <div v-if="step == 0 && userMetadata != null">
                 <div>
                     <div class="info-row payment">
                         <div class="info-block">
@@ -53,34 +33,38 @@
 
                 </div>
 
-                <div class="info-row option">
+                <div class="info-row option" v-if="userMetadata.sepa_active">
                     <div class="info-block">
                         <div class="col info">
                             <input type="radio" id="sepa" @click="selectPaymentMethod(2)"
                                    name="payment" value="sepa">
-                            <label for="sepa">Sofortüberweisung</label><br>
+                            <label for="sepa">SEPA-Monatsrechnung</label><br>
                         </div>
                     </div>
                 </div>
-                <button @click="onNextStep(1)">pay</button>
+                <div class="spacer"></div>
+
+                <button class="link" @click="onNextStep(1)">Weiter</button>
 
             </div>
 
             <div v-if="step == 1">
-                {{paymentMethod}}
-                check payment
-                <button @click="onNextStep(2)">pay</button>
+                <h2>Bestätigung</h2>
+
+                <span>Zahlungsmethode {{paymentMethod==2?'SEPA-Monatsrechnung':'Kreditkarte'}}</span>
+
+                <div class="spacer"></div>
+
+                <button class="link" @click="onNextStep(2)">Workshop buchen</button>
 
 
             </div>
 
             <div v-if="step == 2">
-                payment processing
-
-
+                <loading-spinner color="black"></loading-spinner>
             </div>
             <div v-if="step == 3">
-                done
+                Workshop gebucht!
 
 
             </div>
@@ -91,7 +75,8 @@
 </template>
 
 <script>
-
+import WorkshopDates from "../../components/WorkshopDates";
+import WorkshopPreview from "../../components/WorkshopPreview";
     export default {
         name: "buyWorkshop",
         props: {},
@@ -99,12 +84,16 @@
             return {
                 paymentMethod: 0,
                 step: 0,
-                workshopDate: null
+                workshopDate: null,
+                userMetadata: null
             }
         },
         mounted() {
             this.$store.dispatch("loadStoryByUUid",this.$route.query['uuid']).then(data =>{
                 this.workshopDate = data.story;
+            });
+            this.$store.dispatch("getUserMetadata").then(data =>{
+                this.userMetadata = data.data;
             })
         },
         methods: {
@@ -123,7 +112,7 @@
             },
 
             redirect: function (data) {
-                var stripe = Stripe('pk_test_ZoipqWabXVjKz7iIGCT1D2Nl00CNnYoQQL');
+                var stripe = Stripe('pk_live_XCUCaJMt8kMEpedQdvmtMu4Z00rNP9VDun');
                 stripe.redirectToCheckout({
                     sessionId: data.session_id,
                 });
@@ -165,7 +154,15 @@
         @include media-breakpoint-up(md) {
             margin: 0 100px;
         }
-
+        .link {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px;
+            border: none;
+            outline: none;
+            color: #FFF;
+            background-color: $color-orange;
+        }
         .left-content {
             .headline {
                 position: relative;
@@ -193,7 +190,7 @@
                 font-family: $font-mono;
                 font-size: 0.9rem;
                 font-weight: bold;
-                margin: -8px;
+                //margin: -8px;
                 display: flex;
 
                 &.option {
@@ -264,6 +261,22 @@
             margin-bottom: 0;
             margin-top: 0;
         }
+
+    }
+
+</style>
+<style lang="scss">
+    .preview{
+        pointer-events: none;
+    .preview-wrapper{
+    .workshop-preview{
+        width: 100% !important;
+        padding: 0!important;
+        .story{
+            padding:0;
+        }
+    }
+    }
 
     }
 </style>
