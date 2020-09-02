@@ -112,7 +112,7 @@ import WorkshopPreview from "../../components/WorkshopPreview";
             },
 
             redirect: function (data) {
-                var stripe = Stripe('pk_test_K0zTDObBxmqCdU0E3xAmDbh600Vvk8Us76');
+                var stripe = Stripe('pk_live_XCUCaJMt8kMEpedQdvmtMu4Z00rNP9VDun');
                 stripe.redirectToCheckout({
                     sessionId: data.session_id,
                 });
