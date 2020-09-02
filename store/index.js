@@ -257,7 +257,7 @@ const createStore = () => {
                                 setToken(authResult.accessToken);
                                 commit('setAuth', auth);
                                 connector = axios.create({
-                                    baseURL: 'https://connector.grandgarage.eu/api',
+                                    baseURL: 'http://connector.grandgarage.eu/api',
                                     headers: {'Authorization': `Bearer ${auth.accessToken}`}
                                 });
                                 dispatch('getCourses');
@@ -272,7 +272,7 @@ const createStore = () => {
                     });
                 }else{
                     return new Promise((resolve, reject) => {
-                        throw new Error('not logged in');
+                        resolve(false)
                     })
                 }
             },
