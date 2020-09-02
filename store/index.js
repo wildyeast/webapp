@@ -257,7 +257,7 @@ const createStore = () => {
                                 setToken(authResult.accessToken);
                                 commit('setAuth', auth);
                                 connector = axios.create({
-                                    baseURL: 'http://connector.grandgarage.eu/api',
+                                    baseURL: 'https://connector.grandgarage.eu/api',
                                     headers: {'Authorization': `Bearer ${auth.accessToken}`}
                                 });
                                 dispatch('getCourses');
