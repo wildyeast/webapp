@@ -52,6 +52,12 @@
                   <span>ausgebucht</span>
                 </div>
               </div>
+              <!-- <div class="info-block">
+                <div class="col" v-if="content.pax">
+                  <icon name="user" />
+                  <span>{{content.pax}}</span>
+                </div>
+              </div>-->
             </div>
           </div>
         </div>
@@ -76,7 +82,10 @@ export default {
     linktext() {
       return "Mehr Infos";
     }
-  }
+  },
+  mounted() {
+    // console.log(this.blok.uuid);
+  },
 }
 </script>
 

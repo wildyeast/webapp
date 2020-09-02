@@ -1,7 +1,9 @@
 <template>
   <div class="training-item" v-if="training">
     <div class="body">
-      {{training.title}}
+      <div class="content">
+        {{training.title}}
+      </div>
     </div>
     <div class="footer">
       {{date}}
@@ -32,6 +34,10 @@ export default {
   .body {
     padding: 10px 0;
     color: $color-orange;
+    display: flex;
+    .content {
+      flex: 1;
+    }
   }
   .footer {
     font-size: 0.8em;
