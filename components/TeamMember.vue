@@ -75,13 +75,13 @@ export default {
         display: none;
         position: absolute;
         top: 0;
-        left: 0;
+        right: 0;
         z-index: 99;
       }
       .picture {
         width: 100%;
-        max-width: 100%;
-        max-height: 100%;
+        max-width: 70%;
+        max-height: 90%;
       }
     }
     .info {
