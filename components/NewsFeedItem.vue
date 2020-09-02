@@ -47,7 +47,8 @@
           <p class="date" v-if="news.datetime">{{news.datetime | date}}</p>
           <img v-if="news.source && news.source.length != 0" class="source-img" :src="`/icons/${news.source}.png`">
         </div>
-        <h4 class="title">{{news.content}}</h4>
+          <h4 class="title">{{news.title}}</h4>
+          <span class="text">{{news.teaser}}</span>
       </nuxt-link>
       <!--</a>-->
     </div>
