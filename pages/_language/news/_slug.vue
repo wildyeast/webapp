@@ -1,3 +1,4 @@
+
 <template>
   <div v-if="item">
     <div class="header">
@@ -94,16 +95,7 @@ export default {
   },
   mixins: [storyblokLivePreview],
   asyncData(context) {
-    let filters = {
-      filter_query: {
-        component: {
-          in: "news-overview"
-        },
-        slug: 'altglas-lampen'
-      }
-    };
-
-    return context.store.dispatch("loadNewsItem", 'altglas-lampen').then(data => {
+    return context.store.dispatch("loadNewsItem", context.route.params.slug).then(data => {
       return {item: data.story};
     });
   },
