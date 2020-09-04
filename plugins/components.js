@@ -69,6 +69,7 @@ import LevelItem from '~/components/LevelItem.vue'
 
 import Package from '~/components/Package.vue'
 import Training from '~/components/Training.vue'
+import Course from '~/components/Course.vue'
 
 import ExtrasGrid from '~/components/ExtrasGrid.vue'
 import ExtraItem from '~/components/ExtraItem.vue'
@@ -109,6 +110,7 @@ Vue.component('event-list-item', EventListItem)
 
 Vue.component('package', Package)
 Vue.component('training', Training)
+Vue.component('course', Course)
 
 Vue.component('machine-list-item', MachineListItem)
 Vue.component('machine-status-list-item', MachineStatusListItem)

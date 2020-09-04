@@ -27,7 +27,7 @@
       <span>{{errorMessage}}</span>
     </div>
     <div class="form-item button-row">
-      <button @click="submit">Login</button>
+      <input type="submit" @click="submit" value="Login" />
     </div>
   </div>
 </template>
@@ -133,7 +133,7 @@ export default {
       display: flex;
       justify-content: flex-end;
     }
-    button {
+    input[type=submit] {
       cursor: pointer;
       background-color: $color-orange;
       color: #FFF;

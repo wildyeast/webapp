@@ -10,8 +10,10 @@
         <div class="tab-section-menu">
           <NuxtLink to="/me/">Mein Profil</NuxtLink>
           <NuxtLink to="/me/packages">Packages</NuxtLink>
-          <NuxtLink to="/me/trainings">Trainings</NuxtLink>
+          <!-- <NuxtLink to="/me/trainings">Unterweisungen</NuxtLink>-->
           <NuxtLink to="/me/shop">Material bestellen</NuxtLink>
+          <!--<NuxtLink to="/me/invoices">Meine Rechnungen</NuxtLink>-->
+         <!-- <NuxtLink to="/me/log">Meine Aktivitäten</NuxtLink>-->
         </div>
         <div class="tab-section-content">
           <NuxtChild :key="$route.params.slug"></NuxtChild>
@@ -33,6 +35,9 @@ export default {
     getPackage(p) {
       let data = this.$store.getters.getPackageById(p.package);
       return { ...p, ...data };
+    },
+    getWorkshops(){
+      // let data = this.$store.getters.getMemberCourseById(p);
     },
     logout() {
       this.$store.dispatch('logout').then(() => {
@@ -88,6 +93,9 @@ export default {
 
   .tab-section {
     display: flex;
+    @include media-breakpoint-down(sm) {
+      display: block;
+    }
     .tab-section-menu {
       padding-top: 20px;
       width: 200px;
@@ -108,6 +116,9 @@ export default {
     .tab-section-content {
       padding-left: 20px;
       flex: 3;
+      @include media-breakpoint-down(sm) {
+        padding: 0 15px;
+      }
     }
   }
 }
