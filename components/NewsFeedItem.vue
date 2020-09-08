@@ -26,10 +26,10 @@
       <!--</a>-->
     </div>
   </div>
-  <div v-else-if="news.content != 'Header'" :class="'news-feed-item ' + type || 'vertical'">
+  <div v-editable="news" v-else-if="news.content != 'Header'" :class="'news-feed-item ' + type || 'vertical'">
     <div class="top">
       <!--<a :href="link" target="_blank">-->
-      <Nuxt-link :to="{ path: './'+news.slug , query: { item: news.uuid }}" class="link">
+      <Nuxt-link :to="{ path: './'+news.slug , query: { item: news._uid }}" class="link">
         <div class="header">
           <p class="date" v-if="news.datetime">{{news.datetime | date}}</p>
           <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
@@ -47,7 +47,8 @@
           <p class="date" v-if="news.datetime">{{news.datetime | date}}</p>
           <img v-if="news.source && news.source.length != 0" class="source-img" :src="`/icons/${news.source}.png`">
         </div>
-        <h4 class="title">{{news.content}}</h4>
+          <h4 class="title">{{news.title}}</h4>
+          <span class="text">{{news.teaser}}</span>
       </nuxt-link>
       <!--</a>-->
     </div>

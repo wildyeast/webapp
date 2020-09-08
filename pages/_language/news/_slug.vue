@@ -1,6 +1,6 @@
 <template>
     <div v-if="item[0]">
-    <div class="header">
+    <div class="header 0">
         <div class="header-image" :style="{ 'background-image': 'url(' + item[0].content.image + ')' }"></div>
         <div class="header-title">
             <h4>{{item[0].content.title}}</h4>
@@ -110,7 +110,7 @@
                         });
                       });*/
             return context.store.dispatch("findNews", filters).then(data => {
-                // console.log(data);
+                console.log(data);
                 for (let i = 0; i < data.stories.length; i++){
                     // console.log(data.stories[i].full_slug);
                 }
@@ -120,7 +120,7 @@
         created() {
             // console.log(this.$route);
             // console.log(this.$route.query);
-            // this.items;
+            console.log(this.item);
         },
         methods: {
             filters() {
@@ -153,7 +153,12 @@
             },*/
             item(){
                 for(let i = 0; i < this.news.length; i++){
+                    console.log(this.news[i]);
                     if(this.news[i].uuid == this.$route.fullPath.split('=')[1]){
+                        console.log(this.news[i])
+                        this.it.push(this.news[i]);
+                    }
+                    if(this.news[i].content._uid == this.$route.fullPath.split('=')[1]){
                         console.log(this.news[i])
                         this.it.push(this.news[i]);
                     }
