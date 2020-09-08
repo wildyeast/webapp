@@ -21,15 +21,15 @@
 
         </div>
     </div>
-    <div class="images" v-if="item[0].content.images && item[0].content.images.length != 0">
-        <image-slideshow :blok="images"></image-slideshow>
-    </div>
     <div class="blogFeed-detail">
         <div v-if="item[0].content.contentBloks" v-for="i in item[0].content.contentBloks" class="right-content">
             <span v-if="i.text" class="content-text">{{i.text}}</span>
             <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '600x0')" alt=""/></span>
         </div>
     </div>
+        <div class="images" v-if="item[0].content.images && item[0].content.images.length != 0">
+            <image-slideshow :blok="images"></image-slideshow>
+        </div>
     <div v-if="item[0].content.links && item[0].content.links.length != 0">
         <links-slideshow :blok="links"></links-slideshow>
     </div>
@@ -57,14 +57,14 @@
 
             </div>
         </div>
-        <div class="images" v-if="item.images && item.images.length != 0">
-            <image-slideshow :blok="images"></image-slideshow>
-        </div>
         <div class="blogFeed-detail">
             <div v-if="item.contentBloks" v-for="i in item.contentBloks" class="right-content">
                 <span v-if="i.text" class="content-text">{{i.text}}</span>
                 <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '600x0')" alt=""/></span>
             </div>
+        </div>
+        <div class="images" v-if="item.images && item.images.length != 0">
+            <image-slideshow :blok="images"></image-slideshow>
         </div>
         <div v-if="item.links && item.links.length != 0">
             <links-slideshow :blok="links"></links-slideshow>
