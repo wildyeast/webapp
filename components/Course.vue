@@ -11,12 +11,12 @@
         <div class="course-info"><span>gestartet am: {{createdDate}}</span></div>
         <div class="course-info"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
           <span>Praxistest: </span>
-          <img v-if="memberCourse.manual_activation == 0" src="~/assets/img/icons/times-solid.svg" class="status">
-          <img v-if="memberCourse.manual_activation != 0" src="~/assets/img/icons/check-solid.svg" class="status"></div>
+          <img v-if="memberCourse.manual_activation == 0" src="~/assets/img/icons/times-solid.svg" class="status-course">
+          <img v-if="memberCourse.manual_activation != 0" src="~/assets/img/icons/check-solid.svg" class="status-course"></div>
         <div class="course-info"><!--<span>Online-Quiz: {{!!memberCourse.is_valid}}</span>-->
           <span>Online-Quiz: </span>
-          <img v-if="memberCourse.is_valid == 0" src="~/assets/img/icons/times-solid.svg" class="status">
-          <img v-if="memberCourse.is_valid != 0" src="~/assets/img/icons/check-solid.svg" class="status">
+          <img v-if="memberCourse.is_valid == 0" src="~/assets/img/icons/times-solid.svg" class="status-course">
+          <img v-if="memberCourse.is_valid != 0" src="~/assets/img/icons/check-solid.svg" class="status-course">
           <p v-if="memberCourse.is_valid != 0 && memberCourse.manual_activation == 0">Als nächstes musst du nur noch den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
           <p v-if="memberCourse.is_valid != 0 && memberCourse.manual_activation != 0" style="color: green"> Der Kurs ASU ist abgeschlossen</p>
 
@@ -107,7 +107,7 @@ export default {
     color: #333;
   }
 }
-  .status {
+  .status-course {
     float: right;
     width: 5%;
   }
