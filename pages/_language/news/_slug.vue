@@ -102,14 +102,6 @@
                     }
                 }
             };
-            /*root = context.store.dispatch("loadPage", "/news").then(data => {
-                        return data.stories ;
-                      }).catch(e => {
-                        context.error({
-                          statusCode: e.response.status,
-                          message: e.response.statusText
-                        });
-                      });*/
             return context.store.dispatch("findNews", filters).then(data => {
                 console.log(data);
                 for (let i = 0; i < data.stories.length; i++){
@@ -138,8 +130,15 @@
                 console.log({ filter_query });
                 return { filter_query };
             },
-            vote(){
-                alert('voted');
+            vote() {
+                let data = {
+                    blog_entry_uuid: this.item[0].uuid
+                }
+                this.$store.dispatch("blogUpvoteCount", data).then((data) => {
+                    console.log(data);
+                    /*if(data.success) {
+                    }*/
+                });
             }
         },
         computed: {

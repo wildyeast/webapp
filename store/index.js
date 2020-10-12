@@ -14,6 +14,8 @@ let webAuth = new auth0.WebAuth({
   redirectUri:  origin + '/auth'
 });
 
+let connector;
+
 const version = process.env.NODE_ENV == 'development' ? 'draft' : 'published';
 
 const createStore = () => {
@@ -75,6 +77,21 @@ const createStore = () => {
         }
         return Promise.all(chain);
       },
+      blogUpvoteCount({state}, data){
+        return connector.get('/increseBlogUpvoteCount', data).then((r) => {
+          console.log(r);
+          if(r.data.success) {
+            return r.data;
+          }
+        })
+      },
+      getBlogUpvoteCount({state}, data){
+        return connector.get('/getBlogUpvoteCount', data).then((r) => {
+          if(r.data.success) {
+            return r.data;
+          }
+        })
+      },
       getBookings({ state }, id) {
         return axios.get(`${origin}/.netlify/functions/getBookings\?id\=${id}`).then((r) => {
           return r.data;
@@ -126,6 +143,10 @@ const createStore = () => {
                   accessToken: authResult.accessToken,
                 }
                 setToken(authResult.accessToken);
+                connector = axios.create({
+                  baseURL: 'https://connector.grandgarage.eu/api',
+                  headers: {'Authorization': `Bearer ${auth.accessToken}`}
+                });
                 commit('setAuth', auth);
                 resolve();
               }
@@ -149,6 +170,10 @@ const createStore = () => {
               accessToken: authResult.accessToken,
             }
             setToken(authResult.accessToken);
+            connector = axios.create({
+              baseURL: 'https://connector.grandgarage.eu/api',
+              headers: {'Authorization': `Bearer ${auth.accessToken}`}
+            });
             resolve();
           });
         });
