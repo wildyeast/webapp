@@ -10,6 +10,7 @@
         <div class="left-content">
             <span class="info-block">{{item[0].content.datetime | date }}</span>
             <a v-if="item[0].content.link.url != ''" :href="item[0].content.link.url" class="info-block"><img v-if="item[0].content.source.length != 0" class="source-img" :src="`/icons/${item[0].content.source}.png`"></a>
+            <a v-if="item[0].content.voting" v-on:click="vote"><img class="medal-icon" src="~/assets/img/medal-variant-with-star.svg"></a>
         </div>
         <div class="right-content">
             <div class="teaser">
@@ -137,6 +138,9 @@
                 console.log({ filter_query });
                 return { filter_query };
             },
+            vote(){
+                alert('voted');
+            }
         },
         computed: {
             /*items() {
@@ -263,6 +267,7 @@
             margin: 20px 40px;
         }
         .left-content {
+            display: flex;
             margin-top: 40px;
             @include media-breakpoint-down(sm) {
                 margin-bottom: 20px;
@@ -334,5 +339,8 @@
     }
     .links{
         margin: 40px;
+    }
+    .medal-icon {
+        width: 33%;
     }
 </style>

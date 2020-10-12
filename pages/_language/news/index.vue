@@ -68,7 +68,6 @@
           }
         }
       }
-
     },
     asyncData(context) {
       let filters = {
