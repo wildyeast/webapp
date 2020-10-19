@@ -1,3 +1,6 @@
+
+
+
 <template>
     <section>
         <div class="blog-wrapper">
@@ -11,7 +14,7 @@
                         <div class="month" v-for="(month, mi) in items">
                             <div class="container">
                                 <img src="~/assets/img/icons/megaphone.svg" class="decorator" v-if="mi == 0">
-                                <h1 class="title">{{month.label}}</h1>
+                                <h1 class="title">{{ month.label }}</h1>
                             </div>
                             <div class="separator"/>
 
@@ -22,7 +25,7 @@
                                                     v-if="item.name != 'Header'"/>
                                 </div>
                             </div>
-                            <div v-else-if="month.items && month.items.length > 1" class="items">
+                            <div v-else-if="month.items && month.items.length >= 1" class="items">
                                 <div class="item" v-for="(item, ii) in month.items" :key="ii"
                                      v-if="item.name != 'Header'">
                                     <news-feed-item :news="item" :key="item.id" type="vertical"
