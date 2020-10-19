@@ -4,11 +4,14 @@
         <div class="header-image" :style="{ 'background-image': 'url(' + item[0].content.image + ')' }"></div>
         <div class="header-title">
             <h4>{{item[0].content.title}}</h4>
+            <voting-button is-on-detail="true" :uuid="item[0].uuid"></voting-button>
+
         </div>
     </div>
     <div class="blogFeed-detail">
         <div class="left-content">
             <span class="info-block">{{item[0].content.datetime | date }}</span>
+
             <a v-if="item[0].content.link.url != ''" :href="item[0].content.link.url" class="info-block"><img v-if="item[0].content.source.length != 0" class="source-img" :src="`/icons/${item[0].content.source}.png`"></a>
             <a v-if="item[0].content.voting" v-on:click="vote"><img class="medal-icon" src="~/assets/img/medal-variant-with-star.svg"></a>
         </div>
@@ -75,8 +78,10 @@
 
 <script>
     import storyblokLivePreview from '@/mixins/storyblokLivePreview'
+    import VotingButton from "../../../components/VotingButton";
 
     export default {
+        components: {VotingButton},
         data() {
             return {
                 // images: [],
@@ -103,18 +108,11 @@
                 }
             };
             return context.store.dispatch("findNews", filters).then(data => {
-                console.log(data);
-                for (let i = 0; i < data.stories.length; i++){
-                    // console.log(data.stories[i].full_slug);
-                }
                 return { news: data.stories };
             });
         },
         created() {
-            // console.log(this.$route);
-            // console.log(this.$route.query);
-            console.log(this.item);
-        },
+    },
         methods: {
             filters() {
                 const sources = this.sources
@@ -127,7 +125,6 @@
                 if (sources) {
                     filter_query["source"] = { in: sources };
                 }
-                console.log({ filter_query });
                 return { filter_query };
             },
             vote() {
@@ -156,17 +153,13 @@
             },*/
             item(){
                 for(let i = 0; i < this.news.length; i++){
-                    console.log(this.news[i]);
                     if(this.news[i].uuid == this.$route.fullPath.split('=')[1]){
-                        console.log(this.news[i])
                         this.it.push(this.news[i]);
                     }
                     if(this.news[i].content._uid == this.$route.fullPath.split('=')[1]){
-                        console.log(this.news[i])
                         this.it.push(this.news[i]);
                     }
                 }
-                console.log(this.it);
               return this.it;
             },
             /*filters() {
@@ -187,7 +180,6 @@
               return this.$route.fullPath;
             },
             images() {
-                // console.log(this.item.content.images);
                 return {
                     items: this.item[0].content.images,
                 }
@@ -266,7 +258,6 @@
             margin: 20px 40px;
         }
         .left-content {
-            display: flex;
             margin-top: 40px;
             @include media-breakpoint-down(sm) {
                 margin-bottom: 20px;

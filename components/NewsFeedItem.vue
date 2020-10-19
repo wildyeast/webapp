@@ -73,42 +73,36 @@
 </template>
 
 <script>
-  import moment from "moment";
-  export default {
-    props: {
-      news : {},
-    },
-    data() {
-      return {
-        type: null,
-        link: null,
-        loading: false,
-        sources: [
-          { name: "magazin3", key: "m3", selected: false },
-          { name: "youtube", key: "yt", selected: false },
-          { name: "facebook", key: "fb", selected: false },
-          { name: "twitter", key: "tw", selected: false },
-          { name: "instagram", key: "ig", selected: false }
-        ],
-      };
-    },
-    created() {
-      // this.getStory();
-      console.log(this.news);
-    },
-    computed: {
-      getStory(){
-        // console.log(this.news);
-      }
-    },
-    method: {
-      vote(){
-        alert('voted');
-      }
-    },
-    asyncData (context) {
-    }
-  };
+    import VotingButton from "./VotingButton";
+    export default {
+      components: {VotingButton},
+      props: {
+            news: {},
+        },
+        data() {
+            return {
+                type: null,
+                link: null,
+                loading: false,
+                sources: [
+                    {name: "magazin3", key: "m3", selected: false},
+                    {name: "youtube", key: "yt", selected: false},
+                    {name: "facebook", key: "fb", selected: false},
+                    {name: "twitter", key: "tw", selected: false},
+                    {name: "instagram", key: "ig", selected: false}
+                ],
+            };
+        },
+        created() {
+
+        },
+        computed: {
+            getStory() {
+            }
+        },
+        asyncData(context) {
+        }
+    };
 </script>
 
 <style lang="scss" scoped>

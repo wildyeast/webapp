@@ -13,7 +13,7 @@ let webAuth = new auth0.WebAuth({
   responseType: 'token id_token',
   redirectUri:  origin + '/auth'
 });
-
+let connectorBaseUrl = "https://connector.grandgarage.eu/api"
 let connector;
 
 const version = process.env.NODE_ENV == 'development' ? 'draft' : 'published';
@@ -77,19 +77,20 @@ const createStore = () => {
         }
         return Promise.all(chain);
       },
-      blogUpvoteCount({state}, data){
-        return connector.get('/increseBlogUpvoteCount', data).then((r) => {
+      voteBlog({state}, data){
+        return connector.post('/blog/votes/vote', data).then((r) => {
           console.log(r);
           if(r.data.success) {
             return r.data;
           }
         })
       },
-      getBlogUpvoteCount({state}, data){
-        return connector.get('/getBlogUpvoteCount', data).then((r) => {
-          if(r.data.success) {
-            return r.data;
-          }
+      getVotesByUuids({state}, data){
+        let c = axios.create({
+          baseURL: connectorBaseUrl,
+        });
+        return c.post('/blog/votes', data).then((r) => {
+          return r.data;
         })
       },
       getBookings({ state }, id) {
@@ -144,7 +145,7 @@ const createStore = () => {
                 }
                 setToken(authResult.accessToken);
                 connector = axios.create({
-                  baseURL: 'https://connector.grandgarage.eu/api',
+                  baseURL: connectorBaseUrl,
                   headers: {'Authorization': `Bearer ${auth.accessToken}`}
                 });
                 commit('setAuth', auth);
@@ -171,7 +172,7 @@ const createStore = () => {
             }
             setToken(authResult.accessToken);
             connector = axios.create({
-              baseURL: 'https://connector.grandgarage.eu/api',
+              baseURL: connectorBaseUrl,
               headers: {'Authorization': `Bearer ${auth.accessToken}`}
             });
             resolve();
