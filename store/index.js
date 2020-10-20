@@ -13,11 +13,11 @@ let webAuth = new auth0.WebAuth({
     responseType: 'token id_token',
     redirectUri: origin + '/auth'
 });
-let connectorBaseUrl = "http://connector.127.0.0.1.nip.io/api"
+let connectorBaseUrl = "https://connector.grandgarage.eu/api"
 
 let connector;
 
-const version = process.env.NODE_ENV == 'development' ? 'draft' : 'published';
+const version = process.env.CONNECTOR_API_URL;
 
 const createStore = () => {
     return new Vuex.Store({
