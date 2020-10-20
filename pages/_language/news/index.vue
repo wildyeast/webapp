@@ -1,6 +1,3 @@
-
-
-
 <template>
     <section>
         <div class="blog-wrapper">

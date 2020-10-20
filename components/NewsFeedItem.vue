@@ -3,9 +3,9 @@
     <div class="top">
       <!--<a :href="link" target="_blank">-->
       <Nuxt-link :to="{ path: './'+news.slug}" class="link" :disabled="news.slug == undefined">
-        <div class="voting-icon"></div>
         <div>
           <div class="header">
+            <voting-button v-if="news.content.voting" :prop-vote="news.count"></voting-button>
             <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
             <img v-if="news.content.source && news.content.source.length != 0" class="source-img" :src="`/icons/${news.content.source}.png`">
           </div>
@@ -19,6 +19,8 @@
         <nuxt-link :to="{ path: '/news/detail', query: { item: news }}" class="link">-->
       <nuxt-link :to="{ path: './'+news.slug}" class="link" :disabled="news.slug == undefined">
         <div class="header">
+          <voting-button v-if="news.content.voting" :prop-vote="news.count"></voting-button>
+
           <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
           <img v-if="news.content.source && news.content.source.length != 0" class="source-img" :src="`/icons/${news.content.source}.png`">
         </div>
@@ -35,6 +37,8 @@
       <!--<a :href="link" target="_blank">-->
       <Nuxt-link :to="{ path: './'+news.slug}" class="link" :disabled="news.slug == undefined">
         <div class="header">
+          <voting-button v-if="news.content.voting" :prop-vote="news.count"></voting-button>
+
           <p class="date" v-if="news.datetime">{{news.datetime | date}}</p>
           <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
         </div>
@@ -51,6 +55,8 @@
           <div v-if="news.content.voting" class="voting-icon"><a v-on:click="vote"><img class="medal-icon" src="~/assets/img/medal-variant-with-star.svg"></a></div>
           <div>
             <div class="header">
+              <voting-button v-if="news.content.voting" :prop-vote="news.count"></voting-button>
+
               <p class="date" v-if="news.datetime">{{news.datetime | date}}</p>
               <img v-if="news.source && news.source.length != 0" class="source-img" :src="`/icons/${news.source}.png`">
             </div>
