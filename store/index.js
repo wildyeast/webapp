@@ -1,4 +1,4 @@
-import Vuex from 'vuex';
+    import Vuex from 'vuex';
 import auth0 from 'auth0-js';
 import {getUserFromLocalStorage, setToken, unsetToken} from '~/utils/auth';
 import axios from 'axios';
@@ -13,7 +13,7 @@ let webAuth = new auth0.WebAuth({
     responseType: 'token id_token',
     redirectUri: origin + '/auth'
 });
-let connectorBaseUrl = "https://connector.grandgarage.eu/api"
+let connectorBaseUrl = "http://connector.127.0.0.1.nip.io/api"
 
 let connector;
 

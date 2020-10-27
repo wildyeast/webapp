@@ -42,7 +42,7 @@
           </div>
           <div class="col occupanc y"
                v-if="metadata != null &&metadata[d.uuid].occupancy != 100 && !(d.content.link && d.content.link.cached_url && d.content.link.cached_url != '')">
-            <span>aktuelle Auslastung: {{ metadata[d.uuid].occupancy }}%</span>
+            <span>aktuelle Auslastung: {{ Math.round(metadata[d.uuid].occupancy) }}%</span>
           </div>
           <div class="spacer"></div>
 
@@ -51,10 +51,10 @@
           </div>
           -->
           <div class="col register"
-               :class="{disabled: metadata == null || metadata[d.uuid].occupancy == 100}"
+               :class="{disabled: metadata == null || metadata[d.uuid].occupancy == 100 || metadata[d.uuid].already_booked == true }"
                v-if="hideRegister != true && !(d.content.link && d.content.link.cached_url && d.content.link.cached_url != '')">
-            <NuxtLink :event="metadata == null || metadata[d.uuid].occupancy == 100 ? '': 'click'"
-                      :to="{ path: '/me/buyWorkshop', query: { uuid: d.uuid }}" class="link">Zur Anmeldung
+            <NuxtLink :event="metadata == null || metadata[d.uuid].occupancy == 100|| metadata[d.uuid].already_booked == true ? '': 'click'"
+                      :to="{ path: '/me/buyWorkshop', query: { uuid: d.uuid }}" class="link">{{metadata != null && metadata[d.uuid].already_booked == true ?'Du hast diesen Workshop schon gebucht.  ' :'Zur Anmeldung'}}
             </NuxtLink>
           </div>
           <div class="col register"
