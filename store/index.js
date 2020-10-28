@@ -1,4 +1,4 @@
-import Vuex from 'vuex';
+    import Vuex from 'vuex';
 import auth0 from 'auth0-js';
 import {getUserFromLocalStorage, setToken, unsetToken} from '~/utils/auth';
 import axios from 'axios';
@@ -13,10 +13,11 @@ let webAuth = new auth0.WebAuth({
     responseType: 'token id_token',
     redirectUri: origin + '/auth'
 });
+let connectorBaseUrl = "https://connector.grandgarage.eu/api"
 
 let connector;
 
-const version = process.env.NODE_ENV == 'development' ? 'draft' : 'published';
+const version = process.env.CONNECTOR_API_URL;
 
 const createStore = () => {
     return new Vuex.Store({
@@ -111,6 +112,30 @@ const createStore = () => {
                 }).catch((err) => {
                     console.log(err);
                 });
+            }
+            ,getBookedWorkshops() {
+               return connector.post('member/bookedWorkshops').then((r) => {
+                    return r.data;
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+            ,
+            voteBlog({state}, data) {
+                return connector.post('/blog/votes/vote', data).then((r) => {
+                    console.log(r);
+                    if (r.data.success) {
+                        return r.data;
+                    }
+                })
+            },
+            getVotesByUuids({state}, data) {
+                let c = axios.create({
+                    baseURL: connectorBaseUrl,
+                });
+                return c.post('/blog/votes', data).then((r) => {
+                    return r.data;
+                })
             },
             getWorkshopDateMetadata({state}, data) {
                 if (connector) {
@@ -172,7 +197,7 @@ const createStore = () => {
                                 setToken(authResult.accessToken);
                                 commit('setAuth', auth);
                                 instance = axios.create({
-                                    baseURL: 'https://connector.grandgarage.eu/api/member/invoice/' + id,
+                                    baseURL: connectorBaseUrl + '/member/invoice/' + id,
                                     // headers: {'Authorization': `Bearer ${auth.accessToken}`, 'Content-Type' : 'application/pdf'}
                                     headers: {'Authorization': `Bearer ${auth.accessToken}`}
                                 });
@@ -257,7 +282,7 @@ const createStore = () => {
                                 setToken(authResult.accessToken);
                                 commit('setAuth', auth);
                                 connector = axios.create({
-                                    baseURL: 'https://connector.grandgarage.eu/api',
+                                    baseURL: connectorBaseUrl,
                                     headers: {'Authorization': `Bearer ${auth.accessToken}`}
                                 });
                                 dispatch('getCourses');
@@ -270,7 +295,7 @@ const createStore = () => {
                             return dispatch('getUser');
                         }
                     });
-                }else{
+                } else {
                     return new Promise((resolve, reject) => {
                         resolve(false)
                     })
@@ -288,6 +313,10 @@ const createStore = () => {
                             accessToken: authResult.accessToken,
                         }
                         setToken(authResult.accessToken);
+                        connector = axios.create({
+                            baseURL: connectorBaseUrl,
+                            headers: {'Authorization': `Bearer ${auth.accessToken}`}
+                        });
                         resolve();
                     });
                 });
@@ -385,7 +414,7 @@ const createStore = () => {
                     version: version,
                     cv: state.cacheVersion,
                     find_by: 'uuid',
-                    resolve_relations:'workshop-date.workshop'
+                    resolve_relations: 'workshop-date.workshop'
                 }).then((res) => {
                     return res.data;
                 }).catch((err) => {
@@ -593,9 +622,9 @@ const createStore = () => {
                 }).catch((e) => {
                     console.log(e);
                 });
-            },
-        }
-    })
+            }
+        }})
+
 }
 
 export default createStore
