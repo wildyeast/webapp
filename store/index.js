@@ -13,7 +13,7 @@ let webAuth = new auth0.WebAuth({
     responseType: 'token id_token',
     redirectUri: origin + '/auth'
 });
-let connectorBaseUrl = "http://connector.127.0.0.1.nip.io/api"
+let connectorBaseUrl = "https://connector.grandgarage.eu/api"
 
 let connector;
 
@@ -109,6 +109,13 @@ const createStore = () => {
             }, getUserMetadata() {
                 return connector.get('member/metadata').then((r) => {
                     return r;
+                }).catch((err) => {
+                    console.log(err);
+                });
+            }
+            ,getBookedWorkshops() {
+               return connector.post('member/bookedWorkshops').then((r) => {
+                    return r.data;
                 }).catch((err) => {
                     console.log(err);
                 });
