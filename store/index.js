@@ -122,8 +122,10 @@ const createStore = () => {
             }
             ,
             voteBlog({state}, data) {
-                return connector.post('/blog/votes/vote', data).then((r) => {
-                    console.log(r);
+                let c = axios.create({
+                    baseURL: connectorBaseUrl,
+                });
+                return c.post('/blog/votes/vote', data).then((r) => {
                     if (r.data.success) {
                         return r.data;
                     }
