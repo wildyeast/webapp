@@ -53,12 +53,14 @@
           <div class="col register"
                :class="{disabled: metadata == null || metadata[d.uuid].occupancy == 100 || metadata[d.uuid].already_booked == true }"
                v-if="hideRegister != true && !(d.content.link && d.content.link.cached_url && d.content.link.cached_url != '')">
-            <NuxtLink :event="metadata == null || metadata[d.uuid].occupancy == 100|| metadata[d.uuid].already_booked == true ? '': 'click'"
-                      :to="{ path: '/me/buyWorkshop', query: { uuid: d.uuid }}" class="link">{{metadata != null && metadata[d.uuid].already_booked == true ?'Du hast diesen Workshop schon gebucht.  ' :'Zur Anmeldung'}}
+            <NuxtLink
+                :event="metadata == null || metadata[d.uuid].occupancy == 100|| metadata[d.uuid].already_booked == true ? '': 'click'"
+                :to="{ path: '/me/buyWorkshop', query: { uuid: d.uuid }}" class="link">
+              {{ metadata != null && metadata[d.uuid].already_booked == true ? 'Du hast diesen Workshop schon gebucht.  ' : 'Zur Anmeldung' }}
             </NuxtLink>
           </div>
           <div class="col register"
-               v-if="d.content.link && d.content.link.cached_url && d.content.link.cached_url != '' && !d.content.sold_out">
+               v-if="hideRegister != true && d.content.link && d.content.link.cached_url && d.content.link.cached_url != '' && !d.content.sold_out">
             <a :href="d.content.link.cached_url" class="link" target="_blank">Zur Anmeldung</a>
           </div>
         </div>
@@ -74,7 +76,8 @@ export default {
   props: {
     dates: Array,
     date: Array,
-    hideRegister: Boolean
+    hideRegister: Boolean,
+    noMetadata: Boolean
   },
   data() {
     return {
@@ -88,8 +91,10 @@ export default {
     }
   },
   mounted() {
-    console.log(this.dates);
-    this.loadMetaData();
+    if (this.noMetadata != true) {
+      this.loadMetaData();
+
+    }
   },
   created() {
 
@@ -111,7 +116,7 @@ export default {
           }).catch((err) => {
             console.log(err);
           });
-        }else{
+        } else {
           this.logged_in = false;
         }
 
