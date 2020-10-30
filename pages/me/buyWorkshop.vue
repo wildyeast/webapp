@@ -139,6 +139,8 @@ export default {
               break;
           }
         } else {
+          this.$sentry.captureException(new Error(data));
+
           this.error = "Leider ist ein Fehler aufgetreten."
           this.step = 99;
         }

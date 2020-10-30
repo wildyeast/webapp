@@ -97,27 +97,27 @@ const createStore = () => {
                 return connector.get('member/resourceLogs').then((r) => {
                     return r;
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 });
             },
             getCurrentActivities() {
                 return connector.get('member/currentActivities').then((r) => {
                     return r;
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 });
             }, getUserMetadata() {
                 return connector.get('member/metadata').then((r) => {
                     return r;
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 });
             }
             ,getBookedWorkshops() {
                return connector.post('member/bookedWorkshops').then((r) => {
                     return r.data;
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 });
             }
             ,
@@ -159,7 +159,7 @@ const createStore = () => {
                         return r.data;
                     }
                 })/*.catch((err) => {
-          console.log(err);
+          this.$sentry.captureException(err);
           console.log(err.response.data.msg);
         })*/;
             },
@@ -233,21 +233,21 @@ const createStore = () => {
                 return axios.get(`${origin}/.netlify/functions/getBookings\?id\=${id}`).then((r) => {
                     return r.data;
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 });
             },
             checkStatus({state}, id) {
                 return axios.get(`${origin}/.netlify/functions/checkStatus\?id\=${id}`).then((r) => {
                     return r.data;
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 });
             },
             getFabman({state, commit}) {
                 return axios.get(`${origin}/.netlify/functions/getFabman`).then((r) => {
                     commit('setFabman', r.data);
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 });
             },
             updateUser({state, commit, dispatch}, data) {
@@ -256,7 +256,7 @@ const createStore = () => {
                     let user = Object.assign(state.user, patch);
                     commit('setUser', user);
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 });
             },
             getUser({state, commit, dispatch}) {
@@ -264,7 +264,7 @@ const createStore = () => {
                     commit('setUser', r.data);
                     return dispatch('getFabman');
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 });
             },
             checkAuth({commit, dispatch, state}) {
@@ -379,7 +379,7 @@ const createStore = () => {
                         commit('setCourses', r.data.data);
                     }
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 });
             },
             loadTags({state}) {
@@ -408,7 +408,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 })
             },
             loadStoryByUUid({state}, uuid) {
@@ -420,7 +420,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 })
             },
             loadPage({state}, path) {
@@ -434,7 +434,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((err) => {
-                    console.log(err);
+                    this.$sentry.captureException(err);
                 })
             },
             loadMachineItem({state}, slug) {
@@ -445,7 +445,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((res) => {
-                    console.log(res);
+                    this.$sentry.captureException(err);
                 });
             },
             loadMachineItemById({state}, id) {
@@ -456,7 +456,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((res) => {
-                    console.log(res);
+                     this.$sentry.captureException(res);;
                 });
             },
             loadEventItem({state}, slug) {
@@ -467,7 +467,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((res) => {
-                    console.log(res);
+                     this.$sentry.captureException(res);;
                 });
             },
             async loadWorkshopItem({state, dispatch}, slug) {
@@ -517,7 +517,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((res) => {
-                    console.log(res);
+                     this.$sentry.captureException(res);;
                 });
             },
             findMachines({state}, filters) {
@@ -529,7 +529,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((res) => {
-                    console.log(res);
+                     this.$sentry.captureException(res);;
                 });
             },
             findEvents({state}, filters) {
@@ -540,7 +540,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((res) => {
-                    console.log(res);
+                     this.$sentry.captureException(res);;
                 });
             },
             findWorkshops({state}, filters) {
@@ -565,7 +565,7 @@ const createStore = () => {
                     }
                     return Object.values(workshops);
                 }).catch((res) => {
-                    console.log(res);
+                     this.$sentry.captureException(res);;
                 });
             },
             findWorkshopDates({state}, filters) {
@@ -578,7 +578,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data.stories;
                 }).catch((res) => {
-                    console.log(res);
+                     this.$sentry.captureException(res);;
                 });
             },
             loadNewsItem({state}, slug) {
@@ -589,7 +589,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((res) => {
-                    console.log(res);
+                     this.$sentry.captureException(res);;
                 });
             },
             findNews({state}, filters) {
@@ -602,7 +602,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data;
                 }).catch((res) => {
-                    console.log(res);
+                     this.$sentry.captureException(res);;
                 });
             },
             loadSitemap({state, commit}) {
@@ -613,7 +613,7 @@ const createStore = () => {
                 }).then((res) => {
                     return res.data
                 }).catch((res) => {
-                    console.log(res);
+                     this.$sentry.captureException(res);;
                 })
             },
             loadSettings({state, commit}, context) {
