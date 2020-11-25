@@ -13,7 +13,7 @@ let webAuth = new auth0.WebAuth({
     responseType: 'token id_token',
     redirectUri: origin + '/auth'
 });
-let connectorBaseUrl = "https://connector.grandgarage.eu/api"
+let connectorBaseUrl = "http://connector.127.0.0.1.nip.io//api"
 
 let connector;
 
@@ -155,6 +155,15 @@ const createStore = () => {
             },
             bookWorkshop({state}, data) {
                 return connector.post('/member/checkoutWorkshopDate', data).then((r) => {
+                    if (r.data.success) {
+                        return r.data;
+                    }
+                })/*.catch((err) => {
+          this.$sentry.captureException(err);
+          console.log(err.response.data.msg);
+        })*/;
+            },     checkout({state}, data) {
+                return connector.post('/member/checkout', data).then((r) => {
                     if (r.data.success) {
                         return r.data;
                     }
@@ -548,21 +557,12 @@ const createStore = () => {
                     ...filters,
                     version: version,
                     cv: state.cacheVersion,
-                    resolve_relations: 'workshop',
+                    resolve_relations: 'workshop-date',
                     sort_by: 'content.starttime:asc',
                     per_page: 100
                 }).then((res) => {
-                    let workshopdates = res.data.stories;
-                    let workshops = {};
-                    for (let w of workshopdates) {
-                        let wid;
-                        wid = w.content.workshop.uuid;
-                        if (wid in workshops) {
-                        } else {
-                            workshops[wid] = Object.assign({dates: []}, w.content.workshop);
-                        }
-                        workshops[wid].dates.push(w);
-                    }
+                    let workshops = res.data.stories;
+
                     return Object.values(workshops);
                 }).catch((res) => {
                      this.$sentry.captureException(res);;

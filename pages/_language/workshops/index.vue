@@ -138,10 +138,7 @@ export default {
     filters() {
       let filter_query = {
         component: {
-          in: "workshop-date"
-        },
-        starttime: {
-          "gt-date": moment().subtract(24, "hours").format("YYYY-MM-DD HH:mm")
+          in: "workshop"
         }
       };
       return {
@@ -155,10 +152,7 @@ export default {
     let filters = {
       filter_query: {
         component: {
-          in: "workshop-date"
-        },
-        starttime: {
-          "gt-date": moment().subtract(24, "hours").format("YYYY-MM-DD HH:mm")
+          in: "workshop"
         }
       }
     };
