@@ -13,33 +13,28 @@
           Gutschein-Wert:
         </span>
         <select v-model="selectedProduct">
-          <option value="69">10€</option>
-          <option value="69">25€</option>
-          <option value="69">50€</option>
-          <option value="69">100€</option>
+          <option value="719">10€</option>
+          <option value="720">25€</option>
+          <option value="721">50€</option>
+          <option value="722">100€</option>
         </select>
       </div>
 
       <div>
         <span>
-          Versandoption:
+          Extras:
         </span>
         <select v-model="selectedExtra">
-          <option value="69">E-mail - Gratis</option>
-          <option value="69">Standard - 3€</option>
-          <option value="69">Deluxe - 20€</option>
+          <option value="733">E-mail - Gratis</option>
+          <option value="734">Versand-Standard - 3€</option>
+          <option value="735">Deluxe-Box - 25€</option>
         </select>
       </div>
 
       <button v-on:click="nextStep()">next</button>
     </div>
+
     <div v-if="currentStep == 1">
-      bestätigung
-      du willst {{ selectedProduct }}€ gutschein kaufen
-      delivery method: {{ selectedExtra }}
-      <button v-on:click="nextStep()">next</button>
-    </div>
-    <div v-if="currentStep == 2">
       <input type="radio" name="paymentMethod" value="1" v-model="paymentMethod">Kreditkarte<br>
       <input type="radio" name="paymentMethod" value="2" v-model="paymentMethod">SEPA-Monatsrechnung<br>
 
@@ -106,10 +101,20 @@
         </div>
       </div>
 
-      <button v-on:click="checkout()">checkout</button>
+      <button v-on:click="nextStep()">Bestellung prüfen</button>
+    </div>
+    <div v-if="currentStep == 2">
+      Bestätigung:
+      <ul>
+        <li>Gutschein {{getGiftCardValue(selectedProduct)}}€</li>
+        <li>Extra: {{getExtra(selectedExtra)}}</li>
+      </ul>
+
+
+      <button v-on:click="checkout()">Kostenpflichtig Bestellen</button>
     </div>
     <div v-if="currentStep == 3">
-      done
+      Kauf abgeschlossen. Die Rechnung und deinen Gutschein erhältst du per Mail.
     </div>
 
     <div v-if="currentStep == 99">
@@ -191,7 +196,28 @@ export default {
         sessionId: sessionId,
       });
     },
-
+  getExtra(id){
+    switch (id){
+      case '733':
+        return 'Digital per E-Mail';
+      case '734':
+        return 'Versand';
+      case '735':
+        return 'Abholung Deluxe-Box';
+    }
+  },
+    getGiftCardValue(id){
+      switch (id){
+        case '719':
+          return 10;
+        case '720':
+          return 25;
+        case '721':
+          return 50;
+        case '722':
+          return 100;
+      }
+    }
   },
   computed: {
     user() {

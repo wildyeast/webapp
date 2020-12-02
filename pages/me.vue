@@ -11,7 +11,7 @@
           <NuxtLink to="/me/">Mein Profil</NuxtLink>
           <NuxtLink to="/me/packages">Packages</NuxtLink>
           <!-- <NuxtLink to="/me/trainings">Unterweisungen</NuxtLink>-->
-          <NuxtLink to="/me/shop">Material bestellen</NuxtLink>
+          <NuxtLink to="/me/shop">Gutschein bestellen</NuxtLink>
           <NuxtLink to="/me/workshopBookings">Workshop-Buchungen</NuxtLink>
           <!--<NuxtLink to="/me/invoices">Meine Rechnungen</NuxtLink>-->
          <!-- <NuxtLink to="/me/log">Meine Aktivitäten</NuxtLink>-->
