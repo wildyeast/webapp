@@ -12,7 +12,7 @@
         <span>
           Gutschein-Wert:
         </span>
-        <select v-model="selectedProduct">
+        <select class="form-item" v-model="selectedProduct">
           <option value="719">10€</option>
           <option value="720">25€</option>
           <option value="721">50€</option>
@@ -24,46 +24,49 @@
         <span>
           Extras:
         </span>
-        <select v-model="selectedExtra">
+        <select class="form-item" v-model="selectedExtra">
           <option value="733">E-mail - Gratis</option>
           <option value="734">Versand-Standard - 3€</option>
           <option value="735">Deluxe-Box - 25€</option>
         </select>
       </div>
 
-      <button v-on:click="nextStep()">next</button>
+      <button class="input-button-primary" v-on:click="nextStep()">Weiter</button>
     </div>
 
     <div v-if="currentStep == 1">
       <input type="radio" name="paymentMethod" value="1" v-model="paymentMethod">Kreditkarte<br>
-      <input type="radio" name="paymentMethod" value="2" v-model="paymentMethod">SEPA-Monatsrechnung<br>
+      <span v-if="sepa_active">
+            <input type="radio" name="paymentMethod" value="2"  v-model="paymentMethod">SEPA-Monatsrechnung<br>
+
+      </span>
 
 
-      <div v-if="invoiceContact != null">
+      <div>
         <h4>Rechnungsaddresse:</h4>
 
         <div class="form-item">
           <span class="label">Vorname</span>
-          <input class="input-text" type="text" readonly v-model="invoiceContact.firstname" name=""/>
+          <input class="input-text" type="text" v-model="invoiceContact.firstname" name=""/>
         </div>
         <div class="form-item">
           <span class="label">Nachname</span>
-          <input class="input-text" type="text" readonly v-model="invoiceContact.lastname" name=""/>
+          <input class="input-text" type="text" v-model="invoiceContact.lastname" name=""/>
         </div>
         <div class="form-item">
           <span class="label">Telefon</span>
-          <input class="input-text" type="text" readonly v-model="invoiceContact.phone" name=""/>
+          <input class="input-text" type="text" v-model="invoiceContact.phone" name=""/>
         </div>
         <div class="form-item">
           <span class="label">Straße</span>
-          <input class="input-text" type="text" readonly v-model="invoiceContact.street" name=""/>
+          <input class="input-text" type="text" v-model="invoiceContact.street" name=""/>
         </div>        <div class="form-item">
           <span class="label">Straße</span>
-          <input class="input-text" type="text" readonly v-model="invoiceContact.street_additional" name=""/>
+          <input class="input-text" type="text" v-model="invoiceContact.street_additional" name=""/>
         </div>
         <div class="form-item">
           <span class="label">PLZ</span>
-          <input class="input-text" type="text" readonly v-model="invoiceContact.zip" name=""/>
+          <input class="input-text" type="text" v-model="invoiceContact.zip" name=""/>
         </div>
         <div class="form-item">
           <span class="label">Stadt</span>
@@ -71,37 +74,7 @@
         </div>
       </div>
 
-      <label for="shippingAddress">Lieferaddresse entspricht nicht der Rechnungsaddresse</label>
-      <input type="checkbox" id="shippingAddress" name="shippingAddress" v-model="shippingAddressEnabled">
-      <div v-if="shippingAddressEnabled">
-        <h4>Lieferaddresse:</h4>
-        <div class="form-item">
-          <span class="label">Vorname</span>
-          <input class="input-text" type="text" v-model="shippingAddress.firstname" name=""/>
-        </div>
-        <div class="form-item">
-          <span class="label">Nachname</span>
-          <input class="input-text" type="text" v-model="shippingAddress.lastname" name=""/>
-        </div>
-        <div class="form-item">
-          <span class="label">Telefon</span>
-          <input class="input-text" type="text" v-model="shippingAddress.phone" name=""/>
-        </div>
-        <div class="form-item">
-          <span class="label">Straße</span>
-          <input class="input-text" type="text" v-model="shippingAddress.address" name=""/>
-        </div>
-        <div class="form-item">
-          <span class="label">PLZ</span>
-          <input class="input-text" type="text" v-model="shippingAddress.zip" name=""/>
-        </div>
-        <div class="form-item">
-          <span class="label">Stadt</span>
-          <input class="input-text" type="text" v-model="shippingAddress.city" name=""/>
-        </div>
-      </div>
-
-      <button v-on:click="nextStep()">Bestellung prüfen</button>
+      <button class="input-button-primary" v-on:click="nextStep()">Bestellung prüfen</button>
     </div>
     <div v-if="currentStep == 2">
       Bestätigung:
@@ -111,7 +84,7 @@
       </ul>
 
 
-      <button v-on:click="checkout()">Kostenpflichtig Bestellen</button>
+      <button class="input-button-primary" v-on:click="checkout()">Kostenpflichtig Bestellen</button>
     </div>
     <div v-if="currentStep == 3">
       Kauf abgeschlossen. Die Rechnung und deinen Gutschein erhältst du per Mail.
@@ -152,12 +125,23 @@ export default {
     this.$store.dispatch("getUserMetadata").then(data => {
       this.invoiceContact = data.data.invoice_contact;
       this.sepaActive = data.data.sepa_active;
-      console.log(this.userMetadata)
     })
   },
   methods: {
     nextStep() {
-      this.currentStep++;
+
+      if(this.stepValid()){
+        this.currentStep++;
+      }
+    },
+
+    stepValid(){
+      switch (this.currentStep){
+        case 0:
+          return this.selectedProduct != null && this.selectedExtra != null;
+        case 1:
+          return this.paymentMethod != 0;
+      }
     },
     checkout() {
       let data = {
@@ -168,7 +152,8 @@ export default {
         }, {
           'product_id': this.selectedExtra,
           'count': 1
-        }]
+        }],
+        'invoice_contact' : this.invoiceContact
       };
 
       this.$store.dispatch("checkout", data).then((data) => {
@@ -234,4 +219,9 @@ export default {
 </script>
 
 <style lang="scss">
+.form-item{
+  display: flex;
+    width: 250px;
+    justify-content: space-between;
+}
 </style>
