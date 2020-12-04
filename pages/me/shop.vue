@@ -175,7 +175,7 @@ export default {
       });
     },
     redirectToStripe: function (sessionId) {
-      var stripe = Stripe(process.env.STRIPE_API_KEY);
+      var stripe = Stripe('pk_live_XCUCaJMt8kMEpedQdvmtMu4Z00rNP9VDun');
       stripe.redirectToCheckout({
         sessionId: sessionId,
       });
