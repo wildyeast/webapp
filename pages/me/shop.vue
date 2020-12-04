@@ -36,13 +36,12 @@
 
     <div v-if="currentStep == 1">
       <input type="radio" name="paymentMethod" value="1" v-model="paymentMethod">Kreditkarte<br>
-      <span v-if="sepa_active">
+      <div v-if="invoiceContact.sepa_mandate_agreed">
             <input type="radio" name="paymentMethod" value="2"  v-model="paymentMethod">SEPA-Monatsrechnung<br>
+      </div>
 
-      </span>
 
-
-      <div>
+      <div v-if="invoiceContact != null">
         <h4>Rechnungsaddresse:</h4>
 
         <div class="form-item">
@@ -72,7 +71,7 @@
           <span class="label">Stadt</span>
           <input class="input-text" type="text" v-model="invoiceContact.city" name=""/>
         </div>
-      </div>
+    </div>
 
       <button class="input-button-primary" v-on:click="nextStep()">Bestellung prüfen</button>
     </div>
