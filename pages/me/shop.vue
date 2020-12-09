@@ -82,9 +82,10 @@
         <li>Extra: {{getExtra(selectedExtra)}}</li>
       </ul>
 
-
-      <button class="input-button-primary" v-on:click="checkout()">Kostenpflichtig Bestellen</button>
+      <loading-spinner v-if="loading" color="#333"></loading-spinner>
+      <button class="input-button-primary" v-on:click="checkout()" :disabled="loading">Kostenpflichtig Bestellen</button>
     </div>
+
     <div v-if="currentStep == 3">
       Kauf abgeschlossen. Die Rechnung und deinen Gutschein erhältst du per Mail.
     </div>
@@ -115,7 +116,8 @@ export default {
       shippingAddressEnabled: 0,
       invoiceContact: null,
       sepa_active: false,
-      shippingAddress: []
+      shippingAddress: [],
+      loading:false
     }
   },
   created() {
@@ -143,6 +145,7 @@ export default {
       }
     },
     checkout() {
+      this.loading=true;
       let data = {
         payment_method: parseInt(this.paymentMethod),
         productCounts: [{
@@ -157,6 +160,7 @@ export default {
 
       this.$store.dispatch("checkout", data).then((data) => {
         if (data.success) {
+          this.loading=false;
           switch (parseInt(this.paymentMethod)) {
             case 1:
               this.redirectToStripe(data.session_id)
