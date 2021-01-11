@@ -557,7 +557,7 @@ const createStore = () => {
                     ...filters,
                     version: version,
                     cv: state.cacheVersion,
-                    resolve_relations: 'workshop-date',
+                    resolve_relations: 'workshop',
                     sort_by: 'content.starttime:asc',
                     per_page: 100
                 }).then((res) => {
