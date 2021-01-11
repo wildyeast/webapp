@@ -561,8 +561,17 @@ const createStore = () => {
                     sort_by: 'content.starttime:asc',
                     per_page: 100
                 }).then((res) => {
-                    let workshops = res.data.stories;
-
+                    let workshopdates = res.data.stories;
+                    let workshops = {};
+                    for (let w of workshopdates) {
+                        let wid;
+                        wid = w.content.workshop.uuid;
+                        if (wid in workshops) {
+                        } else {
+                            workshops[wid] = Object.assign({dates: []}, w.content.workshop);
+                        }
+                        workshops[wid].dates.push(w);
+                    }
                     return Object.values(workshops);
                 }).catch((res) => {
                      this.$sentry.captureException(res);;

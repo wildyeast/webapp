@@ -72,12 +72,12 @@
       <div v-if="workshops && workshops.length > 0" class="workshop-list">
         <transition-group name="list">
           <workshop-list-item
-            v-for="item in workshops"
-            :blok="item"
-            :key="item.id"
-            class="list-item"
-            :slim="false"
-            ></workshop-list-item>
+              v-for="item in workshops"
+              :blok="item"
+              :key="item.id"
+              class="list-item"
+              :slim="false"
+          ></workshop-list-item>
         </transition-group>
       </div>
       <div v-else class="workshop-list-none">
@@ -120,11 +120,11 @@ export default {
     update() {
       this.loading = true;
       let result = this.$store
-        .dispatch("findWorkshops", this.filters)
-        .then(data => {
-          this.loading = false;
-          this.workshops = data;
-        });
+          .dispatch("findWorkshops", this.filters)
+          .then(data => {
+            this.loading = false;
+            this.workshops = data;
+          });
     }
   },
   computed: {
@@ -138,7 +138,10 @@ export default {
     filters() {
       let filter_query = {
         component: {
-          in: "workshop"
+          in: "workshop-date"
+        },
+        starttime: {
+          "gt-date": moment().subtract(24, "hours").format("YYYY-MM-DD HH:mm")
         }
       };
       return {
@@ -152,7 +155,10 @@ export default {
     let filters = {
       filter_query: {
         component: {
-          in: "workshop"
+          in: "workshop-date"
+        },
+        starttime: {
+          "gt-date": moment().subtract(24, "hours").format("YYYY-MM-DD HH:mm")
         }
       }
     };
