@@ -92,7 +92,7 @@ export default {
         min-width: 150px;
         padding: 0 30px;
         .machine-list-item {
-          margin-bottom: 0;
+          margin-bottom: -2em;
         }
       }
       .list-enter-active, .list-leave-active {

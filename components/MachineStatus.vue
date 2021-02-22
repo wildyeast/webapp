@@ -1,5 +1,5 @@
 <template>
-  <div class="machine-status" :style="{ 'background-color': color }">
+  <div class="machine-status" :style="{ 'background-color': color, 'font-size': fontSize }">
     <div class="machine-name" v-if="name">
       {{name}}
     </div>
@@ -58,6 +58,9 @@ export default {
       if (this.resource.state == 'active') {
         return '#0069aa';
       }
+    },
+    fontSize () {
+      return this.resource && this.resource.inUse ? '0.9em' : '1em'
     }
   }
 }
@@ -68,14 +71,20 @@ export default {
 
 .machine-status {
   padding: 10px;
+  border-bottom: 1px solid #f2f3ee;
   .machine-name {
     margin-bottom: 5px;
     font-weight: bold;
   }
   .resource {
-    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     font-weight: bold;
+    font-size: 0.9em;
     color: #FFF;
+    height: 2em;
     div {
       display: inline-block;
       text-transform: uppercase;
