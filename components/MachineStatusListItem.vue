@@ -3,14 +3,14 @@
     <div class="machine-list-item">
       <div class="image">
         <machine-status class="status" :id="fabmanId"></machine-status>
-        <img :src="$resizeImage(content.image, '450x450')" alt=""/>
+        <img :src="$resizeImage(content.image, '430x430')" alt=""/>
       </div>
       <div class="body">
         <div class="title">
           {{content.title}}
         </div>
         <div class="tags">
-          <span v-for="(tag, index) in tags">
+          <span v-for="(tag, index) in tags" :key="index">
             {{tag}}<span v-if="index+1 < tags.length">, </span>
           </span>
         </div>
@@ -72,8 +72,9 @@ a {
     padding: 20px 0;
     .title {
       font-family: $font-secondary;
-      font-size: 1.2rem;
+      font-size: 1rem;
       margin-bottom: .4em;
+      height: 3em;
     }
     .tags {
       font-size: 0.9rem;
