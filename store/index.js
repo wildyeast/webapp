@@ -13,7 +13,8 @@ let webAuth = new auth0.WebAuth({
     responseType: 'token id_token',
     redirectUri: origin + '/auth'
 });
-let connectorBaseUrl = "https://connector.grandgarage.eu/api"
+
+const connectorBaseUrl = process.env.NODE_ENV === 'development' ? 'http://connector.127.0.0.1.nip.io/api' : 'https://connector.grandgarage.eu/api'
 
 let connector;
 
