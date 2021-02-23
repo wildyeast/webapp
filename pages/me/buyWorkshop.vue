@@ -15,29 +15,38 @@
           <div class="info-row payment">
             <div class="info-block">
               <div class="col info title">
-                Zahlungdmethode auswählen
+                Zahlungsmethode auswählen
               </div>
             </div>
           </div>
-
         </div>
+
+        <div class="info-row option">
+          <div class="info-block">
+            <div class="col info">
+              <input type="radio" id="sepa" @click="paymentMethod = PAYMENT_METHODS.giftCard"
+                     name="payment" value="giftcard">
+              <label for="sepa">Gutschein</label><br>
+            </div>
+          </div>
+        </div>
+        
         <div>
           <div class="info-row option">
             <div class="info-block">
               <div class="col info">
-                <input type="radio" id="credit" @click="selectPaymentMethod(1)" name="payment"
+                <input type="radio" id="credit" @click="paymentMethod = PAYMENT_METHODS.creditCard" name="payment"
                        value="credit">
                 <label for="credit">Kreditkarte</label><br>
               </div>
             </div>
           </div>
-
         </div>
 
         <div class="info-row option" v-if="userMetadata.sepa_active">
           <div class="info-block">
             <div class="col info">
-              <input type="radio" id="sepa" @click="selectPaymentMethod(2)"
+              <input type="radio" id="sepa" @click="paymentMethod = PAYMENT_METHODS.sepa"
                      name="payment" value="sepa">
               <label for="sepa">SEPA-Monatsrechnung</label><br>
             </div>
@@ -45,26 +54,45 @@
         </div>
         <div class="spacer"></div>
 
-        <button class="link" @click="onNextStep(1)">Weiter</button>
+        <div class="buttons">
+          <button class="input-button-back" :disabled="!paymentMethod" @click="paymentMethod === PAYMENT_METHODS.giftCard ? onNextStep(1) : onNextStep(2)">Weiter...</button>
+        </div>
 
       </div>
 
       <div v-if="step == 1">
-        <h2>Bestätigung</h2>
-
-        <span>Zahlungsmethode: {{ paymentMethod == 2 ? 'SEPA-Monatsrechnung' : 'Kreditkarte' }}</span>
-
-        <div class="spacer"></div>
-
-        <button class="link" @click="onNextStep(2)">Workshop kostenpflichtig buchen</button>
-
+        <h2>Gutschein</h2>
+        <div>Du hast aktuell 5EUR auf deinem Konto.</div>
+        <div class="buttons">
+          <button class="input-button-back" @click="back">Zurück</button>
+          <button class="input-button-payment" @click="onNextStep(3)">Workshop kostenpflichtig buchen</button>
+        </div>
 
       </div>
 
       <div v-if="step == 2">
+
+        <h2>Bestätigung</h2>
+
+        <span>Zahlungsmethode:
+          <span v-if="paymentMethod === 1">Kreditkarte</span>
+          <span v-if="paymentMethod === 2">SEPA-Monatsrechnung</span>
+          <span v-if="paymentMethod === 3">Gutschein</span>
+        </span>
+
+        <div class="buttons">
+          <button class="input-button-back" @click="back">Zurück</button>
+          <button class="input-button-payment" @click="onNextStep(3)">Workshop kostenpflichtig buchen</button>
+        </div>
+
+
+      </div>
+
+
+      <div v-if="step == 3">
         <loading-spinner color="black"></loading-spinner>
       </div>
-      <div v-if="step == 3">
+      <div v-if="step == 4">
         Workshop gebucht!
 
 
@@ -80,16 +108,23 @@
 </template>
 
 <script>
+const PAYMENT_METHODS = {
+  creditCard: 1,
+  sepa: 2,
+  giftCard: 3
+}
 export default {
   name: "buyWorkshop",
   props: {},
   data() {
     return {
-      paymentMethod: 0,
+      PAYMENT_METHODS,
+      paymentMethod: null,
       step: 0,
       workshopDate: null,
       userMetadata: null,
-      error: null
+      error: null,
+      credits: null
     }
   },
   mounted() {
@@ -99,17 +134,22 @@ export default {
     this.$store.dispatch("getUserMetadata").then(data => {
       this.userMetadata = data.data;
     })
+    this.$store.dispatch('getCredits').then(data => {
+      this.credits = data.credits
+    })
+    // Scroll to top
+    window.scrollTo(0,0)
   },
   methods: {
-
-    selectPaymentMethod(pm) {
-      this.paymentMethod = pm;
+    back () {
+      this.step = 0
+      this.paymentMethod = null;
     },
-
     onNextStep(step) {
+      console.log('step', step)
       this.step = step;
       switch (step) {
-        case 2:
+        case 3:
           this.pay();
           break;
       }

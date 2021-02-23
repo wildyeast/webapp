@@ -1,14 +1,16 @@
 <template>
   <div>
-
-
-    <component v-if="story.content.component" :key="story.content._uid" :blok="story.content"
+  <component v-if="story.content.component" :key="story.content._uid" :blok="story.content"
                :is="story.content.component"></component>
+    <template v-if="page === PAGES.initial">
+      <button class="input-button-primary" @click="page = PAGES.buying">Gutschein kaufen</button>
+      <button class="input-button-primary" @click="page = PAGES.redeeming">Gutschein einlösen</button>
+    </template>
 
 
-    <div v-if="currentStep == 0">
-      <br>
-      <div>
+    <div class="giftcardForm" v-if="page === PAGES.buying">
+      <h4>Gutschein kaufen</h4>
+      <div class="input">
         <span>
           Gutschein-Wert:
         </span>
@@ -20,7 +22,7 @@
         </select>
       </div>
 
-      <div>
+      <div class="input">
         <span>
           Extras:
         </span>
@@ -31,10 +33,30 @@
         </select>
       </div>
 
-      <button class="input-button-primary" v-on:click="nextStep()">Weiter</button>
+      <div class="buttons">
+        <button class="input-button-back" @click="back">Zurück</button>
+        <button class="input-button-primary" :disabled="!selectedProduct || !selectedExtra" @click="page = PAGES.paying">Weiter...</button>
+      </div>
     </div>
 
-    <div v-if="currentStep == 1">
+    <div class="giftcardForm" v-if="page === PAGES.redeeming">
+      <h4>Gutschein einlösen</h4>
+      <div class="input">
+        <span>
+          Gutschein-Code:
+        </span>
+        <input class="form-item" v-model="giftcardCode">
+      </div>
+
+      <div class="buttons">
+        <button class="input-button-back" @click="back">Zurück</button>
+        <button class="input-button-primary" :disabled="!giftcardCode" @click="redeem">Einlösen</button>
+      </div>
+    </div>
+
+    <div v-if="page === PAGES.paying">
+      <h4>Gutschein kaufen</h4>
+      <h5>Zahlungsmethode:</h5>
       <input type="radio" name="paymentMethod" value="1" v-model="paymentMethod">Kreditkarte<br>
       <div v-if="invoiceContact.sepa_mandate_agreed">
             <input type="radio" name="paymentMethod" value="2"  v-model="paymentMethod">SEPA-Monatsrechnung<br>
@@ -42,7 +64,7 @@
 
 
       <div v-if="invoiceContact != null">
-        <h4>Rechnungsaddresse:</h4>
+        <h5>Rechnungsadresse:</h5>
 
         <div class="form-item">
           <span class="label">Vorname</span>
@@ -57,10 +79,11 @@
           <input class="input-text" type="text" v-model="invoiceContact.phone" name=""/>
         </div>
         <div class="form-item">
-          <span class="label">Straße</span>
+          <span class="label">Adresse</span>
           <input class="input-text" type="text" v-model="invoiceContact.street" name=""/>
-        </div>        <div class="form-item">
-          <span class="label">Straße</span>
+        </div>        
+        <div class="form-item">
+          <span class="label"></span>
           <input class="input-text" type="text" v-model="invoiceContact.street_additional" name=""/>
         </div>
         <div class="form-item">
@@ -73,9 +96,14 @@
         </div>
     </div>
 
-      <button class="input-button-primary" v-on:click="nextStep()">Bestellung prüfen</button>
+      <div class="buttons">
+        <button class="input-button-back" @click="back">Zurück</button>
+        <button class="input-button-primary" :disabled="!paymentMethod" @click="page = PAGES.confirming">Bestellung prüfen...</button>
+      </div>
     </div>
-    <div v-if="currentStep == 2">
+
+    <div v-if="page === PAGES.confirming">
+      <h4>Gutschein kaufen</h4>
       Bestätigung:
       <ul>
         <li>Gutschein {{getGiftCardValue(selectedProduct)}}€</li>
@@ -83,34 +111,63 @@
       </ul>
 
       <loading-spinner v-if="loading" color="#333"></loading-spinner>
-      <button class="input-button-primary" v-on:click="checkout()" :disabled="loading">Kostenpflichtig Bestellen</button>
+      <div class="buttons">
+        <button class="input-button-back" @click="back">Zurück</button>
+        <button class="input-button-primary" :disabled="!paymentMethod || loading" @click="checkout()">Kostenpflichtig bestellen</button>
+      </div>
     </div>
 
-    <div v-if="currentStep == 3">
+    <div v-if="page === PAGES.sold">
       Kauf abgeschlossen. Die Rechnung und deinen Gutschein erhältst du per Mail.
     </div>
 
-    <div v-if="currentStep == 99">
-      {{ error }}
-
-
+    <div v-if="page === PAGES.redeemed">
+      Gutschein eingelöst!
+    </div>
+    
+    <div v-if="page === PAGES.wrongCode">
+      <h4>Gutschein einlösen</h4>
+      Kein Gutschein mit diesem Code gefunden.
+      <div class="buttons">
+        <button class="input-button-back" @click="back">Zurück zur Eingabe</button>
+      </div>
     </div>
 
-
+    <div v-if="page === PAGES.error">
+      Irgendwas hat nicht funktioniert.
+      <div class="buttons">
+        <button class="input-button-back" @click="back">Nochmal versuchen</button>
+      </div>
+    </div>
+  
   </div>
 </template>
 
 <script>
 import storyblokLivePreview from '@/mixins/storyblokLivePreview'
 
+const PAGES = {
+  initial: 0,
+  buying: 1,
+  paying: 2,
+  confirming: 3,
+  sold: 4,
+  redeeming: 10,
+  wrongCode: 11,
+  redeemed: 12,
+  error: 99
+}
+
 export default {
   middleware: 'authenticated',
   mixins: [storyblokLivePreview],
   data() {
     return {
-      currentStep: 0,
+      PAGES,
+      page: PAGES.initial,  
       selectedProduct: null,
       selectedExtra: null,
+      giftcardCode: null,
       paymentMethod: 0,
       error: '',
       shippingAddressEnabled: 0,
@@ -129,20 +186,35 @@ export default {
     })
   },
   methods: {
-    nextStep() {
-
-      if(this.stepValid()){
-        this.currentStep++;
+    back () {
+      if ([PAGES.buying, PAGES.redeeming, PAGES.error].includes(this.page)) {
+        this.page = PAGES.initial
+        this.selectedProduct = ''
+        this.selectedExtra = ''
+        this.giftcardCode = ''
+        return
+      }
+      if (this.page === PAGES.paying) {
+        this.page = PAGES.buying
+        return
+      }
+      if (this.page === PAGES.confirming) {
+        this.page = PAGES.paying
+        return
+      }
+      if (this.page === PAGES.wrongCode) {
+        this.page = PAGES.redeeming
       }
     },
-
-    stepValid(){
-      switch (this.currentStep){
-        case 0:
-          return this.selectedProduct != null && this.selectedExtra != null;
-        case 1:
-          return this.paymentMethod != 0;
-      }
+    async redeem () {
+      // TODO call endpoint
+      this.loading = true
+      const response = await this.$store.dispatch('redeemGiftCard', {
+        giftcardCode: this.giftcardCode
+      })
+      console.log(response)
+      this.page = PAGES.wrongCode
+      this.loading = false
     },
     checkout() {
       this.loading=true;
@@ -166,15 +238,14 @@ export default {
               this.redirectToStripe(data.session_id)
               break;
             case 2:
-              this.currentStep = 3;
-
+              this.page = PAGES.sold
               break;
           }
         } else {
           this.$sentry.captureException(new Error(data));
 
           this.error = "Leider ist ein Fehler aufgetreten."
-          this.currentStep = 99;
+          this.page = PAGES.error
         }
       });
     },
@@ -224,7 +295,28 @@ export default {
 <style lang="scss">
 .form-item{
   display: flex;
-    width: 250px;
-    justify-content: space-between;
+  flex-flow: row nowrap;
+  width: 20em;
+  justify-content: space-between;
+  align-items: center;
+}
+.giftcardForm {
+  & .input {
+    display: flex;
+    padding-bottom: 0.3em;
+    flex-flow: row nowrap;
+    align-items: center;
+    & :first-child {
+      width:7em;
+    }
+  }
+}
+.buttons {
+  & * {
+    margin-right: 1em;
+  }
+}
+h5 {
+  font-size: 1rem;
 }
 </style>

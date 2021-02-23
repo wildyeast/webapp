@@ -1,4 +1,4 @@
-    import Vuex from 'vuex';
+import Vuex from 'vuex';
 import auth0 from 'auth0-js';
 import {getUserFromLocalStorage, setToken, unsetToken} from '~/utils/auth';
 import axios from 'axios';
@@ -171,6 +171,21 @@ const createStore = () => {
           this.$sentry.captureException(err);
           console.log(err.response.data.msg);
         })*/;
+            },
+            getCredits({ state }, data) {
+              console.log('GET CREDITS')
+              return connector.get('/member/getCredits', data).then((r) => {
+                if (r.data.success) {
+                    return r.data;
+                }
+              })
+            },
+            redeemGiftCard({ state }, data) {
+              return connector.post('/member/redeemGiftCard', data).then((r) => {
+                if (r.data.success) {
+                    return r.data;
+                }
+              })
             },
             getInvoices({state}) {
                 return connector.get('/member/invoices').then((r) => {

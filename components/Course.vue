@@ -138,4 +138,17 @@ export default {
     right: 33%;
   }*/
 }
+.input-button-primary:disabled {
+  cursor: default;
+  background-color: grey;
+  border: 1px solid darkgrey;
+}
+.input-button-back {
+  @extend .input-button-primary;
+}
+.input-button-payment {
+  @extend .input-button-primary;
+  font-weight: bold;
+  // background-color: #ff4400;
+}
 </style>
