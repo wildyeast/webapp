@@ -20,6 +20,9 @@ We appreciate contributions of any kind.
 **Run local dev Server**
 `npm run dev`
 
+**Run local dev server with local api**
+`npm run dev-local`
+
 
 ## Prepare for Deployment
 
