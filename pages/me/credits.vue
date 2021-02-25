@@ -8,7 +8,7 @@
           </div>
           <div class="log">
             <div class="logEntry" v-for="log of logs" :key="log.id">
-              {{ log.value }}EUR aufgeladen am {{new Date(log.created_at).toLocaleDateString()}}
+              {{ log.value }}EUR aufgeladen am {{new Date(log.created_at).toLocaleString()}}
             </div>
           </div>
         </div> 
@@ -30,7 +30,8 @@ export default {
   computed: {},
   created() {},
   async mounted () {
-    this.logs = await this.$store.dispatch('getCreditsLog')
+    const logs = await this.$store.dispatch('getCreditsLog')
+    this.logs = logs.reverse()
     this.credits = await this.$store.dispatch('getCredits')
     this.isLoading = false;
   },

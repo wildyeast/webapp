@@ -12,8 +12,12 @@
           <NuxtLink to="/me/packages">Packages</NuxtLink>
           <NuxtLink to="/me/credits">Credits</NuxtLink>
           <!-- <NuxtLink to="/me/trainings">Unterweisungen</NuxtLink>-->
-          <NuxtLink to="/me/shop">Gutscheine</NuxtLink>
-          <NuxtLink to="/me/workshopBookings">Workshop-Buchungen</NuxtLink>
+          <NuxtLink to="/me/giftcards">Gutscheine</NuxtLink>
+          <div class="submenu" v-if="$route.name.startsWith('me-giftcards')">
+            <NuxtLink to="/me/giftcards?action=buy">Gutschein kaufen</NuxtLink>
+            <NuxtLink to="/me/giftcards?action=redeem">Gutschein einlösen</NuxtLink>
+          </div>
+          <NuxtLink to="/me/workshopBookings">Meine Workshops</NuxtLink>
           <!--<NuxtLink to="/me/invoices">Meine Rechnungen</NuxtLink>-->
          <!-- <NuxtLink to="/me/log">Meine Aktivitäten</NuxtLink>-->
         </div>
@@ -32,6 +36,8 @@ export default {
     }
   },
   created() {
+  },
+  mounted () {
   },
   methods: {
     getPackage(p) {
@@ -102,6 +108,9 @@ export default {
       padding-top: 20px;
       width: 200px;
       flex: 1;
+      .submenu {
+        padding-left: 1em;
+      }
       a {
         color: #000;
         display: block;

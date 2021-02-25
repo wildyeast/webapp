@@ -31,7 +31,7 @@
                   Credits (aktueller Stand: {{credits}}EUR)
                 </label>
               </div>
-              <button class="input-button-primary creditsButton">Gutschein einlösen</button>
+              <button class="input-button-primary creditsButton" @click="$router.push(`giftcards?action=redeem&origin=${$route.query.uuid}`)">Gutschein einlösen</button>
             </div>
           </div>
         </div>
@@ -156,7 +156,6 @@ export default {
           break;
       }
     },
-
     redirect: function (data) {
       var stripe = Stripe('pk_live_XCUCaJMt8kMEpedQdvmtMu4Z00rNP9VDun');
       stripe.redirectToCheckout({
