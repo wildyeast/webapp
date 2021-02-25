@@ -188,48 +188,6 @@
           </button>
         </div>
       </div>
-
-
-      <div v-if="step === 1">
-        Gutschein erfolgreich eingelöst!
-        <div class="buttons">
-          <button
-            class="input-button-payment"
-            :disabled="!giftcardCode"
-            @click="$router.push('credits')"
-          >
-            Meine Credits anzeigen 
-          </button>
-        </div>
-
-      </div>
-
-      <div v-if="step === -1">
-        Kein Gutschein mit diesem Code gefunden.
-        <div class="buttons">
-          <button class="input-button-back" @click="step = 0">
-            Zurück zur Eingabe
-          </button>
-        </div>
-      </div>
-
-      <div v-if="step === -2">
-        Dieser Gutschein ist bereits eingelöst worden.
-        <div class="buttons">
-          <button class="input-button-back" @click="step = 0">
-            Nochmal versuchen
-          </button>
-        </div>
-      </div>
-
-      <div v-if="step === -3">
-        Ein Fehler ist aufgetreten.
-        <div class="buttons">
-          <button class="input-button-back" @click="step = 0">
-            Nochmal versuchen
-          </button>
-        </div>
-      </div>
     </template>
   </div>
 </template>
@@ -263,6 +221,7 @@ export default {
       this.sepaActive = data.data.sepa_active;
     });
     this.getQuery(this.$route.query)
+
   },
   watch: {
     "$route.query" (to) {
@@ -287,12 +246,18 @@ export default {
         uuid: this.giftcardCode,
       });
       if (!response.success) {
+        console.log('response', response)
         if (response.already_redeemed) {
-          this.step = -1
+          this.$toast.show('Dieser Gutschein ist bereits eingelöst worden!', {
+            theme: 'bubble'
+          })
+          this.giftcardCode = ''
           return
         }
         if (response.invalid_code) {
-          this.step = -2
+          this.$toast.show('Kein Gutschein mit diesem Code gefunden.', {
+            theme: 'bubble'
+          })
           return
         }
       }
@@ -300,8 +265,11 @@ export default {
         this.$router.push(`buyWorkshop?uuid=${this.origin}`)
         return
       }
-      this.step++
       this.loading = false
+      this.$toast.show('Der Gutschein wurde erfolgreich eingelöst!', { 
+        theme: 'toasted-primary'
+      })
+      this.$router.push('credits')
     },
     checkout() {
       this.loading = true;
@@ -333,7 +301,9 @@ export default {
           }
         } else {
           this.$sentry.captureException(new Error(data));
-          this.page = -3
+          this.$toast.show('Ein Fehler ist aufgetreten', {
+            theme: 'bubble'
+          })
         }
       });
     },

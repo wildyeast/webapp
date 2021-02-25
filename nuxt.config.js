@@ -58,9 +58,14 @@ module.exports = {
   },
   modules: [
     '@nuxtjs/sentry',
+    '@nuxtjs/toast'
   ],
   sentry: {
     config: {}, // Additional config
+  },
+  toast: {
+    position: 'top-center',
+    duration: 5000
   },
   plugins: [
     '~/plugins/init',
