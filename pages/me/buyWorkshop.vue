@@ -23,9 +23,9 @@
 
         <div class="info-row option" v-if="credits">
           <div class="info-block">
-            <div class="col info creditsOption">
+            <div :class="['col', 'info', 'creditsOption', { disabled: !memberHasEnoughCredits }]">
               <div class="first">
-                <input type="radio" id="sepa" @click="paymentMethod = PAYMENT_METHODS.giftCard"
+                <input type="radio" :disabled="!memberHasEnoughCredits" id="sepa" @click="paymentMethod = PAYMENT_METHODS.credits"
                       name="payment" value="credits">
                 <label for="sepa" class="label">
                   Credits (aktueller Stand: {{credits}}EUR)
@@ -60,29 +60,19 @@
         <div class="spacer"></div>
 
         <div class="buttons">
-          <button class="input-button-back" :disabled="!paymentMethod" @click="paymentMethod === PAYMENT_METHODS.credits ? onNextStep(1) : onNextStep(2)">Weiter...</button>
+          <button class="input-button-back" :disabled="!paymentMethod" @click="onNextStep(1)">Weiter...</button>
         </div>
 
       </div>
 
       <div v-if="step == 1">
-        <h2>Gutschein</h2>
-        <div>Du hast aktuell 5EUR auf deinem Konto.</div>
-        <div class="buttons">
-          <button class="input-button-back" @click="back">Zurück</button>
-          <button class="input-button-payment" @click="onNextStep(3)">Workshop kostenpflichtig buchen</button>
-        </div>
-
-      </div>
-
-      <div v-if="step == 2">
 
         <h2>Bestätigung</h2>
 
         <span>Zahlungsmethode:
-          <span v-if="paymentMethod === 1">Kreditkarte</span>
-          <span v-if="paymentMethod === 2">SEPA-Monatsrechnung</span>
-          <span v-if="paymentMethod === 3">Credits</span>
+          <span v-if="paymentMethod === 1">Der Betrag ({{workshopPrice}}EUR) wird von deiner Kreditkarte abgebucht.</span>
+          <span v-if="paymentMethod === 2">Der Betrag ({{workshopPrice}}EUR) wird via SEPA-Monatsrechnung eingezogen.</span>
+          <span v-if="paymentMethod === 3">Der Betrag ({{workshopPrice}}EUR) wird von deinen Credits ({{credits}}EUR) abgezogen.</span>
         </span>
 
         <div class="buttons">
@@ -132,6 +122,15 @@ export default {
       credits: 0
     }
   },
+  computed: {
+    memberHasEnoughCredits () {
+      return this.credits >= this.workshopPrice
+    },
+    workshopPrice () {
+      // TODO are there workshops with price_external?
+      return this.workshopDate.content.workshop.content.price_internal
+    }
+  },
   async mounted() {
     this.$store.dispatch("loadStoryByUUid", this.$route.query['uuid']).then(data => {
       this.workshopDate = data.story;
@@ -141,6 +140,7 @@ export default {
     })
     this.credits = await this.$store.dispatch('getCredits')
     window.scrollTo(0,0) // Scroll to top
+    console.log('WS', this.workshopDate.content)
   },
   methods: {
     back () {
@@ -347,6 +347,8 @@ export default {
       margin-left: 0.6em;
     }
   }
-
+}
+.disabled {
+  color: grey;
 }
 </style>
