@@ -21,12 +21,12 @@
           </div>
         </div>
 
-        <div class="info-row option">
+        <div class="info-row option" v-if="credits">
           <div class="info-block">
             <div class="col info">
               <input type="radio" id="sepa" @click="paymentMethod = PAYMENT_METHODS.giftCard"
                      name="payment" value="giftcard">
-              <label for="sepa">Gutschein</label><br>
+              <label for="sepa">Gutschein ({{credits}}EUR aufgeladen)</label><br>
             </div>
           </div>
         </div>
@@ -124,20 +124,17 @@ export default {
       workshopDate: null,
       userMetadata: null,
       error: null,
-      credits: null
+      credits: 0
     }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch("loadStoryByUUid", this.$route.query['uuid']).then(data => {
       this.workshopDate = data.story;
     });
     this.$store.dispatch("getUserMetadata").then(data => {
       this.userMetadata = data.data;
     })
-    this.$store.dispatch('getCredits').then(data => {
-      this.credits = data.credits
-    })
-    // Scroll to top
+    this.credits = await this.$store.dispatch('getCredits')    // Scroll to top
     window.scrollTo(0,0)
   },
   methods: {

@@ -173,20 +173,18 @@ const createStore = () => {
           console.log(err.response.data.msg);
         })*/;
             },
-            getCredits({ state }, data) {
-              console.log('GET CREDITS')
-              return connector.get('/member/getCredits', data).then((r) => {
-                if (r.data.success) {
-                    return r.data;
-                }
-              })
+            async getCredits({ state }) {
+              const res = await connector.get('/member/getCredits')
+              return res.data
             },
-            redeemGiftCard({ state }, data) {
-              return connector.post('/member/redeemGiftCard', data).then((r) => {
-                if (r.data.success) {
-                    return r.data;
-                }
-              })
+            async getCreditsLog({ state }) {
+              const res = await connector.get('/member/getCreditsLog')
+              return res.data
+            },
+            async redeemGiftCard({ state }, data) {
+              const res = await connector.post('/member/redeemGiftCard', data)
+              console.log(res)
+              return res.data
             },
             getInvoices({state}) {
                 return connector.get('/member/invoices').then((r) => {

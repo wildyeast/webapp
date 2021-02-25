@@ -10,6 +10,7 @@
         <div class="tab-section-menu">
           <NuxtLink to="/me/">Mein Profil</NuxtLink>
           <NuxtLink to="/me/packages">Packages</NuxtLink>
+          <NuxtLink to="/me/credits">Credits</NuxtLink>
           <!-- <NuxtLink to="/me/trainings">Unterweisungen</NuxtLink>-->
           <NuxtLink to="/me/shop">Gutscheine</NuxtLink>
           <NuxtLink to="/me/workshopBookings">Workshop-Buchungen</NuxtLink>

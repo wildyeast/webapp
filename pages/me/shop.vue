@@ -1,8 +1,10 @@
 <template>
   <div>
-  <component v-if="story.content.component" :key="story.content._uid" :blok="story.content"
+    <h2>Gutscheine</h2>
+    <component v-if="story.content.component" :key="story.content._uid" :blok="story.content"
                :is="story.content.component"></component>
     <template v-if="page === PAGES.initial">
+
       <button class="input-button-primary" @click="page = PAGES.buying">Gutschein kaufen</button>
       <button class="input-button-primary" @click="page = PAGES.redeeming">Gutschein einlösen</button>
     </template>
@@ -133,8 +135,9 @@
       </div>
     </div>
 
-    <div v-if="page === PAGES.error">
-      Irgendwas hat nicht funktioniert.
+    <div v-if="page === PAGES.alreadyRedeemed">
+      <h4>Gutschein einlösen</h4>
+      Dieser Gutschein ist bereits eingelöst worden.
       <div class="buttons">
         <button class="input-button-back" @click="back">Nochmal versuchen</button>
       </div>
@@ -154,7 +157,8 @@ const PAGES = {
   sold: 4,
   redeeming: 10,
   wrongCode: 11,
-  redeemed: 12,
+  alreadyRedeemed: 12,
+  redeemed: 13,
   error: 99
 }
 
@@ -202,7 +206,7 @@ export default {
         this.page = PAGES.paying
         return
       }
-      if (this.page === PAGES.wrongCode) {
+      if ([PAGES.wrongCode, PAGES.alreadyRedeemed].includes(this.page)) {
         this.page = PAGES.redeeming
       }
     },
@@ -210,10 +214,18 @@ export default {
       // TODO call endpoint
       this.loading = true
       const response = await this.$store.dispatch('redeemGiftCard', {
-        giftcardCode: this.giftcardCode
+        uuid: this.giftcardCode
       })
-      console.log(response)
-      this.page = PAGES.wrongCode
+      console.log(response.msg)
+      if (!response.success) {
+        if (response.already_redeemed) {
+          this.page = PAGES.alreadyRedeemed
+          return
+        }
+        if (response.invalid_code) {
+          this.page = PAGES.wrongCode
+        }
+      }
       this.loading = false
     },
     checkout() {
