@@ -275,8 +275,9 @@ export default {
         this.origin = to.origin
       }
       if (to.hasOwnProperty('action') && ['buy', 'redeem'].includes(to.action)) {
-        this.action = to.action;
-        return;
+        this.action = to.action
+        this.step = 0
+        return
       }
       this.action = null;
     },

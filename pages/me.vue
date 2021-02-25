@@ -8,18 +8,20 @@
       </div>
       <div class="tab-section">
         <div class="tab-section-menu">
-          <NuxtLink to="/me/">Mein Profil</NuxtLink>
-          <NuxtLink to="/me/packages">Packages</NuxtLink>
-          <NuxtLink to="/me/credits">Credits</NuxtLink>
-          <!-- <NuxtLink to="/me/trainings">Unterweisungen</NuxtLink>-->
-          <NuxtLink to="/me/giftcards">Gutscheine</NuxtLink>
-          <div class="submenu" v-if="$route.name.startsWith('me-giftcards')">
-            <NuxtLink to="/me/giftcards?action=buy">Gutschein kaufen</NuxtLink>
-            <NuxtLink to="/me/giftcards?action=redeem">Gutschein einlösen</NuxtLink>
-          </div>
-          <NuxtLink to="/me/workshopBookings">Meine Workshops</NuxtLink>
-          <!--<NuxtLink to="/me/invoices">Meine Rechnungen</NuxtLink>-->
-         <!-- <NuxtLink to="/me/log">Meine Aktivitäten</NuxtLink>-->
+          <MenuLink to="/me/" icon="user">Mein Profil</MenuLink>
+          <MenuLink to="/me/packages" icon="cube">Packages</MenuLink>
+          <MenuLink to="/me/workshopBookings" icon="hammer">Meine Workshops</MenuLink>
+          <MenuLink to="/me/credits" icon="coins">Credits</MenuLink>
+          <!-- <MenuLink to="/me/trainings">Unterweisungen</MenuLink>-->
+          <MenuLink to="/me/giftcards" icon="gift">Gutscheine</MenuLink>
+          <transition name="slide">
+            <div class="submenu" v-if="$route.name.startsWith('me-giftcards')">
+              <MenuLink :isActive="$route.query.action === 'buy'" to="/me/giftcards?action=buy">Gutschein kaufen</MenuLink>
+              <MenuLink :isActive="$route.query.action === 'redeem'" to="/me/giftcards?action=redeem">Gutschein einlösen</MenuLink>
+            </div>
+          </transition>
+          <!--<MenuLink to="/me/invoices">Meine Rechnungen</MenuLink>-->
+         <!-- <MenuLink to="/me/log">Meine Aktivitäten</MenuLink>-->
         </div>
         <div class="tab-section-content">
           <NuxtChild :key="$route.params.slug"></NuxtChild>
@@ -29,8 +31,10 @@
 </template>
 
 <script>
+import MenuLink from '~/components/MenuLink'
 export default {
   middleware: 'authenticated',
+  components: { MenuLink },
   data () {
     return {
     }
@@ -109,7 +113,7 @@ export default {
       width: 200px;
       flex: 1;
       .submenu {
-        padding-left: 1em;
+        padding-left: 2.5em;
       }
       a {
         color: #000;

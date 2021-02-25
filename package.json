@@ -38,6 +38,9 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^5.15.2",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@nuxtjs/fontawesome": "^1.1.2",
     "netlify-lambda": "^1.6.3",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.3.1"

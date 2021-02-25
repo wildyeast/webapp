@@ -140,7 +140,6 @@ export default {
     })
     this.credits = await this.$store.dispatch('getCredits')
     window.scrollTo(0,0) // Scroll to top
-    console.log('WS', this.workshopDate.content)
   },
   methods: {
     back () {
