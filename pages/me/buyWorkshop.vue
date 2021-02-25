@@ -23,10 +23,15 @@
 
         <div class="info-row option" v-if="credits">
           <div class="info-block">
-            <div class="col info">
-              <input type="radio" id="sepa" @click="paymentMethod = PAYMENT_METHODS.giftCard"
-                     name="payment" value="giftcard">
-              <label for="sepa">Gutschein ({{credits}}EUR aufgeladen)</label><br>
+            <div class="col info creditsOption">
+              <div class="first">
+                <input type="radio" id="sepa" @click="paymentMethod = PAYMENT_METHODS.giftCard"
+                      name="payment" value="credits">
+                <label for="sepa" class="label">
+                  Credits (aktueller Stand: {{credits}}EUR)
+                </label>
+              </div>
+              <button class="input-button-primary creditsButton">Gutschein einlösen</button>
             </div>
           </div>
         </div>
@@ -35,9 +40,9 @@
           <div class="info-row option">
             <div class="info-block">
               <div class="col info">
-                <input type="radio" id="credit" @click="paymentMethod = PAYMENT_METHODS.creditCard" name="payment"
-                       value="credit">
-                <label for="credit">Kreditkarte</label><br>
+                <input type="radio" id="creditCard" @click="paymentMethod = PAYMENT_METHODS.creditCard" name="payment"
+                       value="creditCard">
+                <label for="creditCard">Kreditkarte</label><br>
               </div>
             </div>
           </div>
@@ -55,7 +60,7 @@
         <div class="spacer"></div>
 
         <div class="buttons">
-          <button class="input-button-back" :disabled="!paymentMethod" @click="paymentMethod === PAYMENT_METHODS.giftCard ? onNextStep(1) : onNextStep(2)">Weiter...</button>
+          <button class="input-button-back" :disabled="!paymentMethod" @click="paymentMethod === PAYMENT_METHODS.credits ? onNextStep(1) : onNextStep(2)">Weiter...</button>
         </div>
 
       </div>
@@ -77,7 +82,7 @@
         <span>Zahlungsmethode:
           <span v-if="paymentMethod === 1">Kreditkarte</span>
           <span v-if="paymentMethod === 2">SEPA-Monatsrechnung</span>
-          <span v-if="paymentMethod === 3">Gutschein</span>
+          <span v-if="paymentMethod === 3">Credits</span>
         </span>
 
         <div class="buttons">
@@ -111,7 +116,7 @@
 const PAYMENT_METHODS = {
   creditCard: 1,
   sepa: 2,
-  giftCard: 3
+  credits: 3
 }
 export default {
   name: "buyWorkshop",
@@ -134,8 +139,8 @@ export default {
     this.$store.dispatch("getUserMetadata").then(data => {
       this.userMetadata = data.data;
     })
-    this.credits = await this.$store.dispatch('getCredits')    // Scroll to top
-    window.scrollTo(0,0)
+    this.credits = await this.$store.dispatch('getCredits')
+    window.scrollTo(0,0) // Scroll to top
   },
   methods: {
     back () {
@@ -325,6 +330,21 @@ export default {
       .story {
         padding: 0;
       }
+    }
+  }
+}
+.creditsOption {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  & .creditsButton {
+    margin: 0;
+  }
+  & .first {
+    display: flex;
+    & label {
+      margin-left: 0.6em;
     }
   }
 

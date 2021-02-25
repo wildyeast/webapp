@@ -143,6 +143,9 @@ export default {
   background-color: grey;
   border: 1px solid darkgrey;
 }
+.input-button-primary:hover {
+  color: black;
+}
 .input-button-back {
   @extend .input-button-primary;
 }
