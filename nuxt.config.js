@@ -65,7 +65,8 @@ module.exports = {
   },
   toast: {
     position: 'top-center',
-    duration: 5000
+    duration: 5000,
+    theme: 'toasted-primary'
   },
   plugins: [
     '~/plugins/init',

@@ -18,177 +18,181 @@
       </button>
     </template>
 
-    <template v-if="action === 'buy'">
-      <div class="giftcardForm" v-if="step === 0">
-        <div class="input">
-          <span> Gutschein-Wert: </span>
-          <select class="form-item" v-model="selectedProduct">
-            <option value="719">10€</option>
-            <option value="720">25€</option>
-            <option value="721">50€</option>
-            <option value="722">100€</option>
-          </select>
-        </div>
+    <transition name="fade">
+      <template>
+        <template v-if="action === 'buy'">
+          <div class="giftcardForm" v-if="step === 0">
+            <div class="input">
+              <span> Gutschein-Wert: </span>
+              <select class="form-item" v-model="selectedProduct">
+                <option value="719">10€</option>
+                <option value="720">25€</option>
+                <option value="721">50€</option>
+                <option value="722">100€</option>
+              </select>
+            </div>
 
-        <div class="input">
-          <span> Extras: </span>
-          <select class="form-item" v-model="selectedExtra">
-            <option value="733">E-mail - Gratis</option>
-            <option value="734">Versand-Standard - 3€</option>
-            <option value="735">Deluxe-Box - 25€</option>
-          </select>
-        </div>
+            <div class="input">
+              <span> Extras: </span>
+              <select class="form-item" v-model="selectedExtra">
+                <option value="733">E-mail - Gratis</option>
+                <option value="734">Versand-Standard - 3€</option>
+                <option value="735">Deluxe-Box - 25€</option>
+              </select>
+            </div>
 
-        <div class="buttons">
-          <button
-            class="input-button-primary"
-            :disabled="!selectedProduct || !selectedExtra"
-            @click="step++"
-          >
-            Weiter...
-          </button>
-        </div>
-      </div>
-
-      <div v-if="step === 1">
-        <h4>Zahlungsmethode</h4>
-        <input
-          type="radio"
-          name="paymentMethod"
-          value="1"
-          v-model="paymentMethod"
-        />Kreditkarte<br />
-        <div v-if="invoiceContact.sepa_mandate_agreed">
-          <input
-            type="radio"
-            name="paymentMethod"
-            value="2"
-            v-model="paymentMethod"
-          />SEPA-Monatsrechnung<br />
-        </div>
-
-        <div v-if="invoiceContact != null">
-          <h4>Rechnungsadresse</h4>
-
-          <div class="form-item">
-            <span class="label">Vorname</span>
-            <input
-              class="input-text"
-              type="text"
-              v-model="invoiceContact.firstname"
-              name=""
-            />
+            <div class="buttons">
+              <button
+                class="input-button-primary"
+                :disabled="!selectedProduct || !selectedExtra"
+                @click="step++"
+              >
+                Weiter...
+              </button>
+            </div>
           </div>
-          <div class="form-item">
-            <span class="label">Nachname</span>
-            <input
-              class="input-text"
-              type="text"
-              v-model="invoiceContact.lastname"
-              name=""
-            />
-          </div>
-          <div class="form-item">
-            <span class="label">Telefon</span>
-            <input
-              class="input-text"
-              type="text"
-              v-model="invoiceContact.phone"
-              name=""
-            />
-          </div>
-          <div class="form-item">
-            <span class="label">Adresse</span>
-            <input
-              class="input-text"
-              type="text"
-              v-model="invoiceContact.street"
-              name=""
-            />
-          </div>
-          <div class="form-item">
-            <span class="label"></span>
-            <input
-              class="input-text"
-              type="text"
-              v-model="invoiceContact.street_additional"
-              name=""
-            />
-          </div>
-          <div class="form-item">
-            <span class="label">PLZ</span>
-            <input
-              class="input-text"
-              type="text"
-              v-model="invoiceContact.zip"
-              name=""
-            />
-          </div>
-          <div class="form-item">
-            <span class="label">Stadt</span>
-            <input
-              class="input-text"
-              type="text"
-              v-model="invoiceContact.city"
-              name=""
-            />
-          </div>
-        </div>
-        <div class="buttons">
-          <button class="input-button-back" @click="step--">Zurück</button>
-          <button
-            class="input-button-primary"
-            :disabled="!paymentMethod"
-            @click="step++"
-          >
-            Bestellung prüfen...
-          </button>
-        </div>
-      </div>
 
-      <div v-if="step === 2">
-        Bestätigung:
-        <ul>
-          <li>Gutschein {{ getGiftCardValue(selectedProduct) }}€</li>
-          <li>Extra: {{ getExtra(selectedExtra) }}</li>
-        </ul>
+          <div v-if="step === 1">
+            <h4>Zahlungsmethode</h4>
+            <input
+              type="radio"
+              name="paymentMethod"
+              value="1"
+              v-model="paymentMethod"
+            />Kreditkarte<br />
+            <div v-if="invoiceContact.sepa_mandate_agreed">
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="2"
+                v-model="paymentMethod"
+              />SEPA-Monatsrechnung<br />
+            </div>
 
-        <loading-spinner v-if="loading" color="#333"></loading-spinner>
-        <div class="buttons">
-          <button class="input-button-back" @click="step--">Zurück</button>
-          <button
-            class="input-button-payment"
-            :disabled="!paymentMethod || loading"
-            @click="checkout()"
-          >
-            Kostenpflichtig bestellen
-          </button>
-        </div>
-      </div>
-      <div v-if="step === 3">
-        Kauf abgeschlossen. Die Rechnung und deinen Gutschein erhältst du per
-        Mail.
-      </div>
-    </template>
+            <div v-if="invoiceContact != null">
+              <h4>Rechnungsadresse</h4>
 
-    <template v-if="action === 'redeem'">
-      <div class="giftcardForm" v-if="step === 0">
-        <div class="input">
-          <span> Gutschein-Code: </span>
-          <input class="form-item" v-model="giftcardCode" />
-        </div>
+              <div class="form-item">
+                <span class="label">Vorname</span>
+                <input
+                  class="input-text"
+                  type="text"
+                  v-model="invoiceContact.firstname"
+                  name=""
+                />
+              </div>
+              <div class="form-item">
+                <span class="label">Nachname</span>
+                <input
+                  class="input-text"
+                  type="text"
+                  v-model="invoiceContact.lastname"
+                  name=""
+                />
+              </div>
+              <div class="form-item">
+                <span class="label">Telefon</span>
+                <input
+                  class="input-text"
+                  type="text"
+                  v-model="invoiceContact.phone"
+                  name=""
+                />
+              </div>
+              <div class="form-item">
+                <span class="label">Adresse</span>
+                <input
+                  class="input-text"
+                  type="text"
+                  v-model="invoiceContact.street"
+                  name=""
+                />
+              </div>
+              <div class="form-item">
+                <span class="label"></span>
+                <input
+                  class="input-text"
+                  type="text"
+                  v-model="invoiceContact.street_additional"
+                  name=""
+                />
+              </div>
+              <div class="form-item">
+                <span class="label">PLZ</span>
+                <input
+                  class="input-text"
+                  type="text"
+                  v-model="invoiceContact.zip"
+                  name=""
+                />
+              </div>
+              <div class="form-item">
+                <span class="label">Stadt</span>
+                <input
+                  class="input-text"
+                  type="text"
+                  v-model="invoiceContact.city"
+                  name=""
+                />
+              </div>
+            </div>
+            <div class="buttons">
+              <button class="input-button-back" @click="step--">Zurück</button>
+              <button
+                class="input-button-primary"
+                :disabled="!paymentMethod"
+                @click="step++"
+              >
+                Bestellung prüfen...
+              </button>
+            </div>
+          </div>
 
-        <div class="buttons">
-          <button
-            class="input-button-payment"
-            :disabled="!giftcardCode"
-            @click="redeem"
-          >
-            Einlösen
-          </button>
-        </div>
-      </div>
-    </template>
+          <div v-if="step === 2">
+            Bestätigung:
+            <ul>
+              <li>Gutschein {{ getGiftCardValue(selectedProduct) }}€</li>
+              <li>Extra: {{ getExtra(selectedExtra) }}</li>
+            </ul>
+
+            <loading-spinner v-if="loading" color="#333"></loading-spinner>
+            <div class="buttons">
+              <button class="input-button-back" @click="step--">Zurück</button>
+              <button
+                class="input-button-payment"
+                :disabled="!paymentMethod || loading"
+                @click="checkout()"
+              >
+                Kostenpflichtig bestellen
+              </button>
+            </div>
+          </div>
+          <div v-if="step === 3">
+            Kauf abgeschlossen. Die Rechnung und deinen Gutschein erhältst du per
+            Mail.
+          </div>
+        </template>
+
+        <template v-if="action === 'redeem'">
+          <div class="giftcardForm" v-if="step === 0">
+            <div class="input">
+              <span> Gutschein-Code: </span>
+              <input class="form-item" v-model="giftcardCode" />
+            </div>
+
+            <div class="buttons">
+              <button
+                class="input-button-payment"
+                :disabled="!giftcardCode"
+                @click="redeem"
+              >
+                Einlösen
+              </button>
+            </div>
+          </div>
+        </template>
+      </template>
+    </transition> 
   </div>
 </template>
 
@@ -249,14 +253,14 @@ export default {
         console.log('response', response)
         if (response.already_redeemed) {
           this.$toast.show('Dieser Gutschein ist bereits eingelöst worden!', {
-            theme: 'bubble'
+            className: 'badToast'
           })
           this.giftcardCode = ''
           return
         }
         if (response.invalid_code) {
           this.$toast.show('Kein Gutschein mit diesem Code gefunden.', {
-            theme: 'bubble'
+            className: 'badToast'
           })
           return
         }
@@ -267,7 +271,7 @@ export default {
       }
       this.loading = false
       this.$toast.show('Der Gutschein wurde erfolgreich eingelöst!', { 
-        theme: 'toasted-primary'
+        className: 'goodToast'
       })
       this.$router.push('credits')
     },

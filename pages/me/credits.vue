@@ -4,11 +4,17 @@
         <loading-spinner v-if="isLoading" color="#333"></loading-spinner>
         <div class="credits" v-else>
           <div class="myCredits">
-            Meine Credits: {{ credits }}
+            <span>
+              <font-awesome-icon icon="coins" />
+              Meine Credits: {{ credits }}EUR
+            </span>
+            <button class="input-button-primary creditsButton" @click="$router.push(`giftcards`)">Gutschein einlösen</button>
           </div>
-          <div class="log">
-            <div class="logEntry" v-for="log of logs" :key="log.id">
-              {{ log.value }}EUR aufgeladen am {{new Date(log.created_at).toLocaleString()}}
+          <div class="logs">
+            <div class="entry" v-for="log of logs" :key="log.id">
+              <div class="date">{{new Date(log.date).toLocaleString('de-AT')}}</div>
+              <div :class="['type', log.value > 0 ? 'green' : 'red']">{{ log.value > 0 ? 'Aufladung' : 'Abbuchung' }}</div>
+              <div class="value">{{ Math.abs(log.value) }}EUR</div>
             </div>
           </div>
         </div> 
@@ -27,12 +33,21 @@ export default {
     isLoading: true,
     logs: null
   }),
-  computed: {},
+  computed: {
+  },
   created() {},
   async mounted () {
     const logs = await this.$store.dispatch('getCreditsLog')
-    this.logs = logs.reverse()
     this.credits = await this.$store.dispatch('getCredits')
+    let logsToPrint = []
+    for (const entry of logs) {
+      logsToPrint.push({
+        date: entry.created_at,
+        id: entry.id,
+        value: entry.value
+      })
+    }
+    this.logs = logsToPrint.sort((a, b) => a.id < b.id)
     this.isLoading = false;
   },
   methods: {},
@@ -44,6 +59,47 @@ export default {
 .myCredits {
   display: flex;
   flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1em;
+  background-color: black;
+  color: white;
+  line-height: 1.6;
+  font-family: $font-mono;
+  font-size: 0.9rem;
+  font-weight: bold;
+  display: flex;
+  padding: 0.8em;
+  font-size: 1em;
+  & .creditsButton {
+    margin: 0;
+  }
+}
+
+.entry:nth-child(odd) {
+  background: #fafafa;
+}
+
+.entry {
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 0.4em;
+  & .date {
+    color: grey;
+    margin-right: 0.5em;
+  }
+  & .green {
+    color: green;
+  }
+  & .red {
+    color: #c00;
+  }
+  & .type {
+    width: 5em;
+  }
+  & .value {
+    text-align: right;
+    width: 4em;
+  }
 }
 </style>

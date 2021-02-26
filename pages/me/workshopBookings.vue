@@ -8,9 +8,6 @@
         <workshop-dates :dates="[workshopDate]" class="workshop-dates" :hideRegister="true" :noMetadata="true"></workshop-dates>
       </div>
     </div>
-    <div v-else>
-      Du hast noch keine Workshops gebucht!
-    </div>
   </div>
 
 </template>
@@ -22,21 +19,17 @@ export default {
   middleware: 'authenticated',
   data() {
     return {
-      bookings: []
+      bookings: [],
     }
   },
   mounted() {
     this.$store.dispatch("getBookedWorkshops").then(data => {
-      console.log(data);
       data.forEach(uuid => {
         this.$store.dispatch("loadStoryByUUid", uuid).then(data => {
-          this.bookings.push(data.story);
-        });
+          this.bookings.push(data.story)
+        })
       })
-
-
-    });
-
+    })
   },
   methods: {},
   computed: {},

@@ -3,7 +3,7 @@
     <div class="left-content" v-if="workshopDate != null">
       <h1>Workshop-Buchung</h1>
 
-      <workshop-preview class="preview" :key="workshopDate.content.workshop.uuid"
+      <workshop-preview class="preview" :key="reloadKey"
                         :id="workshopDate.content.workshop.uuid"></workshop-preview>
       <workshop-dates :dates="[workshopDate]" class="workshop-dates" :hideRegister="true"></workshop-dates>
 
@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <div class="info-row option" v-if="credits">
+        <div class="info-row option">
           <div class="info-block">
             <div :class="['col', 'info', 'creditsOption', { disabled: !memberHasEnoughCredits }]">
               <div class="first">
@@ -40,9 +40,9 @@
           <div class="info-row option">
             <div class="info-block">
               <div class="col info">
-                <input type="radio" id="creditCard" @click="paymentMethod = PAYMENT_METHODS.creditCard" name="payment"
-                       value="creditCard">
-                <label for="creditCard">Kreditkarte</label><br>
+                <input type="radio" id="stripe" @click="paymentMethod = PAYMENT_METHODS.stripe" name="payment"
+                       value="stripe">
+                <label for="stripe">Kreditkarte</label><br>
               </div>
             </div>
           </div>
@@ -85,12 +85,11 @@
 
 
       <div v-if="step == 3">
-        <loading-spinner color="black"></loading-spinner>
+        <loading-spinner class="spinner" color="black"></loading-spinner>
       </div>
       <div v-if="step == 4">
-        Workshop gebucht!
-
-
+        Workshop gebucht!<br>
+        <button class="input-button-primary" @click="$router.push('workshopBookings')">Meine Workshops anzeigen</button>
       </div>
       <div v-if="step == 99">
         {{ error }}
@@ -104,7 +103,7 @@
 
 <script>
 const PAYMENT_METHODS = {
-  creditCard: 1,
+  stripe: 1,
   sepa: 2,
   credits: 3
 }
@@ -116,6 +115,7 @@ export default {
       PAYMENT_METHODS,
       paymentMethod: null,
       step: 0,
+      reloadKey: 0,
       workshopDate: null,
       userMetadata: null,
       error: null,
@@ -132,9 +132,7 @@ export default {
     }
   },
   async mounted() {
-    this.$store.dispatch("loadStoryByUUid", this.$route.query['uuid']).then(data => {
-      this.workshopDate = data.story;
-    });
+    this.getWorkshop()
     this.$store.dispatch("getUserMetadata").then(data => {
       this.userMetadata = data.data;
     })
@@ -146,8 +144,12 @@ export default {
       this.step = 0
       this.paymentMethod = null;
     },
+    getWorkshop () {
+      this.$store.dispatch("loadStoryByUUid", this.$route.query['uuid']).then(data => {
+        this.workshopDate = data.story;
+      })
+    },
     onNextStep(step) {
-      console.log('step', step)
       this.step = step;
       switch (step) {
         case 3:
@@ -170,13 +172,16 @@ export default {
       this.$store.dispatch("bookWorkshop", data).then((data) => {
         if (data.success) {
           switch (this.paymentMethod) {
-            case 1:
+            case PAYMENT_METHODS.stripe:
               this.redirect(data)
               break;
-            case 2:
-              this.step = 3;
-
-              break;
+            default:
+              this.step = 4
+              this.getWorkshop()
+              this.reloadKey++
+              this.$toast.show('Der Workshop wurde erfolgreich gebucht!', {
+                className: 'goodToast'
+              })
           }
         } else {
           this.$sentry.captureException(new Error(data));
@@ -348,5 +353,8 @@ export default {
 }
 .disabled {
   color: grey;
+}
+.spinner {
+  margin-top: 2em;
 }
 </style>
