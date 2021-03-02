@@ -250,7 +250,6 @@ export default {
         uuid: this.giftcardCode,
       });
       if (!response.success) {
-        console.log('response', response)
         if (response.already_redeemed) {
           this.$toast.show('Dieser Gutschein ist bereits eingelöst worden!', {
             className: 'badToast'

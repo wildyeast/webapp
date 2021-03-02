@@ -15,6 +15,7 @@
         <div class="logo">
           <nuxt-link class="top-header__link" to="/">
             <img src="~/assets/img/icons/gg-logo-icon.svg">
+            <span v-if="devWarning">{{ devWarning }}</span>
           </nuxt-link>
           <div class="dropdown" v-if="home && home.length > 0">
             <div v-for="child in home" :key="child.id" class="child">
@@ -99,6 +100,9 @@ export default {
     },
     hasUser() {
       return !!this.$store.state.user;
+    },
+    devWarning () {
+      return process.env.NODE_ENV === 'development' ? 'DEV' : null
     }
   },
   watch: {
