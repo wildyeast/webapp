@@ -99,6 +99,7 @@ export default {
   & .date {
     color: grey;
     margin-right: 0.5em;
+    width: 10em;
   }
   & .green {
     color: green;
@@ -110,11 +111,12 @@ export default {
     width: 5em;
   }
   & .value {
+    padding-left: 1em;
     text-align: right;
-    width: 4em;
+    width: 5em;
   }
   & .info {
-    padding-left: 3em;
+    padding-left: 1em;
     // text-align: right;
     color: grey;
   }

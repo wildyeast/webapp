@@ -155,7 +155,6 @@
               <li>Extra: {{ getExtra(selectedExtra) }}</li>
             </ul>
 
-            <loading-spinner v-if="loading" color="#333"></loading-spinner>
             <div class="buttons">
               <button class="input-button-back" @click="step--">Zurück</button>
               <button
@@ -179,7 +178,6 @@
               <span> Gutschein-Code: </span>
               <input class="form-item" v-model="giftcardCode" />
             </div>
-
             <div class="buttons">
               <button
                 class="input-button-payment"
@@ -193,6 +191,7 @@
         </template>
       </template>
     </transition> 
+    <loading-spinner v-if="loading" color="#333"></loading-spinner>
   </div>
 </template>
 
