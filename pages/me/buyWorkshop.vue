@@ -21,13 +21,30 @@
           </div>
         </div>
 
-        <div class="info-row option">
+        <!-- User has credits, but not enough to pay for the workshop -->
+        <div class="info-row option" v-if="memberHasCredits && !memberHasEnoughCredits">
+          <div class="info-block">
+            <div :class="['col', 'info', 'creditsOption']">
+              <div class="first">
+                <input type="checkbox" id="sepa" @click="useRemainingCredits = true"
+                      name="payment" value="credits">
+                <label for="credits" class="label">
+                  Restliche Credits ({{credits}}EUR) abziehen
+                </label>
+              </div>
+              <button class="input-button-primary creditsButton" @click="$router.push(`giftcards?action=redeem&origin=${$route.query.uuid}`)">Gutschein einlösen</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- User has enough credits for workshop, or has zero credits (in which case the option will be visible but disabled) -->
+        <div class="info-row option" v-if="!memberHasCredits || memberHasEnoughCredits">
           <div class="info-block">
             <div :class="['col', 'info', 'creditsOption', { disabled: !memberHasEnoughCredits }]">
               <div class="first">
                 <input type="radio" :disabled="!memberHasEnoughCredits" id="sepa" @click="paymentMethod = PAYMENT_METHODS.credits"
                       name="payment" value="credits">
-                <label for="sepa" class="label">
+                <label for="credits" class="label">
                   Credits (aktueller Stand: {{credits}}EUR)
                 </label>
               </div>
@@ -69,11 +86,12 @@
 
         <h2>Bestätigung</h2>
 
-        <span>Zahlungsmethode:
-          <span v-if="paymentMethod === 1">Der Betrag ({{workshopPrice}}EUR) wird von deiner Kreditkarte abgebucht.</span>
-          <span v-if="paymentMethod === 2">Der Betrag ({{workshopPrice}}EUR) wird via SEPA-Monatsrechnung eingezogen.</span>
-          <span v-if="paymentMethod === 3">Der Betrag ({{workshopPrice}}EUR) wird von deinen Credits ({{credits}}EUR) abgezogen.</span>
-        </span>
+        <div class="confirmation">
+          <div v-if="useRemainingCredits">Von deinen Credits {{ this.credits === 1 ? 'wird' : 'werden' }} {{this.credits}}EUR abgezogen.</div>
+          <div v-if="paymentMethod === 1"><strong>{{finalWorkshopPrice}}EUR {{ finalWorkshopPrice === 1 ? 'wird' : 'werden' }} von deiner Kreditkarte abgebucht.</strong></div>
+          <div v-if="paymentMethod === 2"><strong>{{finalWorkshopPrice}}EUR {{ finalWorkshopPrice === 1 ? 'wird' : 'werden' }} via SEPA-Monatsrechnung eingezogen.</strong></div>
+          <div v-if="paymentMethod === 3">{{finalWorkshopPrice}}EUR {{ finalWorkshopPrice === 1 ? 'wird' : 'werden' }} von deinen Credits ({{credits}}EUR) abgezogen.</div>
+        </div>
 
         <div class="buttons">
           <button class="input-button-back" @click="back">Zurück</button>
@@ -119,17 +137,27 @@ export default {
       workshopDate: null,
       userMetadata: null,
       error: null,
-      credits: 0
+      credits: 0,
+      useRemainingCredits: false
     }
   },
   computed: {
     memberHasEnoughCredits () {
       return this.credits >= this.workshopPrice
     },
+    memberHasCredits () {
+      return this.credits > 0
+    },
     workshopPrice () {
       // TODO are there workshops with price_external?
       return this.workshopDate.content.workshop.content.price_internal
-    }
+    },
+    finalWorkshopPrice () {
+      if (this.useRemainingCredits) {
+        return this.workshopPrice - this.credits
+      }
+      return this.workshopPrice
+    },
   },
   async mounted() {
     this.getWorkshop()
@@ -143,6 +171,7 @@ export default {
     back () {
       this.step = 0
       this.paymentMethod = null;
+      this.useRemainingCredits = false;
     },
     getWorkshop () {
       this.$store.dispatch("loadStoryByUUid", this.$route.query['uuid']).then(data => {
@@ -168,6 +197,7 @@ export default {
       let data = {
         workshop_date_id: this.workshopDate.uuid,
         payment_method: this.paymentMethod,
+        use_remaining_credits: this.useRemainingCredits
       }
       this.$store.dispatch("bookWorkshop", data).then((data) => {
         if (data.success) {
@@ -356,5 +386,10 @@ export default {
 }
 .spinner {
   margin-top: 2em;
+}
+.confirmation {
+  & div {
+    padding: 0.2em 0em;
+  }
 }
 </style>

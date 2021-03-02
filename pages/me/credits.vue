@@ -8,13 +8,17 @@
               <font-awesome-icon icon="coins" />
               Meine Credits: {{ credits }}EUR
             </span>
-            <button class="input-button-primary creditsButton" @click="$router.push(`giftcards`)">Gutschein einlösen</button>
+            <button class="input-button-primary creditsButton" @click="$router.push(`giftcards?action=redeem`)">Gutschein einlösen</button>
           </div>
           <div class="logs">
             <div class="entry" v-for="log of logs" :key="log.id">
               <div class="date">{{new Date(log.date).toLocaleString('de-AT')}}</div>
               <div :class="['type', log.value > 0 ? 'green' : 'red']">{{ log.value > 0 ? 'Aufladung' : 'Abbuchung' }}</div>
               <div class="value">{{ Math.abs(log.value) }}EUR</div>
+              <div class="info">
+                <span v-if="log.refType === REF_TYPES.invoice">Rechnung #{{ log.refId }}</span>
+                <span v-else>Gutschein <span v-if="log.refId">#{{ log.refId }}</span></span>
+              </div>
             </div>
           </div>
         </div> 
@@ -23,7 +27,12 @@
 </template>
 
 <script>
-import saveAs from "save-as";
+// import saveAs from "save-as";
+
+const REF_TYPES = {
+  invoice: 0,
+  giftCard: 1
+}
 
 export default {
   name: "credits",
@@ -31,7 +40,8 @@ export default {
   data: () => ({
     credits: 0,
     isLoading: true,
-    logs: null
+    logs: null,
+    REF_TYPES
   }),
   computed: {
   },
@@ -44,7 +54,9 @@ export default {
       logsToPrint.push({
         date: entry.created_at,
         id: entry.id,
-        value: entry.value
+        value: entry.value,
+        refId: entry.creditable_id,
+        refType: entry.creditable_type && entry.creditable_type.endsWith('Invoice') ? REF_TYPES.invoice : REF_TYPES.giftCard
       })
     }
     this.logs = logsToPrint.sort((a, b) => a.id < b.id)
@@ -100,6 +112,11 @@ export default {
   & .value {
     text-align: right;
     width: 4em;
+  }
+  & .info {
+    padding-left: 3em;
+    // text-align: right;
+    color: grey;
   }
 }
 </style>
