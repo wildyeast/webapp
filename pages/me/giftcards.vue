@@ -254,12 +254,14 @@ export default {
             className: 'badToast'
           })
           this.giftcardCode = ''
+          this.loading = false
           return
         }
         if (response.invalid_code) {
           this.$toast.show('Kein Gutschein mit diesem Code gefunden.', {
             className: 'badToast'
           })
+          this.loading = false
           return
         }
       }
