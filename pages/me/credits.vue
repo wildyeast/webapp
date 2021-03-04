@@ -16,8 +16,8 @@
               <div :class="['type', log.value > 0 ? 'green' : 'red']">{{ log.value > 0 ? 'Aufladung' : 'Abbuchung' }}</div>
               <div class="value">{{ Math.abs(log.value) }}EUR</div>
               <div class="info">
-                <span v-if="log.refType === REF_TYPES.invoice">Rechnung #{{ log.refId }}</span>
-                <span v-else>Gutschein <span v-if="log.refId">#{{ log.refId }}</span></span>
+                <a class="link" v-if="log.refType === REF_TYPES.invoice" @click="$router.push(`invoices?id=${log.invoiceUuid}`)">Rechnung #{{ log.invoiceId }}</a>
+                <span v-else>Gutschein</span>
               </div>
             </div>
           </div>
@@ -43,19 +43,19 @@ export default {
     logs: null,
     REF_TYPES
   }),
-  computed: {
-  },
-  created() {},
   async mounted () {
     const logs = await this.$store.dispatch('getCreditsLog')
     this.credits = await this.$store.dispatch('getCredits')
+    const invoices = await this.$store.dispatch('getInvoices')
     let logsToPrint = []
     for (const entry of logs) {
+      const invoice = invoices.find(i => i.id === entry.creditable_id)
       logsToPrint.push({
         date: entry.created_at,
         id: entry.id,
         value: entry.value,
-        refId: entry.creditable_id,
+        invoiceId: invoice ? invoice.human_readable_id : null,
+        invoiceUuid: invoice ? invoice.uuid : null,
         refType: entry.creditable_type && entry.creditable_type.endsWith('Invoice') ? REF_TYPES.invoice : REF_TYPES.giftCard
       })
     }
@@ -120,5 +120,8 @@ export default {
     // text-align: right;
     color: grey;
   }
+}
+.link:hover {
+  cursor: pointer;
 }
 </style>

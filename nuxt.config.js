@@ -52,7 +52,9 @@ module.exports = {
         'faCube',
         'faCoins',
         'faGift',
-        'faHammer'
+        'faHammer',
+        'faDownload',
+        'faFileInvoice'
       ]
     }
   },
