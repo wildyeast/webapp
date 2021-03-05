@@ -12,7 +12,7 @@
           <MenuLink to="/me/packages" icon="cube">Packages</MenuLink>
           <MenuLink to="/me/workshopBookings" icon="hammer">Meine Workshops</MenuLink>
           <MenuLink to="/me/credits" icon="coins">Credits</MenuLink>
-          <MenuLink to="/me/invoices" icon="file-invoice">Rechnungen</MenuLink>
+          <MenuLink :isActive="$route.name.includes('invoices')" to="/me/invoices" icon="file-invoice">Rechnungen</MenuLink>
           <!-- <MenuLink to="/me/trainings">Unterweisungen</MenuLink>-->
           <MenuLink to="/me/giftcards" icon="gift">Gutscheine</MenuLink>
           <transition name="slide">
