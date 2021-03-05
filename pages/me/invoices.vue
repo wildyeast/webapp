@@ -61,12 +61,35 @@ export default {
     display: flex;
     flex-flow: row nowrap;
     padding: 0.4em;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      position: relative;
+      background-color: #fafafa;
+      margin: 1em 0;
+      border: 1px solid grey;
+      border-radius: 0.3em;
+      & .icon {
+        position: absolute;
+        top: 1em;
+        right: 0;
+        font-size: 1.3em;
+        margin-right: -1em;
+      }
+      & .name {
+        font-size: 1.1em;
+        padding: 0.4em 0;
+      }
+      & .invoiceNumber {
+        padding-bottom: 0.4em;
+      }
+    }
     & * {
       margin-right: 2em;
     }
     & .date {
       color: grey;
       width: 5em;
+      transition: highlight 3s;
     }
     & .name {
       width: 10em;

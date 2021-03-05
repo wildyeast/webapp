@@ -8,15 +8,18 @@
               <font-awesome-icon icon="coins" />
               Meine Credits: {{ credits }}EUR
             </span>
-            <button class="input-button-primary creditsButton" @click="$router.push(`giftcards?action=redeem`)">Gutschein einlösen</button>
+            <button class="input-button-primary creditsButton" @click="this.$router.push(`giftcards?action=redeem`)">Gutschein einlösen</button>
           </div>
           <div class="logs">
-            <div class="entry" v-for="log of logs" :key="log.id">
+            <div class="entry" v-for="log of logs" :key="log.id" @click="showInvoices(log)">
               <div class="date">{{new Date(log.date).toLocaleString('de-AT')}}</div>
               <div :class="['type', log.value > 0 ? 'green' : 'red']">{{ log.value > 0 ? 'Aufladung' : 'Abbuchung' }}</div>
               <div class="value">{{ Math.abs(log.value) }}EUR</div>
               <div class="info">
-                <a class="link" v-if="log.refType === REF_TYPES.invoice" @click="$router.push(`invoices?id=${log.invoiceUuid}`)">Rechnung #{{ log.invoiceId }}</a>
+                <template v-if="log.refType === REF_TYPES.invoice">
+                  <span class="link">Rechnung #{{ log.invoiceId }}</span>
+                  <div class="icon"><font-awesome-icon icon="link" /></div>
+                </template>
                 <span v-else>Gutschein</span>
               </div>
             </div>
@@ -62,7 +65,13 @@ export default {
     this.logs = logsToPrint.sort((a, b) => a.id < b.id)
     this.isLoading = false;
   },
-  methods: {},
+  methods: {
+    showInvoices (log) {
+      if (log.refType === REF_TYPES.invoice) {
+        this.$router.push(`invoices?id=${log.invoiceUuid}`)
+      }
+    }
+  },
 };
 </script>
 
@@ -71,6 +80,9 @@ export default {
 .myCredits {
   display: flex;
   flex-flow: row nowrap;
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+  }
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1em;
@@ -85,6 +97,9 @@ export default {
   font-size: 1em;
   & .creditsButton {
     margin: 0;
+    @include media-breakpoint-down(sm) {
+      margin-top: 1em;
+    }
   }
 }
 
@@ -96,9 +111,29 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   padding: 0.4em;
+  @include media-breakpoint-down(sm) {
+    flex-direction: column;
+    background-color: #fafafa;
+    margin: 1em 0;
+    border: 1px solid grey;
+    border-radius: 0.3em;
+    position: relative;
+    & .type {
+      font-size: 1.1em;
+      padding: 0.4em 0;
+    }
+    & .value {
+      padding-bottom: 0.4em;
+    }
+    & .icon {
+      position: absolute;
+      top: 1em;
+      right: 1em;
+      font-size: 1.3em;
+    }
+  }
   & .date {
     color: grey;
-    margin-right: 0.5em;
     width: 10em;
   }
   & .green {
@@ -108,17 +143,27 @@ export default {
     color: #c00;
   }
   & .type {
-    width: 5em;
+    width: 8em;
   }
   & .value {
-    padding-left: 1em;
-    text-align: right;
     width: 5em;
   }
   & .info {
-    padding-left: 1em;
-    // text-align: right;
+    display: flex;
+    flex-flow: row nowrap;
     color: grey;
+  }
+  & .link {
+    margin-right: 1em;
+  }
+  & .icon {
+    display: flex;
+    align-items: center;
+    color: grey;
+    & :hover {
+      color: $color-blue-alt;
+      cursor: pointer;
+    }
   }
 }
 .link:hover {
