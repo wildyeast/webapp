@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>Meine Rechnungen</h2>
+    <loading-spinner v-if="!invoices" color="#333"></loading-spinner>
     <div class="invoices" v-if="invoices">
       <div :class="['invoice', { highlighted: highlightedId === invoice.uuid }]" v-for="invoice of invoices" :key="invoice.id">
         <div class="date">{{ new Date(invoice.issue_date).toLocaleDateString('de-AT') }}</div>
@@ -48,6 +49,7 @@ export default {
       link.download = invoice.filename + '.pdf'
       link.href = URL.createObjectURL(blob)
       link.click()
+
     }
   }
 }
