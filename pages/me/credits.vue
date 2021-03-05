@@ -11,7 +11,7 @@
             <button class="input-button-primary creditsButton" @click="this.$router.push(`giftcards?action=redeem`)">Gutschein einlösen</button>
           </div>
           <div class="logs">
-            <div class="entry" v-for="log of logs" :key="log.id" @click="showInvoices(log)">
+            <div :class="['entry', { pointer: log.refType=== REF_TYPES.invoice }]" v-for="log of logs" :key="log.id" @click="showInvoices(log)">
               <div class="date">{{new Date(log.date).toLocaleString('de-AT')}}</div>
               <div :class="['type', log.value > 0 ? 'green' : 'red']">{{ log.value > 0 ? 'Aufladung' : 'Abbuchung' }}</div>
               <div class="value">{{ Math.abs(log.value) }}EUR</div>
@@ -160,11 +160,13 @@ export default {
     display: flex;
     align-items: center;
     color: grey;
-    & :hover {
-      color: $color-blue-alt;
-      cursor: pointer;
-    }
   }
+}
+.entry:hover .icon {
+  color: $color-blue-alt;
+}
+.pointer {
+  cursor: pointer;
 }
 .link:hover {
   cursor: pointer;

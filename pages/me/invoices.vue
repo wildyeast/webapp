@@ -3,12 +3,12 @@
     <h2>Meine Rechnungen</h2>
     <loading-spinner v-if="!invoices" color="#333"></loading-spinner>
     <div class="invoices" v-if="invoices">
-      <div :class="['invoice', { highlighted: highlightedId === invoice.uuid }]" v-for="invoice of invoices" :key="invoice.id">
+      <div :class="['invoice', { pointer: invoice.has_attachment }, { highlighted: highlightedId === invoice.uuid }]" v-for="invoice of invoices" @click="getPdf(invoice)" :key="invoice.id">
         <div class="date">{{ new Date(invoice.issue_date).toLocaleDateString('de-AT') }}</div>
         <div class="name">{{ invoice.name }}</div>
         <div class="invoiceNumber">#{{ invoice.human_readable_id }}</div>
         <div class="status">Status: <span :class="[[4, 5].includes(invoice.status) ? 'green' : 'yellow']">{{ getStatus(invoice.status) }}</span></div>
-        <div v-if="invoice.has_attachment" class="icon"><font-awesome-icon @click="getPdf(invoice)" icon="download" /></div>
+        <div v-if="invoice.has_attachment" class="icon"><font-awesome-icon icon="download" /></div>
       </div>
     </div>
   </div>
@@ -42,6 +42,9 @@ export default {
       return new Date(date)
     },
     async getPdf (invoice) {
+      if (!invoice.has_attachment) {
+        return
+      }
       const res = await this.$store.dispatch('getPDF', invoice.uuid)
       const blob = new Blob([res.data], { type: 'application/pdf' });
       // TODO May need improvement. Firefox doesn't remember always open in new tab checkbox
@@ -116,15 +119,17 @@ export default {
       display: flex;
       align-items: center;
       color: grey;
-      & :hover {
-        color: $color-blue-alt;
-        cursor: pointer;
-      }
     }
   }
 }
 .invoice:nth-child(odd) {
   background: #fafafa;
+}
+.invoice:hover .icon {
+  color: $color-blue-alt;
+}
+.pointer {
+  cursor: pointer;
 }
 .highlighted {
   background: $color-yellow !important;
