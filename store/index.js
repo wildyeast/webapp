@@ -192,10 +192,12 @@ const createStore = () => {
       async getPDF({state}, id) {
         const res = await connector.get('/member/invoice/' + id, {}, {
           headers: {
-            'Content-Type': 'application/pdf'
+            'Content-Type': 'application/pdf',
+            'Content-Transfer-Encoding': 'binary',
           }
         })
         res.responseType = 'arraybuffer'
+        console.log(res)
         return res
       },
       getInvoiceDocument({commit, dispatch, state}, id) {

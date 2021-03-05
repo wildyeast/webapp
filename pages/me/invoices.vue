@@ -6,8 +6,8 @@
         <div class="date">{{ new Date(invoice.issue_date).toLocaleDateString('de-AT') }}</div>
         <div class="name">{{ invoice.name }}</div>
         <div class="date">#{{ invoice.human_readable_id }}</div>
-        <div>Status: <span :class="['type',  invoice.status === 4 || invoice.status === 5 ? 'green' : 'yellow']">{{ getStatus(invoice.status) }}</span></div>
-        <div class="icon"><font-awesome-icon @click="getPdf(invoice.uuid)" icon="download" /></div>
+        <div class="status">Status: <span :class="[[4, 5].includes(invoice.status) ? 'green' : 'yellow']">{{ getStatus(invoice.status) }}</span></div>
+        <div v-if="invoice.has_attachment" class="icon"><font-awesome-icon @click="getPdf(invoice.uuid)" icon="download" /></div>
       </div>
     </div>
   </div>
@@ -25,6 +25,7 @@ export default {
   },
   async mounted () {
     this.invoices = await this.$store.dispatch('getInvoices')
+    console.log(this.invoices)
     this.invoices = this.invoices.reverse()
     this.getQuery(this.$route.query)
   },
@@ -67,7 +68,8 @@ export default {
     & .yellow {
       color: $color-orange;
     }
-    & .type {
+    & .status {
+      min-width: 12em;
     }
     & .info {
       padding-left: 1em;
