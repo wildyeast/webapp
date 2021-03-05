@@ -5,9 +5,9 @@
       <div :class="['invoice', { highlighted: highlightedId === invoice.uuid }]" v-for="invoice of invoices" :key="invoice.id">
         <div class="date">{{ new Date(invoice.issue_date).toLocaleDateString('de-AT') }}</div>
         <div class="name">{{ invoice.name }}</div>
-        <div class="date">#{{ invoice.human_readable_id }}</div>
+        <div class="invoiceNumber">#{{ invoice.human_readable_id }}</div>
         <div class="status">Status: <span :class="[[4, 5].includes(invoice.status) ? 'green' : 'yellow']">{{ getStatus(invoice.status) }}</span></div>
-        <div v-if="invoice.has_attachment" class="icon"><font-awesome-icon @click="getPdf(invoice.uuid)" icon="download" /></div>
+        <div v-if="invoice.has_attachment" class="icon"><font-awesome-icon @click="getPdf(invoice)" icon="download" /></div>
       </div>
     </div>
   </div>
@@ -41,10 +41,13 @@ export default {
     getDate (date) {
       return new Date(date)
     },
-    async getPdf (uuid) {
-      const pdf = await this.$store.dispatch('getPDF', uuid)
-      const blob = new Blob([pdf.data], { type: 'application/pdf' });
-      window.open(URL.createObjectURL(blob))
+    async getPdf (invoice) {
+      const res = await this.$store.dispatch('getPDF', invoice.uuid)
+      const blob = new Blob([res.data], { type: 'application/pdf' });
+      const link = document.createElement('a')
+      link.download = invoice.filename + '.pdf'
+      link.href = URL.createObjectURL(blob)
+      link.click()
     }
   }
 }
@@ -60,6 +63,14 @@ export default {
       margin-right: 2em;
     }
     & .date {
+      color: grey;
+      width: 5em;
+    }
+    & .name {
+      width: 10em;
+    }
+    & .invoiceNumber {
+      width: 8em;
       color: grey;
     }
     & .green {
