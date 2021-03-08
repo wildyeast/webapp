@@ -29,8 +29,9 @@ export default {
 .menuLink {
   display: flex;
   flex-flow: row nowrap;
+  text-align: left;
   & :first-child {
-    margin-right: 0.5em;
+    min-width: 2em;
   }
 }
 </style>

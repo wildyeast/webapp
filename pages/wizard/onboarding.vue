@@ -1,8 +1,9 @@
 <template>
   <div class="wizard" v-if="user !== null">
     <div class="header">
+      <font-awesome-icon class="icon" icon="user-friends" />
       <h2>Mitglied werden</h2>
-      <p>In 4 Schritten zu deiner Mitgliedschaft</p>
+      <p>In 4 Schritten zu deiner Mitgliedschaft!</p>
     </div>
     <div class="wizard-section">
       <div class="wizard-section-menu">
@@ -79,6 +80,12 @@ export default {
 
 .wizard {
   margin: 0 4%;
+  & .header {
+    margin-top: 1em;
+    & .icon {
+      font-size: 3em;
+    }
+  }
   .wizard-section {
     display: flex;
     align-items: center;

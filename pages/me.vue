@@ -9,7 +9,8 @@
       <div class="tab-section">
         <div class="tab-section-menu">
           <MenuLink to="/me/" icon="user">Mein Profil</MenuLink>
-          <MenuLink to="/me/packages" icon="cube">Packages</MenuLink>
+          <MenuLink v-if="isMember" to="/me/packages" icon="cube">Packages</MenuLink>
+          <MenuLink v-else to="/wizard/onboarding" icon="user-friends"><span class="fat">Mitglied werden!</span></MenuLink>
           <MenuLink to="/me/workshopBookings" icon="hammer">Meine Workshops</MenuLink>
           <MenuLink to="/me/credits" icon="coins">Credits</MenuLink>
           <MenuLink :isActive="$route.name.includes('invoices')" to="/me/invoices" icon="file-invoice">Rechnungen</MenuLink>
@@ -50,6 +51,7 @@ export default {
       let data = this.$store.getters.getPackageById(p.package);
       return { ...p, ...data };
     },
+
     getWorkshops(){
       // let data = this.$store.getters.getMemberCourseById(p);
     },
@@ -63,6 +65,9 @@ export default {
     user() {
       return this.$store.state.user;
     },
+    isMember () {
+      return this.$store.state.user.packages.length > 0;
+    }
   }
 }
 </script>
@@ -137,6 +142,10 @@ export default {
         padding: 0 15px;
       }
     }
+  }
+  .fat {
+    color: $color-blue-alt;
+    font-weight: bolder;
   }
 }
 </style>
