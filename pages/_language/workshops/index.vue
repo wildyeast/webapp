@@ -52,6 +52,7 @@
         </div>
         -->
       </div>
+      <CovidInfobox />
       <div class="search">
         <input type="text" placeholder="Workshops und Events suchen" v-model="search">
       </div>
@@ -88,12 +89,13 @@
 </template>
 
 <script>
+import CovidInfobox from '~/components/CovidInfobox'
 import Checkbox from "~/components/Checkbox.vue";
 import moment from "moment";
 
 export default {
   components: {
-    Checkbox,
+    Checkbox, CovidInfobox
   },
   data () {
     return {
