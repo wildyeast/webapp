@@ -36,6 +36,7 @@ export default {
   methods: {
     close () {
       this.$emit('close')
+      sessionStorage.setItem('hasSeenPopup', 'true')
       window.removeEventListener('scroll', this.handleScroll);
     }
   }

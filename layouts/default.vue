@@ -3,7 +3,7 @@
     <Modal v-if="modalVisible" @close="modalVisible = false" title="Covid Info" icon="exclamation-triangle">
       Momentan findet der Memberbetrieb nur eingeschränkt und
       unter Einhaltung der erforderlichen COVID-Schutzmaßnahmen statt.
-      Klick <a href="https://grandgarage.eu/de/covid">hier</a> um alle aktuellen Infos und Maßnahmen nachzulesen. #staysafe
+      Klick <NuxtLink to="de/covid">hier</NuxtLink> um alle aktuellen Infos und Maßnahmen nachzulesen. #staysafe
     </Modal>
     <div class="login-spacer" v-if="isAuthenticated"></div>
     <div class="layout-container">
@@ -30,7 +30,7 @@ import Breadcrumbs from '~/components/Breadcrumbs.vue'
 
 export default {
   data: () => ({
-    modalVisible: true
+    modalVisible: false
   }),
   components: {
     TopHeader,
@@ -42,6 +42,12 @@ export default {
   computed: {
     isAuthenticated() {
       return !!this.$store.state.auth;
+    }
+  },
+  mounted () {
+    const hasSeenPopup = sessionStorage.getItem('hasSeenPopup');
+    if (!hasSeenPopup) {
+      this.modalVisible = true
     }
   }
 }
