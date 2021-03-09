@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div style="overflow: hidden">
+    <Modal v-if="modalVisible" @close="modalVisible = false" title="Covid Info" icon="exclamation-triangle">
+      Text
+    </Modal>
     <div class="login-spacer" v-if="isAuthenticated"></div>
     <div class="layout-container">
       <top-header/>
@@ -18,16 +21,21 @@
 
 <script>
 import TopHeader from '~/components/TopHeader.vue'
+import Modal from '~/components/Modal'
 import BottomFooter from '~/components/BottomFooter.vue'
 import Sidebar from '~/components/Sidebar.vue'
 import Breadcrumbs from '~/components/Breadcrumbs.vue'
 
 export default {
+  data: () => ({
+    modalVisible: true
+  }),
   components: {
     TopHeader,
     BottomFooter,
     Sidebar,
     Breadcrumbs,
+    Modal
   },
   computed: {
     isAuthenticated() {
@@ -39,7 +47,6 @@ export default {
 
 <style lang="scss">
 @import '../assets/scss/styles.scss';
-
 
 body {
   background-color: $color-bright-bg;
