@@ -63,8 +63,7 @@ export default {
     display: flex;
     flex-direction: column;
     margin-top: -20em;
-    border: 1px solid black;
-    border-radius: 0.3em;
+    border: 5px dashed black;
     padding: 1em;
     background: $color-yellow;
     width: 40em;
@@ -86,8 +85,8 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        font-weight: bold;
         font-size: 1.3em;
+        font-family: monospace;
         margin-bottom: 1em;
       }
     }
