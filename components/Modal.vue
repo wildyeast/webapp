@@ -4,7 +4,6 @@
       <div class="container">
         <div class="top">
           <font-awesome-icon v-if="icon" class="icon" icon="exclamation-triangle" />
-          <div class="title">{{ title }}</div>
         </div>
         <div class="content">
           <slot />
@@ -68,15 +67,17 @@ export default {
     padding: 1em;
     background: $color-yellow;
     width: 40em;
-    height: 18em;
+    height: 21em;
     text-align: center;
     @include media-breakpoint-down(sm) {
       margin: 0 0.5em;
-      height: 25em;
+      height: 27em;
     }
     & .top {
       display: flex;
       flex-flow: row nowrap;
+      justify-content: center;
+      margin-bottom: 1em;
       & .icon {
         font-size: 6em;
       }
@@ -97,9 +98,9 @@ export default {
       font-size: 1.3em;
     }
     & .buttons {
-      position: absolute;
-      bottom: 1em;
-      right: 1em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }
