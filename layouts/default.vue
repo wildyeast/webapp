@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <Modal v-if="modalVisible" @close="modalVisible = false" title="Covid Info">
+  <div style="overflow: hidden">
+    <Modal v-if="modalVisible" @close="modalVisible = false" title="Covid Info" icon="exclamation-triangle">
       Text
     </Modal>
     <div class="login-spacer" v-if="isAuthenticated"></div>

@@ -1,11 +1,16 @@
 <template>
   <transition name="fade">
     <div class="modal" @click="close">
-      <div class="content">
-        <div class="title">{{ title }}</div>
-        <slot />
+      <div class="container">
+        <div class="top">
+          <font-awesome-icon v-if="icon" class="icon" icon="exclamation-triangle" />
+          <div class="title">{{ title }}</div>
+        </div>
+        <div class="content">
+          <slot />
+        </div>
         <div class="buttons">
-
+          <button class="input-button-primary" @click="close">OK</button>
         </div>
       </div>
     </div>
@@ -18,19 +23,27 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: null
     }
+  },
+  mounted () {
+    window.addEventListener('scroll', this.close)
   },
   methods: {
     close () {
       this.$emit('close')
+      window.removeEventListener('scroll', this.handleScroll);
     }
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 @import "@/assets/scss/styles.scss";
 .modal {
-  position: absolute;
   z-index: 1001;
   display: flex;
   justify-content: center;
@@ -45,7 +58,10 @@ export default {
           rgba(0, 0, 0, 0.8) 70px,
           rgba(0, 0, 0, 0.8) 140px
   );
-  & .content {
+  & .container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
     margin-top: -20em;
     border: 1px solid black;
     border-radius: 0.3em;
@@ -53,10 +69,38 @@ export default {
     background: $color-yellow;
     width: 40em;
     height: 20em;
-    & .title {
-      font-weight: bold;
+    text-align: center;
+    @include media-breakpoint-down(sm) {
+      margin: 0 0.5em;
+      height: 30em;
+    }
+    & .top {
+      display: flex;
+      flex-flow: row nowrap;
+      & .icon {
+        font-size: 6em;
+      }
+      & .title {
+        width: 100%;
+        font-size: 2em !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 1.3em;
+        margin-bottom: 1em;
+      }
+    }
+    & .content {
+      display: flex;
+      justify-content: flex-start;
+      padding: 1em;
       font-size: 1.3em;
-      margin-bottom: 1em;
+    }
+    & .buttons {
+      position: absolute;
+      bottom: 1em;
+      right: 1em;
     }
   }
 }
