@@ -1,7 +1,9 @@
 <template>
   <div style="overflow: hidden">
     <Modal v-if="modalVisible" @close="modalVisible = false" title="Covid Info" icon="exclamation-triangle">
-      Text
+      Momentan findet der Memberbetrieb nur eingeschränkt und
+      unter Einhaltung der erforderlichen COVID-Schutzmaßnahmen statt.
+      Klick <a href="https://grandgarage.eu/de/covid">hier</a> um alle aktuellen Infos und Maßnahmen nachzulesen. #staysafe
     </Modal>
     <div class="login-spacer" v-if="isAuthenticated"></div>
     <div class="layout-container">

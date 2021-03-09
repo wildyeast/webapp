@@ -67,11 +67,11 @@ export default {
     padding: 1em;
     background: $color-yellow;
     width: 40em;
-    height: 20em;
+    height: 18em;
     text-align: center;
     @include media-breakpoint-down(sm) {
       margin: 0 0.5em;
-      height: 30em;
+      height: 25em;
     }
     & .top {
       display: flex;
@@ -91,7 +91,6 @@ export default {
       }
     }
     & .content {
-      display: flex;
       justify-content: flex-start;
       padding: 1em;
       font-size: 1.3em;
