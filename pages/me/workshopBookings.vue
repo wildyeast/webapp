@@ -1,16 +1,11 @@
 <template>
   <div>
     <h2>Meine Workshops</h2>
-    <div class="workshops" >
-      <div class="workshop-item" v-for="workshopDate in bookings">
+    <div class="workshops" v-if="bookings.length">
+      <div class="workshop-item" :key="workshopDate.content.workshop.uuid" v-for="workshopDate in bookings">
         <workshop-preview class="preview" :key="workshopDate.content.workshop.uuid"
                           :id="workshopDate.content.workshop.uuid"></workshop-preview>
         <workshop-dates :dates="[workshopDate]" class="workshop-dates" :hideRegister="true" :noMetadata="true"></workshop-dates>
-
-      </div>
-
-      <div>
-
       </div>
     </div>
   </div>
@@ -24,21 +19,17 @@ export default {
   middleware: 'authenticated',
   data() {
     return {
-      bookings: []
+      bookings: [],
     }
   },
   mounted() {
     this.$store.dispatch("getBookedWorkshops").then(data => {
-      console.log(data);
       data.forEach(uuid => {
         this.$store.dispatch("loadStoryByUUid", uuid).then(data => {
-          this.bookings.push(data.story);
-        });
+          this.bookings.push(data.story)
+        })
       })
-
-
-    });
-
+    })
   },
   methods: {},
   computed: {},

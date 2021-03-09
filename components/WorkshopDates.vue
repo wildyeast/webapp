@@ -108,7 +108,6 @@ export default {
       for (let date of this.dates) {
         body.workshop_date_uuids.push(date.uuid)
       }
-      console.log(this.$store);
       this.$store.dispatch("checkAuth").then((isLoggedIn) => {
         if (isLoggedIn !== false) {
           this.$store.dispatch("getWorkshopDateMetadata", body).then((data) => {

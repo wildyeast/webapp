@@ -3,7 +3,7 @@
     <div class="left-content" v-if="workshopDate != null">
       <h1>Workshop-Buchung</h1>
 
-      <workshop-preview class="preview" :key="workshopDate.content.workshop.uuid"
+      <workshop-preview class="preview" :key="reloadKey"
                         :id="workshopDate.content.workshop.uuid"></workshop-preview>
       <workshop-dates :dates="[workshopDate]" class="workshop-dates" :hideRegister="true"></workshop-dates>
 
@@ -15,29 +15,60 @@
           <div class="info-row payment">
             <div class="info-block">
               <div class="col info title">
-                Zahlungdmethode auswählen
+                Zahlungsmethode auswählen
               </div>
             </div>
           </div>
-
         </div>
+
+        <!-- User has credits, but not enough to pay for the workshop -->
+        <div class="info-row option" v-if="memberHasCredits && !memberHasEnoughCredits">
+          <div class="info-block">
+            <div :class="['col', 'info', 'creditsOption']">
+              <div class="first">
+                <input type="checkbox" id="sepa" @click="useRemainingCredits = true"
+                      name="payment" value="credits">
+                <label for="credits" class="label">
+                  Restliche Credits ({{credits}}EUR) abziehen
+                </label>
+              </div>
+              <button class="input-button-primary creditsButton" @click="$router.push(`giftcards?action=redeem&origin=${$route.query.uuid}`)">Gutschein einlösen</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- User has enough credits for workshop, or has zero credits (in which case the option will be visible but disabled) -->
+        <div class="info-row option" v-if="!memberHasCredits || memberHasEnoughCredits">
+          <div class="info-block">
+            <div :class="['col', 'info', 'creditsOption', { disabled: !memberHasEnoughCredits }]">
+              <div class="first">
+                <input type="radio" :disabled="!memberHasEnoughCredits" id="sepa" @click="paymentMethod = PAYMENT_METHODS.credits"
+                      name="payment" value="credits">
+                <label for="credits" class="label">
+                  Credits (aktueller Stand: {{credits}}EUR)
+                </label>
+              </div>
+              <button class="input-button-primary creditsButton" @click="$router.push(`giftcards?action=redeem&origin=${$route.query.uuid}`)">Gutschein einlösen</button>
+            </div>
+          </div>
+        </div>
+        
         <div>
           <div class="info-row option">
             <div class="info-block">
               <div class="col info">
-                <input type="radio" id="credit" @click="selectPaymentMethod(1)" name="payment"
-                       value="credit">
-                <label for="credit">Kreditkarte</label><br>
+                <input type="radio" id="stripe" @click="paymentMethod = PAYMENT_METHODS.stripe" name="payment"
+                       value="stripe">
+                <label for="stripe">Kreditkarte</label><br>
               </div>
             </div>
           </div>
-
         </div>
 
         <div class="info-row option" v-if="userMetadata.sepa_active">
           <div class="info-block">
             <div class="col info">
-              <input type="radio" id="sepa" @click="selectPaymentMethod(2)"
+              <input type="radio" id="sepa" @click="paymentMethod = PAYMENT_METHODS.sepa"
                      name="payment" value="sepa">
               <label for="sepa">SEPA-Monatsrechnung</label><br>
             </div>
@@ -45,29 +76,38 @@
         </div>
         <div class="spacer"></div>
 
-        <button class="link" @click="onNextStep(1)">Weiter</button>
+        <div class="buttons">
+          <button class="input-button-back" :disabled="!paymentMethod" @click="onNextStep(1)">Weiter...</button>
+        </div>
 
       </div>
 
       <div v-if="step == 1">
+
         <h2>Bestätigung</h2>
 
-        <span>Zahlungsmethode: {{ paymentMethod == 2 ? 'SEPA-Monatsrechnung' : 'Kreditkarte' }}</span>
+        <div class="confirmation">
+          <div v-if="useRemainingCredits">Von deinen Credits {{ this.credits === 1 ? 'wird' : 'werden' }} {{this.credits}}EUR abgezogen.</div>
+          <div v-if="paymentMethod === 1"><strong>{{finalWorkshopPrice}}EUR {{ finalWorkshopPrice === 1 ? 'wird' : 'werden' }} von deiner Kreditkarte abgebucht.</strong></div>
+          <div v-if="paymentMethod === 2"><strong>{{finalWorkshopPrice}}EUR {{ finalWorkshopPrice === 1 ? 'wird' : 'werden' }} via SEPA-Monatsrechnung eingezogen.</strong></div>
+          <div v-if="paymentMethod === 3">{{finalWorkshopPrice}}EUR {{ finalWorkshopPrice === 1 ? 'wird' : 'werden' }} von deinen Credits ({{credits}}EUR) abgezogen.</div>
+        </div>
 
-        <div class="spacer"></div>
-
-        <button class="link" @click="onNextStep(2)">Workshop kostenpflichtig buchen</button>
+        <div class="buttons">
+          <button class="input-button-back" @click="back">Zurück</button>
+          <button class="input-button-payment" @click="onNextStep(3)">Workshop kostenpflichtig buchen</button>
+        </div>
 
 
       </div>
 
-      <div v-if="step == 2">
-        <loading-spinner color="black"></loading-spinner>
-      </div>
+
       <div v-if="step == 3">
-        Workshop gebucht!
-
-
+        <loading-spinner class="spinner" color="black"></loading-spinner>
+      </div>
+      <div v-if="step == 4">
+        Workshop gebucht!<br>
+        <button class="input-button-primary" @click="$router.push('workshopBookings')">Meine Workshops anzeigen</button>
       </div>
       <div v-if="step == 99">
         {{ error }}
@@ -80,41 +120,72 @@
 </template>
 
 <script>
+const PAYMENT_METHODS = {
+  stripe: 1,
+  sepa: 2,
+  credits: 3
+}
 export default {
   name: "buyWorkshop",
   props: {},
   data() {
     return {
-      paymentMethod: 0,
+      PAYMENT_METHODS,
+      paymentMethod: null,
       step: 0,
+      reloadKey: 0,
       workshopDate: null,
       userMetadata: null,
-      error: null
+      error: null,
+      credits: 0,
+      useRemainingCredits: false
     }
   },
-  mounted() {
-    this.$store.dispatch("loadStoryByUUid", this.$route.query['uuid']).then(data => {
-      this.workshopDate = data.story;
-    });
+  computed: {
+    memberHasEnoughCredits () {
+      return this.credits >= this.workshopPrice
+    },
+    memberHasCredits () {
+      return this.credits > 0
+    },
+    workshopPrice () {
+      // TODO are there workshops with price_external?
+      return this.workshopDate.content.workshop.content.price_internal
+    },
+    finalWorkshopPrice () {
+      if (this.useRemainingCredits) {
+        return this.workshopPrice - this.credits
+      }
+      return this.workshopPrice
+    },
+  },
+  async mounted() {
+    this.getWorkshop()
     this.$store.dispatch("getUserMetadata").then(data => {
       this.userMetadata = data.data;
     })
+    this.credits = await this.$store.dispatch('getCredits')
+    window.scrollTo(0,0) // Scroll to top
   },
   methods: {
-
-    selectPaymentMethod(pm) {
-      this.paymentMethod = pm;
+    back () {
+      this.step = 0
+      this.paymentMethod = null;
+      this.useRemainingCredits = false;
     },
-
+    getWorkshop () {
+      this.$store.dispatch("loadStoryByUUid", this.$route.query['uuid']).then(data => {
+        this.workshopDate = data.story;
+      })
+    },
     onNextStep(step) {
       this.step = step;
       switch (step) {
-        case 2:
+        case 3:
           this.pay();
           break;
       }
     },
-
     redirect: function (data) {
       var stripe = Stripe('pk_live_XCUCaJMt8kMEpedQdvmtMu4Z00rNP9VDun');
       stripe.redirectToCheckout({
@@ -126,17 +197,21 @@ export default {
       let data = {
         workshop_date_id: this.workshopDate.uuid,
         payment_method: this.paymentMethod,
+        use_remaining_credits: this.useRemainingCredits
       }
       this.$store.dispatch("bookWorkshop", data).then((data) => {
         if (data.success) {
           switch (this.paymentMethod) {
-            case 1:
+            case PAYMENT_METHODS.stripe:
               this.redirect(data)
               break;
-            case 2:
-              this.step = 3;
-
-              break;
+            default:
+              this.step = 4
+              this.getWorkshop()
+              this.reloadKey++
+              this.$toast.show('Der Workshop wurde erfolgreich gebucht!', {
+                className: 'goodToast'
+              })
           }
         } else {
           this.$sentry.captureException(new Error(data));
@@ -290,6 +365,31 @@ export default {
       }
     }
   }
-
+}
+.creditsOption {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  & .creditsButton {
+    margin: 0;
+  }
+  & .first {
+    display: flex;
+    & label {
+      margin-left: 0.6em;
+    }
+  }
+}
+.disabled {
+  color: grey;
+}
+.spinner {
+  margin-top: 2em;
+}
+.confirmation {
+  & div {
+    padding: 0.2em 0em;
+  }
 }
 </style>

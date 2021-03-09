@@ -1,175 +1,137 @@
 <template>
-    <div><h2>Meine Rechnungen</h2>
-        <div class="invoices">
-            <span v-if="name == null" class="invoice-header">Hier kannst du bald eine Übersicht deiner Rechnungen bekommen</span>
-            <div v-if="name != null" class="invoices-info">
-                <div class="info-row">
-                    <div class="info-block">
-                        <div class="col info">
-                            <span v-if="name != null" class="invoice-header">{{name}}</span>
-                            <span v-if="month != null">{{month}} /</span>
-                            <span v-if="year != null">{{year}}</span>
-                        </div>
-                        <div class="col info">
-                            <a v-if="url !== undefined" v-bind:href="fileURL" @click="getDocument(url)" download="invoice.pdf">PDF</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="info-row">
-                    <div class="info-block">
-                        <div class="col info">
-                        </div>
-                        <div class="col info">
-                            <span>Nr: {{number}}</span>
-                        </div>
-                        <div class="col info">
-                            Status: <span v-bind:class="{ paid: status_id == 4 || status_id == 5}">{{status}}</span>
-                        </div>
-                        <div class="col info">
-                            <span>Datum: {{date | date}}</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+  <div>
+    <h2>Meine Rechnungen</h2>
+    <loading-spinner v-if="!invoices" color="#333"></loading-spinner>
+    <div class="invoices" v-if="invoices">
+      <div :class="['invoice', { pointer: invoice.has_attachment }, { highlighted: highlightedId === invoice.uuid }]" v-for="invoice of invoices" @click="getPdf(invoice)" :key="invoice.id">
+        <div class="date">{{ new Date(invoice.issue_date).toLocaleDateString('de-AT') }}</div>
+        <div class="name">{{ invoice.name }}</div>
+        <div class="invoiceNumber">#{{ invoice.human_readable_id }}</div>
+        <div class="status">Status: <span :class="[[4, 5].includes(invoice.status) ? 'green' : 'yellow']">{{ getStatus(invoice.status) }}</span></div>
+        <div v-if="invoice.has_attachment" class="icon"><font-awesome-icon icon="download" /></div>
+      </div>
     </div>
-
+  </div>
 </template>
-
 <script>
-    import saveAs from 'save-as'
-
-    export default {
-        name: "invoices",
-        middleware: 'authenticated',
-        data () {
-            return {
-                name: null,
-                number: "AR-00000",
-                status_id: 0,
-                status: "In Bearbeitung",
-                date: null,
-                month: null,
-                year: null,
-                url: null,
-                fileURL : null,
-            }
-        },
-        created() {
-            this.getInvoices();
-        },
-        methods: {
-            getInvoices() {
-                let statusDescription = ["In Bearbeitung", "Bestellt", "Versendet", "Bezahlt", "Bezahlt", "Abbuchung wurde noch nicht durchgeführt", "Noch nicht Bezahlt"];
-                this.$store.dispatch("getInvoices").then((data) => {
-                    for(let i = 0; i < data.data.length; i++){
-                        this.name = data.data[i].name;
-                        this.date = data.data[i].due_date;
-                        if(data.data[i].name == "member.auto-invoice.name"){
-                            this.name = "Mitgliedschaft"
-                            this.year = data.data[i].due_date.split('-')[0];
-                            this.month = data.data[i].due_date.split('-')[1];
-                        }
-                        this.number = data.data[i].human_readable_id;
-                        this.status_id = data.data[i].status;
-                        for (let j = 0; j < statusDescription.length; j++){
-                            if(data.data[i].status == j){
-                                console.log(statusDescription[j]);
-                                this.status = statusDescription[j-1];
-                            }
-                        }
-                        this.url = data.data[i].url.split('/')[6];
-                        console.log(this.url);
-                    }
-                    }).catch((err) => {
-                    console.log(err);
-                });
-            },
-            getDocument(id) {
-                this.$store.dispatch('getPDF', id).then((data) => {
-                    // data.responseType = 'arraybuffer';
-                    console.log(data.data);
-                    let blob = new Blob([data.data], { type: "application/pdf" });
-                    console.log(blob);
-                    saveAs(blob, 'hello world')
-                    /*this.fileURL = window.open(URL.createObjectURL(blob));
-                        }).catch((err) => {
-                    console.log(err);*/
-
-                    /*var blob = new Blob([data.data], { type: 'application/pdf' });*/
-                });
-            },
-
-        },
-        computed: {
-
-        },
+export default {
+  name: "invoices",
+  middleware: 'authenticated',
+  data() {
+    return {
+      invoices: null,
+      statuses: ["In Bearbeitung", "Bestellt", "Versendet", "Bezahlt", "Bezahlt", "Abbuchung wurde noch nicht durchgeführt", "Noch nicht Bezahlt"],
+      highlightedId: null
     }
+  },
+  async mounted () {
+    this.invoices = await this.$store.dispatch('getInvoices')
+    this.invoices = this.invoices.reverse()
+    this.getQuery(this.$route.query)
+  },
+  methods: {
+    getQuery (to) {
+      if (to.hasOwnProperty('id')) {
+        this.highlightedId = to.id
+      }
+    },
+    getStatus (status) {
+      return this.statuses[status - 1]
+    },
+    getDate (date) {
+      return new Date(date)
+    },
+    async getPdf (invoice) {
+      if (!invoice.has_attachment) {
+        return
+      }
+      const res = await this.$store.dispatch('getPDF', invoice.uuid)
+      const blob = new Blob([res.data], { type: 'application/pdf' });
+      // TODO May need improvement. Firefox doesn't remember always open in new tab checkbox
+      const link = document.createElement('a')
+      link.download = invoice.filename + '.pdf'
+      link.href = URL.createObjectURL(blob)
+      link.click()
+
+    }
+  }
+}
 </script>
-
 <style lang="scss" scoped>
-    @import '@/assets/scss/styles.scss';
-    .invoices {
-        width: 100%;
-        margin-top: 20px;
-    .invoices-info {
-        margin-top: 4px;
-        padding: 10px;
-        background-color: #FFF;
-    &.soldOut {
-         color: #666;
-         fill: #666;
-    .col {
-    &.info {
-         text-decoration: line-through;
-     }
+@import '@/assets/scss/styles.scss';
+.invoices {
+  & .invoice {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 0.4em;
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      position: relative;
+      background-color: #fafafa;
+      margin: 1em 0;
+      border: 1px solid grey;
+      border-radius: 0.3em;
+      & .icon {
+        position: absolute;
+        top: 1em;
+        right: 0;
+        font-size: 1.3em;
+        margin-right: -1em;
+      }
+      & .name {
+        font-size: 1.1em;
+        padding: 0.4em 0;
+      }
+      & .invoiceNumber {
+        padding-bottom: 0.4em;
+      }
     }
+    & * {
+      margin-right: 2em;
     }
-    .info-row {
-        @include media-breakpoint-down(md) {
-            flex-direction: column;
-        }
-        line-height: 1.6;
-        font-family: $font-mono;
-        font-size: 0.9rem;
-        font-weight: bold;
-        margin: -8px;
-        display: flex;
-        .info-block {
-            flex: 1;
-            flex-direction: row;
-            display: flex;
-        }
-        .col {
-            padding: 8px;
-            &.soldOut {
-                 color: $color-orange;
-                 text-transform: uppercase;
-             }
-            &.register {
-                 background-color: $color-orange;
-                a {
-                    color: #FFF;
-                }
-            }
-        }
-            .spacer {
-                flex: 1;
-            }
-            svg {
-                height: 1em;
-                width: 1em;
-            }
+    & .date {
+      color: grey;
+      width: 5em;
+      transition: highlight 3s;
     }
+    & .name {
+      width: 10em;
     }
-        .paid {
-            color: #90ee90;
-        }
-        .invoice-header {
-            font-size: x-large;
-            font-weight: 900;
-        }
+    & .invoiceNumber {
+      width: 8em;
+      color: grey;
     }
-
+    & .green {
+      color: green;
+    }
+    & .yellow {
+      color: $color-orange;
+    }
+    & .status {
+      min-width: 12em;
+    }
+    & .info {
+      padding-left: 1em;
+      // text-align: right;
+      color: grey;
+    }
+    & .icon {
+      display: flex;
+      align-items: center;
+      color: grey;
+    }
+  }
+}
+.invoice:nth-child(odd) {
+  background: #fafafa;
+}
+.invoice:hover .icon {
+  color: $color-blue-alt;
+}
+.pointer {
+  cursor: pointer;
+}
+.highlighted {
+  background: $color-yellow !important;
+}
 </style>

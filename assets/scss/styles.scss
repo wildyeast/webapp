@@ -5,6 +5,7 @@ $color-yellow: #ebe223;
 $color-blue-alt: #0069aa;
 $color-red: #e30513;
 
+
 $color-bright-bg: #f2f3ee;
 
 $font-primary: 'IBM Plex Sans Condensed', sans-serif;
@@ -143,4 +144,13 @@ $grid-breakpoints: (
 @mixin margin-page-narrow() {
     margin-left: 12%;
     margin-right: 9%;
+}
+
+// Toasts
+.goodToast {
+  background-color: $color-blue-alt !important;
+}
+.badToast {
+  background-color: $color-red !important;
+  font-weight: bold;
 }

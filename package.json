@@ -2,6 +2,7 @@
   "name": "grandgarage-webapp",
   "scripts": {
     "dev": "nuxt",
+    "dev-local": "NUXT_ENV_API=local nuxt",
     "generate": "nuxt generate",
     "lambda": "netlify-lambda serve lambda"
   },
@@ -9,6 +10,7 @@
     "@nuxtjs/google-analytics": "^2.2.3",
     "@nuxtjs/proxy": "^1.3.3",
     "@nuxtjs/sentry": "^4.3.5",
+    "@nuxtjs/toast": "^3.3.1",
     "auth0-js": "^9.11.3",
     "axios": "^0.18.1",
     "cookieparser": "^0.1.0",
@@ -37,6 +39,9 @@
     "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^5.15.2",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@nuxtjs/fontawesome": "^1.1.2",
     "netlify-lambda": "^1.6.3",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.3.1"
