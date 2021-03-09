@@ -8,7 +8,7 @@
               <font-awesome-icon icon="coins" />
               Meine Credits: {{ credits }}EUR
             </span>
-            <button class="input-button-primary creditsButton" @click="this.$router.push(`giftcards?action=redeem`)">Gutschein einlösen</button>
+            <button class="input-button-primary creditsButton" @click="$router.push(`giftcards?action=redeem`)">Gutschein einlösen</button>
           </div>
           <div class="logs">
             <div :class="['entry', { pointer: log.refType=== REF_TYPES.invoice }]" v-for="log of logs" :key="log.id" @click="showInvoices(log)">
