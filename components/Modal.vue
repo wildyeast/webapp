@@ -3,13 +3,13 @@
     <div class="modal" @click="close">
       <div class="container">
         <div class="top">
-          <font-awesome-icon v-if="icon" class="icon" icon="exclamation-triangle" />
+          <div class="title">COVID-19 INFO</div>
         </div>
         <div class="content">
           <slot />
         </div>
         <div class="buttons">
-          <button class="input-button-primary" @click="close">OK</button>
+          <button class="button-primary" @click="close">Verstanden</button>
         </div>
       </div>
     </div>
@@ -63,44 +63,57 @@ export default {
     display: flex;
     flex-direction: column;
     margin-top: -20em;
-    border: 5px dashed black;
-    padding: 1em;
-    background: $color-yellow;
+    border: 4px solid $color-yellow;
+    padding: 3em;
+    background: white;
     width: 40em;
-    height: 21em;
+    height: 18m;
     text-align: center;
+    font-family: $font-mono;
     @include media-breakpoint-down(sm) {
-      margin: 0 0.5em;
-      height: 27em;
+      margin: 0;
+      height: initial;
     }
     & .top {
       display: flex;
       flex-flow: row nowrap;
       justify-content: center;
       margin-bottom: 1em;
-      & .icon {
-        font-size: 6em;
-      }
       & .title {
         width: 100%;
-        font-size: 2em !important;
+        font-size: 1.5em !important;
+        font-weight: bold;
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 1.3em;
-        font-family: monospace;
-        margin-bottom: 1em;
+        margin-bottom: 0.5em;
       }
     }
     & .content {
       justify-content: flex-start;
       padding: 1em;
-      font-size: 1.3em;
+      line-height: 1.3em;
     }
     & .buttons {
+      margin-top: 1em;
       display: flex;
       justify-content: center;
       align-items: center;
+      & .button-primary {
+        font-family: $font-mono;
+        background: black;
+        padding: 1em;
+        color: white;
+        outline: 0;
+        border: 1px solid black;
+        border-radius: 1em;
+        width: 15em;
+        cursor: pointer;
+      }
+      & .button-primary:hover {
+        font-weight: bold;
+      }
     }
   }
 }
