@@ -26,7 +26,7 @@ export default {
   },
   async mounted () {
     this.invoices = await this.$store.dispatch('getInvoices')
-    this.invoices = this.invoices.reverse()
+    this.invoices = this.invoices.reverse().filter(i => i.status > 1)
     this.getQuery(this.$route.query)
   },
   methods: {
@@ -47,7 +47,6 @@ export default {
       }
       const res = await this.$store.dispatch('getPDF', invoice.uuid)
       const blob = new Blob([res.data], { type: 'application/pdf' });
-      // TODO May need improvement. Firefox doesn't remember always open in new tab checkbox
       const link = document.createElement('a')
       link.download = invoice.filename + '.pdf'
       link.href = URL.createObjectURL(blob)

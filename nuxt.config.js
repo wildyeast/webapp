@@ -57,7 +57,7 @@ module.exports = {
         'faFileInvoice',
         'faLink',
         'faUserFriends',
-        'faExclamationTriangle'
+        'faLink'
       ]
     }
   },
