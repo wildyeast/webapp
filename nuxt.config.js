@@ -8,15 +8,15 @@ module.exports = {
   head: {
     title: 'GRAND GARAGE',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'GRAND GARAGE webapp' }
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      {hid: 'description', name: 'description', content: 'GRAND GARAGE webapp'}
     ],
     script: [
-      { hid: 'stripe', src: 'https://js.stripe.com/v3/', defer: true }
+      {hid: 'stripe', src: 'https://js.stripe.com/v3/', defer: true}
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
+      {rel: 'icon', type: 'image/x-icon', href: '/favicon.png'},
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css?family=Roboto+Mono'
@@ -34,11 +34,11 @@ module.exports = {
   proxy: {
     '/.netlify': {
       target: 'http://localhost:9000',
-      pathRewrite: { '^/.netlify/functions': '' },
+      pathRewrite: {'^/.netlify/functions': ''},
     },
   },
   buildModules: [
-    ['storyblok-nuxt', { accessToken: storyblokToken, cacheProvider: 'memory' }],
+    ['storyblok-nuxt', {accessToken: storyblokToken, cacheProvider: 'memory'}],
     '@nuxtjs/proxy',
     ['@nuxtjs/google-analytics', {
       id: 'UA-106370674-4'
@@ -56,7 +56,8 @@ module.exports = {
         'faDownload',
         'faFileInvoice',
         'faLink',
-        'faUserFriends'
+        'faUserFriends',
+        'faExclamationTriangle'
       ]
     }
   },
@@ -79,7 +80,7 @@ module.exports = {
     '~/plugins/map',
     '~/plugins/libs',
     '~/plugins/routersync',
-    { src: '~/plugins/components-nossr', ssr: false },
+    {src: '~/plugins/components-nossr', ssr: false},
   ],
   router: {
     middleware: 'router'
