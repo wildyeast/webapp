@@ -5,17 +5,15 @@
     <div class="options">
       <div :class="['option', { selected: selectedType === TYPES.regular }]" @click="selectedType = TYPES.regular">
         <span class="name">regulär 40/m</span>
-        <span class="description">Schuelerinnen, Studierende, Lehrende, Pensioniste</span>
+        <span class="description">für Schülerinnen, Studierende, Lehrende, Pensionist*innen</span>
+        <span class="description">Bitte entsprechenden Ausweis beim ersten Besuch mitnehmen!</span>
       </div>
       <div :class="['option', { selected: selectedType === TYPES.reduced }]" @click="selectedType = TYPES.reduced">
         <span class="name">ermäßigt 15/m</span>
         <span class="description">4you card, SchülerInnen, Studierende, Lehrlinge bis 28 Jahre, Behindertenpass</span>
       </div>
    </div>
-    <div class="spacer"></div>
-<!--    <div class="wizard-checkbox">-->
-      <Checkbox :value="agbBool" theme="form">Ja, ich habe die Allgemeinen Nutzungsbedingungen (ANB) und die Werkstattordnung gelesen und bin damit einverstanden.</Checkbox>
-<!--    </div>-->
+    <Checkbox :value="agbBool" theme="form">Ja, ich habe die Allgemeinen Nutzungsbedingungen (ANB) und die Werkstattordnung gelesen und bin damit einverstanden.</Checkbox>
   </div>
 </template>
 
@@ -70,8 +68,7 @@ export default {
     }
   }
   .selected {
-    background-color: $color-orange;
-    border: 1px solid grey;
+    border: 2px solid $color-orange !important;
 
   }
   .spacer {
