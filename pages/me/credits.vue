@@ -20,7 +20,10 @@
                   <span class="link">Rechnung #{{ log.invoiceId }}</span>
                   <div class="icon"><font-awesome-icon icon="link" /></div>
                 </template>
-                <span v-else>Gutschein</span>
+                <template v-else-if="log.refType === REF_TYPES.giftCard">
+                  Gutschein
+                </template>
+                <span v-else>Gutschrift</span>
               </div>
             </div>
           </div>
@@ -34,7 +37,8 @@
 
 const REF_TYPES = {
   invoice: 0,
-  giftCard: 1
+  giftCard: 1,
+  manual: 2
 }
 
 export default {
@@ -53,14 +57,23 @@ export default {
     let logsToPrint = []
     for (const entry of logs) {
       const invoice = invoices.find(i => i.id === entry.creditable_id)
-      logsToPrint.push({
+      const log = {
         date: entry.created_at,
         id: entry.id,
         value: entry.value,
         invoiceId: invoice ? invoice.human_readable_id : null,
-        invoiceUuid: invoice ? invoice.uuid : null,
-        refType: entry.creditable_type && entry.creditable_type.endsWith('Invoice') ? REF_TYPES.invoice : REF_TYPES.giftCard
-      })
+        invoiceUuid: invoice ? invoice.uuid : null
+      }
+      if (entry.creditable_type) {
+        if (entry.creditable_type.endsWith('Invoice')) {
+          log.refType = REF_TYPES.invoice
+        } else {
+          log.refType = REF_TYPES.giftCard
+        }
+      } else {
+        log.refType = REF_TYPES.manual
+      }
+      logsToPrint.push(log)
     }
     this.logs = logsToPrint.sort((a, b) => a.id < b.id)
     this.isLoading = false;
