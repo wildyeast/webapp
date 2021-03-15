@@ -1,5 +1,6 @@
 <template>
   <div>
+    hello
   </div>
 </template>
 
@@ -9,13 +10,10 @@ export default {
   created() {
   },
   methods: {
-    next() {
-      this.$router.push('/me');
-    }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/scss/styles.scss';
 </style>

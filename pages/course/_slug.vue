@@ -90,8 +90,8 @@
 
 <script>
 import storyblokLivePreview from '@/mixins/storyblokLivePreview'
-import Reveal from 'reveal.js';
-import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
+// import Reveal from 'reveal.js';
+// import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
 
 export default {
   data () {
@@ -112,9 +112,6 @@ export default {
   },
   mixins: [storyblokLivePreview],
   middleware: 'authenticated',
-  created() {
-    console.log(this.quiz);
-  },
   methods: {
     saveAnswer(ans) {
       let choices = [this.c1, this.c2, this.c3, this.c4];
@@ -136,8 +133,6 @@ export default {
         answers: this.answers
       };
       this.$store.dispatch("saveQuiz", data).then((result) => {
-        console.log("result ");
-        console.log(result);
         this.done = true;
         this.score = result.score;
 
@@ -149,10 +144,10 @@ export default {
     },
     showSlides(){
       if(this.quiz.slides_url.includes('slides')){
-        let deck = new Reveal( {
-          plugins: [ Markdown ]
-        })
-        deck.initialize();
+        // let deck = new Reveal( {
+        //   plugins: [ Markdown ]
+        // })
+        // deck.initialize();
       }
     },
   },
@@ -163,7 +158,7 @@ export default {
   },
   computed: {
     memberCourse() {
-      return this.$store.getters.getMemberCourseById(Number(this.id));
+      // return this.$store.getters.getMemberCourseById(Number(this.id));
     }
   },
   mounted() {
@@ -174,7 +169,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/styles.scss";
-@import "node_modules/reveal.js/dist/reveal.css";
+//@import "node_modules/reveal.js/dist/reveal.css";
 
 
 .course-slug {
@@ -238,8 +233,11 @@ export default {
     .answers {
       display: flex;
       justify-content: space-evenly;
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(lg) {
         flex-direction: column;
+      }
+      @include media-breakpoint-up(sm) {
+        align-items: center;
       }
       .answer {
         background-color: #FFFFFF;
@@ -260,6 +258,8 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
+          margin-left: auto;
+          margin-right: auto;
           img {
             box-shadow: 5px 3px 5px #d3d3d3;
             margin-bottom: 25px;
@@ -272,7 +272,7 @@ export default {
         }
         .answer-text {
           text-align: center;
-          padding: 10px 20px;
+          padding: 10px 20px 10px 20px;
         }
       }
     }
@@ -294,8 +294,8 @@ export default {
     outline: none;
     width: 5%;
     align-self: center;
-    @include media-breakpoint-down(sm) {
-      width: 17%;
+    @include media-breakpoint-down(lg) {
+      width: 20%;
     }
   }
   .done {
@@ -373,16 +373,9 @@ export default {
     outline: none;
     align-self: center;
     margin-top: 20px;
-    /*@include media-breakpoint-up(sm) {
-      position: absolute;
-      left: 48%;
-      right: 45%;
-    }
     @include media-breakpoint-down(sm) {
-      position: absolute;
-      left: 38%;
-      right: 33%;
-    }*/
+      float: right;
+    }
   }
   .quiz-description {
     text-align: center;
