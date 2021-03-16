@@ -37,7 +37,13 @@ const createStore = () => {
     },
     getters: {
       getMemberCourseById: (state) => (id) => {
-        return state.memberCourses.find(c => c.course_id === id);
+        return state.memberCourses.find(c => c.course_id === parseInt(id));
+      },
+      getCourses: (state) => () => {
+        return state.courses
+      },
+      getMemberCourses: (state) => () => {
+        return state.memberCourses
       },
       getMemberWorkshopsById: (state) => (id) => {
         return state.workshops.find(w => w.content.workshop.uuid === id);

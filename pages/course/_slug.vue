@@ -56,9 +56,9 @@
         </div>
         <button @click="startQuiz" class="input-button-primary" v-if="overview">Los geht's</button>
         <div v-if="activeQuestion >= quiz.quiz_questions.length" class="quizDone">
-          Well done! Alle Fragen beantwortet.
+          Gut gemacht! Alle Fragen beantwortet.
           <p></p>
-          <button @click="saveQuiz()" class="input-button-primary">Antworten absenden</button>
+          <button @click="saveQuiz" class="input-button-primary">Antworten absenden</button>
         </div>
       </div>
     </div>
@@ -66,7 +66,7 @@
       <h2 class="name">{{quiz.name}}</h2>
       <div class="separator"></div>
       <div class="result" v-if="score == 1">
-        <p>Gratuliere! Du hast den Test bestanden! <img src="~/assets/img/icons/check-solid.svg" class="done"></p>
+        <p>Gratuliere! Du hast den Test bestanden!</p>
         <p>Als nächstes musst du nur noch den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
         <nuxt-link to="/me/trainings">Zurück</nuxt-link>
       </div>
@@ -77,7 +77,6 @@
         <nuxt-link to="/me/trainings">Zurück</nuxt-link>
       </div>
     </div>
-
     <div class="reveal">
       <div class="slides">
         <section data-background-iframe="https://slides.com/arwe/template-asu/embed" height="420"
@@ -158,7 +157,7 @@ export default {
   },
   computed: {
     memberCourse() {
-      // return this.$store.getters.getMemberCourseById(Number(this.id));
+      return this.$store.getters.getMemberCourseById(this.id);
     }
   },
   mounted() {

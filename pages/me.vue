@@ -11,8 +11,8 @@
           <MenuLink to="/me/" icon="user">Mein Profil</MenuLink>
           <MenuLink to="/me/packages" icon="cube">Packages</MenuLink>
           <MenuLink to="/me/workshopBookings" icon="hammer">Meine Workshops</MenuLink>
+          <MenuLink to="/me/trainings" icon="graduation-cap">Einschulungen</MenuLink>
           <MenuLink to="/me/credits" icon="coins">Credits</MenuLink>
-          <MenuLink to="/course/1">Course</MenuLink>
           <MenuLink :isActive="$route.name.includes('invoices')" to="/me/invoices" icon="file-invoice">Rechnungen</MenuLink>
           <!-- <MenuLink to="/me/trainings">Unterweisungen</MenuLink>-->
           <MenuLink to="/me/giftcards" icon="gift">Gutscheine</MenuLink>

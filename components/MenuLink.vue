@@ -31,6 +31,9 @@ export default {
   flex-flow: row nowrap;
   & :first-child {
     margin-right: 0.5em;
+    & :first-child {
+      width: 1.5em;
+    }
   }
 }
 </style>
