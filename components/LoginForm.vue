@@ -1,5 +1,5 @@
 <template>
-  <div class="login-form">
+  <div class="login-form" @keyup.enter="submit">
     <div class="header-item">
       <div class="space">
         <div class="headline">Login für GRAND GARAGE Mitglieder</div>
