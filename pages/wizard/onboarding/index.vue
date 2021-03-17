@@ -15,7 +15,7 @@
     </div>
     <div class="spacer"></div>
     <div class="wizard-checkbox">
-      <Checkbox :value="agbBool" theme="form">Ja, ich habe die Allgemeinen Nutzungsbedingungen (ANB) und die Werkstattordnung gelesen und bin damit einverstanden.</Checkbox>
+      <Checkbox :value="agbBool" theme="form">Ja, ich habe die Allgemeinen Geschäftsbedingungen (AGB) und die Werkstattordnung gelesen und bin damit einverstanden.</Checkbox>
     </div>
   </div>
 </template>
