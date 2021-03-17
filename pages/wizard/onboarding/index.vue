@@ -1,7 +1,14 @@
 <template>
   <div class="section onboarding-wizard">
-    <h2>Du willst also eine Mitgliedschaft abschließen?</h2>
-    <p>Blah blah blah</p>
+    <h2>Willkommen in der GRAND GARAGE!</h2>
+    <p class="description">
+      Als Mitglied in unserem Makerspace bekommst du, neben der Nutzung der Maschinen und Geräte, eine lebendige Community sowie kostenfreies WLAN und eine persönliche Membercard obendrauf!
+      <br>
+      Außerdem erhältst du eine Ermäßigung auf alle Workshops sowie die Möglichkeit, Materialien und Arbeitskleidung zum Einkaufspreis zu kaufen und unsere MakerSpaceShips für Transporte auszuleihen.
+      <br><br>
+      Solltest du noch Fragen zu deiner Mitgliedschaft haben, melde dich einfach beim Frontdesk Team oder schreib uns eine Nachricht! Schön, dass du da bist!
+      <br><br>
+      #MAKERSGONNAMAKE</p>
     <div class="options">
       <div :class="['option', { selected: selectedType === TYPES.regular }]" @click="selectedType = TYPES.regular">
         <span class="name">regulär 40/m</span>
