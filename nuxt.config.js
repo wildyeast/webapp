@@ -58,6 +58,8 @@ module.exports = {
         'faLink',
         'faGraduationCap',
         'faUserFriends',
+        'faCheckCircle',
+        'faTimesCircle'
       ]
     }
   },

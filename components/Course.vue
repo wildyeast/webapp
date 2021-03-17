@@ -1,5 +1,8 @@
 <template>
-  <div class="training-item" v-if="course">
+  <div class="training-item" v-if="course" :class="[{ clickable: !memberCourse.is_valid }]" @click="takeQuiz">
+    <div class="spinnerContainer" v-if="isLoading">
+      <loading-spinner color="white" />
+    </div>
     <div class="body">
       <div class="content">
         <div class="top">
@@ -10,25 +13,30 @@
             <button class="input-button-primary" @click="startCourse">Kurs starten</button>
           </div>
           <!--<div v-else class="info">-->
-          <div class="course-info"><span>gestartet am: {{ createdDate }}</span></div>
-          <div class="course-info"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
-            <span>Praxistest: </span>
-            <img v-if="memberCourse.manual_activation == 0" src="~/assets/img/icons/times-solid.svg"
-                 class="status-course">
-            <img v-if="memberCourse.manual_activation != 0" src="~/assets/img/icons/check-solid.svg"
-                 class="status-course"></div>
-          <div class="course-info"><!--<span>Online-Quiz: {{!!memberCourse.is_valid}}</span>-->
-            <span>Online-Quiz: </span>
-            <img v-if="memberCourse.is_valid == 0" src="~/assets/img/icons/times-solid.svg" class="status-course">
-            <img v-if="memberCourse.is_valid != 0" src="~/assets/img/icons/check-solid.svg" class="status-course">
-            <p v-if="memberCourse.is_valid != 0 && memberCourse.manual_activation == 0">Als nächstes musst du nur noch
-              den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
-            <p v-if="memberCourse.is_valid != 0 && memberCourse.manual_activation != 0" style="color: green"> Der Kurs
-              ASU ist abgeschlossen!</p>
-
+<!--          <div class="course-info"><span>gestartet am: {{ createdDate }}</span></div>-->
+          <div class="status" v-if="!(memberCourse.manual_activation && memberCourse.is_valid)"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
+            <div class="left">
+              <font-awesome-icon class="green" v-if="memberCourse.is_valid" icon="check-circle" />
+              <font-awesome-icon class="grey" v-else icon="times-circle" />
+              <span>Online-Quiz</span>
+            </div>
+            <div class="right">
+              <font-awesome-icon class="green" v-if="memberCourse.manual_activation" icon="check-circle" />
+              <font-awesome-icon class="grey" v-else icon="times-circle" />
+              <span>Praxistest</span>
+            </div>
           </div>
-          <div v-if="!memberCourse.is_valid" class="course-info">
-            <button class="input-button-primary" @click="takeQuiz">Quiz starten</button>
+          <div v-if="memberCourse.is_valid" class="course-info">
+            <div v-if="memberCourse.manual_activation" class="success">
+              <font-awesome-icon icon="check-circle" />
+              <div>Abgeschlossen</div>
+            </div>
+            <div v-else>Als nächstes musst du nur noch
+              den Kurs von einem Host oder am Frontdesk freischalten lassen.
+            </div>
+          </div>
+          <div v-else>
+            <div class="startButton"><div>Quiz starten</div></div>
           </div>
         </div>
       </div>
@@ -41,6 +49,9 @@
 <script>
 export default {
   props: ['course'],
+  data: () => ({
+    isLoading: false
+  }),
   computed: {
     memberCourse() {
       return this.$store.getters.getMemberCourseById(this.course.id);
@@ -57,6 +68,10 @@ export default {
   },
   methods: {
     takeQuiz() {
+      this.isLoading = true
+      if (this.memberCourse.is_valid) {
+        return
+      }
       this.$router.push({path: `/course/${this.course.id}`});
     },
     startCourse() {
@@ -76,18 +91,65 @@ export default {
 .training-item {
   background: url('http://img2.storyblok.com/1600x0/f/47294/3000x1688/f308edf976/pcb-leiterplattendesign-kicad-storyblok.png') no-repeat;
   width: 20em;
-  height: 26em;
+  height: 24em;
   position: relative;
   border: 1px solid black;
+  & .spinnerContainer {
+    position: absolute;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+  }
+
 
   .body {
     // display: flex;
     .content {
       flex: 1;
     }
+    .status {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      font-family: $font-mono;
+      padding: 1em;
+      & .green {
+        color: darkgreen;
+      }
+      & .grey {
+        color: grey;
+      }
+    }
+
+    .bottomText {
+      width: 100%;
+      background: black;
+      color: white;
+      height: 5.7rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em;
+      font-family: $font-mono;
+    }
+
+
+    .startButton {
+      @extend .bottomText;
+    }
 
     .course-info {
-      padding: 0.3em 0;
+      @extend .bottomText;
+      background: white;
+      color: black;
+      padding: 1em;
+      font-size: 1rem;
+      border-top: 1px solid black;
     }
 
     .course-heading {
@@ -95,17 +157,20 @@ export default {
       font-size: 1.5em;
       font-family: $font-mono;
     }
-  }
 
-  .footer {
-    font-size: 0.8em;
-    color: #333;
+    .success {
+      @extend .bottomText;
+      color: darkgreen;
+      background: white;
+      height: 100%;
+      margin-top: 1.5em;
+      & :first-child {
+        font-size: 1.7em;
+        margin-right: -0.3em;
+        margin-right: 0.3em;
+      }
+    }
   }
-}
-
-.status-course {
-  float: right;
-  width: 5%;
 }
 
 .top {
@@ -116,10 +181,12 @@ export default {
 .bottom {
   background: white;
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   bottom: 0;
-  height: 10em;
+  height: 8em;
   width: 100%;
-  padding: 0.3em;
 }
 
 .input-button-primary {
@@ -162,5 +229,13 @@ export default {
   @extend .input-button-primary;
   font-weight: bold;
   // background-color: #ff4400;
+}
+
+.training-item:hover .startButton {
+  border-top: 1px solid white;
+  background: $color-orange;
+}
+.clickable {
+  cursor: pointer;
 }
 </style>
