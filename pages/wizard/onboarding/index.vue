@@ -3,26 +3,27 @@
     <h2>Du willst also eine Mitgliedschaft abschließen?</h2>
     <p>Blah blah blah</p>
     <div class="options">
-      <div class="option">
-        <b>regulär</b>
+      <div :class="['option', { selected: selectedType === TYPES.regular }]" @click="selectedType = TYPES.regular">
+        <span class="name">regulär 40/m</span>
+        <span class="description">für Schülerinnen, Studierende, Lehrende, Pensionist*innen</span>
+        <span class="description">Bitte entsprechenden Ausweis beim ersten Besuch mitnehmen!</span>
       </div>
-      <div class="option">
-        <b>ermäßigt</b>
+      <div :class="['option', { selected: selectedType === TYPES.reduced }]" @click="selectedType = TYPES.reduced">
+        <span class="name">ermäßigt 15/m</span>
+        <span class="description">4you card, SchülerInnen, Studierende, Lehrlinge bis 28 Jahre, Behindertenpass</span>
       </div>
-      <div class="option">
-        <b>free</b>
-      </div>
-    </div>
-    <div class="spacer"></div>
-    <div class="wizard-checkbox">
-      <Checkbox :value="agbBool" theme="form">Ja, ich habe die Allgemeinen Nutzungsbedingungen (ANB) und die Werkstattordnung gelesen und bin damit einverstanden.</Checkbox>
-    </div>
+   </div>
+    <Checkbox :value="agbBool" theme="form">Ja, ich habe die Allgemeinen Nutzungsbedingungen (ANB) und die Werkstattordnung gelesen und bin damit einverstanden.</Checkbox>
   </div>
 </template>
 
 <script>
 import Checkbox from "~/components/Checkbox.vue";
-
+const TYPES = {
+  regular: 0,
+  reduced: 1,
+  free: 2
+}
 export default {
   middleware: 'authenticated',
   components: {
@@ -30,8 +31,10 @@ export default {
   },
   data () {
     return {
+      TYPES,
       loading: false,
       agbBool: false,
+      selectedType: null
     }
   },
   created() {
@@ -53,6 +56,21 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
+  .option {
+    display: flex;
+    flex-direction: column;
+    & .name {
+      font-weight: bolder;
+    }
+    & .description {
+      color: grey;
+      margin-top: 0.5em;
+    }
+  }
+  .selected {
+    border: 2px solid $color-orange !important;
+
+  }
   .spacer {
     flex: 1;
   }

@@ -31,7 +31,10 @@
         <component :key="blok.uid" v-for="blok in blok.columns" :blok="blok" :priceView="priceView" :is="blok.component"></component>
       </div>
       <div class="register-button" v-if="!hasUser">
-        <button @click="register">Jetzt Mitglied werden</button>
+        <button @click="register">Jetzt registrieren</button>
+      </div>
+      <div class="register-button" v-if="hasUser && !isMember">
+        <button @click="$router.push('/wizard/onboarding')">Jetzt Mitglied werden</button>
       </div>
       <div v-if="blok.plans_text" class="plans-text">
         <markdown :value="blok.plans_text"></markdown>
@@ -61,6 +64,9 @@ export default {
   computed: {
     hasUser() {
       return !!this.$store.state.user;
+    },
+    isMember () {
+      return this.$store.state.user.packages.length > 0;
     }
   }
 }

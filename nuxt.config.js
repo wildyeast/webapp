@@ -56,7 +56,8 @@ module.exports = {
         'faDownload',
         'faFileInvoice',
         'faLink',
-        'faGraduationCap'
+        'faGraduationCap',
+        'faUserFriends',
       ]
     }
   },
