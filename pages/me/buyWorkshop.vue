@@ -86,7 +86,10 @@
 
         <h2>Bestätigung</h2>
 
-        <div class="confirmation">
+        <div v-if='isFree' class="confirmation">
+          Deine Anmeldung ist verbindlich. Solltest du doch nicht teilnehmen können, gib uns bitte umgehend unter <a href="mailto:events@grandgarage.eu">events@grandgarage.eu</a> Bescheid.
+        </div>
+        <div v-else class="confirmation">
           <div v-if="useRemainingCredits">Von deinen Credits {{ this.credits === 1 ? 'wird' : 'werden' }} {{this.credits}}EUR abgezogen.</div>
           <div v-if="paymentMethod === 1"><strong>{{finalWorkshopPrice}}EUR {{ finalWorkshopPrice === 1 ? 'wird' : 'werden' }} von deiner Kreditkarte abgebucht.</strong></div>
           <div v-if="paymentMethod === 2"><strong>{{finalWorkshopPrice}}EUR {{ finalWorkshopPrice === 1 ? 'wird' : 'werden' }} via SEPA-Monatsrechnung eingezogen.</strong></div>
@@ -94,8 +97,11 @@
         </div>
 
         <div class="buttons">
-          <button class="input-button-back" @click="back">Zurück</button>
-          <button class="input-button-payment" @click="onNextStep(3)">Workshop kostenpflichtig buchen</button>
+          <button v-if="!isFree" class="input-button-back" @click="back">Zurück</button>
+          <button class="input-button-payment" @click="onNextStep(3)">
+            <template v-if="isFree">Termin kostenlos buchen</template>
+            <template v-else>Workshop kostenpflichtig buchen</template>
+          </button>
         </div>
 
 
@@ -121,6 +127,7 @@
 
 <script>
 const PAYMENT_METHODS = {
+  free: 0,
   stripe: 1,
   sepa: 2,
   credits: 3
@@ -152,6 +159,9 @@ export default {
       // TODO are there workshops with price_external?
       return this.workshopDate.content.workshop.content.price_internal
     },
+    isFree () {
+      return parseInt(this.workshopPrice) === 0
+    },
     finalWorkshopPrice () {
       if (this.useRemainingCredits) {
         return this.workshopPrice - this.credits
@@ -160,7 +170,10 @@ export default {
     },
   },
   async mounted() {
-    this.getWorkshop()
+    await this.getWorkshop()
+    if (this.isFree) {
+      this.step = 1
+    }
     this.$store.dispatch("getUserMetadata").then(data => {
       this.userMetadata = data.data;
     })
@@ -173,8 +186,8 @@ export default {
       this.paymentMethod = null;
       this.useRemainingCredits = false;
     },
-    getWorkshop () {
-      this.$store.dispatch("loadStoryByUUid", this.$route.query['uuid']).then(data => {
+    async getWorkshop () {
+      await this.$store.dispatch("loadStoryByUUid", this.$route.query['uuid']).then(data => {
         this.workshopDate = data.story;
       })
     },
@@ -194,7 +207,10 @@ export default {
     },
 
     pay: function () {
-      let data = {
+      if (this.isFree) {
+        this.paymentMethod = PAYMENT_METHODS.free
+      }
+      const data = {
         workshop_date_id: this.workshopDate.uuid,
         payment_method: this.paymentMethod,
         use_remaining_credits: this.useRemainingCredits
