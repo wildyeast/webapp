@@ -20,7 +20,7 @@
         <span class="description">4you card, SchülerInnen, Studierende, Lehrlinge bis 28 Jahre, Behindertenpass</span>
       </div>
    </div>
-    <Checkbox :value="agbBool" theme="form">Ja, ich habe die Allgemeinen Nutzungsbedingungen (ANB) und die Werkstattordnung gelesen und bin damit einverstanden.</Checkbox>
+    <Checkbox :value="agbBool" theme="form">Ja, ich habe die Allgemeinen Geschäftsbedingungen (AGB) und die Werkstattordnung gelesen und bin damit einverstanden.</Checkbox>
   </div>
 </template>
 
