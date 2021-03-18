@@ -1,5 +1,8 @@
 <template>
-  <div class="training-item" v-if="course" :class="[{ clickable: !memberCourse.is_valid }]" @click="takeQuiz">
+  <div v-if="course && memberCourse"
+       :class="['training-item', { clickable: !memberCourse.is_valid }]"
+       ref="trainingItem"
+       @click="takeQuiz">
     <div class="spinnerContainer" v-if="isLoading">
       <loading-spinner color="white" />
     </div>
@@ -41,8 +44,6 @@
         </div>
       </div>
     </div>
-    <div class="footer">
-    </div>
   </div>
 </template>
 
@@ -56,22 +57,26 @@ export default {
     memberCourse() {
       return this.$store.getters.getMemberCourseById(this.course.id);
     },
-    createdDate() {
-      return new Date(this.memberCourse.created_at).toLocaleDateString("de-at");
-    },
-    updatedDate() {
-      return new Date(this.memberCourse.updated_at).toLocaleDateString("de-at");
-    }
   },
   mounted() {
     // TODO check if I have permission
+    this.getImage()
   },
   methods: {
+    async getImage () {
+      const quiz = await this.$store.dispatch('getQuiz', this.course.id);
+      for (const question of quiz.quiz_questions) {
+        if (question.imagePath.toLowerCase().endsWith('jpeg')) {
+          this.$refs.trainingItem.style.backgroundImage = `url(${question.imagePath})`
+          return
+        }
+      }
+    },
     takeQuiz() {
-      this.isLoading = true
       if (this.memberCourse.is_valid) {
         return
       }
+      this.isLoading = true
       this.$router.push({path: `/course/${this.course.id}`});
     },
     startCourse() {
@@ -89,7 +94,8 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .training-item {
-  background: url('http://img2.storyblok.com/1600x0/f/47294/3000x1688/f308edf976/pcb-leiterplattendesign-kicad-storyblok.png') no-repeat;
+  background-repeat: no-repeat;
+  background-size: cover;
   width: 20em;
   height: 24em;
   position: relative;
@@ -117,6 +123,7 @@ export default {
       flex-flow: row nowrap;
       justify-content: space-between;
       font-family: $font-mono;
+      border-top: 1px solid black;
       padding: 1em;
       & .green {
         color: darkgreen;
@@ -163,7 +170,7 @@ export default {
       color: darkgreen;
       background: white;
       height: 100%;
-      margin-top: 1.5em;
+      margin-top: 2em;
       & :first-child {
         font-size: 1.7em;
         margin-right: -0.3em;
@@ -185,7 +192,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   bottom: 0;
-  height: 8em;
+  height: 8.4em;
   width: 100%;
 }
 

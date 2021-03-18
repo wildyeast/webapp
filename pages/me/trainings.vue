@@ -3,7 +3,7 @@
     <div>
       <h2>Einschulungen</h2>
       <div class="courseContainer">
-        <Course v-for="course of courses" :course="course" /></li>
+        <Course v-for="course of courses" :course="course" :key="course.id" /></li>
       </div>
     </div>
     <div>

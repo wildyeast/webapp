@@ -23,31 +23,31 @@
             </div>
           </div>
           <div class="answers">
-            <div class="answer">
+            <div class="answer" @click="c1 = !c1">
               <input type="checkbox" v-model="c1" name="" id="choice1"/>
               <label for="choice1">
-                <img v-if="q.choice1ImagePath != undefined " :src="q.choice1ImagePath" alt=""/>
+                <img class="image" v-if="q.choice1ImagePath " :src="q.choice1ImagePath" :alt="`Bild für Antwort ${1}`"/>
                 <div class="answer-text">{{q.choice_1_text}}</div>
               </label>
             </div>
-            <div class="answer">
+            <div class="answer" @click="c2 = !c2">
               <input type="checkbox" v-model="c2" name="" id="choice2"/>
-              <label for="choice2">
-                <img v-if="q.choice2ImagePath != undefined " :src="q.choice2ImagePath" alt=""/>
+              <label>
+                <img class="image" v-if="q.choice2ImagePath" :src="q.choice2ImagePath" :alt="`Bild für Antwort ${2}`"/>
                 <div class="answer-text">{{q.choice_2_text}}</div>
               </label>
             </div>
-            <div class="answer">
+            <div class="answer" @click="c3 = !c3">
               <input type="checkbox" v-model="c3" name="" id="choice3"/>
               <label for="choice3">
-                <img v-if="q.choice3ImagePath != undefined " :src="q.choice3ImagePath" alt=""/>
+                <img class="image" v-if="q.choice3ImagePath" :src="q.choice3ImagePath" :alt="`Bild für Antwort ${3}`"/>
                 <div class="answer-text">{{q.choice_3_text}}</div>
               </label>
             </div>
-            <div class="answer">
+            <div class="answer" @click="c4 = !c4">
               <input type="checkbox" v-model="c4" name="" id="choice4"/>
               <label for="choice4">
-                <img v-if="q.choice4ImagePath != undefined " :src="q.choice4ImagePath" alt=""/>
+                <img class="image" v-if="q.choice4ImagePath" :src="q.choice4ImagePath" :alt="`Bild für Antwort ${4}`"/>
                 <div class="answer-text">{{q.choice_4_text}}</div>
               </label>
             </div>
@@ -56,7 +56,7 @@
         </div>
         <button @click="startQuiz" class="input-button-primary" v-if="overview">Los geht's</button>
         <div v-if="activeQuestion >= quiz.quiz_questions.length" class="quizDone">
-          Gut gemacht! Alle Fragen beantwortet.
+          Du hast alle Fragen beantwortet!
           <p></p>
           <button @click="saveQuiz" class="input-button-primary">Antworten absenden</button>
         </div>
@@ -71,10 +71,8 @@
         <nuxt-link to="/me/trainings">Zurück</nuxt-link>
       </div>
       <div class="result" v-else>
-        Oje, das hat leider nicht geklappt. Bitte lese dir nochmal die Unterlagen durch.
-        <a :href="quiz.slides_url" target="_blank">zu den Folien</a>
-        <br>
-        <nuxt-link to="/me/trainings">Zurück</nuxt-link>
+        Oje, das hat leider nicht geklappt. Bitte lies dir nochmal die Unterlagen durch.
+        <button class="input-button-primary" @click="$router.push('/me/trainings')">Zurück</button>
       </div>
     </div>
     <div class="reveal">
@@ -198,7 +196,7 @@ export default {
     z-index: -1;
   }
   .directions {
-    margin-top: 40px;
+    margin: 4em;
   }
 /*  .slides {
     height: 1%;
@@ -239,6 +237,7 @@ export default {
         align-items: center;
       }
       .answer {
+        cursor: pointer;
         background-color: #FFFFFF;
         border: 1px solid #FFFFFF;
         border-radius: 5%;
@@ -297,15 +296,17 @@ export default {
       width: 20%;
     }
   }
+  .weiter:hover {
+    font-weight: bold;
+  }
   .done {
     height: 1%;
     width: 1%;
   }
 }
   .quiz {
-    @include media-breakpoint-down(sm) {
-      margin-top: 50px;
-    }
+    text-align: center;
+    margin-top: 50px;
   }
 
   .quizDone {
@@ -321,11 +322,17 @@ export default {
   .wellDone {
     flex-direction: column;
     display: flex;
+    aligin-items: center;
+    justify-content: center;
     @include media-breakpoint-down(sm) {
       padding: 20px;
     }
     .result {
-      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 4em;
     }
   }
 
@@ -376,8 +383,17 @@ export default {
       float: right;
     }
   }
+  .input-button-primary:hover {
+    font-weight: bold;
+  }
   .quiz-description {
     text-align: center;
     margin-bottom: 20px;
+  }
+  .overview {
+    text-align: center;
+  }
+  label, .image {
+    pointer-events: none;
   }
 </style>
