@@ -33,7 +33,7 @@ const createStore = () => {
       fabman: null,
       courses: null,
       memberCourses: null,
-      workshops: null,
+      workshops: null
     },
     getters: {
       getMemberCourseById: (state) => (id) => {
@@ -206,7 +206,6 @@ const createStore = () => {
         return res
       },
       getInvoiceDocument({commit, dispatch, state}, id) {
-        console.log(id);
         let instance;
         if (state.auth || getUserFromLocalStorage()) {
           // renew Token
@@ -233,7 +232,6 @@ const createStore = () => {
               }
             });
           }).then((r) => {
-            console.log(r);
           });
         }
       },

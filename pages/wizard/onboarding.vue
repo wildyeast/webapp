@@ -19,14 +19,14 @@
         </div>
       </div>
       <div class="wizard-section-content">
-        <NuxtChild :key="$route.params.slug"></NuxtChild>
+        <NuxtChild :onboardingData=onboardingData :key="$route.params.slug"></NuxtChild>
       </div>
       <div class="wizard-section-nav">
         <div class="form">
           <div class="button-row">
             <button class="input-button-primary" v-if="index > 0" @click="back()">Zurück</button>
             <div class="spacer"></div>
-            <button class="input-button-primary" v-if="index < steps.length-1" @click="next()">Weiter</button>
+            <button :class="['input-button-primary', { disabled: !nextStepEnabled }]" v-if="index < steps.length-1" :disabled="nextStepEnabled" @click="next()">Weiter</button>
           </div>
         </div>
       </div>
@@ -39,18 +39,52 @@ export default {
   middleware: 'authenticated',
   data () {
     return {
-      steps: ['index', 'contact', 'payment', 'done']
+      steps: ['index', 'contact', 'payment', 'done'],
+      onboardingData: {
+        membershipType: null,
+        rulesAccepted: false,
+        profile: {
+          address: null,
+          address2: null,
+          city: null,
+          zip: null,
+          phone: null,
+          birthdate: null,
+          company: null
+        },
+        paymentType: null,
+        sepaAccepted: false,
+        payment: {
+          iban: null,
+          bank: null
+        }
+      }
     }
   },
-  created() {
+  created () {
+    this.getUserData()
   },
   methods: {
+    getUserData () {
+      const user = this.$store.state.user;
+      if (sessionStorage.getItem('profile')) {
+        this.onboardingData.profile = JSON.parse(sessionStorage.getItem('profile'))
+        return
+      }
+      for (const key of Object.keys(this.onboardingData.profile)) {
+        if (user.profile.hasOwnProperty(key)) {
+          this.onboardingData.profile[key] = user.profile[key]
+        }
+      }
+    },
+    saveUserData () {
+      this.$store.dispatch('updateUser', Object.assign({}, this.onboardingData.profile))
+      sessionStorage.setItem('profile', JSON.stringify(this.onboardingData.profile))
+    },
     back() {
       let ni = this.index - 1 < 0 ? 0 : this.index - 1;
       let path = this.steps[ni];
       if (ni == 0) {
-      console.log(ni);
-      console.log(ni);
         path = '';
       }
       this.$router.push('/wizard/onboarding/' + path);
@@ -58,12 +92,27 @@ export default {
     next() {
       let ni = this.index + 1 < 0 ? 0 : this.index + 1;
       let path = this.steps[ni];
+      if (path === 'payment') {
+        this.saveUserData()
+      }
       this.$router.push('/wizard/onboarding/' + path);
     },
   },
   computed: {
     activeStep() {
       return this.$route.path.split('/')[3] || 'index';
+    },
+    nextStepEnabled () {
+      const data = this.onboardingData
+      switch(this.activeStep) {
+        case 'index':
+          return !(data.membershipType && data.rulesAccepted)
+        case 'contact':
+          const requiredKeys = ['address', 'city', 'zip', 'phone', 'birthdate']
+          return !!requiredKeys.filter(k => !data.profile[k]).length
+        default:
+          return false
+      }
     },
     index() {
       return this.steps.indexOf(this.activeStep);
@@ -87,6 +136,10 @@ export default {
     }
   }
   .wizard-section {
+    h2 {
+      width: 100%;
+      text-align: center;
+    }
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -145,8 +198,11 @@ export default {
       }
     }
     .wizard-section-content {
-      min-height: 60vh;
-      min-width: 50vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
     .wizard-section-nav {
       min-width: 50vh;
@@ -158,6 +214,11 @@ export default {
         }
       }
     }
+  }
+  .input-button-primary:disabled {
+    cursor: default;
+    background-color: grey;
+    border: 1px solid darkgrey;
   }
 }
 </style>

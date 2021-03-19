@@ -2,13 +2,15 @@
   <div class="section onboarding-wizard">
     <h2>Wie möchtest du zahlen?</h2>
     <div class="options">
-      <div class="option">
+      <div :class="['option', { selected: onboardingData.paymentType === TYPES.monthly }]"
+        @click="onboardingData.paymentType = TYPES.monthly">
         <b>monatliche Zahlung</b>
-        <p>40 / Monat</p>
+        <p>40EUR / Monat</p>
       </div>
-      <div class="option">
+      <div :class="['option', { selected: onboardingData.paymentType === TYPES.annual }]"
+        @click="onboardingData.paymentType = TYPES.annual">
         <b>jährliche Zahlung</b>
-        <p>400 / Jahr</p>
+        <p>400EUR / Jahr</p>
       </div>
     </div>
     <p><b>Tipp:</b> Bei jährlicher Zahlung bekommst du 2 Monate geschenkt.</p>
@@ -25,7 +27,7 @@
 
     <div class="wizard-checkbox">
       <label>
-        <Checkbox :value="sepaBool" theme="form">Meine Mitgliedsbeiträge und zusätzlich anfallende Kosten werden per SEPA-Lastschrift von meinem angegeben Konto eingehoben.</Checkbox>
+        <input type="checkbox" v-model="onboardingData.sepaAccepted">Meine Mitgliedsbeiträge und zusätzlich anfallende Kosten werden per SEPA-Lastschrift von meinem angegeben Konto eingehoben.</Checkbox>
       </label>
     </div>
 
@@ -34,16 +36,26 @@
 
 <script>
 import Checkbox from "~/components/Checkbox.vue";
-
+const TYPES = {
+  monthly: 1,
+  annual: 2
+}
 export default {
   middleware: 'authenticated',
   components: {
     Checkbox
   },
+  props: {
+    onboardingData: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
-      sepaBool: false,
-      loading: false
+      loading: false,
+      TYPES,
+      selected: null
     }
   },
   created() {
@@ -62,6 +74,7 @@ export default {
 @import '@/assets/scss/styles.scss';
 
 .onboarding-wizard {
+  width: 100%;
   .options {
     padding: 20px 0;
     display: flex;
@@ -77,6 +90,9 @@ export default {
       &:hover {
         border: 2px solid $color-orange;
       }
+    }
+    .selected {
+      border: 2px solid $color-orange !important;
     }
   }
   .wizard-checkbox {

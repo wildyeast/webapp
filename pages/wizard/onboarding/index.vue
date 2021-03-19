@@ -10,38 +10,45 @@
       <br><br>
       #MAKERSGONNAMAKE</p>
     <div class="options">
-      <div :class="['option', { selected: selectedType === TYPES.regular }]" @click="selectedType = TYPES.regular">
-        <span class="name">regulär 40/m</span>
-        <span class="description">für Schülerinnen, Studierende, Lehrende, Pensionist*innen</span>
+      <div :class="['option', { selected: onboardingData.membershipType === TYPES.regular }]"
+           @click="onboardingData.membershipType = TYPES.regular">
+        <span class="name">regulär 40EUR/m</span>
+      </div>
+      <div :class="['option', { selected: onboardingData.membershipType === TYPES.reduced }]"
+          @click="onboardingData.membershipType = TYPES.reduced">
+        <span class="name">ermäßigt 15EUR/m</span>
+        <span class="description">4you card, SchülerInnen, Studierende, Lehrlinge bis 28 Jahre, Behindertenpass</span>
         <span class="description">Bitte entsprechenden Ausweis beim ersten Besuch mitnehmen!</span>
       </div>
-      <div :class="['option', { selected: selectedType === TYPES.reduced }]" @click="selectedType = TYPES.reduced">
-        <span class="name">ermäßigt 15/m</span>
-        <span class="description">4you card, SchülerInnen, Studierende, Lehrlinge bis 28 Jahre, Behindertenpass</span>
-      </div>
    </div>
-    <Checkbox :value="agbBool" theme="form">Ja, ich habe die Allgemeinen Geschäftsbedingungen (AGB) und die Werkstattordnung gelesen und bin damit einverstanden.</Checkbox>
+    <div>
+      <input type="checkbox" name="checkbox" v-model="onboardingData.rulesAccepted">
+      <label for="checkbox">Ja, ich habe die Werkstattordnung gelesen und bin damit einverstanden.</label>
+    </div>
   </div>
 </template>
 
 <script>
 import Checkbox from "~/components/Checkbox.vue";
 const TYPES = {
-  regular: 0,
-  reduced: 1,
-  free: 2
+  regular: 1,
+  reduced: 2
 }
 export default {
   middleware: 'authenticated',
   components: {
     Checkbox
   },
+  props: {
+    onboardingData: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       TYPES,
       loading: false,
-      agbBool: false,
-      selectedType: null
     }
   },
   created() {
@@ -51,7 +58,7 @@ export default {
   computed: {
     user() {
       return this.$store.state.user;
-    },
+    }
   }
 }
 </script>
@@ -76,7 +83,6 @@ export default {
   }
   .selected {
     border: 2px solid $color-orange !important;
-
   }
   .spacer {
     flex: 1;
