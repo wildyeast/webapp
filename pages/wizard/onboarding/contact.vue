@@ -14,7 +14,7 @@
       -->
       <div class="form-item">
         <span class="label">Geburtsdatum <span class="red">*</span></span>
-        <input class="input-text" ref="firstInput" type="date" required v-model="onboardingData.profile.birthdate" name="" id=""/>
+        <input class="input-text" ref="firstInput" type="date" v-model="onboardingData.profile.birthdate" name="" id=""/>
       </div>
       <div class="form-item">
         <span class="label">Telefon <span class="red">*</span></span>

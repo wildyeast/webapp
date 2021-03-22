@@ -357,6 +357,10 @@ const createStore = () => {
           }
         });
       },
+      async startOnboarding ({ commit }, data) {
+        const res = connector.post('/member/start-onboarding', data)
+        return res.data
+      },
       loginUser({commit}, context) {
         return new Promise((resolve, reject) => {
           webAuth.login({

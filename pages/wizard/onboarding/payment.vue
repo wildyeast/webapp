@@ -2,13 +2,13 @@
   <div class="section onboarding-wizard">
     <h2>Wie möchtest du zahlen?</h2>
     <div class="options">
-      <div :class="['option', { selected: onboardingData.paymentType === TYPES.monthly }]"
-        @click="onboardingData.paymentType = TYPES.monthly">
+      <div :class="['option', { selected: onboardingData.paymentFrequency === FREQS.monthly }]"
+        @click="onboardingData.paymentFrequency = FREQS.monthly">
         <b>monatliche Zahlung</b>
         <p>40EUR / Monat</p>
       </div>
-      <div :class="['option', { selected: onboardingData.paymentType === TYPES.annual }]"
-        @click="onboardingData.paymentType = TYPES.annual">
+      <div :class="['option', { selected: onboardingData.paymentFrequency === FREQS.annual }]"
+        @click="onboardingData.paymentFrequency = FREQS.annual">
         <b>jährliche Zahlung</b>
         <p>400EUR / Jahr</p>
       </div>
@@ -17,11 +17,16 @@
     <form class="form wizard">
       <div class="form-item">
         <span class="label">IBAN</span>
-        <input class="input-text" type="text" v-model="user.payment.iban" name="" id=""/>
+        <input class="input-text" type="text" v-model="onboardingData.payment.iban" name="" id=""/>
+        <div>
+          <font-awesome-icon class="ibanIcon success" v-if="ibanIsValid" icon="check-circle" />
+          <font-awesome-icon class="ibanIcon" v-else icon="times-circle" />
+        </div>
       </div>
-      <div class="form-item">
+      <div class="form-item ibanFormItem">
         <span class="label">Name der Bank</span>
-        <input class="input-text" type="text" v-model="user.payment.bank" name="" id=""/>
+        <input class="input-text" type="text" v-model="onboardingData.payment.bank" name="" id=""/>
+        <span class="bankSpacer" />
       </div>
     </form>
 
@@ -35,10 +40,11 @@
 </template>
 
 <script>
+import IBAN from 'iban';
 import Checkbox from "~/components/Checkbox.vue";
-const TYPES = {
+const FREQS = {
   monthly: 1,
-  annual: 2
+  annually: 2
 }
 export default {
   middleware: 'authenticated',
@@ -54,19 +60,26 @@ export default {
   data () {
     return {
       loading: false,
-      TYPES,
+      FREQS,
       selected: null
     }
   },
-  created() {
+  computed: {
+    ibanIsValid () {
+      return this.validate(this.onboardingData.payment.iban)
+    }
   },
   methods: {
+    validate (iban) {
+      if (!iban) {
+        return
+      }
+      iban = iban.replace(/\s/g, '') // Remove spaces
+      const isValid = IBAN.isValid(iban)
+      this.onboardingData.ibanIsValid = isValid
+      return isValid
+    }
   },
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
-  }
 }
 </script>
 
@@ -75,11 +88,15 @@ export default {
 
 .onboarding-wizard {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   .options {
     padding: 20px 0;
     display: flex;
     justify-content: space-around;
     margin: 0 -10px;
+    width: 80%;
     .option {
       margin: 10px;
       flex: 1;
@@ -95,8 +112,25 @@ export default {
       border: 2px solid $color-orange !important;
     }
   }
+  .form-item {
+    display: flex;
+    width: 30em;
+    & .label {
+      width: 10em !important;
+    }
+  }
   .wizard-checkbox {
-    max-width: 500px;
+    margin-bottom: 1em;
+  }
+  .ibanIcon {
+    margin-left: 1em;
+    color: grey;
+  }
+  .success {
+    color: green;
+  }
+  .bankSpacer {
+    width: 2.7em;
   }
   .form {
     &.wizard {

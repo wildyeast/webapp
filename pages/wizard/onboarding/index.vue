@@ -10,12 +10,12 @@
       <br><br>
       #MAKERSGONNAMAKE</p>
     <div class="options">
-      <div :class="['option', { selected: onboardingData.membershipType === TYPES.regular }]"
-           @click="onboardingData.membershipType = TYPES.regular">
+      <div :class="['option', { selected: onboardingData.paymentType === TYPES.regular }]"
+           @click="onboardingData.paymentType = TYPES.regular">
         <span class="name">regulär 40EUR/m</span>
       </div>
-      <div :class="['option', { selected: onboardingData.membershipType === TYPES.reduced }]"
-          @click="onboardingData.membershipType = TYPES.reduced">
+      <div :class="['option', { selected: onboardingData.paymentType === TYPES.reduced }]"
+          @click="onboardingData.paymentType = TYPES.reduced">
         <span class="name">ermäßigt 15EUR/m</span>
         <span class="description">4you card, SchülerInnen, Studierende, Lehrlinge bis 28 Jahre, Behindertenpass</span>
         <span class="description">Bitte entsprechenden Ausweis beim ersten Besuch mitnehmen!</span>
@@ -23,7 +23,8 @@
    </div>
     <div>
       <input type="checkbox" name="checkbox" v-model="onboardingData.rulesAccepted">
-      <label for="checkbox">Ja, ich habe die Werkstattordnung gelesen und bin damit einverstanden.</label>
+      <label for="checkbox">Ja, ich habe die <a href="https://grandgarage.sharepoint.com/:b:/s/GRANDGARAGE/EQpdYazohn5DtE60FEPxfy4BpQ_1NMXNtoG7rHj3zQnGeQ?e=ewUyWh"
+                                                target="new">Werkstattordnung</a> gelesen und bin damit einverstanden.</label>
     </div>
   </div>
 </template>
