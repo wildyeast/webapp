@@ -72,6 +72,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/scss/styles.scss';
+.form {
+  margin-left: -6em;
+}
 .red {
   color: $color-red;
 }

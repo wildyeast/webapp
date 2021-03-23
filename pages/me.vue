@@ -10,7 +10,7 @@
         <div class="tab-section-menu">
           <MenuLink to="/me/" icon="user">Mein Profil</MenuLink>
           <MenuLink v-if="isMember" to="/me/packages" icon="cube">Packages</MenuLink>
-          <MenuLink v-else to="/wizard/onboarding" icon="user-friends"><span class="fat">Mitglied werden!</span></MenuLink>
+          <MenuLink v-if="!isMember && !hasCompletedOnboarding" to="/wizard/onboarding" icon="user-friends"><span class="fat">Mitglied werden!</span></MenuLink>
           <MenuLink to="/me/workshopBookings" icon="hammer">Meine Workshops</MenuLink>
           <MenuLink to="/me/trainings" icon="graduation-cap">Einschulungen</MenuLink>
           <MenuLink to="/me/credits" icon="coins">Credits</MenuLink>
@@ -40,12 +40,13 @@ export default {
   components: { MenuLink },
   data () {
     return {
+      hasCompletedOnboarding: true
     }
   },
   created() {
   },
-  mounted () {
-    window.scrollTo(0, 0);
+  async mounted () {
+    this.hasCompletedOnboarding = await this.$store.dispatch('hasCompletedOnboarding')
   },
   methods: {
     getPackage(p) {

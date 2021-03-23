@@ -1,7 +1,7 @@
 <template>
   <div class="section onboarding-wizard">
     <h2>Willkommen in der GRAND GARAGE!</h2>
-    <p class="description">
+    <p class="text">
       Als Mitglied in unserem Makerspace bekommst du, neben der Nutzung der Maschinen und Geräte, eine lebendige Community sowie kostenfreies WLAN und eine persönliche Membercard obendrauf!
       <br>
       Außerdem erhältst du eine Ermäßigung auf alle Workshops sowie die Möglichkeit, Materialien und Arbeitskleidung zum Einkaufspreis zu kaufen und unsere MakerSpaceShips für Transporte auszuleihen.
@@ -71,16 +71,38 @@ export default {
   height: 100%;
   display: flex;
   flex-direction: column;
-  .option {
+  align-items: center;
+  .options {
+    padding: 20px 0;
     display: flex;
-    flex-direction: column;
-    & .name {
-      font-weight: bolder;
+    justify-content: space-around;
+    margin: 0 -10px;
+    width: 80%;
+
+    .option {
+      margin: 10px;
+      flex: 1;
+      cursor: pointer;
+      padding: 25px;
+      background-color: #FFF;
+      border: 2px solid #FFF;
+      display: flex;
+      flex-direction: column;
+
+      &:hover {
+        border: 2px solid $color-orange;
+      }
     }
-    & .description {
-      color: grey;
-      margin-top: 0.5em;
+    .description {
+      color:grey;
     }
+  }
+  .name {
+    font-weight: bolder;
+    margin-bottom: 1em;
+  }
+  .text {
+    text-align: center;
   }
   .selected {
     border: 2px solid $color-orange !important;

@@ -358,7 +358,11 @@ const createStore = () => {
         });
       },
       async startOnboarding ({ commit }, data) {
-        const res = connector.post('/member/start-onboarding', data)
+        const res = await connector.post('/member/startOnboarding', data)
+        return res.data
+      },
+      async hasCompletedOnboarding () {
+        const res = await connector.get('/member/hasCompletedOnboarding')
         return res.data
       },
       loginUser({commit}, context) {

@@ -28,7 +28,7 @@
       <div class="wizard-section-nav">
         <div class="form">
           <div class="button-row">
-            <button class="input-button-primary" v-if="activeStep === 'confirmation'" @click="$router.push('/me/trainings')">Zu den Einschulungen</button>
+            <button class="input-button-primary" v-if="activeStep === 'confirmation'" @click="$router.push('/course/1')">Allgemeine Sicherheits-nterweisung starten</button>
             <button class="input-button-primary" v-else-if="index > 0" @click="back()">zurück</button>
             <button :class="['input-button-primary', { disabled: !nextStepEnabled }]"
                     :disabled="nextStepEnabled"
@@ -166,7 +166,11 @@ export default {
   .wizard-section {
     h2 {
       width: 100%;
+      margin-top: 1.5em;
       text-align: center;
+    }
+    & .form {
+      margin-top: 1em;
     }
     display: flex;
     align-items: center;

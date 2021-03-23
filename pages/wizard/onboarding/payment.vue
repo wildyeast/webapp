@@ -7,8 +7,8 @@
         <b>monatliche Zahlung</b>
         <p>40EUR / Monat</p>
       </div>
-      <div :class="['option', { selected: onboardingData.paymentFrequency === FREQS.annual }]"
-        @click="onboardingData.paymentFrequency = FREQS.annual">
+      <div :class="['option', { selected: onboardingData.paymentFrequency === FREQS.annually }]"
+        @click="onboardingData.paymentFrequency = FREQS.annually">
         <b>jährliche Zahlung</b>
         <p>400EUR / Jahr</p>
       </div>
