@@ -14,7 +14,8 @@ let webAuth = new auth0.WebAuth({
   redirectUri: origin + '/auth'
 });
 
-const connectorBaseUrl = process.env.NUXT_ENV_API === 'local' ? 'https://connector.127.0.0.1.nip.io/api' : 'https://connector.grandgarage.eu/api'
+const baseUrl = process.env.NUXT_ENV_API === 'local' ? 'https://connector.127.0.0.1.nip.io' : 'https://connector.grandgarage.eu '
+const connectorBaseUrl = baseUrl + '/api'
 
 let connector;
 
@@ -38,6 +39,9 @@ const createStore = () => {
     getters: {
       getMemberCourseById: (state) => (id) => {
         return state.memberCourses.find(c => c.course_id === parseInt(id));
+      },
+      getStorageUrl() {
+        return baseUrl + '/storage/'
       },
       getCourses: (state) => () => {
         return state.courses

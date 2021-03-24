@@ -5,12 +5,18 @@
       <div class="separator"></div>
       <div class="overview" v-if="overview">
         <div class="">
-        <p class="directions">Lies dir zuerst die Folien durch und beantworte dann die Fragen:</p>
+          <p class="directions">Lies dir zuerst {{ quiz.slides_url ? 'die Folien' : 'das Dokument' }} durch und beantworte dann die Fragen:</p>
           <p v-if="quiz.description">{{quiz.description}}</p>
-          <p class="directions" v-if="!quiz.slides_url.includes('slides')"><a :href="quiz.slides_url" target="_blank"  @click="showSlides">zu den Folien</a></p>
         </div>
-        <div class="course-slides">
+        <div class="course-slides" v-if="quiz.slides_url">
+<!--          <p class="directions" v-if="!quiz.slides_url.includes('slides')"><a :href="quiz.slides_url" target="_blank"  @click="showSlides">zu den Folien</a></p>-->
           <iframe v-if="" :src="quiz.slides_url" width="800" height="600" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+        <div style="height: 2em;" v-if="quiz.slides_url && quiz.pdf" />
+        <div class="course-pdf" v-if="quiz.pdf">
+          <font-awesome-icon icon="file-pdf" />
+          <a :href="pdfUrl">
+            PDF mit Kursunterlagen</a>
         </div>
       </div>
       <div class="quiz">
@@ -75,7 +81,7 @@
         <button class="input-button-primary" @click="$router.push('/me/trainings')">Zurück</button>
       </div>
     </div>
-    <div class="reveal">
+    <div class="reveal" v-if="quiz.slides_url">
       <div class="slides">
         <section data-background-iframe="https://slides.com/arwe/template-asu/embed" height="420"
                  data-background-interactive
@@ -140,13 +146,21 @@ export default {
       this.overview = false;
     },
     showSlides(){
-      if(this.quiz.slides_url.includes('slides')){
+      // if(this.quiz.slides_url.includes('slides')){
         // let deck = new Reveal( {
         //   plugins: [ Markdown ]
         // })
         // deck.initialize();
-      }
+      // }
     },
+    // async getPdf () {
+    //   const res = await this.$store.dispatch('getCoursePDF', `/storage/${this.quiz.pdf}`)
+    //   const blob = new Blob([res.data], { type: 'application/pdf' });
+    //   const link = document.createElement('a')
+    //   link.download = this.quiz.name + '.pdf'
+    //   link.href = URL.createObjectURL(blob)
+    //   link.click()
+    // }
   },
   async asyncData(context) {
     let courseId = context.params.slug;
@@ -156,9 +170,12 @@ export default {
   computed: {
     memberCourse() {
       return this.$store.getters.getMemberCourseById(this.id);
+    },
+    pdfUrl () {
+      if (this.quiz && this.quiz.pdf) {
+        return this.$store.getters.getStorageUrl + this.quiz.pdf
+      }
     }
-  },
-  mounted() {
   }
 }
 </script>
@@ -361,6 +378,15 @@ export default {
     }
   }
 
+  .course-pdf {
+    color: $color-orange;
+    & a {
+      margin-left: 0.5em;
+    }
+    & a:hover {
+      text-decoration: underline;
+    }
+  }
   .course-info {
     @include media-breakpoint-up(sm) {
       display: flex;

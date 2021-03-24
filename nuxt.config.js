@@ -55,6 +55,7 @@ module.exports = {
         'faHammer',
         'faDownload',
         'faFileInvoice',
+        'faFilePdf',
         'faLink',
         'faGraduationCap',
         'faUserFriends',
