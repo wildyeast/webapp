@@ -6,7 +6,10 @@
           COVID-19 INFO ZU DEN WORKSHOPS
         </div>
         <div class="text">
-          Deine Gesundheit ist uns wichtig. Deshalb finden unsere Workshops nur statt, insofern die aktuellen COVID-Maßnahmen der Bundesregierung dies zum Zeitpunkt der Abhaltung erlauben.<br><br>
+          Deine Gesundheit ist uns wichtig. Deshalb finden unsere Workshops nur statt, insofern die aktuellen
+          COVID-Maßnahmen der Bundesregierung dies zum Zeitpunkt der Abhaltung erlauben. Im Sinn der gegenseitigen
+          Rücksichtnahme bitten wir um Verständnis, dass in der GRAND GARAGE trotz ärztlicher Maskenbefreiung
+          durchgehend ein Mund-Nasen-Schutz getragen werden muss. <br><br>
           Sollte es zu einer Absage kommen, werden dir die Workshop-Kosten selbstverständlich rückerstattet.<br><br>
           Wir freuen uns auf dich!
         </div>
