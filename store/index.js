@@ -189,6 +189,10 @@ const createStore = () => {
         const res = await connector.get('/member/invoices')
         return res.data
       },
+      async getActivities({state}) {
+        const res = await connector.get('/member/activities')
+        return res.data
+      },
       async getPDF({state}, id) {
         const res = await connector.get('/member/invoice/' + id, {
           responseType: 'arraybuffer'
