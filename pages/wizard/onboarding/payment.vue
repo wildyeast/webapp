@@ -5,12 +5,20 @@
       <div :class="['option', { selected: onboardingData.paymentFrequency === FREQS.monthly }]"
         @click="onboardingData.paymentFrequency = FREQS.monthly">
         <b>monatliche Zahlung</b>
-        <p>40EUR / Monat</p>
+        <p>
+          <template v-if="onboardingData.paymentType === 1">40</template>
+          <template v-if="onboardingData.paymentType === 2">15</template>
+          EUR / Monat
+        </p>
       </div>
       <div :class="['option', { selected: onboardingData.paymentFrequency === FREQS.annually }]"
         @click="onboardingData.paymentFrequency = FREQS.annually">
         <b>jährliche Zahlung</b>
-        <p>400EUR / Jahr</p>
+        <p>
+          <template v-if="onboardingData.paymentType === 1">400</template>
+          <template v-if="onboardingData.paymentType === 2">150</template>
+          EUR / Jahr
+        </p>
       </div>
     </div>
     <p><b>Tipp:</b> Bei jährlicher Zahlung bekommst du 2 Monate geschenkt.</p>
