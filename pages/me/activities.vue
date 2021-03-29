@@ -3,13 +3,19 @@
     <h2>Meine Aktivitäten</h2>
     <loading-spinner v-if="!activities" color="#333"></loading-spinner>
     <div class="activities" v-if="activities">
-      <div class="activity" v-for="activity of activities" :key="activity.id">
+      <div :class="['activity', { pointer: activity.invoice_id }]" v-for="activity of activities" :key="activity.id" @click="showInvoice(activity)">
         <div class="date">{{ new Date(activity.service_date).toLocaleDateString('de-AT') }}</div>
         <div class="right">
           <div class="top">
             <div class="name">{{ activity.product.external_name }}</div>
-            <div class="count">{{ activity.product_count }}x</div>
+<!--            <div class="count">{{ activity.product_count }}x</div>-->
             <div class="cost">{{ Math.round(activity.cost_brutto) }}EUR</div>
+            <div class="info" v-if="activity.invoice_id">
+              <template>
+                <span class="link">Rechnung #{{ activity.invoice_human_readable_id }}</span>
+                <div class="icon"><font-awesome-icon icon="link" /></div>
+              </template>
+            </div>
           </div>
           <div class="notes" v-if="activity.notes">{{ activity.notes }}</div>
         </div>
@@ -30,12 +36,16 @@ export default {
   async mounted () {
     this.activities = await this.$store.dispatch('getActivities')
     this.activities = this.activities.reverse()
-    console.log(this.activities[0])
   },
   methods: {
     getDate (date) {
       return new Date(date)
     },
+    showInvoice (activity) {
+      if (activity.invoice_id) {
+        this.$router.push(`invoices?id=${activity.invoice_id}`)
+      }
+    }
   }
 }
 </script>
@@ -56,7 +66,7 @@ export default {
       }
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(lg) {
       flex-direction: column;
       position: relative;
       background-color: #fafafa;
@@ -70,11 +80,22 @@ export default {
         font-size: 1.3em;
         margin-right: -1em;
       }
+      & .right {
+        margin-top: 0.4em;
+      }
       & .name {
-        font-size: 1.1em;
-        padding-bottom: 0.4em;
-        padding-top: 0.8em;
         width: 100%;
+        min-width: 7em;
+      }
+      & .info {
+        margin-top: 0.4em;
+      }
+      & .top {
+        display: flex;
+        flex-flow: column;
+      }
+      & .count {
+        min-width: 2em !important;
       }
       & .activityNumber {
         padding-bottom: 0.4em;
@@ -101,12 +122,12 @@ export default {
     & .yellow {
       color: $color-orange;
     }
-    & .count {
+    & .cost{
       min-width: 5em;
     }
     & .info {
-      padding-left: 1em;
       // text-align: right;
+      width: 100%;
       color: grey;
     }
     & .icon {
