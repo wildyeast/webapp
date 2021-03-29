@@ -16,6 +16,7 @@
           <MenuLink to="/me/credits" icon="coins">Credits</MenuLink>
           <MenuLink :isActive="$route.name.includes('invoices')" to="/me/invoices" icon="file-invoice">Rechnungen</MenuLink>
           <!-- <MenuLink to="/me/trainings">Unterweisungen</MenuLink>-->
+          <MenuLink to="/me/activities" icon="running">Aktivitäten</MenuLink>
           <MenuLink to="/me/giftcards" icon="gift">Gutscheine</MenuLink>
           <transition name="slide">
             <div class="submenu" v-if="$route.name.startsWith('me-giftcards')">

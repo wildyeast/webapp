@@ -61,6 +61,8 @@ module.exports = {
         'faUserFriends',
         'faCheckCircle',
         'faTimesCircle'
+        'faLink',
+        'faRunning'
       ]
     }
   },
