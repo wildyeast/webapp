@@ -1,18 +1,11 @@
 <template>
   <div class="login-form" @keyup.enter="submit">
     <div class="header-item">
-      <div class="space">
+      <div class="form-item space">
         <div class="headline">Login für GRAND GARAGE Mitglieder</div>
-        <div class="subtitle" @click="register">
-          Noch kein Mitglied? Hier anmelden.
-        </div>
       </div>
       <div class="close" @click="close">
-        <svg class="close-icon" viewBox="0 0 32 32">
-          <g>
-            <path d="M 5.5488281 3.8535156 A 2.0002 2.0002 0 0 0 4.15625 7.2890625 L 13.388672 16.519531 L 4.15625 25.751953 A 2.0002 2.0002 0 1 0 6.984375 28.580078 L 16.216797 19.347656 L 25.449219 28.580078 A 2.0002 2.0002 0 1 0 28.277344 25.751953 L 19.044922 16.519531 L 28.277344 7.2890625 A 2.0002 2.0002 0 0 0 26.824219 3.8554688 A 2.0002 2.0002 0 0 0 25.449219 4.4589844 L 16.216797 13.691406 L 6.984375 4.4589844 A 2.0002 2.0002 0 0 0 5.5488281 3.8535156 z " />
-          </g>
-        </svg>
+        <font-awesome-icon icon="times" />
       </div>
     </div>
     <div class="form-item">
@@ -28,6 +21,14 @@
     </div>
     <div class="form-item button-row">
       <input type="submit" @click="submit" value="Login" />
+    </div>
+    <div class="subtitle" @click="register">
+      <font-awesome-icon class="icon" icon="user-friends" />
+      <span>Mitglied werden</span>
+    </div>
+    <div class="subtitle" @click="register">
+      <font-awesome-icon class="icon" icon="key" />
+      <span>Passwort zurücksetzen</span>
     </div>
   </div>
 </template>
@@ -68,7 +69,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 @import "@/assets/scss/styles.scss";
 
 .login-form {
@@ -80,6 +81,9 @@ export default {
     & > div {
       &.space {
         flex: 1;
+        display: flex;
+        flex-flow: column;
+        align-items: flex-start;
       }
       &.close {
         margin-left: 2em;
@@ -95,16 +99,20 @@ export default {
       margin-bottom: 15px;
       font-family: $font-secondary;
     }
-    .subtitle {
-      font-size: 0.9rem;
+  }
+  .subtitle {
+    font-size: 0.9em;
+    margin-top: 0.5em;
+    font-family: $font-mono;
+    cursor: pointer;
+    & .icon {
+      width: 2em;
+    }
+    &:hover {
       color: $color-orange;
-      font-family: $font-mono;
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
-      }
     }
   }
+
   .form-item {
     padding: 0 0 18px;
     display: grid;
@@ -133,17 +141,18 @@ export default {
       display: flex;
       justify-content: flex-end;
     }
-    input[type=submit] {
+    input[type=submit], button{
       cursor: pointer;
       background-color: $color-orange;
       color: #FFF;
-      min-width: 30%;
+      min-width: 35%;
       border: 1px solid lighten($color-orange, 10);
       padding: 7px 12px 8px;
       line-height: 1;
       outline: none;
-      &:focus {
-        background-color: lighten($color-orange, 10);
+      width: 35%;
+      &:hover {
+        font-weight: bold;
       }
     }
   }

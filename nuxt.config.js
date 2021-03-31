@@ -61,7 +61,10 @@ module.exports = {
         'faUserFriends',
         'faCheckCircle',
         'faTimesCircle',
-        'faRunning'
+        'faRunning',
+        'faAngleLeft',
+        'faTimes',
+        'faKey'
       ]
     }
   },
