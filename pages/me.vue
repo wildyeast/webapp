@@ -3,8 +3,6 @@
       <div class="header">
         <h1 class="name">{{user.profile.firstName}} {{user.profile.lastName}}</h1>
         <code class="number">#{{user.profile.memberNumber}}</code>
-        <div class="spacer"></div>
-        <button @click="logout" class="logout-button">Logout</button>
       </div>
       <div class="tab-section">
         <div class="tab-section-menu">

@@ -192,20 +192,20 @@ export default {
   },
   async mounted () {
     this.id = this.$route.params.slug
+    if (this.id === 'asu') {
+      this.id = 1
+    }
     if (this.$store.state.auth) {
-      console.log('AUTH')
       this.quiz = await this.$store.dispatch('getQuiz', this.id);
       return
     }
     if (parseInt(this.id) === 1) {
-      console.log('PUBLIC ASU')
       this.isPublic = true
       this.quiz = await this.$store.dispatch('getAsu')
       console.log('quiz', this.quiz)
       return
     }
-    console.log('REDIR', typeof this.id)
-    // return this.$router.push('/')
+    return this.$router.push('/')
   }
 }
 </script>
