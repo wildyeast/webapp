@@ -1,5 +1,8 @@
 <template>
   <section class="course-slug">
+    <div v-if="!quiz" style="width: 100%; text-align: center; font-size: 2em;">
+      <loading-spinner></loading-spinner>
+    </div>
     <div v-if="quiz && !done" class="container">
       <h2 class="name">{{quiz.name}}</h2>
       <div class="separator"></div>
@@ -74,14 +77,23 @@
       <div class="result" v-if="score == 1">
         <p>Gratuliere! Du hast den Test bestanden!</p>
         <p>Als nächstes musst du nur noch den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
-        <nuxt-link to="/me/trainings">Zurück</nuxt-link>
+        <button class="input-button-primary" @click="$router.push('/me/trainings')">Zurück</button>
+      </div>
+      <div class="result" v-else-if="code">
+        <p>Gratuliere! Du hast den Test bestanden!</p>
+        <p>Dein Bestätigungscode lautet:</p>
+        <p class="code">
+          {{ code }}
+        </p>
+        <p>Mit diesem Code kannst du den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
+        <button class="input-button-primary" @click="$router.push('/')">Zurück zur Startseite</button>
       </div>
       <div class="result" v-else>
         Oje, das hat leider nicht geklappt. Bitte lies dir nochmal die Unterlagen durch.
-        <button class="input-button-primary" @click="$router.push('/me/trainings')">Zurück</button>
+        <button class="input-button-primary" @click="$router.push(isPublic ? '/course' : '/me/trainings')">Zurück</button>
       </div>
     </div>
-    <div class="reveal" v-if="quiz.slides_url">
+    <div class="reveal" v-if="quiz && quiz.slides_url">
       <div class="slides">
         <section data-background-iframe="https://slides.com/arwe/template-asu/embed" height="420"
                  data-background-interactive
@@ -111,10 +123,12 @@ export default {
       score: null,
       overview: true,
       big: true,
+      isPublic: false,
+      code: ''
     }
   },
   mixins: [storyblokLivePreview],
-  middleware: 'authenticated',
+  // middleware: 'authenticated',
   methods: {
     saveAnswer(ans) {
       let choices = [this.c1, this.c2, this.c3, this.c4];
@@ -132,15 +146,19 @@ export default {
     },
     saveQuiz() {
       let data = {
-        member_course_id: this.memberCourse.id,
+        member_course_id: this.memberCourse ? this.memberCourse.id : null,
         answers: this.answers
       };
-      this.$store.dispatch("saveQuiz", data).then((result) => {
+      const endpoint = this.isPublic ? 'savePublicQuiz' : 'saveQuiz'
+      this.$store.dispatch(endpoint, data).then((result) => {
         this.done = true;
         this.score = result.score;
-
+        if (this.isPublic) {
+          this.code = result.code
+          return
+        }
         this.$store.dispatch("getMemberCourses");
-      });
+      })
     },
     startQuiz() {
       this.overview = false;
@@ -162,11 +180,6 @@ export default {
     //   link.click()
     // }
   },
-  async asyncData(context) {
-    let courseId = context.params.slug;
-    let quiz = await context.store.dispatch('getQuiz', courseId);
-    return { id: courseId, quiz };
-  },
   computed: {
     memberCourse() {
       return this.$store.getters.getMemberCourseById(this.id);
@@ -176,10 +189,26 @@ export default {
         return this.$store.getters.getStorageUrl + this.quiz.pdf
       }
     }
+  },
+  async mounted () {
+    this.id = this.$route.params.slug
+    if (this.$store.state.auth) {
+      console.log('AUTH')
+      this.quiz = await this.$store.dispatch('getQuiz', this.id);
+      return
+    }
+    if (parseInt(this.id) === 1) {
+      console.log('PUBLIC ASU')
+      this.isPublic = true
+      this.quiz = await this.$store.dispatch('getAsu')
+      console.log('quiz', this.quiz)
+      return
+    }
+    console.log('REDIR', typeof this.id)
+    // return this.$router.push('/')
   }
 }
 </script>
-
 
 <style lang="scss" scoped>
 @import "@/assets/scss/styles.scss";
@@ -421,5 +450,15 @@ export default {
   }
   label, .image {
     pointer-events: none;
+  }
+  .code {
+    background: black;
+    color: white;
+    font-family: $font-mono;
+    font-size: 1.4em;
+    font-weight: bold;
+    width: 10em;
+    text-align: center;
+    padding: 0.5em;
   }
 </style>

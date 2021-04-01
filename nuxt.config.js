@@ -64,7 +64,8 @@ module.exports = {
         'faRunning',
         'faAngleLeft',
         'faTimes',
-        'faKey'
+        'faKey',
+        'faCircleNotch'
       ]
     }
   },

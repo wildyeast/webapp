@@ -38,6 +38,7 @@ const createStore = () => {
     },
     getters: {
       getMemberCourseById: (state) => (id) => {
+        if (!state.memberCourses) return
         return state.memberCourses.find(c => c.course_id === parseInt(id));
       },
       getStorageUrl() {
@@ -250,7 +251,22 @@ const createStore = () => {
           }
         });
       },
+      async savePublicQuiz({ state }, data) {
+        const r = await axios.post(connectorBaseUrl + '/save-public-quiz', data)
+        if (r.data.success) {
+          return r.data.data;
+        }
+      },
+      async getAsu () {
+        const r = await axios.get(connectorBaseUrl + '/get-asu')
+        if (r.data.success) {
+          return r.data.data;
+        }
+      },
       getQuiz({state}, id) {
+        if (!connector) {
+          return false
+        }
         let params = {
           course_id: id
         }
