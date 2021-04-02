@@ -7,6 +7,7 @@
         <register-form class="pane" v-else-if="sidebar === 'register'"></register-form>
         <register-success-form class="pane" v-else-if="sidebar === 'register-success'"></register-success-form>
         <recover-form class="pane" v-else-if="sidebar === 'recover'"></recover-form>
+      <recover-success-form class="pane" v-else-if="sidebar === 'recover-success'"></recover-success-form>
     </transition>
   </div>
   </transition>

@@ -17,19 +17,16 @@
               <font-awesome-icon icon="times" />
             </div>
           </div>
-          <div v-if="sent">
-            Wenn die Email-Adresse zu einem Konto gehört, erhältst du in den nächsten Minuten einen Link, um dein Passwort zurückzusetzen.
-          </div>
-          <div class="info" v-else>
+          <div class="info">
             Bitte gib deine Email-Adresse ein.
           </div>
         </div>
       </div>
-      <div class="form-item" v-if="!sent">
+      <div class="form-item">
         <span class="label">E-Mail</span>
         <input type="email" v-model="email" ref="email" placeholder="deine e-mail adresse" @input="checkMail" />
       </div>
-      <div class="form-item button-row" v-if="!sent">
+      <div class="form-item button-row">
         <button :disabled="!email.length" @click="submit">Absenden</button>
       </div>
     </div>
@@ -44,7 +41,6 @@ export default {
   data() {
     return {
       email: '',
-      sent: false,
       loading: false,
     }
   },
@@ -59,7 +55,7 @@ export default {
       }
       await this.$store.dispatch('recoverPassword', data)
       this.loading = false
-      this.sent = true
+      this.$store.dispatch('setSidebar', 'recover-success');
     },
     login() {
       this.$store.dispatch('setSidebar', 'login');

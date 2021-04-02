@@ -55,6 +55,7 @@ import LoginForm from '~/components/LoginForm.vue'
 import RegisterForm from '~/components/RegisterForm.vue'
 import RegisterSuccessForm from '~/components/RegisterSuccessForm.vue'
 import RecoverForm from '~/components/RecoverForm.vue'
+import RecoverSuccessForm from '~/components/RecoverSuccessForm.vue'
 
 import StoryBlokLink from '~/components/StoryBlokLink.vue'
 import MainNavItem from '~/components/MainNavItem.vue'
@@ -124,6 +125,7 @@ Vue.component('login-form', LoginForm)
 Vue.component('register-form', RegisterForm)
 Vue.component('recover-form', RecoverForm)
 Vue.component('register-success-form', RegisterSuccessForm)
+Vue.component('recover-success-form', RecoverSuccessForm)
 
 Vue.component('spotlight-slider', SpotlightSlider)
 Vue.component('image-gallery', ImageGallery)
