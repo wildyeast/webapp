@@ -26,7 +26,7 @@
       <font-awesome-icon class="icon" icon="user-friends" />
       <span>Mitglied werden</span>
     </div>
-    <div class="subtitle" @click="register">
+    <div class="subtitle" @click="recover">
       <font-awesome-icon class="icon" icon="key" />
       <span>Passwort zurücksetzen</span>
     </div>
@@ -51,6 +51,9 @@ export default {
     },
     register() {
       this.$store.dispatch('setSidebar', 'register');
+    },
+    recover () {
+      this.$store.dispatch('setSidebar', 'recover');
     },
     submit() {
       let data = {

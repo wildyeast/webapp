@@ -414,6 +414,17 @@ const createStore = () => {
           });
         });
       },
+      recoverPassword ({ commit }, context) {
+        return new Promise((resolve, reject) => {
+          webAuth.changePassword({
+            connection: 'Username-Password-Authentication',
+            email: context.email,
+          }, function (err, r) {
+            if (err) reject(err);
+            resolve(r);
+          });
+        });
+      },
       setSidebar({state}, value) {
         state.sidebar = value;
       },
