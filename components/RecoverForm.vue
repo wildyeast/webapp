@@ -1,5 +1,5 @@
 <template>
-  <div class="register-form">
+  <div class="recover-form">
     <div v-if="loading">
       <loading-spinner color="black"></loading-spinner>
     </div>
@@ -11,74 +11,23 @@
             <div class="back" @click="login">
               <font-awesome-icon icon="angle-left" />
             </div>
-              <span class="text">Werde GRAND GARAGE Mitglied</span>
+              <span class="text">Password zurücksetzen</span>
             </div>
             <div class="close" @click="close">
               <font-awesome-icon icon="times" />
             </div>
           </div>
           <div class="info">
-            Werde Teil einer lebendigen Community aus Kreativen, Makern und Start-ups!
-            Ob Professional oder Starter – such' dir ganz einfach die für dich passende Mitgliedschaft aus und erhalte Zugang zur GRAND GARAGE.
+            Bitte gib deine Email-Adresse ein.
           </div>
         </div>
-      </div>
-      <div class="form-item">
-        <span class="label">Vorname</span>
-        <input type="text" v-model="firstName" placeholder="Vorname" @input="checkName" />
-      </div>
-      <div class="form-item">
-        <span class="label">Nachname</span>
-        <input type="text" v-model="lastName" placeholder="Nachname" @input="checkName" />
       </div>
       <div class="form-item">
         <span class="label">E-Mail</span>
-        <input type="text" v-model="email" ref="email" placeholder="deine e-mail adresse" @input="checkMail" />
-      </div>
-      <div class="form-item">
-        <span class="label">Passwort</span>
-        <div class="password-wrapper">
-          <input type="password" v-model="password" placeholder="" @input="checkPassword" />
-          <div v-if="!passwordValid" class="form-item password-status">
-          </div>
-        </div>
-      </div>
-      <div class="form-item">
-        <span class="label">Passwort (wiederholen)</span>
-        <input type="password" v-model="passwordRepeat" placeholder="" />
-        <div class="password-error">
-          <span class="bad" v-if="!passwordValid">Passwörter stimmen nicht überein</span>
-        </div>
-      </div>
-      <div class="checkbox-item">
-        <div class="checkbox-wrapper">
-          <input type="checkbox" id="agb" v-model="agb" />
-        </div>
-        <label for="agb">Ich habe die <nuxt-link target="_blank" to="/de/agb">Teilnahmebedingungen / AGB</nuxt-link> gelesen und bin damit einverstanden.</label>
-      </div>
-      <div class="checkbox-item">
-        <div class="checkbox-wrapper">
-          <input type="checkbox" id="dsg" v-model="dsg" />
-        </div>
-        <label for="dsg">Ich habe die <nuxt-link target="_blank" to="/de/datenschutzerklaerung">Datenschutzerklärung</nuxt-link> gelesen und bin damit einverstanden.</label>
-      </div>
-      <!--
-      <div class="checkbox-item">
-        <div class="checkbox-wrapper">
-          <input type="checkbox" id="newsletter" v-model="newsletter" />
-        </div>
-        <label for="newsletter">Ich bin damit einverstanden, Newsletter an meine angegebene E-Mail Adresse zu erhalten.</label>
-      </div>
-      -->
-      <div class="form-item error-message" v-if="errorMessage">
-        <span></span>
-        <div>
-          <span>{{errorMessage}}</span>
-          <markdown class="policy" v-if="errorDescription" :value="errorDescription"></markdown>
-        </div>
+        <input type="email" v-model="email" ref="email" placeholder="deine e-mail adresse" @input="checkMail" />
       </div>
       <div class="form-item button-row">
-        <button :disabled="!formValid" @click="submit">Registrieren</button>
+        <button :disabled="!email.length" @click="submit">Absenden</button>
       </div>
     </div>
   </div>
@@ -86,80 +35,27 @@
 
 <script>
 import _ from 'lodash';
-import validator from 'validator';
 
 export default {
   props: ['blok'],
   data() {
     return {
       email: '',
-      password: '',
-      passwordRepeat: '',
-      firstName: '',
-      lastName: '',
-      agb: false,
-      dsg: false,
-      newsletter: false,
-      errorMessage: null,
-      errorDescription: '',
       loading: false,
-    }
-  },
-  computed: {
-    passwordValid() {
-      return this.password === this.passwordRepeat;
-    },
-    emailValid() {
-      return validator.isEmail(this.email);
-    },
-    formValid() {
-      return this.passwordValid && this.emailValid && this.agb && this.dsg && this.firstName && this.lastName;
-    },
-    showEmailError() {
-      return this.email !== '';
-    },
-    showPasswordError() {
-      return this.password !== '';
     }
   },
   methods: {
     close() {
       this.$store.dispatch('setSidebar', null);
     },
-    submit() {
+    async submit () {
       this.loading = true;
       let data = {
         email: this.email,
-        password: this.password,
-        user_metadata: {
-          firstName: this.firstName,
-          lastName: this.lastName,
-        }
       }
-      this.$store.dispatch('registerUser', data).then((r) => {
-        this.loading = false;
-        this.$store.dispatch('setSidebar', 'register-success');
-      }).catch((e) => {
-        this.loading = false;
-        if (e.error) {
-          this.errorMessage = 'Ein Fehler ist aufgetreten: "' + e.error + '"';
-          return;
-        }
-        if (e.code) {
-          switch (e.code) {
-            case 'user_exists':
-              this.errorMessage = 'Der User Existiert bereits';
-              break;
-            case 'invalid_password':
-              this.errorMessage = 'Das Passwort ist zu schwach.';
-              this.errorDescription = e.policy;
-              break;
-            default:
-              this.errorMessage = 'Ein Fehler ist aufgetreten: "' + e.code + '"';
-              break;
-          }
-        }
-      });
+      await this.$store.dispatch('recoverPassword', data)
+      this.loading = false
+      this.$store.dispatch('setSidebar', 'recover-success');
     },
     login() {
       this.$store.dispatch('setSidebar', 'login');
@@ -184,15 +80,19 @@ export default {
 <style lang="scss">
 @import "@/assets/scss/styles.scss";
 
-.register-form {
+.recover-form {
   padding: 5vw;
   background-color: $color-bright-bg;
+  width: 35em;
   .header-item {
     display: flex;
     margin-bottom: 40px;
     & > div {
       .back, .close {
         display: inline-flex;
+      }
+      .close {
+        margin-left: 6em;
       }
       .back:hover, .close:hover {
         color: $color-orange;

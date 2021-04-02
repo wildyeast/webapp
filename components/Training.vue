@@ -30,10 +30,10 @@ export default {
 .training-item {
   margin-bottom: 5px;
   background-color: #FFF;
-  padding: 0 10px;
+  margin-right: 1em;
+  margin-bottom: 1em;
   .body {
     padding: 10px 0;
-    color: $color-orange;
     display: flex;
     .content {
       flex: 1;

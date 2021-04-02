@@ -1,32 +1,48 @@
 <template>
-  <div class="training-item" v-if="course">
+  <div v-if="course && memberCourse"
+       :class="['training-item', { clickable: !memberCourse.is_valid }]"
+       ref="trainingItem"
+       @click="takeQuiz">
+    <div class="spinnerContainer" v-if="isLoading">
+      <loading-spinner color="white" />
+    </div>
     <div class="body">
       <div class="content">
-        <span class="course-heading"><b>{{course.name}}</b></span>
-      <!--</div>-->
-      <div class="course-info" v-if="!memberCourse">
-        <button class="input-button-primary" @click="startCourse">Kurs starten</button>
-      </div>
-      <!--<div v-else class="info">-->
-        <div class="course-info"><span>gestartet am: {{createdDate}}</span></div>
-        <div class="course-info"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
-          <span>Praxistest: </span>
-          <img v-if="memberCourse.manual_activation == 0" src="~/assets/img/icons/times-solid.svg" class="status-course">
-          <img v-if="memberCourse.manual_activation != 0" src="~/assets/img/icons/check-solid.svg" class="status-course"></div>
-        <div class="course-info"><!--<span>Online-Quiz: {{!!memberCourse.is_valid}}</span>-->
-          <span>Online-Quiz: </span>
-          <img v-if="memberCourse.is_valid == 0" src="~/assets/img/icons/times-solid.svg" class="status-course">
-          <img v-if="memberCourse.is_valid != 0" src="~/assets/img/icons/check-solid.svg" class="status-course">
-          <p v-if="memberCourse.is_valid != 0 && memberCourse.manual_activation == 0">Als nächstes musst du nur noch den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
-          <p v-if="memberCourse.is_valid != 0 && memberCourse.manual_activation != 0" style="color: green"> Der Kurs ASU ist abgeschlossen</p>
-
+        <div class="top">
+          <span class="course-heading"><b>{{ course.name }}</b></span>
         </div>
-        <div v-if="!memberCourse.is_valid" class="course-info">
-          <button class="input-button-primary" @click="takeQuiz">Quiz starten</button>
+        <div class="bottom">
+          <div class="course-info" v-if="!memberCourse">
+            <button class="input-button-primary" @click="startCourse">Kurs starten</button>
+          </div>
+          <!--<div v-else class="info">-->
+<!--          <div class="course-info"><span>gestartet am: {{ createdDate }}</span></div>-->
+          <div class="status" v-if="!(memberCourse.manual_activation && memberCourse.is_valid)"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
+            <div class="left">
+              <font-awesome-icon class="green" v-if="memberCourse.is_valid" icon="check-circle" />
+              <font-awesome-icon class="grey" v-else icon="times-circle" />
+              <span>Online-Quiz</span>
+            </div>
+            <div class="right">
+              <font-awesome-icon class="green" v-if="memberCourse.manual_activation" icon="check-circle" />
+              <font-awesome-icon class="grey" v-else icon="times-circle" />
+              <span>Praxistest</span>
+            </div>
+          </div>
+          <div v-if="memberCourse.is_valid" class="course-info">
+            <div v-if="memberCourse.manual_activation" class="success">
+              <font-awesome-icon icon="check-circle" />
+              <div>Abgeschlossen</div>
+            </div>
+            <div v-else>Als nächstes musst du nur noch
+              den Kurs von einem Host oder am Frontdesk freischalten lassen.
+            </div>
+          </div>
+          <div v-else>
+            <div class="startButton"><div>Quiz starten</div></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="footer">
     </div>
   </div>
 </template>
@@ -34,124 +50,201 @@
 <script>
 export default {
   props: ['course'],
+  data: () => ({
+    isLoading: false
+  }),
+  computed: {
+    memberCourse() {
+      return this.$store.getters.getMemberCourseById(this.course.id);
+    },
+  },
+  mounted() {
+    // TODO check if I have permission
+    this.getImage()
+  },
   methods: {
+    async getImage () {
+      const quiz = await this.$store.dispatch('getQuiz', this.course.id);
+      for (const question of quiz.quiz_questions) {
+        if (question.imagePath.toLowerCase().endsWith('jpeg')) {
+          this.$refs.trainingItem.style.backgroundImage = `url(${question.imagePath})`
+          return
+        }
+      }
+    },
     takeQuiz() {
-      this.$router.push({ path: `/course/${this.course.id}` });
+      if (this.memberCourse.is_valid) {
+        return
+      }
+      this.isLoading = true
+      this.$router.push({path: `/course/${this.course.id}`});
     },
     startCourse() {
-      this.$store.dispatch("startCourse", { course_id: this.course.id }).then((memberCourse) => {
+      this.$store.dispatch("startCourse", {course_id: this.course.id}).then((memberCourse) => {
         this.$store.dispatch("getMemberCourses").then(() => {
           this.takeQuiz();
         });
       });
     }
   },
-  computed: {
-    memberCourse() {
-      console.log(this.$store.getters.getMemberCourseById(this.course.id));
-      return this.$store.getters.getMemberCourseById(this.course.id);
-    },
-    createdDate() {
-      return new Date(this.memberCourse.created_at).toLocaleDateString("de-at");
-    },
-    updatedDate() {
-      return new Date(this.memberCourse.updated_at).toLocaleDateString("de-at");
-    }
-  }
 }
 </script>
 
 <style lang="scss">
 @import '@/assets/scss/styles.scss';
+
 .training-item {
-  background-color: #FFF;
-  border: 1px solid #ff8c33;
-  border-radius: 5px;
-  padding: 0 10px;
-  @include media-breakpoint-up(sm) {
-    float: left;
-    margin: 20px 20px;
-    padding: 0 10px;
-    padding-top: 20px;
-    width: 33%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 20em;
+  height: 24em;
+  position: relative;
+  border: 1px solid black;
+  & .spinnerContainer {
+    position: absolute;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
   }
-  @include media-breakpoint-down(sm) {
-    padding: 10px 20px;
-  }
+
+
   .body {
-    padding: 10px 0;
-    color: $color-orange;
     // display: flex;
-    @include media-breakpoint-down(sm) {
-      display: block;
-    }
     .content {
       flex: 1;
     }
+    .status {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
+      font-family: $font-mono;
+      border-top: 1px solid black;
+      padding: 1em;
+      & .green {
+        color: darkgreen;
+      }
+      & .grey {
+        color: grey;
+      }
+    }
+
+    .bottomText {
+      width: 100%;
+      background: black;
+      color: white;
+      height: 5.7rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em;
+      font-family: $font-mono;
+    }
+
+
+    .startButton {
+      @extend .bottomText;
+    }
+
     .course-info {
-      padding: 10px;
-      @include media-breakpoint-down(sm) {
-        padding: 10px 0;
-      }
+      @extend .bottomText;
+      background: white;
+      color: black;
+      padding: 1em;
+      font-size: 1rem;
+      border-top: 1px solid black;
     }
+
     .course-heading {
-      padding: 10px 10px;
-      @include media-breakpoint-down(sm) {
-        padding: 10px 0;
+      background: white;
+      font-size: 1.5em;
+      font-family: $font-mono;
+    }
+
+    .success {
+      @extend .bottomText;
+      color: darkgreen;
+      background: white;
+      height: 100%;
+      margin-top: 2em;
+      & :first-child {
+        font-size: 1.7em;
+        margin-right: -0.3em;
+        margin-right: 0.3em;
       }
     }
   }
-  .footer {
-    font-size: 0.8em;
-    padding: 5px 0;
-    color: #333;
+  .top {
+    padding: 1em;
+    line-height: 1.8em;
   }
+
+  .bottom {
+    background: white;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    bottom: 0;
+    height: 8.4em;
+    width: 100%;
+  }
+
+  .input-button-primary {
+    cursor: pointer;
+    background-color: #ff6f00;
+    color: #FFF;
+    border: 1px solid #ff8c33;
+    padding: 7px 12px 8px;
+    line-height: 1;
+    outline: none;
+    align-self: center;
+    margin-top: 20px;
+    /*@include media-breakpoint-up(sm) {
+      position: absolute;
+      left: 48%;
+      right: 45%;
+    }
+    @include media-breakpoint-down(sm) {
+      position: absolute;
+      left: 38%;
+      right: 33%;
+    }*/
+  }
+
+  .input-button-primary:disabled {
+    cursor: default;
+    background-color: grey;
+    border: 1px solid darkgrey;
+  }
+
+  .input-button-primary:hover {
+    color: black;
+  }
+
+  .input-button-back {
+    @extend .input-button-primary;
+  }
+
+  .input-button-payment {
+    @extend .input-button-primary;
+    font-weight: bold;
+    // background-color: #ff4400;
+  }
+
 }
-  .status-course {
-    float: right;
-    width: 5%;
-  }
-.info {
-  @include media-breakpoint-up(sm) {
-    flex: 1;
-    width: 25%;
-  }
-}
-.input-button-primary {
+
+.clickable {
   cursor: pointer;
-  background-color: #ff6f00;
-  color: #FFF;
-  border: 1px solid #ff8c33;
-  padding: 7px 12px 8px;
-  line-height: 1;
-  outline: none;
-  align-self: center;
-  margin-top: 20px;
-  /*@include media-breakpoint-up(sm) {
-    position: absolute;
-    left: 48%;
-    right: 45%;
-  }
-  @include media-breakpoint-down(sm) {
-    position: absolute;
-    left: 38%;
-    right: 33%;
-  }*/
 }
-.input-button-primary:disabled {
-  cursor: default;
-  background-color: grey;
-  border: 1px solid darkgrey;
+
+.training-item:hover .startButton {
+  border-top: 1px solid white;
+  background: $color-orange;
 }
-.input-button-primary:hover {
-  color: black;
-}
-.input-button-back {
-  @extend .input-button-primary;
-}
-.input-button-payment {
-  @extend .input-button-primary;
-  font-weight: bold;
-  // background-color: #ff4400;
-}
+
 </style>

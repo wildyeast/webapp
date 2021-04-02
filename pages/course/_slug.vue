@@ -1,16 +1,25 @@
 <template>
   <section class="course-slug">
+    <div v-if="!quiz" style="width: 100%; text-align: center; font-size: 2em;">
+      <loading-spinner></loading-spinner>
+    </div>
     <div v-if="quiz && !done" class="container">
       <h2 class="name">{{quiz.name}}</h2>
       <div class="separator"></div>
       <div class="overview" v-if="overview">
         <div class="">
-        <p class="directions">Lies dir zuerst die Folien durch und beantworte dann die Fragen:</p>
+          <p class="directions">Lies dir zuerst {{ quiz.slides_url ? 'die Folien' : 'das Dokument' }} durch und beantworte dann die Fragen:</p>
           <p v-if="quiz.description">{{quiz.description}}</p>
-          <p class="directions" v-if="!quiz.slides_url.includes('slides')"><a :href="quiz.slides_url" target="_blank"  @click="showSlides">zu den Folien</a></p>
         </div>
-        <div class="course-slides">
+        <div class="course-slides" v-if="quiz.slides_url">
+<!--          <p class="directions" v-if="!quiz.slides_url.includes('slides')"><a :href="quiz.slides_url" target="_blank"  @click="showSlides">zu den Folien</a></p>-->
           <iframe v-if="" :src="quiz.slides_url" width="800" height="600" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+        <div style="height: 2em;" v-if="quiz.slides_url && quiz.pdf" />
+        <div class="course-pdf" v-if="quiz.pdf">
+          <font-awesome-icon icon="file-pdf" />
+          <a :href="pdfUrl">
+            PDF mit Kursunterlagen</a>
         </div>
       </div>
       <div class="quiz">
@@ -23,31 +32,31 @@
             </div>
           </div>
           <div class="answers">
-            <div class="answer">
+            <div class="answer" @click="c1 = !c1">
               <input type="checkbox" v-model="c1" name="" id="choice1"/>
               <label for="choice1">
-                <img v-if="q.choice1ImagePath != undefined " :src="q.choice1ImagePath" alt=""/>
+                <img class="image" v-if="q.choice1ImagePath " :src="q.choice1ImagePath" :alt="`Bild für Antwort ${1}`"/>
                 <div class="answer-text">{{q.choice_1_text}}</div>
               </label>
             </div>
-            <div class="answer">
+            <div class="answer" @click="c2 = !c2">
               <input type="checkbox" v-model="c2" name="" id="choice2"/>
-              <label for="choice2">
-                <img v-if="q.choice2ImagePath != undefined " :src="q.choice2ImagePath" alt=""/>
+              <label>
+                <img class="image" v-if="q.choice2ImagePath" :src="q.choice2ImagePath" :alt="`Bild für Antwort ${2}`"/>
                 <div class="answer-text">{{q.choice_2_text}}</div>
               </label>
             </div>
-            <div class="answer">
+            <div class="answer" @click="c3 = !c3">
               <input type="checkbox" v-model="c3" name="" id="choice3"/>
               <label for="choice3">
-                <img v-if="q.choice3ImagePath != undefined " :src="q.choice3ImagePath" alt=""/>
+                <img class="image" v-if="q.choice3ImagePath" :src="q.choice3ImagePath" :alt="`Bild für Antwort ${3}`"/>
                 <div class="answer-text">{{q.choice_3_text}}</div>
               </label>
             </div>
-            <div class="answer">
+            <div class="answer" @click="c4 = !c4">
               <input type="checkbox" v-model="c4" name="" id="choice4"/>
               <label for="choice4">
-                <img v-if="q.choice4ImagePath != undefined " :src="q.choice4ImagePath" alt=""/>
+                <img class="image" v-if="q.choice4ImagePath" :src="q.choice4ImagePath" :alt="`Bild für Antwort ${4}`"/>
                 <div class="answer-text">{{q.choice_4_text}}</div>
               </label>
             </div>
@@ -56,9 +65,9 @@
         </div>
         <button @click="startQuiz" class="input-button-primary" v-if="overview">Los geht's</button>
         <div v-if="activeQuestion >= quiz.quiz_questions.length" class="quizDone">
-          Well done! Alle Fragen beantwortet.
+          Du hast alle Fragen beantwortet!
           <p></p>
-          <button @click="saveQuiz()" class="input-button-primary">Antworten absenden</button>
+          <button @click="saveQuiz" class="input-button-primary">Antworten absenden</button>
         </div>
       </div>
     </div>
@@ -66,19 +75,25 @@
       <h2 class="name">{{quiz.name}}</h2>
       <div class="separator"></div>
       <div class="result" v-if="score == 1">
-        <p>Gratuliere! Du hast den Test bestanden! <img src="~/assets/img/icons/check-solid.svg" class="done"></p>
+        <p>Gratuliere! Du hast den Test bestanden!</p>
         <p>Als nächstes musst du nur noch den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
-        <nuxt-link to="/me/trainings">Zurück</nuxt-link>
+        <button class="input-button-primary" @click="$router.push('/me/trainings')">Zurück</button>
+      </div>
+      <div class="result" v-else-if="code">
+        <p>Gratuliere! Du hast den Test bestanden!</p>
+        <p>Dein Bestätigungscode lautet:</p>
+        <p class="code">
+          {{ code }}
+        </p>
+        <p>Mit diesem Code kannst du den Kurs von einem Host oder am Frontdesk freischalten lassen.</p>
+        <button class="input-button-primary" @click="$router.push('/')">Zurück zur Startseite</button>
       </div>
       <div class="result" v-else>
-        Oje, das hat leider nicht geklappt. Bitte lese dir nochmal die Unterlagen durch.
-        <a :href="quiz.slides_url" target="_blank">zu den Folien</a>
-        <br>
-        <nuxt-link to="/me/trainings">Zurück</nuxt-link>
+        Oje, das hat leider nicht geklappt. Bitte lies dir nochmal die Unterlagen durch.
+        <button class="input-button-primary" @click="$router.push(isPublic ? '/course' : '/me/trainings')">Zurück</button>
       </div>
     </div>
-
-    <div class="reveal">
+    <div class="reveal" v-if="quiz && quiz.slides_url">
       <div class="slides">
         <section data-background-iframe="https://slides.com/arwe/template-asu/embed" height="420"
                  data-background-interactive
@@ -90,8 +105,8 @@
 
 <script>
 import storyblokLivePreview from '@/mixins/storyblokLivePreview'
-import Reveal from 'reveal.js';
-import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
+// import Reveal from 'reveal.js';
+// import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
 
 export default {
   data () {
@@ -108,13 +123,12 @@ export default {
       score: null,
       overview: true,
       big: true,
+      isPublic: false,
+      code: ''
     }
   },
   mixins: [storyblokLivePreview],
-  middleware: 'authenticated',
-  created() {
-    console.log(this.quiz);
-  },
+  // middleware: 'authenticated',
   methods: {
     saveAnswer(ans) {
       let choices = [this.c1, this.c2, this.c3, this.c4];
@@ -132,49 +146,72 @@ export default {
     },
     saveQuiz() {
       let data = {
-        member_course_id: this.memberCourse.id,
+        member_course_id: this.memberCourse ? this.memberCourse.id : null,
         answers: this.answers
       };
-      this.$store.dispatch("saveQuiz", data).then((result) => {
-        console.log("result ");
-        console.log(result);
+      const endpoint = this.isPublic ? 'savePublicQuiz' : 'saveQuiz'
+      this.$store.dispatch(endpoint, data).then((result) => {
         this.done = true;
         this.score = result.score;
-
+        if (this.isPublic) {
+          this.code = result.code
+          return
+        }
         this.$store.dispatch("getMemberCourses");
-      });
+      })
     },
     startQuiz() {
       this.overview = false;
     },
     showSlides(){
-      if(this.quiz.slides_url.includes('slides')){
-        let deck = new Reveal( {
-          plugins: [ Markdown ]
-        })
-        deck.initialize();
-      }
+      // if(this.quiz.slides_url.includes('slides')){
+        // let deck = new Reveal( {
+        //   plugins: [ Markdown ]
+        // })
+        // deck.initialize();
+      // }
     },
-  },
-  async asyncData(context) {
-    let courseId = context.params.slug;
-    let quiz = await context.store.dispatch('getQuiz', courseId);
-    return { id: courseId, quiz };
+    // async getPdf () {
+    //   const res = await this.$store.dispatch('getCoursePDF', `/storage/${this.quiz.pdf}`)
+    //   const blob = new Blob([res.data], { type: 'application/pdf' });
+    //   const link = document.createElement('a')
+    //   link.download = this.quiz.name + '.pdf'
+    //   link.href = URL.createObjectURL(blob)
+    //   link.click()
+    // }
   },
   computed: {
     memberCourse() {
-      return this.$store.getters.getMemberCourseById(Number(this.id));
+      return this.$store.getters.getMemberCourseById(this.id);
+    },
+    pdfUrl () {
+      if (this.quiz && this.quiz.pdf) {
+        return this.$store.getters.getStorageUrl + this.quiz.pdf
+      }
     }
   },
-  mounted() {
+  async mounted () {
+    this.id = this.$route.params.slug
+    if (this.id === 'asu') {
+      this.id = 1
+    }
+    if (this.$store.state.auth) {
+      this.quiz = await this.$store.dispatch('getQuiz', this.id);
+      return
+    }
+    if (parseInt(this.id) === 1) {
+      this.isPublic = true
+      this.quiz = await this.$store.dispatch('getAsu')
+      return
+    }
+    return this.$router.push('/')
   }
 }
 </script>
 
-
 <style lang="scss" scoped>
 @import "@/assets/scss/styles.scss";
-@import "node_modules/reveal.js/dist/reveal.css";
+//@import "node_modules/reveal.js/dist/reveal.css";
 
 
 .course-slug {
@@ -204,7 +241,7 @@ export default {
     z-index: -1;
   }
   .directions {
-    margin-top: 40px;
+    margin: 4em;
   }
 /*  .slides {
     height: 1%;
@@ -238,10 +275,14 @@ export default {
     .answers {
       display: flex;
       justify-content: space-evenly;
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(lg) {
         flex-direction: column;
       }
+      @include media-breakpoint-up(sm) {
+        align-items: center;
+      }
       .answer {
+        cursor: pointer;
         background-color: #FFFFFF;
         border: 1px solid #FFFFFF;
         border-radius: 5%;
@@ -260,6 +301,8 @@ export default {
           display: flex;
           flex-direction: column;
           align-items: center;
+          margin-left: auto;
+          margin-right: auto;
           img {
             box-shadow: 5px 3px 5px #d3d3d3;
             margin-bottom: 25px;
@@ -272,7 +315,7 @@ export default {
         }
         .answer-text {
           text-align: center;
-          padding: 10px 20px;
+          padding: 10px 20px 10px 20px;
         }
       }
     }
@@ -294,9 +337,12 @@ export default {
     outline: none;
     width: 5%;
     align-self: center;
-    @include media-breakpoint-down(sm) {
-      width: 17%;
+    @include media-breakpoint-down(lg) {
+      width: 20%;
     }
+  }
+  .weiter:hover {
+    font-weight: bold;
   }
   .done {
     height: 1%;
@@ -304,9 +350,8 @@ export default {
   }
 }
   .quiz {
-    @include media-breakpoint-down(sm) {
-      margin-top: 50px;
-    }
+    text-align: center;
+    margin-top: 50px;
   }
 
   .quizDone {
@@ -322,11 +367,17 @@ export default {
   .wellDone {
     flex-direction: column;
     display: flex;
+    aligin-items: center;
+    justify-content: center;
     @include media-breakpoint-down(sm) {
       padding: 20px;
     }
     .result {
-      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin: 4em;
     }
   }
 
@@ -355,6 +406,15 @@ export default {
     }
   }
 
+  .course-pdf {
+    color: $color-orange;
+    & a {
+      margin-left: 0.5em;
+    }
+    & a:hover {
+      text-decoration: underline;
+    }
+  }
   .course-info {
     @include media-breakpoint-up(sm) {
       display: flex;
@@ -373,19 +433,31 @@ export default {
     outline: none;
     align-self: center;
     margin-top: 20px;
-    /*@include media-breakpoint-up(sm) {
-      position: absolute;
-      left: 48%;
-      right: 45%;
-    }
     @include media-breakpoint-down(sm) {
-      position: absolute;
-      left: 38%;
-      right: 33%;
-    }*/
+      float: right;
+    }
+  }
+  .input-button-primary:hover {
+    font-weight: bold;
   }
   .quiz-description {
     text-align: center;
     margin-bottom: 20px;
+  }
+  .overview {
+    text-align: center;
+  }
+  label, .image {
+    pointer-events: none;
+  }
+  .code {
+    background: black;
+    color: white;
+    font-family: $font-mono;
+    font-size: 1.4em;
+    font-weight: bold;
+    width: 10em;
+    text-align: center;
+    padding: 0.5em;
   }
 </style>

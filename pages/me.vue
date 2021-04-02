@@ -3,14 +3,14 @@
       <div class="header">
         <h1 class="name">{{user.profile.firstName}} {{user.profile.lastName}}</h1>
         <code class="number">#{{user.profile.memberNumber}}</code>
-        <div class="spacer"></div>
-        <button @click="logout" class="logout-button">Logout</button>
       </div>
       <div class="tab-section">
         <div class="tab-section-menu">
           <MenuLink to="/me/" icon="user">Mein Profil</MenuLink>
-          <MenuLink to="/me/packages" icon="cube">Packages</MenuLink>
+          <MenuLink v-if="isMember" to="/me/packages" icon="cube">Packages</MenuLink>
+<!--          <MenuLink v-if="!isMember && !hasCompletedOnboarding" to="/wizard/onboarding" icon="user-friends"><span class="fat">Mitglied werden!</span></MenuLink>-->
           <MenuLink to="/me/workshopBookings" icon="hammer">Meine Workshops</MenuLink>
+<!--          <MenuLink to="/me/trainings" icon="graduation-cap">Einschulungen</MenuLink>-->
           <MenuLink to="/me/credits" icon="coins">Credits</MenuLink>
           <MenuLink :isActive="$route.name.includes('invoices')" to="/me/invoices" icon="file-invoice">Rechnungen</MenuLink>
           <!-- <MenuLink to="/me/trainings">Unterweisungen</MenuLink>-->
@@ -39,18 +39,20 @@ export default {
   components: { MenuLink },
   data () {
     return {
+      hasCompletedOnboarding: true
     }
   },
   created() {
   },
-  mounted () {
-    window.scrollTo(0, 0);
+  async mounted () {
+    this.hasCompletedOnboarding = await this.$store.dispatch('hasCompletedOnboarding')
   },
   methods: {
     getPackage(p) {
       let data = this.$store.getters.getPackageById(p.package);
       return { ...p, ...data };
     },
+
     getWorkshops(){
       // let data = this.$store.getters.getMemberCourseById(p);
     },
@@ -64,6 +66,9 @@ export default {
     user() {
       return this.$store.state.user;
     },
+    isMember () {
+      return this.$store.state.user.packages.length > 0;
+    }
   }
 }
 </script>
@@ -138,6 +143,10 @@ export default {
         padding: 0 15px;
       }
     }
+  }
+  .fat {
+    color: $color-blue-alt;
+    font-weight: bolder;
   }
 }
 </style>

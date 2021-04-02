@@ -14,7 +14,8 @@ let webAuth = new auth0.WebAuth({
   redirectUri: origin + '/auth'
 });
 
-const connectorBaseUrl = process.env.NUXT_ENV_API === 'local' ? 'https://connector.127.0.0.1.nip.io/api' : 'https://connector.grandgarage.eu/api'
+const baseUrl = process.env.NUXT_ENV_API === 'local' ? 'https://connector.127.0.0.1.nip.io' : 'https://connector.grandgarage.eu '
+const connectorBaseUrl = baseUrl + '/api'
 
 let connector;
 
@@ -33,11 +34,21 @@ const createStore = () => {
       fabman: null,
       courses: null,
       memberCourses: null,
-      workshops: null,
+      workshops: null
     },
     getters: {
       getMemberCourseById: (state) => (id) => {
-        return state.memberCourses.find(c => c.course_id === id);
+        if (!state.memberCourses) return
+        return state.memberCourses.find(c => c.course_id === parseInt(id));
+      },
+      getStorageUrl() {
+        return baseUrl + '/storage/'
+      },
+      getCourses: (state) => () => {
+        return state.courses
+      },
+      getMemberCourses: (state) => () => {
+        return state.memberCourses
       },
       getMemberWorkshopsById: (state) => (id) => {
         return state.workshops.find(w => w.content.workshop.uuid === id);
@@ -204,7 +215,6 @@ const createStore = () => {
         return res
       },
       getInvoiceDocument({commit, dispatch, state}, id) {
-        console.log(id);
         let instance;
         if (state.auth || getUserFromLocalStorage()) {
           // renew Token
@@ -231,7 +241,6 @@ const createStore = () => {
               }
             });
           }).then((r) => {
-            console.log(r);
           });
         }
       },
@@ -242,7 +251,22 @@ const createStore = () => {
           }
         });
       },
+      async savePublicQuiz({ state }, data) {
+        const r = await axios.post(connectorBaseUrl + '/save-public-quiz', data)
+        if (r.data.success) {
+          return r.data.data;
+        }
+      },
+      async getAsu () {
+        const r = await axios.get(connectorBaseUrl + '/get-asu')
+        if (r.data.success) {
+          return r.data.data;
+        }
+      },
       getQuiz({state}, id) {
+        if (!connector) {
+          return false
+        }
         let params = {
           course_id: id
         }
@@ -357,6 +381,14 @@ const createStore = () => {
           }
         });
       },
+      async startOnboarding ({ commit }, data) {
+        const res = await connector.post('/member/startOnboarding', data)
+        return res.data
+      },
+      async hasCompletedOnboarding () {
+        const res = await connector.get('/member/hasCompletedOnboarding')
+        return res.data
+      },
       loginUser({commit}, context) {
         return new Promise((resolve, reject) => {
           webAuth.login({
@@ -376,6 +408,17 @@ const createStore = () => {
             email: context.email,
             password: context.password,
             user_metadata: context.user_metadata,
+          }, function (err, r) {
+            if (err) reject(err);
+            resolve(r);
+          });
+        });
+      },
+      recoverPassword ({ commit }, context) {
+        return new Promise((resolve, reject) => {
+          webAuth.changePassword({
+            connection: 'Username-Password-Authentication',
+            email: context.email,
           }, function (err, r) {
             if (err) reject(err);
             resolve(r);

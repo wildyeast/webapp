@@ -3,9 +3,11 @@
   <div class="sidebar" v-if="sidebar">
     <div class="backdrop" @click="close"></div>
     <transition name="slide" appear>
-        <login-form class="pane" v-if="sidebar == 'login'"></login-form>
-        <register-form class="pane" v-else-if="sidebar == 'register'"></register-form>
-        <register-success-form class="pane" v-else-if="sidebar == 'register-success'"></register-success-form>
+        <login-form class="pane" v-if="sidebar === 'login'"></login-form>
+        <register-form class="pane" v-else-if="sidebar === 'register'"></register-form>
+        <register-success-form class="pane" v-else-if="sidebar === 'register-success'"></register-success-form>
+        <recover-form class="pane" v-else-if="sidebar === 'recover'"></recover-form>
+      <recover-success-form class="pane" v-else-if="sidebar === 'recover-success'"></recover-success-form>
     </transition>
   </div>
   </transition>

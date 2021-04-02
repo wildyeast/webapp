@@ -55,8 +55,18 @@ module.exports = {
         'faHammer',
         'faDownload',
         'faFileInvoice',
+        'faFilePdf',
         'faLink',
-        'faRunning'
+        'faGraduationCap',
+        'faUserFriends',
+        'faCheckCircle',
+        'faTimesCircle',
+        'faRunning',
+        'faAngleLeft',
+        'faTimes',
+        'faKey',
+        'faCircleNotch',
+        'faSignOutAlt'
       ]
     }
   },

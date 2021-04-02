@@ -1,35 +1,21 @@
 <template>
   <div class="section">
     <div>
-      <h2>Unterweisungen</h2>
-      <ul class="item-list" v-if="courses">
-        <li v-for="c in courses"><course :course="c" /></li>
-      </ul>
-      <div v-else>
+      <h2>Einschulungen</h2>
+      <div class="courseContainer">
+        <Course v-for="course of courses" :course="course" :key="course.id" />
       </div>
     </div>
-    <div>
-    <h2>Fabman Trainings</h2>
-    <ul class="item-list" v-if="user.trainings && user.trainings.length > 0">
-      <li v-for="t in user.trainings"><training :userTraining="t" /></li>
-    </ul>
-    <div v-else>
-      <code>Noch keine Trainings vorhanden</code>
-      <div class="link-with-arrow">
-        <div class="link-text">
-          <div class="link-arrow">
-          </div>
-          <Nuxt-Link to="/de/workshops">Zu den Workshops</Nuxt-Link>
-        </div>
-      </div>
-    </div>
-  </div>
   </div>
 </template>
 
 <script>
+import Course from "@/components/Course";
 export default {
   middleware: 'authenticated',
+  components: {
+    Course
+  },
   data () {
     return {}
   },
@@ -56,6 +42,10 @@ export default {
 .section {
   display: flex;
   flex-direction: column;
+}
+.courseContainer {
+  display: flex;
+  flex-wrap: wrap;
 }
 .link-with-arrow {
   .link-text {

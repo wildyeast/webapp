@@ -2,9 +2,15 @@
   <div class="header-wrapper" :class="{ 'scrolled': scrolled }">
     <div class="login-header" v-if="hasAuth">
       <div class="login-header-content">
-        <nuxt-link to="/me" v-if="hasUser">
-          {{username}}
-        </nuxt-link>
+        <template v-if="hasUser">
+          <nuxt-link class="me" to="/me">
+            <font-awesome-icon icon="user" style="margin-right: 0.2em; font-size: 0.9em" />
+            <span>{{ username }}</span>
+          </nuxt-link>
+          <div class="logout" @click="logout">
+            <font-awesome-icon icon="sign-out-alt" />
+          </div>
+        </template>
         <span v-else>
           <loading-spinner color="white"></loading-spinner>
         </span>
@@ -158,14 +164,28 @@ export default {
     box-shadow: 0 2px 5px rgba(0,0,0,.2);
   }
   .login-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
     background-color: $color-blue-alt;
     padding: 5px;
     color: #FFF;
-    text-align: right;
     font-size: 0.85em;
-    height: 1.7em;
+    height: 2em;
     .login-header-content {
+      display: flex;
+      flex-flow: row nowrap;
+      fons-size: 1.1em;
       @include margin-page-wide();
+      .logout {
+        margin-left: 2em;
+        cursor: pointer;
+        font-size: 1.1em;
+      }
+      .me {
+        font-size: 1.1em;
+      }
     }
     a {
       color: #FFF;
