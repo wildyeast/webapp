@@ -202,7 +202,6 @@ export default {
     if (parseInt(this.id) === 1) {
       this.isPublic = true
       this.quiz = await this.$store.dispatch('getAsu')
-      console.log('quiz', this.quiz)
       return
     }
     return this.$router.push('/')
