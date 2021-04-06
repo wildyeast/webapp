@@ -95,7 +95,6 @@ module.exports = {
     middleware: 'router'
   },
   generate: {
-    fallback: true,
     routes: function (callback) {
       const token = storyblokToken;
       const per_page = 100;
