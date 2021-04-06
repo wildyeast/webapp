@@ -90,7 +90,7 @@
       </div>
       <div class="result" v-else>
         Oje, das hat leider nicht geklappt. Bitte lies dir nochmal die Unterlagen durch.
-        <button class="input-button-primary" @click="$router.push(isPublic ? '/course' : '/me/trainings')">Zurück</button>
+        <button class="input-button-primary" @click="isPublic ? restartAsu() : $router.push('/me/trainings')">Zurück</button>
       </div>
     </div>
     <div class="reveal" v-if="quiz && quiz.slides_url">
@@ -130,6 +130,24 @@ export default {
   mixins: [storyblokLivePreview],
   // middleware: 'authenticated',
   methods: {
+    async restartAsu (id) {
+      this.done = false
+      this.id = null
+      this.quiz = null
+      this.activeQuestion = 0
+      this.answers = {}
+      this.c1 = false
+      this.c2 = false
+      this.c3 = false
+      this.c4 = false
+      this.score = null
+      this.overview = true
+      this.big = true
+      this.isPublic = false
+      this.code = ''
+      this.id = 1
+      this.quiz = await this.$store.dispatch('getAsu')
+    },
     saveAnswer(ans) {
       let choices = [this.c1, this.c2, this.c3, this.c4];
       let parsedChoices = [];
