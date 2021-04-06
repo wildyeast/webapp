@@ -191,9 +191,10 @@ export default {
     }
   },
   async mounted () {
-    this.id = this.$route.params.slug
-    if (this.id === 'asu') {
+    if (!this.$route.query || !this.$route.query.id) {
       this.id = 1
+    } else {
+      this.id = this.$route.query.id
     }
     if (this.$store.state.auth) {
       this.quiz = await this.$store.dispatch('getQuiz', this.id);
