@@ -77,7 +77,7 @@ export default {
         return
       }
       this.isLoading = true
-      this.$router.push({path: `/course/${this.course.id}`});
+      this.$router.push({path: `/course?id=${this.course.id}`});
     },
     startCourse() {
       this.$store.dispatch("startCourse", {course_id: this.course.id}).then((memberCourse) => {
