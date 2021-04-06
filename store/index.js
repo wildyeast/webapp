@@ -14,7 +14,7 @@ let webAuth = new auth0.WebAuth({
   redirectUri: origin + '/auth'
 });
 
-const baseUrl = process.env.NUXT_ENV_API === 'local' ? 'https://connector.127.0.0.1.nip.io' : 'https://connector.grandgarage.eu '
+const baseUrl = process.env.NUXT_ENV_API === 'local' ? 'https://connector.127.0.0.1.nip.io' : 'https://connector.grandgarage.eu'
 const connectorBaseUrl = baseUrl + '/api'
 
 let connector;
