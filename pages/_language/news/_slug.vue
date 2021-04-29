@@ -4,7 +4,7 @@
     <div class="header">
       <div class="header-image" :style="{ 'background-image': 'url(' + item.content.image + ')' }"></div>
       <div class="header-title">
-        <h4>{{ item.content.title }}</h4>
+        <h4><vue-markdown>{{ item.content.title }}</vue-markdown></h4>
         <voting-button v-if="item.content.voting" is-on-detail="true" :uuid="item.uuid"></voting-button>
       </div>
     </div>
@@ -16,10 +16,10 @@
       </div>
       <div class="right-content">
         <div class="teaser">
-          {{ item.content.teaser }}
+          <vue-markdown>{{ item.content.teaser }}</vue-markdown>
         </div>
         <div>
-          {{ item.content.text }}
+          <vue-markdown>{{ item.content.text }}</vue-markdown>
         </div>
 
       </div>
@@ -29,7 +29,7 @@
     </div>
     <div class="blogFeed-detail">
       <div v-if="item.content.contentBloks" v-for="i in item.content.contentBloks" class="right-content">
-        <span v-if="i.text" class="content-text">{{ i.text }}</span>
+        <span v-if="i.text" class="content-text"><vue-markdown>{{ i.text }}</vue-markdown></span>
         <span v-if="i.image" class="img"><img :src="$resizeImage(i.image, '600x0')" alt=""/></span>
       </div>
     </div>
@@ -80,9 +80,10 @@
 <script>
   import storyblokLivePreview from '@/mixins/storyblokLivePreview'
   import VotingButton from "../../../components/VotingButton";
+  import VueMarkdown from 'vue-markdown'
 
   export default {
-    components: {VotingButton},
+    components: { VotingButton, VueMarkdown },
     data() {
       return {
         // images: [],
