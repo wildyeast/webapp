@@ -18,6 +18,9 @@
         <div class="teaser">
           <vue-markdown>{{ item.content.teaser }}</vue-markdown>
         </div>
+        <div class="video" v-if="item.content.video">
+          <iframe :src="item.content.video" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
         <div>
           <vue-markdown>{{ item.content.text }}</vue-markdown>
         </div>
@@ -102,7 +105,6 @@
     mixins: [storyblokLivePreview],
     asyncData(context) {
       return context.store.dispatch("loadNewsItem", context.route.params.slug).then(data => {
-        console.log(data.story)
         return {item: data.story};
       });
     },
@@ -119,7 +121,6 @@
         if (sources) {
           filter_query["source"] = {in: sources};
         }
-        console.log({filter_query});
         return {filter_query};
       },
     },
@@ -250,6 +251,8 @@
 
       .teaser {
         font-weight: bold;
+        font-size: 1.5rem;
+        margin: 0;
       }
 
       .link {
@@ -290,5 +293,12 @@
 
   .links {
     margin: 40px;
+  }
+  .video {
+    width: 40vw;
+    & * {
+      width: 100%;
+      height: 25vw;
+    }
   }
 </style>
