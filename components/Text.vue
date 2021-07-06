@@ -1,7 +1,10 @@
 <template>
-  <div v-editable="blok" class="text-blok">
+  <div
+    v-editable="blok"
+    class="text-blok"
+  >
     <div class="text">
-      <markdown :value="blok.text"></markdown>
+      <markdown :value="blok.text" />
     </div>
   </div>
 </template>

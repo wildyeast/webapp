@@ -1,9 +1,17 @@
 <template>
-  <div v-editable="blok" class="header">
-    <div class="header-image" :style="{ 'background-image': 'url(' + $resizeImage(blok.image, '1600x0') + ')' }">
-    </div>
-    <div class="header-title" v-if="blok.title">
-      <h4>{{blok.title}}</h4>
+  <div
+    v-editable="blok"
+    class="header"
+  >
+    <div
+      class="header-image"
+      :style="{ 'background-image': 'url(' + $resizeImage(blok.image, '1600x0') + ')' }"
+    />
+    <div
+      v-if="blok.title"
+      class="header-title"
+    >
+      <h4>{{ blok.title }}</h4>
     </div>
   </div>
 </template>

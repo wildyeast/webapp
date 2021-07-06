@@ -1,33 +1,45 @@
 <template>
-    <div v-editable="news" class="blogFeed-detail">
-        <div class="left-content">
-            <h2 v-if="news.title" class="headline">
-                {{news.title}}
-            </h2>
-        </div>
-        <div class="right-content">
-            <div v-if="news.text" class="teaser">
-                {{news.text}}
-            </div>
-            <!--<markdown v-if="blok.facts" :value="blok.facts" class="info-text"></markdown>
-            <markdown v-if="blok.info" :value="blok.info" class="info-text"></markdown>-->
-        </div>
-        <div class="body" v-if="news.image">
-            <image-slideshow :blok="news.image"></image-slideshow>
-        </div>
+  <div
+    v-editable="news"
+    class="blogFeed-detail"
+  >
+    <div class="left-content">
+      <h2
+        v-if="news.title"
+        class="headline"
+      >
+        {{ news.title }}
+      </h2>
     </div>
+    <div class="right-content">
+      <div
+        v-if="news.text"
+        class="teaser"
+      >
+        {{ news.text }}
+      </div>
+      <!--<markdown v-if="blok.facts" :value="blok.facts" class="info-text"></markdown>
+            <markdown v-if="blok.info" :value="blok.info" class="info-text"></markdown>-->
+    </div>
+    <div
+      v-if="news.image"
+      class="body"
+    >
+      <image-slideshow :blok="news.image" />
+    </div>
+  </div>
 </template>
 
 <script>
-    import moment from "moment";
+import moment from 'moment'
 
-    export default {
-        name: "BlogFeedDetail",
-        props: {
-            // news: Array,
-        },
-        computed: {
-            /*date() {
+export default {
+  name: 'BlogFeedDetail',
+  props: {
+    // news: Array,
+  },
+  computed: {
+    /* date() {
                 return moment(this.news.datetime).locale('de-at').format('LL');
             },
             link() {
@@ -36,9 +48,9 @@
                 } else {
                     return '#'
                 }
-            }*/
-        }
-    }
+            } */
+  }
+}
 </script>
 
 <style lang="scss" scoped>

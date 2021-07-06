@@ -1,13 +1,20 @@
 <template>
-  <div v-editable="machine" class="machine-page" v-if="machine">
-    <machine-header :story="story"></machine-header>
+  <div
+    v-if="machine"
+    v-editable="machine"
+    class="machine-page"
+  >
+    <machine-header :story="story" />
     <div class="machine-teaser">
       <div class="body">
         <div class="image">
-          <img :src="$resizeImage(machine.image, '700x0')" alt=""/>
+          <img
+            :src="$resizeImage(machine.image, '700x0')"
+            alt=""
+          >
         </div>
         <div class="description text">
-          <markdown :value="machine.details"></markdown>
+          <markdown :value="machine.details" />
         </div>
       </div>
     </div>
@@ -18,13 +25,27 @@
           <markdown :value="machine.description"></markdown>
         </div>
         -->
-        <div class="machine-list" v-if="hasUser">
-          <div class="machine-item" v-for="m in machine.machine_status_items">
-            <machine-status v-if="!singleMachine" class="status" :id="m.fabmanId" :name="m.name"></machine-status>
-            <machine-calendar :id="m.fabmanId"></machine-calendar>
+        <div
+          v-if="hasUser"
+          class="machine-list"
+        >
+          <div
+            v-for="m in machine.machine_status_items"
+            class="machine-item"
+          >
+            <machine-status
+              v-if="!singleMachine"
+              :id="m.fabmanId"
+              class="status"
+              :name="m.name"
+            />
+            <machine-calendar :id="m.fabmanId" />
           </div>
         </div>
-        <div v-else class="machine-list">
+        <div
+          v-else
+          class="machine-list"
+        >
           <div class="machine-list-warning">
             Du musst angemeldet sein um die Verfügbarkeit der Maschinen sehen zu können!
           </div>
@@ -32,16 +53,29 @@
       </div>
     </div>
     <div class="body">
-      <image-slideshow :blok="images"></image-slideshow>
+      <image-slideshow :blok="images" />
     </div>
-    <div class="body" v-if="machine.links && machine.links.length > 0">
-      <h3 class="blue">Links</h3>
+    <div
+      v-if="machine.links && machine.links.length > 0"
+      class="body"
+    >
+      <h3 class="blue">
+        Links
+      </h3>
       <ul class="link-list">
-        <li class="link-item" v-for="(i, index) in machine.links" v-bind:key="index">
+        <li
+          v-for="(i, index) in machine.links"
+          :key="index"
+          class="link-item"
+        >
           <div class="title">
-            {{i.title}}
+            {{ i.title }}
           </div>
-          <a class="url" :href="i.url" target="_blank">{{i.url}}</a>
+          <a
+            class="url"
+            :href="i.url"
+            target="_blank"
+          >{{ i.url }}</a>
         </li>
       </ul>
     </div>
@@ -49,31 +83,31 @@
 </template>
 
 <script>
-import MachineStatus from '@/components/MachineStatus';
-import MachineCalendar from '@/components/MachineCalendar';
-import MachineHeader from '@/components/MachineHeader';
+import MachineStatus from '@/components/MachineStatus'
+import MachineCalendar from '@/components/MachineCalendar'
+import MachineHeader from '@/components/MachineHeader'
 
 export default {
   components: {
     MachineHeader,
     MachineStatus,
-    MachineCalendar,
+    MachineCalendar
   },
   props: ['story'],
   computed: {
-    machine() {
-      return this.story.content;
+    machine () {
+      return this.story.content
     },
-    tags() {
-      return this.story.tag_list;
+    tags () {
+      return this.story.tag_list
     },
-    hasUser() {
-      return !!this.$store.state.user;
+    hasUser () {
+      return !!this.$store.state.user
     },
-    singleMachine() {
-      return this.machine && this.machine.machine_status_items && this.machine.machine_status_items.length == 1;
+    singleMachine () {
+      return this.machine && this.machine.machine_status_items && this.machine.machine_status_items.length == 1
     },
-    images() {
+    images () {
       return {
         items: this.machine.images
       }

@@ -1,15 +1,32 @@
 <template>
-  <div v-bind:class="active ? 'level-item active' : 'level-item'">
+  <div :class="active ? 'level-item active' : 'level-item'">
     <!-- .level-indicator content must be loaded from storyblok language -->
-    <h3 class="level-indicator">Ebene</h3>
-    <h1 class="number">{{number}}</h1>
+    <h3 class="level-indicator">
+      Ebene
+    </h3>
+    <h1 class="number">
+      {{ number }}
+    </h1>
     <div class="text">
-      <h2 class="title">{{blok.title}}</h2>
-      <img v-if="blok.areas" class="arrow" src="~/assets/img/arrow-right.svg">
+      <h2 class="title">
+        {{ blok.title }}
+      </h2>
+      <img
+        v-if="blok.areas"
+        class="arrow"
+        src="~/assets/img/arrow-right.svg"
+      >
     </div>
-    <div v-if="blok.areas" class="areas">
-      <h3 class="area" v-for="(area, index) in blok.areas.split(',')" v-bind:key="index">
-        {{area}}
+    <div
+      v-if="blok.areas"
+      class="areas"
+    >
+      <h3
+        v-for="(area, index) in blok.areas.split(',')"
+        :key="index"
+        class="area"
+      >
+        {{ area }}
         <br>
       </h3>
     </div>
@@ -18,8 +35,8 @@
 
 <script>
 export default {
-  props: ["blok", "number", "active"]
-};
+  props: ['blok', 'number', 'active']
+}
 </script>
 
 <style lang="scss">

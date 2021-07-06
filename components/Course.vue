@@ -1,9 +1,14 @@
 <template>
-  <div v-if="course && memberCourse"
-       :class="['training-item', { clickable: !memberCourse.is_valid }]"
-       ref="trainingItem"
-       @click="takeQuiz">
-    <div class="spinnerContainer" v-if="isLoading">
+  <div
+    v-if="course && memberCourse"
+    ref="trainingItem"
+    :class="['training-item', { clickable: !memberCourse.is_valid }]"
+    @click="takeQuiz"
+  >
+    <div
+      v-if="isLoading"
+      class="spinnerContainer"
+    >
       <loading-spinner color="white" />
     </div>
     <div class="body">
@@ -12,34 +17,71 @@
           <span class="course-heading"><b>{{ course.name }}</b></span>
         </div>
         <div class="bottom">
-          <div class="course-info" v-if="!memberCourse">
-            <button class="input-button-primary" @click="startCourse">Kurs starten</button>
+          <div
+            v-if="!memberCourse"
+            class="course-info"
+          >
+            <button
+              class="input-button-primary"
+              @click="startCourse"
+            >
+              Kurs starten
+            </button>
           </div>
           <!--<div v-else class="info">-->
-<!--          <div class="course-info"><span>gestartet am: {{ createdDate }}</span></div>-->
-          <div class="status" v-if="!(memberCourse.manual_activation && memberCourse.is_valid)"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
+          <!--          <div class="course-info"><span>gestartet am: {{ createdDate }}</span></div>-->
+          <div
+            v-if="!(memberCourse.manual_activation && memberCourse.is_valid)"
+            class="status"
+          >
+            <!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
             <div class="left">
-              <font-awesome-icon class="green" v-if="memberCourse.is_valid" icon="check-circle" />
-              <font-awesome-icon class="grey" v-else icon="times-circle" />
+              <font-awesome-icon
+                v-if="memberCourse.is_valid"
+                class="green"
+                icon="check-circle"
+              />
+              <font-awesome-icon
+                v-else
+                class="grey"
+                icon="times-circle"
+              />
               <span>Online-Quiz</span>
             </div>
             <div class="right">
-              <font-awesome-icon class="green" v-if="memberCourse.manual_activation" icon="check-circle" />
-              <font-awesome-icon class="grey" v-else icon="times-circle" />
+              <font-awesome-icon
+                v-if="memberCourse.manual_activation"
+                class="green"
+                icon="check-circle"
+              />
+              <font-awesome-icon
+                v-else
+                class="grey"
+                icon="times-circle"
+              />
               <span>Praxistest</span>
             </div>
           </div>
-          <div v-if="memberCourse.is_valid" class="course-info">
-            <div v-if="memberCourse.manual_activation" class="success">
+          <div
+            v-if="memberCourse.is_valid"
+            class="course-info"
+          >
+            <div
+              v-if="memberCourse.manual_activation"
+              class="success"
+            >
               <font-awesome-icon icon="check-circle" />
               <div>Abgeschlossen</div>
             </div>
-            <div v-else>Als nächstes musst du nur noch
+            <div v-else>
+              Als nächstes musst du nur noch
               den Kurs von einem Host oder am Frontdesk freischalten lassen.
             </div>
           </div>
           <div v-else>
-            <div class="startButton"><div>Quiz starten</div></div>
+            <div class="startButton">
+              <div>Quiz starten</div>
+            </div>
           </div>
         </div>
       </div>
@@ -54,17 +96,17 @@ export default {
     isLoading: false
   }),
   computed: {
-    memberCourse() {
-      return this.$store.getters.getMemberCourseById(this.course.id);
-    },
+    memberCourse () {
+      return this.$store.getters.getMemberCourseById(this.course.id)
+    }
   },
-  mounted() {
+  mounted () {
     // TODO check if I have permission
     this.getImage()
   },
   methods: {
     async getImage () {
-      const quiz = await this.$store.dispatch('getQuiz', this.course.id);
+      const quiz = await this.$store.dispatch('getQuiz', this.course.id)
       for (const question of quiz.quiz_questions) {
         if (question.imagePath.toLowerCase().endsWith('jpeg')) {
           this.$refs.trainingItem.style.backgroundImage = `url(${question.imagePath})`
@@ -72,21 +114,21 @@ export default {
         }
       }
     },
-    takeQuiz() {
+    takeQuiz () {
       if (this.memberCourse.is_valid) {
         return
       }
       this.isLoading = true
-      this.$router.push({path: `/course?id=${this.course.id}`});
+      this.$router.push({ path: `/course?id=${this.course.id}` })
     },
-    startCourse() {
-      this.$store.dispatch("startCourse", {course_id: this.course.id}).then((memberCourse) => {
-        this.$store.dispatch("getMemberCourses").then(() => {
-          this.takeQuiz();
-        });
-      });
+    startCourse () {
+      this.$store.dispatch('startCourse', { course_id: this.course.id }).then((memberCourse) => {
+        this.$store.dispatch('getMemberCourses').then(() => {
+          this.takeQuiz()
+        })
+      })
     }
-  },
+  }
 }
 </script>
 
@@ -111,7 +153,6 @@ export default {
     background-color: rgba(0,0,0,0.5);
     z-index: 1;
   }
-
 
   .body {
     // display: flex;
@@ -144,7 +185,6 @@ export default {
       font-size: 1.5em;
       font-family: $font-mono;
     }
-
 
     .startButton {
       @extend .bottomText;

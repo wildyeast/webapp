@@ -1,5 +1,8 @@
 <template>
-  <div v-editable="blok" class="centered-text">
+  <div
+    v-editable="blok"
+    class="centered-text"
+  >
     <p>{{ blok.text }}</p>
   </div>
 </template>

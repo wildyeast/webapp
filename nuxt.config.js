@@ -72,7 +72,8 @@ module.exports = {
   },
   modules: [
     '@nuxtjs/sentry',
-    '@nuxtjs/toast'
+    '@nuxtjs/toast',
+    '@nuxtjs/eslint-module'
   ],
   sentry: {
     config: {}, // Additional config

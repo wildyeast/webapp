@@ -1,10 +1,10 @@
 <template>
   <div class="image-gallery">
     <lightbox
-       :thumbnail="thumbnail"
-       :images="urls"
-       >
-       <lightbox-default-loader slot="loader"></lightbox-default-loader>
+      :thumbnail="thumbnail"
+      :images="urls"
+    >
+      <lightbox-default-loader slot="loader" />
     </lightbox>
   </div>
 </template>
@@ -14,13 +14,13 @@
 export default {
   props: ['images'],
   computed: {
-    urls() {
+    urls () {
       return this.images.map((i) => {
         return i.image
-      });
+      })
     },
-    thumbnail() {
-      return this.images[0].image;
+    thumbnail () {
+      return this.images[0].image
     }
   }
 }

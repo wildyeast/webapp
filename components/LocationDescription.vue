@@ -1,16 +1,22 @@
 <template>
-  <div v-editable="blok" class="location-description">
+  <div
+    v-editable="blok"
+    class="location-description"
+  >
     <div class="col-left">
       <div>
-        <h3 class="headline">{{blok.headline}}</h3>
-        <div class="teaser">{{blok.teaser}}</div>
-        <markdown :value="blok.left"></markdown>
+        <h3 class="headline">
+          {{ blok.headline }}
+        </h3>
+        <div class="teaser">
+          {{ blok.teaser }}
+        </div>
+        <markdown :value="blok.left" />
       </div>
     </div>
     <div class="col-right">
-      <markdown :value="blok.right"></markdown>
+      <markdown :value="blok.right" />
     </div>
-
   </div>
 </template>
 

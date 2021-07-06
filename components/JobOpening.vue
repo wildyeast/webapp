@@ -1,27 +1,63 @@
 <template>
-  <div v-editable="blok" class="job-opening">
-    <v-collapse-wrapper ref="wrapper" @afterToggle="updateStatus">
-      <div class="toggle-title" v-collapse-toggle :class="{ active }">
+  <div
+    v-editable="blok"
+    class="job-opening"
+  >
+    <v-collapse-wrapper
+      ref="wrapper"
+      @afterToggle="updateStatus"
+    >
+      <div
+        v-collapse-toggle
+        class="toggle-title"
+        :class="{ active }"
+      >
         <div class="title">
-          {{blok.title}}
+          {{ blok.title }}
         </div>
         <div class="chevron">
-          <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="33.26" height="20.409" viewBox="0 0 8.8 5.4"><path d="M.42.48L4.4 4.46 8.38.48" fill="none" stroke="#000" stroke-width="1.3"/></svg>
+          <svg
+            class="chevron-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            width="33.26"
+            height="20.409"
+            viewBox="0 0 8.8 5.4"
+          ><path
+            d="M.42.48L4.4 4.46 8.38.48"
+            fill="none"
+            stroke="#000"
+            stroke-width="1.3"
+          /></svg>
         </div>
       </div>
-      <div class="content" v-collapse-content>
+      <div
+        v-collapse-content
+        class="content"
+      >
         <div class="inner-content">
-          <img class="image" v-if="blok.image" :src="$resizeImage(blok.image, '1600x400')" alt=""/>
+          <img
+            v-if="blok.image"
+            class="image"
+            :src="$resizeImage(blok.image, '1600x400')"
+            alt=""
+          >
           <div class="header">
             <div class="col-title">
-              <div class="title">{{blok.title}}</div>
-              <div class="subtitle">{{blok.subtitle}}</div>
+              <div class="title">
+                {{ blok.title }}
+              </div>
+              <div class="subtitle">
+                {{ blok.subtitle }}
+              </div>
             </div>
             <div class="col-button">
-              <a href="mailto:office@grandgarage.eu"class="apply-button">Bewerben</a>
+              <a
+                href="mailto:office@grandgarage.eu"
+                class="apply-button"
+              >Bewerben</a>
             </div>
           </div>
-          <markdown :value="blok.description"></markdown>
+          <markdown :value="blok.description" />
         </div>
       </div>
     </v-collapse-wrapper>
@@ -31,14 +67,14 @@
 <script>
 export default {
   props: ['blok'],
-  data() {
+  data () {
     return {
       active: false
     }
   },
   methods: {
-    updateStatus(e) {
-      this.active = e.status;
+    updateStatus (e) {
+      this.active = e.status
     }
   }
 }

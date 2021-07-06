@@ -1,14 +1,20 @@
 <template>
-  <div v-editable="blok" class="text-image">
+  <div
+    v-editable="blok"
+    class="text-image"
+  >
     <h3 class="title">
-      {{blok.title}}
+      {{ blok.title }}
     </h3>
     <div class="body">
       <div class="text">
-        <markdown :value="blok.text"></markdown>
+        <markdown :value="blok.text" />
       </div>
       <div class="image">
-        <img :src="$resizeImage(blok.image, '700x0')" alt=""/>
+        <img
+          :src="$resizeImage(blok.image, '700x0')"
+          alt=""
+        >
       </div>
     </div>
   </div>

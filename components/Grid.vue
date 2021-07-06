@@ -1,6 +1,14 @@
 <template>
-  <div v-editable="blok" class="grid">
-    <component :key="blok._uid" v-for="blok in blok.columns" :blok="blok" :is="blok.component"></component>
+  <div
+    v-editable="blok"
+    class="grid"
+  >
+    <component
+      :is="blok.component"
+      v-for="blok in blok.columns"
+      :key="blok._uid"
+      :blok="blok"
+    />
   </div>
 </template>
 
