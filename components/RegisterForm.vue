@@ -11,15 +11,15 @@
             <div class="back" @click="login">
               <font-awesome-icon icon="angle-left" />
             </div>
-              <span class="text">Werde GRAND GARAGE Mitglied</span>
+              <span class="text">Werde Teil einer lebendigen Community!</span>
             </div>
             <div class="close" @click="close">
               <font-awesome-icon icon="times" />
             </div>
           </div>
           <div class="info">
-            Werde Teil einer lebendigen Community aus Kreativen, Makern und Start-ups!
-            Ob Professional oder Starter – such' dir ganz einfach die für dich passende Mitgliedschaft aus und erhalte Zugang zur GRAND GARAGE.
+            Herzlich Willkommen auf deinen ersten Schritten in der GRAND GARAGE.
+            Wir sind eine offene Werkstatt, ein Makerspace, ein FABLab und noch vieles mehr. Registriere dich jetzt und erhalte Zugang zur GRAND GARAGE und unseren Services.
           </div>
         </div>
       </div>
