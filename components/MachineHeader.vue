@@ -1,42 +1,53 @@
 <template>
   <div class="machine-header">
-    <div class="header-image" :style="{ 'background-image': 'url(' + $resizeImage(machine.headerImage, '1600x0') + ')' }">
-    </div>
-    <div class="header-title" v-if="machine.title">
+    <div
+      class="header-image"
+      :style="{ 'background-image': 'url(' + $resizeImage(machine.headerImage, '1600x0') + ')' }"
+    />
+    <div
+      v-if="machine.title"
+      class="header-title"
+    >
       <div class="tags">
         <span v-for="(tag, index) in tags">
-          {{tag}}<span v-if="index+1 < tags.length">, </span>
+          {{ tag }}<span v-if="index+1 < tags.length">, </span>
         </span>
       </div>
-      <div class="title">{{machine.title}}</div>
-      <machine-status class="status" v-if="singleMachine && hasUser && hasBridge" :id="machine.machine_status_items[0].fabmanId"></machine-status>
+      <div class="title">
+        {{ machine.title }}
+      </div>
+      <machine-status
+        v-if="singleMachine && hasUser && hasBridge"
+        :id="machine.machine_status_items[0].fabmanId"
+        class="status"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import MachineStatus from '@/components/MachineStatus';
+import MachineStatus from '@/components/MachineStatus'
 
 export default {
-  props: ['story'],
   components: {
     MachineStatus
   },
+  props: ['story'],
   computed: {
-    machine() {
-      return this.story.content;
+    machine () {
+      return this.story.content
     },
-    tags() {
-      return this.story.tag_list;
+    tags () {
+      return this.story.tag_list
     },
-    hasUser() {
-      return !!this.$store.state.user;
+    hasUser () {
+      return !!this.$store.state.user
     },
-    singleMachine() {
-      return this.machine && this.machine.machine_status_items && this.machine.machine_status_items.length == 1;
+    singleMachine () {
+      return this.machine && this.machine.machine_status_items && this.machine.machine_status_items.length == 1
     },
-    hasBridge() {
-      return this.machine.machine_status_items[0].hasBridge;
+    hasBridge () {
+      return this.machine.machine_status_items[0].hasBridge
     }
   }
 }

@@ -1,15 +1,25 @@
 <template>
   <transition name="fade">
-    <div class="modal" @click="close">
+    <div
+      class="modal"
+      @click="close"
+    >
       <div class="container">
         <div class="top">
-          <div class="title">COVID-19 INFO</div>
+          <div class="title">
+            COVID-19 INFO
+          </div>
         </div>
         <div class="content">
           <slot />
         </div>
         <div class="buttons">
-          <button class="button-primary" @click="close">Verstanden</button>
+          <button
+            class="button-primary"
+            @click="close"
+          >
+            Verstanden
+          </button>
         </div>
       </div>
     </div>
@@ -36,7 +46,7 @@ export default {
     close () {
       this.$emit('close')
       sessionStorage.setItem('hasSeenPopup', 'true')
-      window.removeEventListener('scroll', this.handleScroll);
+      window.removeEventListener('scroll', this.handleScroll)
     }
   }
 }

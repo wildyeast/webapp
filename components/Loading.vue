@@ -1,11 +1,15 @@
 <template>
   <div class="loading">
-    <div class="bar" v-for="index in 3" :key="index"/>
+    <div
+      v-for="index in 3"
+      :key="index"
+      class="bar"
+    />
   </div>
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style lang="scss" scoped>

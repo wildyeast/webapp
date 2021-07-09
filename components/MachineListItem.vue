@@ -1,40 +1,52 @@
 <template>
   <div>
-    <nuxt-link :to="'/' + blok.full_slug" v-if="content.hasContent">
+    <nuxt-link
+      v-if="content.hasContent"
+      :to="'/' + blok.full_slug"
+    >
       <div class="machine-list-item">
         <div class="image">
-          <img :src="$resizeImage(content.image, '450x450')" alt=""/>
+          <img
+            :src="$resizeImage(content.image, '450x450')"
+            alt=""
+          >
         </div>
         <div class="body">
           <div class="title">
-            {{content.title}}
+            {{ content.title }}
           </div>
           <div class="tags">
-          <span v-for="(tag, index) in tags">
-            {{tag}}<span v-if="index+1 < tags.length">, </span>
-          </span>
-        </div>
+            <span v-for="(tag, index) in tags">
+              {{ tag }}<span v-if="index+1 < tags.length">, </span>
+            </span>
+          </div>
           <div class="teaser">
-            <markdown :value="content.teaser"></markdown>
+            <markdown :value="content.teaser" />
           </div>
         </div>
       </div>
     </nuxt-link>
-    <div class="machine-list-item" v-else>
+    <div
+      v-else
+      class="machine-list-item"
+    >
       <div class="image">
-        <img :src="$resizeImage(content.image, '450x450')" alt=""/>
+        <img
+          :src="$resizeImage(content.image, '450x450')"
+          alt=""
+        >
       </div>
       <div class="body">
         <div class="title">
-          {{content.title}}
+          {{ content.title }}
         </div>
         <div class="tags">
           <span v-for="(tag, index) in tags">
-            {{tag}}<span v-if="index+1 < tags.length">, </span>
+            {{ tag }}<span v-if="index+1 < tags.length">, </span>
           </span>
         </div>
         <div class="teaser">
-          <markdown :value="content.teaser"></markdown>
+          <markdown :value="content.teaser" />
         </div>
       </div>
     </div>
@@ -45,11 +57,11 @@
 export default {
   props: ['blok'],
   computed: {
-    content() {
-      return this.blok.content;
+    content () {
+      return this.blok.content
     },
-    tags() {
-      return this.blok.tag_list;
+    tags () {
+      return this.blok.tag_list
     }
   }
 }

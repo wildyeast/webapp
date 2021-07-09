@@ -1,35 +1,58 @@
 <template>
-    <div>
-        <h2>Credits</h2>
-        <loading-spinner v-if="isLoading" color="#333"></loading-spinner>
-        <div class="credits" v-else>
-          <div class="myCredits">
-            <span>
-              <font-awesome-icon icon="coins" />
-              Meine Credits: {{ credits }}EUR
-            </span>
-            <button class="input-button-primary creditsButton" @click="$router.push(`giftcards?action=redeem`)">Gutschein einlösen</button>
+  <div>
+    <h2>Credits</h2>
+    <loading-spinner
+      v-if="isLoading"
+      color="#333"
+    />
+    <div
+      v-else
+      class="credits"
+    >
+      <div class="myCredits">
+        <span>
+          <font-awesome-icon icon="coins" />
+          Meine Credits: {{ credits }}EUR
+        </span>
+        <button
+          class="input-button-primary creditsButton"
+          @click="$router.push(`giftcards?action=redeem`)"
+        >
+          Gutschein einlösen
+        </button>
+      </div>
+      <div class="logs">
+        <div
+          v-for="log of logs"
+          :key="log.id"
+          :class="['entry', { pointer: log.refType=== REF_TYPES.invoice }]"
+          @click="showInvoices(log)"
+        >
+          <div class="date">
+            {{ new Date(log.date).toLocaleString('de-AT') }}
           </div>
-          <div class="logs">
-            <div :class="['entry', { pointer: log.refType=== REF_TYPES.invoice }]" v-for="log of logs" :key="log.id" @click="showInvoices(log)">
-              <div class="date">{{new Date(log.date).toLocaleString('de-AT')}}</div>
-              <div :class="['type', log.value > 0 ? 'green' : 'red']">{{ log.value > 0 ? 'Aufladung' : 'Abbuchung' }}</div>
-              <div class="value">{{ Math.abs(log.value) }}EUR</div>
-              <div class="info">
-                <template v-if="log.refType === REF_TYPES.invoice">
-                  <span class="link">Rechnung #{{ log.invoiceId }}</span>
-                  <div class="icon"><font-awesome-icon icon="link" /></div>
-                </template>
-                <template v-else-if="log.refType === REF_TYPES.giftCard">
-                  Gutschein
-                </template>
-                <span v-else>Gutschrift</span>
+          <div :class="['type', log.value > 0 ? 'green' : 'red']">
+            {{ log.value > 0 ? 'Aufladung' : 'Abbuchung' }}
+          </div>
+          <div class="value">
+            {{ Math.abs(log.value) }}EUR
+          </div>
+          <div class="info">
+            <template v-if="log.refType === REF_TYPES.invoice">
+              <span class="link">Rechnung #{{ log.invoiceId }}</span>
+              <div class="icon">
+                <font-awesome-icon icon="link" />
               </div>
-            </div>
+            </template>
+            <template v-else-if="log.refType === REF_TYPES.giftCard">
+              Gutschein
+            </template>
+            <span v-else>Gutschrift</span>
           </div>
-        </div> 
+        </div>
+      </div>
     </div>
-
+  </div>
 </template>
 
 <script>
@@ -42,8 +65,8 @@ const REF_TYPES = {
 }
 
 export default {
-  name: "credits",
-  middleware: "authenticated",
+  name: 'Credits',
+  middleware: 'authenticated',
   data: () => ({
     credits: 0,
     isLoading: true,
@@ -54,7 +77,7 @@ export default {
     const logs = await this.$store.dispatch('getCreditsLog')
     this.credits = await this.$store.dispatch('getCredits')
     const invoices = await this.$store.dispatch('getInvoices')
-    let logsToPrint = []
+    const logsToPrint = []
     for (const entry of logs) {
       const invoice = invoices.find(i => i.id === entry.creditable_id)
       const log = {
@@ -76,7 +99,7 @@ export default {
       logsToPrint.push(log)
     }
     this.logs = logsToPrint.sort((a, b) => a.id < b.id)
-    this.isLoading = false;
+    this.isLoading = false
   },
   methods: {
     showInvoices (log) {
@@ -84,8 +107,8 @@ export default {
         this.$router.push(`invoices?id=${log.invoiceUuid}`)
       }
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,33 +1,57 @@
 <template>
   <transition name="fade">
-  <div class="sidebar" v-if="sidebar">
-    <div class="backdrop" @click="close"></div>
-    <transition name="slide" appear>
-        <login-form class="pane" v-if="sidebar === 'login'"></login-form>
-        <register-form class="pane" v-else-if="sidebar === 'register'"></register-form>
-        <register-success-form class="pane" v-else-if="sidebar === 'register-success'"></register-success-form>
-        <recover-form class="pane" v-else-if="sidebar === 'recover'"></recover-form>
-      <recover-success-form class="pane" v-else-if="sidebar === 'recover-success'"></recover-success-form>
-    </transition>
-  </div>
+    <div
+      v-if="sidebar"
+      class="sidebar"
+    >
+      <div
+        class="backdrop"
+        @click="close"
+      />
+      <transition
+        name="slide"
+        appear
+      >
+        <login-form
+          v-if="sidebar === 'login'"
+          class="pane"
+        />
+        <register-form
+          v-else-if="sidebar === 'register'"
+          class="pane"
+        />
+        <register-success-form
+          v-else-if="sidebar === 'register-success'"
+          class="pane"
+        />
+        <recover-form
+          v-else-if="sidebar === 'recover'"
+          class="pane"
+        />
+        <recover-success-form
+          v-else-if="sidebar === 'recover-success'"
+          class="pane"
+        />
+      </transition>
+    </div>
   </transition>
 </template>
 
 <script charset="utf-8">
 export default {
-  created() {
-  },
-  methods: {
-    close() {
-      this.$store.dispatch('setSidebar', null);
-    },
-    login() {
-      this.$store.dispatch('setSidebar', 'login');
+  computed: {
+    sidebar () {
+      return this.$store.state.sidebar
     }
   },
-  computed: {
-    sidebar() {
-      return this.$store.state.sidebar;
+  created () {
+  },
+  methods: {
+    close () {
+      this.$store.dispatch('setSidebar', null)
+    },
+    login () {
+      this.$store.dispatch('setSidebar', 'login')
     }
   }
 }

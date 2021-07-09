@@ -1,9 +1,18 @@
 <template>
-  <div class="machine-status" :style="{ 'background-color': color, 'font-size': fontSize }">
-    <div class="machine-name" v-if="name">
-      {{name}}
+  <div
+    class="machine-status"
+    :style="{ 'background-color': color, 'font-size': fontSize }"
+  >
+    <div
+      v-if="name"
+      class="machine-name"
+    >
+      {{ name }}
     </div>
-    <div class="resource" v-if="resource">
+    <div
+      v-if="resource"
+      class="resource"
+    >
       <div v-if="resource.state == 'active'">
         <div v-if="resource.offline">
           offline
@@ -15,53 +24,56 @@
           Verfügbar
         </div>
       </div>
-      <div v-else-if="resource.state == 'locked'" :title="resource.maintenanceNotes">
+      <div
+        v-else-if="resource.state == 'locked'"
+        :title="resource.maintenanceNotes"
+      >
         out of order
       </div>
       <div v-else>
-        {{resource.state}}
+        {{ resource.state }}
       </div>
     </div>
     <div v-else>
-      <loading-spinner color="#333"></loading-spinner>
+      <loading-spinner color="#333" />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  props: ['id', 'name'],
+  data () {
     return {
       resource: null
     }
   },
-  props: ['id', 'name'],
-  created() {
-    this.$store.dispatch('checkStatus', this.id).then((r) => {
-      this.resource = r;
-    });
-  },
   computed: {
-    color() {
+    color () {
       if (!this.resource) {
-        return '#FFF';
+        return '#FFF'
       }
       if (this.resource.state == 'locked') {
-        return '#ebe223';
+        return '#ebe223'
       }
       if (this.resource.offline) {
-        return '#666';
+        return '#666'
       }
       if (this.resource.inUse) {
-        return '#ff6f00';
+        return '#ff6f00'
       }
       if (this.resource.state == 'active') {
-        return '#0069aa';
+        return '#0069aa'
       }
     },
     fontSize () {
       return this.resource && this.resource.inUse ? '0.9em' : '1em'
     }
+  },
+  created () {
+    this.$store.dispatch('checkStatus', this.id).then((r) => {
+      this.resource = r
+    })
   }
 }
 </script>

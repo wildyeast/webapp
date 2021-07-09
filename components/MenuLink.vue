@@ -1,14 +1,20 @@
 <template>
   <div class="menuLink">
-    <NuxtLink :class="{ 'nuxt-link-exact-active': isActive }" :to="to">
-      <font-awesome-icon v-if="icon" :icon="icon" />
+    <NuxtLink
+      :class="{ 'nuxt-link-exact-active': isActive }"
+      :to="to"
+    >
+      <font-awesome-icon
+        v-if="icon"
+        :icon="icon"
+      />
       <slot />
     </NuxtLink>
   </div>
 </template>
 <script>
 export default {
-  name: "MenuLink",
+  name: 'MenuLink',
   props: {
     to: {
       type: String,

@@ -1,10 +1,20 @@
 <template>
-  <div v-editable="blok" class="teaser-item">
+  <div
+    v-editable="blok"
+    class="teaser-item"
+  >
     <div class="header">
-      <h2 class="headline">{{blok.headline}}</h2>
+      <h2 class="headline">
+        {{ blok.headline }}
+      </h2>
       <div class="subline">
-        <code class="hr">{{blok.subline}}</code>
-        <sb-link v-if="blok.link" :link="blok.link">Alle Kurse</sb-link>
+        <code class="hr">{{ blok.subline }}</code>
+        <sb-link
+          v-if="blok.link"
+          :link="blok.link"
+        >
+          Alle Kurse
+        </sb-link>
       </div>
     </div>
   </div>

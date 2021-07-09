@@ -1,22 +1,33 @@
 <template>
-  <div v-editable="blok" class="faq-block">
+  <div
+    v-editable="blok"
+    class="faq-block"
+  >
     <div class="downloads">
       <div class="headline">
         Downloads
       </div>
       <div class="download-list">
-        <download-item v-for="i in blok.downloads" :blok="i" :key="i.uid"></download-item>
+        <download-item
+          v-for="i in blok.downloads"
+          :key="i.uid"
+          :blok="i"
+        />
       </div>
     </div>
     <div class="faqs">
-      <faq-item v-for="i in blok.faqs" :blok="i" :key="i.uid"></faq-item>
+      <faq-item
+        v-for="i in blok.faqs"
+        :key="i.uid"
+        :blok="i"
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['blok'],
+  props: ['blok']
 }
 </script>
 

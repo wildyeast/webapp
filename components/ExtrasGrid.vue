@@ -1,10 +1,19 @@
 <template>
-  <div v-editable="blok" class="extras-grid-wrapper">
+  <div
+    v-editable="blok"
+    class="extras-grid-wrapper"
+  >
     <div class="headline">
-      {{blok.headline}}
+      {{ blok.headline }}
     </div>
     <div class="extras-grid">
-      <component class="extra-item" :key="blok._uid" v-for="blok in blok.extras" :blok="blok" :is="blok.component"></component>
+      <component
+        :is="blok.component"
+        v-for="blok in blok.extras"
+        :key="blok._uid"
+        class="extra-item"
+        :blok="blok"
+      />
     </div>
   </div>
 </template>

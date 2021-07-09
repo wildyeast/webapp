@@ -1,26 +1,50 @@
 <template>
   <div>
     <h2>Meine Rechnungen</h2>
-    <loading-spinner v-if="!invoices" color="#333"></loading-spinner>
-    <div class="invoices" v-if="invoices">
-      <div :class="['invoice', { pointer: invoice.has_attachment }, { highlighted: highlightedId === invoice.uuid }]" v-for="invoice of invoices" @click="getPdf(invoice)" :key="invoice.id">
-        <div class="date">{{ new Date(invoice.issue_date).toLocaleDateString('de-AT') }}</div>
-        <div class="name">{{ invoice.name }}</div>
-        <div class="invoiceNumber">#{{ invoice.human_readable_id }}</div>
-        <div class="status">Status: <span :class="[[4, 5].includes(invoice.status) ? 'green' : 'yellow']">{{ getStatus(invoice.status) }}</span></div>
-        <div v-if="invoice.has_attachment" class="icon"><font-awesome-icon icon="download" /></div>
+    <loading-spinner
+      v-if="!invoices"
+      color="#333"
+    />
+    <div
+      v-if="invoices"
+      class="invoices"
+    >
+      <div
+        v-for="invoice of invoices"
+        :key="invoice.id"
+        :class="['invoice', { pointer: invoice.has_attachment }, { highlighted: highlightedId === invoice.uuid }]"
+        @click="getPdf(invoice)"
+      >
+        <div class="date">
+          {{ new Date(invoice.issue_date).toLocaleDateString('de-AT') }}
+        </div>
+        <div class="name">
+          {{ invoice.name }}
+        </div>
+        <div class="invoiceNumber">
+          #{{ invoice.human_readable_id }}
+        </div>
+        <div class="status">
+          Status: <span :class="[[4, 5].includes(invoice.status) ? 'green' : 'yellow']">{{ getStatus(invoice.status) }}</span>
+        </div>
+        <div
+          v-if="invoice.has_attachment"
+          class="icon"
+        >
+          <font-awesome-icon icon="download" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: "invoices",
+  name: 'Invoices',
   middleware: 'authenticated',
-  data() {
+  data () {
     return {
       invoices: null,
-      statuses: ["In Bearbeitung", "Bestellt", "Versendet", "Bezahlt", "Bezahlt", "Abbuchung wurde noch nicht durchgeführt", "Noch nicht Bezahlt"],
+      statuses: ['In Bearbeitung', 'Bestellt', 'Versendet', 'Bezahlt', 'Bezahlt', 'Abbuchung wurde noch nicht durchgeführt', 'Noch nicht Bezahlt'],
       highlightedId: null
     }
   },
@@ -46,12 +70,11 @@ export default {
         return
       }
       const res = await this.$store.dispatch('getPDF', invoice.uuid)
-      const blob = new Blob([res.data], { type: 'application/pdf' });
+      const blob = new Blob([res.data], { type: 'application/pdf' })
       const link = document.createElement('a')
       link.download = invoice.filename + '.pdf'
       link.href = URL.createObjectURL(blob)
       link.click()
-
     }
   }
 }

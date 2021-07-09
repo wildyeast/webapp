@@ -1,73 +1,128 @@
 <template>
-    <div class="profile" v-if="user !== null">
-      <div class="header">
-        <h1 class="name">{{user.profile.firstName}} {{user.profile.lastName}}</h1>
-        <code class="number">#{{user.profile.memberNumber}}</code>
+  <div
+    v-if="user !== null"
+    class="profile"
+  >
+    <div class="header">
+      <h1 class="name">
+        {{ user.profile.firstName }} {{ user.profile.lastName }}
+      </h1>
+      <code class="number">#{{ user.profile.memberNumber }}</code>
+    </div>
+    <div class="tab-section">
+      <div class="tab-section-menu">
+        <MenuLink
+          to="/me/"
+          icon="user"
+        >
+          Mein Profil
+        </MenuLink>
+        <MenuLink
+          v-if="isMember"
+          to="/me/packages"
+          icon="cube"
+        >
+          Packages
+        </MenuLink>
+        <!--          <MenuLink v-if="!isMember && !hasCompletedOnboarding" to="/wizard/onboarding" icon="user-friends"><span class="fat">Mitglied werden!</span></MenuLink>-->
+        <MenuLink
+          to="/me/workshopBookings"
+          icon="hammer"
+        >
+          Meine Workshops
+        </MenuLink>
+        <!--          <MenuLink to="/me/trainings" icon="graduation-cap">Einschulungen</MenuLink>-->
+        <MenuLink
+          to="/me/credits"
+          icon="coins"
+        >
+          Credits
+        </MenuLink>
+        <MenuLink
+          :is-active="$route.name.includes('invoices')"
+          to="/me/invoices"
+          icon="file-invoice"
+        >
+          Rechnungen
+        </MenuLink>
+        <!-- <MenuLink to="/me/trainings">Unterweisungen</MenuLink>-->
+        <MenuLink
+          to="/me/activities"
+          icon="running"
+        >
+          Aktivitäten
+        </MenuLink>
+        <MenuLink
+          to="/me/giftcards"
+          icon="gift"
+        >
+          Gutscheine
+        </MenuLink>
+        <transition name="slide">
+          <div
+            v-if="$route.name.startsWith('me-giftcards')"
+            class="submenu"
+          >
+            <MenuLink
+              :is-active="$route.query.action === 'buy'"
+              to="/me/giftcards?action=buy"
+            >
+              Gutschein kaufen
+            </MenuLink>
+            <MenuLink
+              :is-active="$route.query.action === 'redeem'"
+              to="/me/giftcards?action=redeem"
+            >
+              Gutschein einlösen
+            </MenuLink>
+          </div>
+        </transition>
+        <!--<MenuLink to="/me/invoices">Meine Rechnungen</MenuLink>-->
+        <!-- <MenuLink to="/me/log">Meine Aktivitäten</MenuLink>-->
       </div>
-      <div class="tab-section">
-        <div class="tab-section-menu">
-          <MenuLink to="/me/" icon="user">Mein Profil</MenuLink>
-          <MenuLink v-if="isMember" to="/me/packages" icon="cube">Packages</MenuLink>
-<!--          <MenuLink v-if="!isMember && !hasCompletedOnboarding" to="/wizard/onboarding" icon="user-friends"><span class="fat">Mitglied werden!</span></MenuLink>-->
-          <MenuLink to="/me/workshopBookings" icon="hammer">Meine Workshops</MenuLink>
-<!--          <MenuLink to="/me/trainings" icon="graduation-cap">Einschulungen</MenuLink>-->
-          <MenuLink to="/me/credits" icon="coins">Credits</MenuLink>
-          <MenuLink :isActive="$route.name.includes('invoices')" to="/me/invoices" icon="file-invoice">Rechnungen</MenuLink>
-          <!-- <MenuLink to="/me/trainings">Unterweisungen</MenuLink>-->
-          <MenuLink to="/me/activities" icon="running">Aktivitäten</MenuLink>
-          <MenuLink to="/me/giftcards" icon="gift">Gutscheine</MenuLink>
-          <transition name="slide">
-            <div class="submenu" v-if="$route.name.startsWith('me-giftcards')">
-              <MenuLink :isActive="$route.query.action === 'buy'" to="/me/giftcards?action=buy">Gutschein kaufen</MenuLink>
-              <MenuLink :isActive="$route.query.action === 'redeem'" to="/me/giftcards?action=redeem">Gutschein einlösen</MenuLink>
-            </div>
-          </transition>
-          <!--<MenuLink to="/me/invoices">Meine Rechnungen</MenuLink>-->
-         <!-- <MenuLink to="/me/log">Meine Aktivitäten</MenuLink>-->
-        </div>
-        <div class="tab-section-content">
-          <NuxtChild :key="$route.params.slug"></NuxtChild>
-        </div>
+      <div class="tab-section-content">
+        <NuxtChild :key="$route.params.slug" />
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 import MenuLink from '~/components/MenuLink'
 export default {
-  middleware: 'authenticated',
   components: { MenuLink },
+  middleware: 'authenticated',
   data () {
     return {
       hasCompletedOnboarding: true
     }
   },
-  created() {
+  computed: {
+    user () {
+      return this.$store.state.user
+    },
+    isMember () {
+      return this.$store.state.user.packages.length > 0
+    }
+  },
+  created () {
   },
   async mounted () {
     this.hasCompletedOnboarding = await this.$store.dispatch('hasCompletedOnboarding')
   },
   methods: {
-    getPackage(p) {
-      let data = this.$store.getters.getPackageById(p.package);
-      return { ...p, ...data };
+    getPackage (p) {
+      const data = this.$store.getters.getPackageById(p.package)
+      return { ...p, ...data }
     },
 
-    getWorkshops(){
+    getWorkshops () {
       // let data = this.$store.getters.getMemberCourseById(p);
     },
-    logout() {
+    logout () {
       this.$store.dispatch('logout').then(() => {
-        this.$router.push('/');
-      });
-    },
-  },
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
-    isMember () {
-      return this.$store.state.user.packages.length > 0;
+        this.$router.push('/')
+      })
     }
   }
 }
