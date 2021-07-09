@@ -94,7 +94,7 @@ export default {
     letter-spacing: 1.4px;
   }
   .swiper-container {
-    height: 50vh;
+    height: 40vw;
     .swiper-slide {
       display: block;
       background-size: contain;

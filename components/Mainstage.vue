@@ -14,14 +14,8 @@
         >
           <sb-link :link="s.link">
             <div class="wrapper">
-              <span
-                v-if="s.title"
-                class="title"
-              >{{ s.title }}</span>
-              <span
-                v-if="s.teaser"
-                class="teaser"
-              >{{ s.teaser }}</span>
+              <span lang="de-AT" class="title" v-if="s.title">{{s.title}}</span>
+              <span class="teaser" v-if="s.teaser">{{s.teaser}}</span>
             </div>
           </sb-link>
         </div>
@@ -106,6 +100,8 @@ export default {
           }
         }
         .title {
+          word-break: break-word !important;
+          hyphens: auto;
           font-size: 8vw;
           z-index: 9;
           @include media-breakpoint-down(sm) {
