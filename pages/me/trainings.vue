@@ -25,6 +25,7 @@ export default {
   },
   computed: {
     memberCourses() {
+      // console.log('membercourses', this.$store.state.memberCourses)
       return this.$store.state.memberCourses;
     },
     courses() {

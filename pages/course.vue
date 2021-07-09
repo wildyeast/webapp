@@ -22,7 +22,7 @@
             PDF mit Kursunterlagen</a>
         </div>
       </div>
-      <div class="quiz">
+      <div class="quiz" v-if="quiz ">
         <div class="question" v-for="(q, i) in quiz.quiz_questions" v-if="i === activeQuestion && !overview">
           <div class="question-header">
             <img v-if="q.imagePath != 'https://connector.grandgarage.eu/storage/'" :src="q.imagePath" alt=""/>
@@ -68,8 +68,10 @@
           Du hast alle Fragen beantwortet!
           <p></p>
           <button @click="saveQuiz" class="input-button-primary">Antworten absenden</button>
+<!--          <button @click="saveQuiz" class="input-button-primary" v-if="quiz.quiz_questions.length<=0">weiter</button>-->
         </div>
       </div>
+
     </div>
     <div v-if="done" class="wellDone">
       <h2 class="name">{{quiz.name}}</h2>
@@ -168,6 +170,7 @@ export default {
         answers: this.answers
       };
       const endpoint = this.isPublic ? 'savePublicQuiz' : 'saveQuiz'
+
       this.$store.dispatch(endpoint, data).then((result) => {
         this.done = true;
         this.score = result.score;
@@ -208,22 +211,9 @@ export default {
       }
     }
   },
-  async mounted () {
-    if (!this.$route.query || !this.$route.query.id) {
-      this.id = 1
-    } else {
-      this.id = this.$route.query.id
-    }
-    if (this.$store.state.auth) {
-      this.quiz = await this.$store.dispatch('getQuiz', this.id);
-      return
-    }
-    if (parseInt(this.id) === 1) {
-      this.isPublic = true
-      this.quiz = await this.$store.dispatch('getAsu')
-      return
-    }
-    return this.$router.push('/')
+  async created () {
+    this.id = this.$route.query.id
+    this.quiz = await this.$store.dispatch('getQuiz', this.id)
   }
 }
 </script>
@@ -239,22 +229,22 @@ export default {
   .container {
     display: flex;
     flex-direction: column;
+
   }
   .name {
     align-self: center;
-    background-color: $color-blue;
+    background-color: black;
     color: #fff;
     margin: 0;
     padding: 5px 10px;
     text-align: center;
     white-space: nowrap;
-    width: 25%;
     @include media-breakpoint-down(sm) {
       width: 75%;
     }
   }
   .separator {
-    border-bottom: 2px dashed #0050ff;
+    border-bottom: 2px dashed black;
     width: 100%;
     margin-top: -1em;
     z-index: -1;
@@ -309,11 +299,11 @@ export default {
         padding: 25px;
         margin: 10px;
         align-items: center;
+        min-height: 12em;
         @include media-breakpoint-up(sm) {
           width: 50%;
         }
         input[type="checkbox"] {
-
           padding-right: 70%;
         }
         label {
@@ -421,7 +411,7 @@ export default {
     display: flex;
     justify-content: center;
     iframe {
-      height: 450px;
+      height: 500px;
     }
   }
 
