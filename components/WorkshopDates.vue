@@ -2,6 +2,7 @@
   <div class="workshop-dates">
     <div
       v-for="d in dates"
+      :key="d.id"
       class="workshop-date"
       :class="{ soldOut: d.content.sold_out }"
     >
@@ -9,12 +10,13 @@
         <div class="info-block">
           <div class="col info">
             <icon name="calendar" />
-            {{ d.content.starttime | date }}
+            {{ formatDate(d.content.starttime) }}
+
           </div>
           <div class="col info">
             <icon name="clock" />
-            <span>{{ d.content.starttime | time }}</span>
-            <span v-if="d.content.endtime"> bis {{ d.content.endtime | time }}</span>
+            <span>{{ formatTime(d.content.starttime) }}</span>
+            <span v-if="d.content.endtime"> bis {{ formatTime(d.content.endtime) }}</span>
             <span>Uhr</span>
           </div>
         </div>
@@ -47,7 +49,7 @@
             v-if="metadata == null && logged_in == false && hideRegister != true"
             class="col"
           >
-            Für die Anmeldung zu unseren Workshops ist eine Registrierung notwendig. Danke!
+            Für die Buchung eines Workshops musst du registriert und eingeloggt sein. Danke!
           </div>
           <div class="spacer" />
 
@@ -72,15 +74,17 @@
           <div
             v-if="hideRegister != true && !(d.content.link && d.content.link.cached_url && d.content.link.cached_url != '')"
             class="col register"
-            :class="{disabled: metadata == null || metadata[d.uuid].occupancy >= 100 || metadata[d.uuid].already_booked == true }"
           >
-            <NuxtLink
+            <NuxtLink v-if="metadata"
               :event="metadata == null || metadata[d.uuid].occupancy >= 100|| metadata[d.uuid].already_booked == true ? '': 'click'"
               :to="{ path: '/me/buyWorkshop', query: { uuid: d.uuid }}"
               class="link"
             >
               {{ metadata != null && metadata[d.uuid].already_booked == true ? 'Du hast diesen Workshop schon gebucht.  ' : 'Zur Anmeldung' }}
             </NuxtLink>
+            <span v-else class="link" @click="$store.dispatch('setSidebar', 'login')">
+              Zur Anmeldung
+            </span>
           </div>
           <div
             v-if="hideRegister != true && d.content.link && d.content.link.cached_url && d.content.link.cached_url != '' && !d.content.sold_out"
@@ -99,6 +103,8 @@
 </template>
 
 <script>
+
+import moment from 'moment'
 
 export default {
   props: {
@@ -119,7 +125,7 @@ export default {
     }
   },
   mounted () {
-    if (this.noMetadata != true) {
+    if (this.noMetadata !== true) {
       this.loadMetaData()
     }
   },
@@ -127,6 +133,12 @@ export default {
 
   },
   methods: {
+    formatDate: function (value) {
+      return moment(value).format('DD.MM.YYYY')
+    },
+    formatTime: function (value) {
+      return moment(value).format('HH:MM')
+    },
     loadMetaData: function () {
       const body = {
         workshop_date_uuids: []
@@ -222,6 +234,10 @@ export default {
   .disabled {
     background-color: lightgray !important;
     pointer-events: none;
+  }
+  .link {
+    cursor: pointer;
+    color: white;
   }
 }
 </style>

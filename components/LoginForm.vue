@@ -6,7 +6,7 @@
     <div class="header-item">
       <div class="form-item space">
         <div class="headline">
-          Login für GRAND GARAGE Mitglieder
+          Login zur GRAND GARAGE Community
         </div>
       </div>
       <div
@@ -57,7 +57,7 @@
         class="icon"
         icon="user-friends"
       />
-      <span>Mitglied werden</span>
+      <span>Registrierung</span>
     </div>
     <div
       class="subtitle"
