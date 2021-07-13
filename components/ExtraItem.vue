@@ -2,13 +2,22 @@
   <div v-editable="blok">
     <div class="content">
       <div class="header">
-        <h2 class="title">{{blok.title}}</h2>
+        <h2 class="title">
+          {{ blok.title }}
+        </h2>
         <div class="icon">
-          <icon v-if="blok.icon" :name="blok.icon" />
+          <icon
+            v-if="blok.icon"
+            :name="blok.icon"
+          />
         </div>
       </div>
       <div class="body">
-        <markdown class="text" v-if="blok.description" :value="blok.description"></markdown>
+        <markdown
+          v-if="blok.description"
+          class="text"
+          :value="blok.description"
+        />
       </div>
     </div>
   </div>

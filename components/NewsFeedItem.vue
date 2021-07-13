@@ -1,15 +1,39 @@
 <template>
-  <div v-editable="news.content" :class="'news-feed-item _' + type || 'vertical'" v-if="news.content && news.content.component == 'news-overview' && news.content != 'Header'">
+  <div
+    v-if="news.content && news.content.component == 'news-overview' && news.content != 'Header'"
+    v-editable="news.content"
+    :class="'news-feed-item _' + type || 'vertical'"
+  >
     <div class="top">
       <!--<a :href="link" target="_blank">-->
-      <Nuxt-link :to="{ path: './'+news.slug}" class="link" :disabled="news.slug == undefined">
+      <Nuxt-link
+        :to="{ path: './'+news.slug}"
+        class="link"
+        :disabled="news.slug == undefined"
+      >
         <div>
           <div class="header">
-            <voting-button v-if="news.content.voting" :prop-vote="news.count" :uuid="news.uuid"></voting-button>
-            <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
-            <img v-if="news.content.source && news.content.source.length != 0" class="source-img" :src="`/icons/${news.content.source}.png`">
+            <voting-button
+              v-if="news.content.voting"
+              :prop-vote="news.count"
+              :uuid="news.uuid"
+            />
+            <p
+              v-if="news.content.datetime"
+              class="date"
+            >
+              {{ news.content.datetime | date }}
+            </p>
+            <img
+              v-if="news.content.source && news.content.source.length != 0"
+              class="source-img"
+              :src="`/icons/${news.content.source}.png`"
+            >
           </div>
-          <img class="image" :src="$resizeImage(news.content.image, '600x0')">
+          <img
+            class="image"
+            :src="$resizeImage(news.content.image, '600x0')"
+          >
         </div>
       </Nuxt-link>
       <!--</a>-->
@@ -17,32 +41,74 @@
     <div class="bot">
       <!--<a :href="link" target="_blank">
         <nuxt-link :to="{ path: '/news/detail', query: { item: news }}" class="link">-->
-      <nuxt-link :to="{ path: './'+news.slug}" class="link" :disabled="news.slug == undefined">
+      <nuxt-link
+        :to="{ path: './'+news.slug}"
+        class="link"
+        :disabled="news.slug == undefined"
+      >
         <div class="header">
-          <voting-button v-if="news.content.voting" :prop-vote="news.count" :uuid="news.uuid"></voting-button>
+          <voting-button
+            v-if="news.content.voting"
+            :prop-vote="news.count"
+            :uuid="news.uuid"
+          />
 
-          <p class="date" v-if="news.content.datetime">{{news.content.datetime | date}}</p>
-          <img v-if="news.content.source && news.content.source.length != 0" class="source-img" :src="`/icons/${news.content.source}.png`">
+          <p
+            v-if="news.content.datetime"
+            class="date"
+          >
+            {{ news.content.datetime | date }}
+          </p>
+          <img
+            v-if="news.content.source && news.content.source.length != 0"
+            class="source-img"
+            :src="`/icons/${news.content.source}.png`"
+          >
         </div>
-        <h4 class="title">{{news.content.title}}</h4>
-        <span class="text">{{news.content.teaser}}</span>
+        <h4 class="title">
+          {{ news.content.title }}
+        </h4>
+        <span class="text">{{ news.content.teaser }}</span>
       </nuxt-link>
       <!--</a>-->
     </div>
   </div>
 
-
-  <div v-editable="news" v-else-if="news.content != 'Header'" :class="'news-feed-item ' + type || 'vertical'">
+  <div
+    v-else-if="news.content != 'Header'"
+    v-editable="news"
+    :class="'news-feed-item ' + type || 'vertical'"
+  >
     <div class="top">
       <!--<a :href="link" target="_blank">-->
-      <Nuxt-link :to="{ path: './'+news.slug}" class="link" :disabled="news.slug == undefined">
+      <Nuxt-link
+        :to="{ path: './'+news.slug}"
+        class="link"
+        :disabled="news.slug == undefined"
+      >
         <div class="header">
-          <voting-button v-if="news.content.voting" :prop-vote="news.count" :uuid="news.uuid"></voting-button>
+          <voting-button
+            v-if="news.content.voting"
+            :prop-vote="news.count"
+            :uuid="news.uuid"
+          />
 
-          <p class="date" v-if="news.datetime">{{news.datetime | date}}</p>
-          <img v-if="news.source" class="source-img" :src="`/icons/${news.source}.png`">
+          <p
+            v-if="news.datetime"
+            class="date"
+          >
+            {{ news.datetime | date }}
+          </p>
+          <img
+            v-if="news.source"
+            class="source-img"
+            :src="`/icons/${news.source}.png`"
+          >
         </div>
-        <img class="image" :src="$resizeImage(news.image, '600x0')">
+        <img
+          class="image"
+          :src="$resizeImage(news.image, '600x0')"
+        >
       </Nuxt-link>
       <!--</a>-->
     </div>
@@ -50,18 +116,44 @@
     <div class="bot">
       <!--<a :href="link" target="_blank">
         <nuxt-link :to="{ path: '/news/detail', query: { item: news }}" class="link">-->
-      <nuxt-link :to="{ path: './'+news.slug}" class="link">
+      <nuxt-link
+        :to="{ path: './'+news.slug}"
+        class="link"
+      >
         <div class="link">
-          <div v-if="news.content.voting" class="voting-icon"><a v-on:click="vote"><img class="medal-icon" src="~/assets/img/medal-variant-with-star.svg"></a></div>
+          <div
+            v-if="news.content.voting"
+            class="voting-icon"
+          >
+            <a @click="vote"><img
+              class="medal-icon"
+              src="~/assets/img/medal-variant-with-star.svg"
+            ></a>
+          </div>
           <div>
             <div class="header">
-              <voting-button v-if="news.content.voting" :prop-vote="news.count" :uuid="news.uuid"></voting-button>
+              <voting-button
+                v-if="news.content.voting"
+                :prop-vote="news.count"
+                :uuid="news.uuid"
+              />
 
-              <p class="date" v-if="news.datetime">{{news.datetime | date}}</p>
-              <img v-if="news.source && news.source.length != 0" class="source-img" :src="`/icons/${news.source}.png`">
+              <p
+                v-if="news.datetime"
+                class="date"
+              >
+                {{ news.datetime | date }}
+              </p>
+              <img
+                v-if="news.source && news.source.length != 0"
+                class="source-img"
+                :src="`/icons/${news.source}.png`"
+              >
             </div>
-            <h4 class="title">{{news.title}}</h4>
-            <span class="text">{{news.teaser}}</span>
+            <h4 class="title">
+              {{ news.title }}
+            </h4>
+            <span class="text">{{ news.teaser }}</span>
           </div>
         </div>
       </nuxt-link>
@@ -71,36 +163,36 @@
 </template>
 
 <script>
-    import VotingButton from "./VotingButton";
-    export default {
-      components: {VotingButton},
-      props: {
-            news: {},
-        },
-        data() {
-            return {
-                type: null,
-                link: null,
-                loading: false,
-                sources: [
-                    {name: "magazin3", key: "m3", selected: false},
-                    {name: "youtube", key: "yt", selected: false},
-                    {name: "facebook", key: "fb", selected: false},
-                    {name: "twitter", key: "tw", selected: false},
-                    {name: "instagram", key: "ig", selected: false}
-                ],
-            };
-        },
-        created() {
+import VotingButton from './VotingButton'
+export default {
+  components: { VotingButton },
+  props: {
+    news: {}
+  },
+  asyncData (context) {
+  },
+  data () {
+    return {
+      type: null,
+      link: null,
+      loading: false,
+      sources: [
+        { name: 'magazin3', key: 'm3', selected: false },
+        { name: 'youtube', key: 'yt', selected: false },
+        { name: 'facebook', key: 'fb', selected: false },
+        { name: 'twitter', key: 'tw', selected: false },
+        { name: 'instagram', key: 'ig', selected: false }
+      ]
+    }
+  },
+  computed: {
+    getStory () {
+    }
+  },
+  created () {
 
-        },
-        computed: {
-            getStory() {
-            }
-        },
-        asyncData(context) {
-        }
-    };
+  }
+}
 </script>
 
 <style lang="scss" scoped>

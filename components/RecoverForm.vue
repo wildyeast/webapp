@@ -1,19 +1,25 @@
 <template>
   <div class="recover-form">
     <div v-if="loading">
-      <loading-spinner color="black"></loading-spinner>
+      <loading-spinner color="black" />
     </div>
     <div v-else>
       <div class="header-item">
         <div class="space">
           <div class="headline">
             <div>
-            <div class="back" @click="login">
-              <font-awesome-icon icon="angle-left" />
-            </div>
+              <div
+                class="back"
+                @click="login"
+              >
+                <font-awesome-icon icon="angle-left" />
+              </div>
               <span class="text">Password zurücksetzen</span>
             </div>
-            <div class="close" @click="close">
+            <div
+              class="close"
+              @click="close"
+            >
               <font-awesome-icon icon="times" />
             </div>
           </div>
@@ -24,55 +30,66 @@
       </div>
       <div class="form-item">
         <span class="label">E-Mail</span>
-        <input type="email" v-model="email" ref="email" placeholder="deine e-mail adresse" @input="checkMail" />
+        <input
+          ref="email"
+          v-model="email"
+          type="email"
+          placeholder="deine e-mail adresse"
+          @input="checkMail"
+        >
       </div>
       <div class="form-item button-row">
-        <button :disabled="!email.length" @click="submit">Absenden</button>
+        <button
+          :disabled="!email.length"
+          @click="submit"
+        >
+          Absenden
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import _ from 'lodash';
+import _ from 'lodash'
 
 export default {
   props: ['blok'],
-  data() {
+  data () {
     return {
       email: '',
-      loading: false,
+      loading: false
     }
   },
   methods: {
-    close() {
-      this.$store.dispatch('setSidebar', null);
+    close () {
+      this.$store.dispatch('setSidebar', null)
     },
     async submit () {
-      this.loading = true;
-      let data = {
-        email: this.email,
+      this.loading = true
+      const data = {
+        email: this.email
       }
       await this.$store.dispatch('recoverPassword', data)
       this.loading = false
-      this.$store.dispatch('setSidebar', 'recover-success');
+      this.$store.dispatch('setSidebar', 'recover-success')
     },
-    login() {
-      this.$store.dispatch('setSidebar', 'login');
+    login () {
+      this.$store.dispatch('setSidebar', 'login')
     },
-    clearError() {
-      this.errorMessage = null;
-      this.errorDescription = '';
+    clearError () {
+      this.errorMessage = null
+      this.errorDescription = ''
     },
-    checkName() {
-      this.clearError();
+    checkName () {
+      this.clearError()
     },
-    checkMail() {
-      this.clearError();
+    checkMail () {
+      this.clearError()
     },
-    checkPassword() {
-      this.clearError();
-    },
+    checkPassword () {
+      this.clearError()
+    }
   }
 }
 </script>

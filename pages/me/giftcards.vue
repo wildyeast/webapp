@@ -1,19 +1,29 @@
 <template>
   <div>
-    <h2 v-if="action">Gutschein {{ action === 'buy' ? 'kaufen' : 'einlösen' }}</h2>
+    <h2 v-if="action">
+      Gutschein {{ action === 'buy' ? 'kaufen' : 'einlösen' }}
+    </h2>
 
-    <h2 v-else>Gutscheine</h2>
+    <h2 v-else>
+      Gutscheine
+    </h2>
     <template v-if="!action">
       <component
+        :is="story.content.component"
         v-if="story.content.component"
         :key="story.content._uid"
         :blok="story.content"
-        :is="story.content.component"
-      ></component>
-      <button class="input-button-primary" @click="$router.push('giftcards?action=buy')">
+      />
+      <button
+        class="input-button-primary"
+        @click="$router.push('giftcards?action=buy')"
+      >
         Gutschein kaufen
       </button>
-      <button class="input-button-primary" @click="$router.push('giftcards?action=redeem')">
+      <button
+        class="input-button-primary"
+        @click="$router.push('giftcards?action=redeem')"
+      >
         Gutschein einlösen
       </button>
     </template>
@@ -21,23 +31,46 @@
     <transition name="fade">
       <template>
         <template v-if="action === 'buy'">
-          <div class="giftcardForm" v-if="step === 0">
+          <div
+            v-if="step === 0"
+            class="giftcardForm"
+          >
             <div class="input">
               <span> Gutschein-Wert: </span>
-              <select class="form-item" v-model="selectedProduct">
-                <option value="719">10€</option>
-                <option value="720">25€</option>
-                <option value="721">50€</option>
-                <option value="722">100€</option>
+              <select
+                v-model="selectedProduct"
+                class="form-item"
+              >
+                <option value="719">
+                  10€
+                </option>
+                <option value="720">
+                  25€
+                </option>
+                <option value="721">
+                  50€
+                </option>
+                <option value="722">
+                  100€
+                </option>
               </select>
             </div>
 
             <div class="input">
               <span> Extras: </span>
-              <select class="form-item" v-model="selectedExtra">
-                <option value="733">E-mail - Gratis</option>
-                <option value="734">Versand-Standard - 3€</option>
-                <option value="735">Deluxe-Box - 25€</option>
+              <select
+                v-model="selectedExtra"
+                class="form-item"
+              >
+                <option value="733">
+                  E-mail - Gratis
+                </option>
+                <option value="734">
+                  Versand-Standard - 3€
+                </option>
+                <option value="735">
+                  Deluxe-Box - 25€
+                </option>
               </select>
             </div>
 
@@ -55,18 +88,18 @@
           <div v-if="step === 1">
             <h4>Zahlungsmethode</h4>
             <input
+              v-model="paymentMethod"
               type="radio"
               name="paymentMethod"
               value="1"
-              v-model="paymentMethod"
-            />Kreditkarte<br />
+            >Kreditkarte<br>
             <div v-if="invoiceContact.sepa_mandate_agreed">
               <input
+                v-model="paymentMethod"
                 type="radio"
                 name="paymentMethod"
                 value="2"
-                v-model="paymentMethod"
-              />SEPA-Monatsrechnung<br />
+              >SEPA-Monatsrechnung<br>
             </div>
 
             <div v-if="invoiceContact != null">
@@ -75,69 +108,74 @@
               <div class="form-item">
                 <span class="label">Vorname</span>
                 <input
+                  v-model="invoiceContact.firstname"
                   class="input-text"
                   type="text"
-                  v-model="invoiceContact.firstname"
                   name=""
-                />
+                >
               </div>
               <div class="form-item">
                 <span class="label">Nachname</span>
                 <input
+                  v-model="invoiceContact.lastname"
                   class="input-text"
                   type="text"
-                  v-model="invoiceContact.lastname"
                   name=""
-                />
+                >
               </div>
               <div class="form-item">
                 <span class="label">Telefon</span>
                 <input
+                  v-model="invoiceContact.phone"
                   class="input-text"
                   type="text"
-                  v-model="invoiceContact.phone"
                   name=""
-                />
+                >
               </div>
               <div class="form-item">
                 <span class="label">Adresse</span>
                 <input
+                  v-model="invoiceContact.street"
                   class="input-text"
                   type="text"
-                  v-model="invoiceContact.street"
                   name=""
-                />
+                >
               </div>
               <div class="form-item">
-                <span class="label"></span>
+                <span class="label" />
                 <input
+                  v-model="invoiceContact.street_additional"
                   class="input-text"
                   type="text"
-                  v-model="invoiceContact.street_additional"
                   name=""
-                />
+                >
               </div>
               <div class="form-item">
                 <span class="label">PLZ</span>
                 <input
+                  v-model="invoiceContact.zip"
                   class="input-text"
                   type="text"
-                  v-model="invoiceContact.zip"
                   name=""
-                />
+                >
               </div>
               <div class="form-item">
                 <span class="label">Stadt</span>
                 <input
+                  v-model="invoiceContact.city"
                   class="input-text"
                   type="text"
-                  v-model="invoiceContact.city"
                   name=""
-                />
+                >
               </div>
             </div>
             <div class="buttons">
-              <button class="input-button-back" @click="step--">Zurück</button>
+              <button
+                class="input-button-back"
+                @click="step--"
+              >
+                Zurück
+              </button>
               <button
                 class="input-button-primary"
                 :disabled="!paymentMethod"
@@ -156,7 +194,12 @@
             </ul>
 
             <div class="buttons">
-              <button class="input-button-back" @click="step--">Zurück</button>
+              <button
+                class="input-button-back"
+                @click="step--"
+              >
+                Zurück
+              </button>
               <button
                 class="input-button-payment"
                 :disabled="!paymentMethod || loading"
@@ -173,10 +216,16 @@
         </template>
 
         <template v-if="action === 'redeem'">
-          <div class="giftcardForm" v-if="step === 0">
+          <div
+            v-if="step === 0"
+            class="giftcardForm"
+          >
             <div class="input">
               <span> Gutschein-Code: </span>
-              <input class="form-item" v-model="giftcardCode" />
+              <input
+                v-model="giftcardCode"
+                class="form-item"
+              >
             </div>
             <div class="buttons">
               <button
@@ -190,18 +239,30 @@
           </div>
         </template>
       </template>
-    </transition> 
-    <loading-spinner v-if="loading" color="#333"></loading-spinner>
+    </transition>
+    <loading-spinner
+      v-if="loading"
+      color="#333"
+    />
   </div>
 </template>
 
 <script>
-import storyblokLivePreview from "@/mixins/storyblokLivePreview";
+import storyblokLivePreview from '@/mixins/storyblokLivePreview'
 
 export default {
-  middleware: "authenticated",
   mixins: [storyblokLivePreview],
-  data() {
+  middleware: 'authenticated',
+  asyncData (context) {
+    const path = '/members/shop'
+    return context.store.dispatch('loadPage', path).catch((e) => {
+      context.error({
+        statusCode: e.response.status,
+        message: e.response.statusText
+      })
+    })
+  },
+  data () {
     return {
       step: 0,
       action: null,
@@ -210,26 +271,30 @@ export default {
       selectedExtra: null,
       giftcardCode: null,
       paymentMethod: 0,
-      error: "",
+      error: '',
       shippingAddressEnabled: 0,
       invoiceContact: null,
       sepa_active: false,
       shippingAddress: [],
-      loading: false,
-    };
+      loading: false
+    }
   },
-  mounted () {
-    this.$store.dispatch("getUserMetadata").then((data) => {
-      this.invoiceContact = data.data.invoice_contact;
-      this.sepaActive = data.data.sepa_active;
-    });
-    this.getQuery(this.$route.query)
-
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
   },
   watch: {
-    "$route.query" (to) {
+    '$route.query' (to) {
       this.getQuery(to)
-    },
+    }
+  },
+  mounted () {
+    this.$store.dispatch('getUserMetadata').then((data) => {
+      this.invoiceContact = data.data.invoice_contact
+      this.sepaActive = data.data.sepa_active
+    })
+    this.getQuery(this.$route.query)
   },
   methods: {
     getQuery (to) {
@@ -241,13 +306,13 @@ export default {
         this.step = 0
         return
       }
-      this.action = null;
+      this.action = null
     },
     async redeem () {
-      this.loading = true;
-      const response = await this.$store.dispatch("redeemGiftCard", {
-        uuid: this.giftcardCode,
-      });
+      this.loading = true
+      const response = await this.$store.dispatch('redeemGiftCard', {
+        uuid: this.giftcardCode
+      })
       if (!response.success) {
         if (response.already_redeemed) {
           this.$toast.show('Dieser Gutschein ist bereits eingelöst worden!', {
@@ -270,91 +335,77 @@ export default {
         return
       }
       this.loading = false
-      this.$toast.show('Der Gutschein wurde erfolgreich eingelöst!', { 
+      this.$toast.show('Der Gutschein wurde erfolgreich eingelöst!', {
         className: 'goodToast'
       })
       this.$router.push('credits')
     },
-    checkout() {
-      this.loading = true;
-      let data = {
+    checkout () {
+      this.loading = true
+      const data = {
         payment_method: parseInt(this.paymentMethod),
         productCounts: [
           {
             product_id: this.selectedProduct,
-            count: 1,
+            count: 1
           },
           {
             product_id: this.selectedExtra,
-            count: 1,
-          },
+            count: 1
+          }
         ],
-        invoice_contact: this.invoiceContact,
-      };
+        invoice_contact: this.invoiceContact
+      }
 
-      this.$store.dispatch("checkout", data).then((data) => {
+      this.$store.dispatch('checkout', data).then((data) => {
         if (data.success) {
-          this.loading = false;
+          this.loading = false
           switch (parseInt(this.paymentMethod)) {
             case 1:
-              this.redirectToStripe(data.session_id);
-              break;
+              this.redirectToStripe(data.session_id)
+              break
             case 2:
               this.step++
-              break;
+              break
           }
         } else {
-          this.$sentry.captureException(new Error(data));
+          this.$sentry.captureException(new Error(data))
           this.$toast.show('Ein Fehler ist aufgetreten', {
             theme: 'bubble'
           })
         }
-      });
+      })
     },
     redirectToStripe: function (sessionId) {
-      var stripe = Stripe("pk_live_XCUCaJMt8kMEpedQdvmtMu4Z00rNP9VDun");
+      const stripe = Stripe('pk_live_XCUCaJMt8kMEpedQdvmtMu4Z00rNP9VDun')
       stripe.redirectToCheckout({
-        sessionId: sessionId,
-      });
+        sessionId: sessionId
+      })
     },
-    getExtra(id) {
+    getExtra (id) {
       switch (id) {
-        case "733":
-          return "Digital per E-Mail";
-        case "734":
-          return "Versand";
-        case "735":
-          return "Abholung Deluxe-Box";
+        case '733':
+          return 'Digital per E-Mail'
+        case '734':
+          return 'Versand'
+        case '735':
+          return 'Abholung Deluxe-Box'
       }
     },
-    getGiftCardValue(id) {
+    getGiftCardValue (id) {
       switch (id) {
-        case "719":
-          return 10;
-        case "720":
-          return 25;
-        case "721":
-          return 50;
-        case "722":
-          return 100;
+        case '719':
+          return 10
+        case '720':
+          return 25
+        case '721':
+          return 50
+        case '722':
+          return 100
       }
-    },
-  },
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
-  },
-  asyncData(context) {
-    let path = "/members/shop";
-    return context.store.dispatch("loadPage", path).catch((e) => {
-      context.error({
-        statusCode: e.response.status,
-        message: e.response.statusText,
-      });
-    });
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss">

@@ -1,40 +1,50 @@
 <template>
   <div class="breadcrumbs">
     <div class="content">
-      <div class="item">GRAND GARAGE</div>
-      <div v-for="(item, index) in pathItems" class="item" v-bind:key="index">{{item}}</div>
-      <div class="item last">{{lastItem}}</div>
+      <div class="item">
+        GRAND GARAGE
+      </div>
+      <div
+        v-for="(item, index) in pathItems"
+        :key="index"
+        class="item"
+      >
+        {{ item }}
+      </div>
+      <div class="item last">
+        {{ lastItem }}
+      </div>
     </div>
   </div>
 </template>
 
 <script charset="utf-8">
 export default {
-  created() {},
-  methods: {},
   computed: {
-    items() {
-      let path = this.$store.state.route.fullPath.split("?")[0];
-      let items = path
-        .replace("-", " ")
-        .split("/")
-        .slice(2);
-      if (path.endsWith("/")) {
-        items.pop();
+    items () {
+      const path = this.$store.state.route.fullPath.split('?')[0]
+      const items = path
+        .replace('-', ' ')
+        .split('/')
+        .slice(2)
+      if (path.endsWith('/')) {
+        items.pop()
       }
-      return items;
+      return items
     },
-    pathItems() {
-      let items = this.items.slice(0);
-      items.pop();
-      return items;
+    pathItems () {
+      const items = this.items.slice(0)
+      items.pop()
+      return items
     },
-    lastItem() {
-      let i = this.items.pop();
-      return i;
+    lastItem () {
+      const i = this.items.pop()
+      return i
     }
-  }
-};
+  },
+  created () {},
+  methods: {}
+}
 </script>
 
 <style lang="scss">

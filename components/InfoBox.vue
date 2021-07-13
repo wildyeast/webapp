@@ -1,18 +1,26 @@
 <template>
-  <div v-editable="blok" class="info-box">
+  <div
+    v-editable="blok"
+    class="info-box"
+  >
     <div class="box-content">
       <div class="row">
-        <h2 v-if="blok.title" class="title">
-          {{blok.title}}
+        <h2
+          v-if="blok.title"
+          class="title"
+        >
+          {{ blok.title }}
         </h2>
       </div>
       <div class="row">
         <div class="text">
-          <markdown :value="blok.text"></markdown>
+          <markdown :value="blok.text" />
           <div class="image">
-            <img :src="$resizeImage(blok.image, '500x0')" alt=""/>
+            <img
+              :src="$resizeImage(blok.image, '500x0')"
+              alt=""
+            >
           </div>
-
         </div>
       </div>
     </div>
@@ -22,14 +30,14 @@
 <script>
 export default {
   props: ['blok'],
-  methods: {
-    register() {
-      this.$store.dispatch('setSidebar', 'register');
+  computed: {
+    noUser () {
+      return !this.$store.state.user
     }
   },
-  computed: {
-    noUser() {
-      return !this.$store.state.user;
+  methods: {
+    register () {
+      this.$store.dispatch('setSidebar', 'register')
     }
   }
 }

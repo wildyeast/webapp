@@ -1,61 +1,115 @@
 <template>
-  <div class="header-wrapper" :class="{ 'scrolled': scrolled }">
-    <div class="login-header" v-if="hasAuth">
+  <div
+    class="header-wrapper"
+    :class="{ 'scrolled': scrolled }"
+  >
+    <div
+      v-if="hasAuth"
+      class="login-header"
+    >
       <div class="login-header-content">
         <template v-if="hasUser">
-          <nuxt-link class="me" to="/me">
-            <font-awesome-icon icon="user" style="margin-right: 0.2em; font-size: 0.9em" />
+          <nuxt-link
+            class="me"
+            to="/me"
+          >
+            <font-awesome-icon
+              icon="user"
+              style="margin-right: 0.2em; font-size: 0.9em"
+            />
             <span>{{ username }}</span>
           </nuxt-link>
-          <div class="logout" @click="logout">
+          <div
+            class="logout"
+            @click="logout"
+          >
             <font-awesome-icon icon="sign-out-alt" />
           </div>
         </template>
         <span v-else>
-          <loading-spinner color="white"></loading-spinner>
+          <loading-spinner color="white" />
         </span>
       </div>
     </div>
     <header class="top-header">
       <div class="top-header-inner">
         <div class="logo">
-          <nuxt-link class="top-header__link" to="/">
+          <nuxt-link
+            class="top-header__link"
+            to="/"
+          >
             <img src="~/assets/img/icons/gg-logo-icon.svg">
             <span v-if="devWarning">{{ devWarning }}</span>
           </nuxt-link>
-          <div class="dropdown" v-if="home && home.length > 0">
-            <div v-for="child in home" :key="child.id" class="child">
-              <sb-link :link="child.link" class="child-nav-item" target="_blank">
+          <div
+            v-if="home && home.length > 0"
+            class="dropdown"
+          >
+            <div
+              v-for="child in home"
+              :key="child.id"
+              class="child"
+            >
+              <sb-link
+                :link="child.link"
+                class="child-nav-item"
+                target="_blank"
+              >
                 {{ child.name }}
               </sb-link>
             </div>
           </div>
         </div>
-        <div class="spacer"></div>
-        <main-nav-item class="desktop" :item="item" :key="item.id" v-for="item in main">
-        </main-nav-item>
-        <div v-if="!hasAuth" class="login-button">
-          <button @click="login">LOGIN</button>
+        <div class="spacer" />
+        <main-nav-item
+          v-for="item in main"
+          :key="item.id"
+          class="desktop"
+          :item="item"
+        />
+        <div
+          v-if="!hasAuth"
+          class="login-button"
+        >
+          <button @click="login">
+            LOGIN
+          </button>
         </div>
-        <div class="menu-icon" @click="toggleMenu()">
+        <div
+          class="menu-icon"
+          @click="toggleMenu()"
+        >
           <img src="~/assets/img/icons/menu-icon.svg">
         </div>
       </div>
     </header>
     <transition name="fadefromright">
-      <div class="mobile-nav" v-show="showMenu">
+      <div
+        v-show="showMenu"
+        class="mobile-nav"
+      >
         <div class="mobile-nav-header">
-          <div class="home" @click="toggleMenu()">
+          <div
+            class="home"
+            @click="toggleMenu()"
+          >
             <nuxt-link to="/">
-              <img class="logo" src="~/assets/img/icons/gg-logo-icon.svg">
+              <img
+                class="logo"
+                src="~/assets/img/icons/gg-logo-icon.svg"
+              >
             </nuxt-link>
           </div>
-          <div class="close-nav" @click="toggleMenu">
+          <div
+            class="close-nav"
+            @click="toggleMenu"
+          >
             <svg
               class="close-nav-icon"
               viewBox="0 0 32 32"
               height="32"
-              width="32">
+              width="32"
+            >
               <g>
                 <path d="M 5.5488281 3.8535156 A 2.0002 2.0002 0 0 0 4.15625 7.2890625 L 13.388672 16.519531 L 4.15625 25.751953 A 2.0002 2.0002 0 1 0 6.984375 28.580078 L 16.216797 19.347656 L 25.449219 28.580078 A 2.0002 2.0002 0 1 0 28.277344 25.751953 L 19.044922 16.519531 L 28.277344 7.2890625 A 2.0002 2.0002 0 0 0 26.824219 3.8554688 A 2.0002 2.0002 0 0 0 25.449219 4.4589844 L 16.216797 13.691406 L 6.984375 4.4589844 A 2.0002 2.0002 0 0 0 5.5488281 3.8535156 z " />
               </g>
@@ -63,17 +117,32 @@
           </div>
         </div>
         <div class="main-nav-items">
-          <main-nav-mobile-item class="mobile" :item="item" @close="closeMenu" :key="item.id" v-for="item in main">
-          </main-nav-mobile-item>
+          <main-nav-mobile-item
+            v-for="item in main"
+            :key="item.id"
+            class="mobile"
+            :item="item"
+            @close="closeMenu"
+          />
         </div>
-        <div class="house-nav-items" v-if="home && home.length > 0">
-          <div v-for="child in home" :key="child.id" class="item">
-            <sb-link :link="child.link" class="item-link" target="_blank">
+        <div
+          v-if="home && home.length > 0"
+          class="house-nav-items"
+        >
+          <div
+            v-for="child in home"
+            :key="child.id"
+            class="item"
+          >
+            <sb-link
+              :link="child.link"
+              class="item-link"
+              target="_blank"
+            >
               {{ child.name }}
             </sb-link>
           </div>
         </div>
-
       </div>
     </transition>
   </div>
@@ -82,68 +151,68 @@
 <script charset="utf-8">
 export default {
   props: ['blok'],
-  data() {
+  data () {
     return {
       scrolled: false,
       showMenu: false
     }
   },
   computed: {
-    loginLink() {
-      return '/' + this.$store.state.language + '/login';
+    loginLink () {
+      return '/' + this.$store.state.language + '/login'
     },
-    main() {
-      return this.$store.state.settings.main_navi;
+    main () {
+      return this.$store.state.settings.main_navi
     },
-    home() {
-      return this.$store.state.settings.home_navi;
+    home () {
+      return this.$store.state.settings.home_navi
     },
-    username() {
-      return this.$store.state.user.profile.firstName + ' ' + this.$store.state.user.profile.lastName;
+    username () {
+      return this.$store.state.user.profile.firstName + ' ' + this.$store.state.user.profile.lastName
     },
-    hasAuth() {
-      return !!this.$store.state.auth;
+    hasAuth () {
+      return !!this.$store.state.auth
     },
-    hasUser() {
-      return !!this.$store.state.user;
+    hasUser () {
+      return !!this.$store.state.user
     },
     devWarning () {
       return process.env.NODE_ENV === 'development' ? 'DEV' : null
     }
   },
   watch: {
-    '$store.state.route.fullPath': function() {
-      this.closeMenu();
+    '$store.state.route.fullPath': function () {
+      this.closeMenu()
     }
-  },
-  methods: {
-    closeMenu() {
-      this.showMenu = false;
-    },
-    toggleMenu() {
-      this.showMenu = !this.showMenu;
-    },
-    login() {
-      this.$store.dispatch('setSidebar', 'login');
-    },
-    logout() {
-      this.$store.dispatch('logout').then(() => {
-        this.$router.push('/');
-      });
-    },
-    // add css-shadow when page is scrolled down
-    handleScroll () {
-      this.scrolled = window.scrollY > 0;
-    },
   },
   created () {
     if (process.client) {
-      window.addEventListener('scroll', this.handleScroll);
+      window.addEventListener('scroll', this.handleScroll)
     }
   },
-  destroyed () {
+  unmounted () {
     if (process.client) {
-      window.removeEventListener('scroll', this.handleScroll);
+      window.removeEventListener('scroll', this.handleScroll)
+    }
+  },
+  methods: {
+    closeMenu () {
+      this.showMenu = false
+    },
+    toggleMenu () {
+      this.showMenu = !this.showMenu
+    },
+    login () {
+      this.$store.dispatch('setSidebar', 'login')
+    },
+    logout () {
+      this.$store.dispatch('logout').then(() => {
+        this.$router.push('/')
+      })
+    },
+    // add css-shadow when page is scrolled down
+    handleScroll () {
+      this.scrolled = window.scrollY > 0
     }
   }
 }
@@ -268,8 +337,6 @@ export default {
     flex: 1;
   }
 }
-
-
 
 .mobile-nav {
   display: none;

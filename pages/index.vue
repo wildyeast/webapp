@@ -1,20 +1,17 @@
 <template>
   <section class="util__container">
     <component v-if="story.content.component" :key="story.content._uid" :blok="story.content" :is="story.content.component"></component>
-    <BlogBestOf :msg="name" />
+    <BlogBestOf />
   </section>
 </template>
 <script>
 import BlogBestOf from "../components/BlogBestOf"
 export default {
-  components: {
-    BlogBestOf
+  asyncData (context) {
+    return context.store.dispatch('loadPage', '/')
   },
   data () {
-    return { story: { content: {} }, name: "Laura" }
-  },
-  asyncData (context) {
-    return context.store.dispatch("loadPage", "/");
+    return { story: { content: {} } }
   }
 }
 </script>

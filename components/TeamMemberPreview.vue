@@ -2,14 +2,25 @@
   <div>
     <div class="preview-wrapper">
       <div class="member-preview">
-        <nuxt-link v-if="story" class="story" :to="'/' + story.full_slug">
-          <h2 class="name">{{member.name}}</h2>
+        <nuxt-link
+          v-if="story"
+          class="story"
+          :to="'/' + story.full_slug"
+        >
+          <h2 class="name">
+            {{ member.name }}
+          </h2>
           <div class="info">
-            <p class="title">{{member.title}}</p>
+            <p class="title">
+              {{ member.title }}
+            </p>
 
-            <div class="email" v-if="member.email">
+            <div
+              v-if="member.email"
+              class="email"
+            >
               <img src="~/assets/img/icons/envelope.svg">
-              <p>{{member.email}}</p>
+              <p>{{ member.email }}</p>
             </div>
           </div>
         </nuxt-link>
@@ -20,15 +31,15 @@
 
 <script>
 export default {
-  props: ["story"],
+  props: ['story'],
   computed: {
-    member() {
-      return this.story.content;
+    member () {
+      return this.story.content
     }
   },
   methods: {
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -44,7 +55,6 @@ export default {
   .phone, .email {
     display: none;
   }
-
 
   .member-preview {
     width: 100%;

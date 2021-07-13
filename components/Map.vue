@@ -1,6 +1,13 @@
 <template>
-  <div v-editable="blok" class="map">
-    <img class="placeholder" src="~/assets/img/map.png" alt=""/>
+  <div
+    v-editable="blok"
+    class="map"
+  >
+    <img
+      class="placeholder"
+      src="~/assets/img/map.png"
+      alt=""
+    >
     <!--
     <GmapMap
       :center="{lat: Number(blok.lat), lng: Number(blok.lon) }"
@@ -24,95 +31,95 @@
 <script>
 export default {
   props: ['blok'],
-  data() {
+  data () {
     return {
       mapTypeControl: false,
       markers: [],
       styles:
       [
         {
-          "featureType": "administrative",
-          "elementType": "labels.text.fill",
-          "stylers": [
+          featureType: 'administrative',
+          elementType: 'labels.text.fill',
+          stylers: [
             {
-              "color": "#f85e5e"
+              color: '#f85e5e'
             }
           ]
         },
         {
-          "featureType": "landscape",
-          "stylers": [
+          featureType: 'landscape',
+          stylers: [
             {
-              "color": "#f2f3ee"
+              color: '#f2f3ee'
             }
           ]
         },
         {
-          "featureType": "poi",
-          "stylers": [
+          featureType: 'poi',
+          stylers: [
             {
-              "visibility": "off"
+              visibility: 'off'
             }
           ]
         },
         {
-          "featureType": "road",
-          "stylers": [
+          featureType: 'road',
+          stylers: [
             {
-              "saturation": -100
+              saturation: -100
             },
             {
-              "lightness": 45
+              lightness: 45
             }
           ]
         },
         {
-          "featureType": "road.arterial",
-          "elementType": "labels.icon",
-          "stylers": [
+          featureType: 'road.arterial',
+          elementType: 'labels.icon',
+          stylers: [
             {
-              "visibility": "off"
+              visibility: 'off'
             }
           ]
         },
         {
-          "featureType": "road.highway",
-          "stylers": [
+          featureType: 'road.highway',
+          stylers: [
             {
-              "visibility": "simplified"
+              visibility: 'simplified'
             }
           ]
         },
         {
-          "featureType": "transit",
-          "stylers": [
+          featureType: 'transit',
+          stylers: [
             {
-              "visibility": "off"
+              visibility: 'off'
             }
           ]
         },
         {
-          "featureType": "water",
-          "stylers": [
+          featureType: 'water',
+          stylers: [
             {
-              "color": "#72a4b2"
+              color: '#72a4b2'
             },
             {
-              "visibility": "on"
+              visibility: 'on'
             }
           ]
         }
-]
+      ]
     }
   },
   computed: {
-    options() {
+    options () {
       return {
         styles: this.styles
       }
     }
   },
-  created() {
+  created () {
     this.markers = [{
       position: {
         lat: Number(this.blok.lat),

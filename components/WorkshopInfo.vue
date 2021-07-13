@@ -1,20 +1,43 @@
 <template>
-  <div v-editable="blok" class="workshop-info">
+  <div
+    v-editable="blok"
+    class="workshop-info"
+  >
     <div class="left-content">
-      <h2 v-if="blok.subtitle" class="headline">
-        {{blok.subtitle}}
+      <h2
+        v-if="blok.subtitle"
+        class="headline"
+      >
+        {{ blok.subtitle }}
       </h2>
     </div>
     <div class="right-content">
-      <div v-if="blok.teaser" class="teaser">
-        {{blok.teaser}}
+      <div
+        v-if="blok.teaser"
+        class="teaser"
+      >
+        {{ blok.teaser }}
       </div>
-      <markdown v-if="blok.facts" :value="blok.facts" class="info-text"></markdown>
-      <workshop-dates :dates="dates" class="workshop-dates"></workshop-dates>
-      <markdown v-if="blok.info" :value="blok.info" class="info-text"></markdown>
+      <markdown
+        v-if="blok.facts"
+        :value="blok.facts"
+        class="info-text"
+      />
+      <workshop-dates
+        :dates="dates"
+        class="workshop-dates"
+      />
+      <markdown
+        v-if="blok.info"
+        :value="blok.info"
+        class="info-text"
+      />
     </div>
-    <div class="body" v-if="blok.images">
-      <image-slideshow :blok="images"></image-slideshow>
+    <div
+      v-if="blok.images"
+      class="body"
+    >
+      <image-slideshow :blok="images" />
     </div>
   </div>
 </template>
@@ -22,15 +45,15 @@
 <script>
 export default {
   props: ['blok', 'dates'],
-  data() {
+  data () {
     return {
     }
   },
   computed: {
-    linktitle() {
-      return  this.blok.linktitle;
+    linktitle () {
+      return this.blok.linktitle
     },
-    images() {
+    images () {
       return {
         items: this.blok.images
       }

@@ -1,36 +1,62 @@
 <template>
-  <div v-editable="blok" class="intro-list">
+  <div
+    v-editable="blok"
+    class="intro-list"
+  >
     <div class="content">
       <div class="primary-col">
         <div class="headline">
-          <h3 class="headline-text">{{blok.headline}}</h3>
+          <h3 class="headline-text">
+            {{ blok.headline }}
+          </h3>
         </div>
-        <div class="dashed-line-blue"></div>
+        <div class="dashed-line-blue" />
         <div class="intro-items">
           <div
+            v-for="i in blok.items"
             class="intro-item-title"
             :class="(selected == i._uid ? 'is-selected' : '')"
-            v-for="i in blok.items"
-            @click="updateSelected(i)">
-              <div class="text">
-                {{i.title}}
-              </div>
-              <div class="arrow">
-              </div>
+            @click="updateSelected(i)"
+          >
+            <div class="text">
+              {{ i.title }}
+            </div>
+            <div class="arrow" />
           </div>
         </div>
       </div>
       <div class="secondary-col">
         <div class="intro-text">
           <transition name="fadefromleft">
-            <div v-for="(i, k) in blok.items" :key="k" v-if="selected == i._uid" class="intro-item-text">
-                {{i.text}}
+            <div
+              v-for="(i, k) in blok.items"
+              v-if="selected == i._uid"
+              :key="k"
+              class="intro-item-text"
+            >
+              {{ i.text }}
             </div>
           </transition>
         </div>
-        <div class="intro-bg-image" :class="(selected ? 'has-content' : '')" :style="'background-image: url('+$resizeImage(blok.image, '700x0')+')'" :alt="blok.headline">
-        </div>
-        <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke-width="1"/></svg>
+        <div
+          class="intro-bg-image"
+          :class="(selected ? 'has-content' : '')"
+          :style="'background-image: url('+$resizeImage(blok.image, '700x0')+')'"
+          :alt="blok.headline"
+        />
+        <svg
+          class="circle"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16px"
+          height="16px"
+          viewBox="0 0 16 16"
+        ><circle
+          cx="8"
+          cy="8"
+          r="7"
+          fill="none"
+          stroke-width="1"
+        /></svg>
       </div>
     </div>
   </div>
@@ -39,17 +65,17 @@
 <script>
 export default {
   props: ['blok'],
-  created() {
-    this.selected = this.blok.items[0]._uid;
-  },
-  data() {
+  data () {
     return {
       selected: null
     }
   },
+  created () {
+    this.selected = this.blok.items[0]._uid
+  },
   methods: {
-    updateSelected(e) {
-      this.selected = e._uid;
+    updateSelected (e) {
+      this.selected = e._uid
     }
   }
 

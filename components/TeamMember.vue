@@ -1,39 +1,73 @@
 <template>
-  <div v-editable="blok" class="member-page" @touchstart="touch">
-    <a href="#" display="none" ref="hidden"></a>
+  <div
+    v-editable="blok"
+    class="member-page"
+    @touchstart="touch"
+  >
+    <a
+      ref="hidden"
+      href="#"
+      display="none"
+    />
     <div class="header">
       <div class="image">
-        <img class="picture" v-if="blok.image" :src="$resizeImage(blok.image, '700x700')" :alt="blok.name + ', ' + blok.title"/>
-        <img class="picture image-alt" v-if="blok.image_alt" :src="$resizeImage(blok.image_alt, '700x700')" :alt="blok.name + ', ' + blok.title"/>
+        <img
+          v-if="blok.image"
+          class="picture"
+          :src="$resizeImage(blok.image, '700x700')"
+          :alt="blok.name + ', ' + blok.title"
+        >
+        <img
+          v-if="blok.image_alt"
+          class="picture image-alt"
+          :src="$resizeImage(blok.image_alt, '700x700')"
+          :alt="blok.name + ', ' + blok.title"
+        >
       </div>
       <div class="info">
         <div class="short-info">
           <div class="name-contact">
-            <div class="name">{{blok.name}}</div>
+            <div class="name">
+              {{ blok.name }}
+            </div>
             <div class="contact-options">
-              <a class="option email" v-if="blok.email" :href="'mailto:'+blok.email">
-                <img class="icon" src="~/assets/img/icons/envelope.svg" alt=""/>
-                <div class="text">{{blok.email}}</div>
+              <a
+                v-if="blok.email"
+                class="option email"
+                :href="'mailto:'+blok.email"
+              >
+                <img
+                  class="icon"
+                  src="~/assets/img/icons/envelope.svg"
+                  alt=""
+                >
+                <div class="text">{{ blok.email }}</div>
               </a>
             </div>
           </div>
-          <div class="title">{{blok.title}}</div>
+          <div class="title">
+            {{ blok.title }}
+          </div>
         </div>
         <div class="short-description">
-          {{blok.short_description}}
+          {{ blok.short_description }}
         </div>
       </div>
     </div>
     <div class="short-description-mobile">
-      {{blok.short_description}}
+      {{ blok.short_description }}
     </div>
     <div class="body">
       <div class="future-slogan">
-        <div class="first">Die Zukunft</div>
-        <div class="second">gehört {{blok.future}}<span v-if="!blok.future">uns allen</span></div>
+        <div class="first">
+          Die Zukunft
+        </div>
+        <div class="second">
+          gehört {{ blok.future }}<span v-if="!blok.future">uns allen</span>
+        </div>
       </div>
       <div class="description">
-        <markdown :value="blok.description"></markdown>
+        <markdown :value="blok.description" />
       </div>
     </div>
   </div>
@@ -43,9 +77,9 @@
 export default {
   props: ['blok'],
   methods: {
-    touch(e) {
+    touch (e) {
       if (e.target.localName !== 'img') {
-        this.$refs.hidden.focus();
+        this.$refs.hidden.focus()
       }
     }
   }

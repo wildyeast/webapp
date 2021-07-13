@@ -1,23 +1,50 @@
 <template>
   <div>
     <h2>Meine Aktivitäten</h2>
-    <loading-spinner v-if="!activities" color="#333"></loading-spinner>
-    <div class="activities" v-if="activities">
-      <div :class="['activity', { pointer: activity.invoice_id }]" v-for="activity of activities" :key="activity.id" @click="showInvoice(activity)">
-        <div class="date">{{ new Date(activity.service_date).toLocaleDateString('de-AT') }}</div>
+    <loading-spinner
+      v-if="!activities"
+      color="#333"
+    />
+    <div
+      v-if="activities"
+      class="activities"
+    >
+      <div
+        v-for="activity of activities"
+        :key="activity.id"
+        :class="['activity', { pointer: activity.invoice_id }]"
+        @click="showInvoice(activity)"
+      >
+        <div class="date">
+          {{ new Date(activity.service_date).toLocaleDateString('de-AT') }}
+        </div>
         <div class="right">
           <div class="top">
-            <div class="name">{{ activity.product.external_name }}</div>
-<!--            <div class="count">{{ activity.product_count }}x</div>-->
-            <div class="cost">{{ Math.round(activity.cost_brutto) }}EUR</div>
-            <div class="info" v-if="activity.invoice_id">
+            <div class="name">
+              {{ activity.product.external_name }}
+            </div>
+            <!--            <div class="count">{{ activity.product_count }}x</div>-->
+            <div class="cost">
+              {{ Math.round(activity.cost_brutto) }}EUR
+            </div>
+            <div
+              v-if="activity.invoice_id"
+              class="info"
+            >
               <template>
                 <span class="link">Rechnung #{{ activity.invoice_human_readable_id }}</span>
-                <div class="icon"><font-awesome-icon icon="link" /></div>
+                <div class="icon">
+                  <font-awesome-icon icon="link" />
+                </div>
               </template>
             </div>
           </div>
-          <div class="notes" v-if="activity.notes">{{ activity.notes }}</div>
+          <div
+            v-if="activity.notes"
+            class="notes"
+          >
+            {{ activity.notes }}
+          </div>
         </div>
       </div>
     </div>
@@ -25,9 +52,9 @@
 </template>
 <script>
 export default {
-  name: "activities",
+  name: 'Activities',
   middleware: 'authenticated',
-  data() {
+  data () {
     return {
       activities: null,
       highlightedId: null

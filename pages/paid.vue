@@ -1,25 +1,25 @@
 <template>
   <div class="section">
-         Kauf abgeschlossen. Die Rechnung und eine Bestätigung erhältst du per Mail.
+    Kauf abgeschlossen. Die Rechnung und eine Bestätigung erhältst du per Mail.
   </div>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        loading: false
-      }
-    },
-    created() {
-    },
-    methods: {
-    
-    },
-    computed: {
-   
+export default {
+  data () {
+    return {
+      loading: false
     }
+  },
+  computed: {
+
+  },
+  created () {
+  },
+  methods: {
+
   }
+}
 </script>
 
 <style lang="scss">

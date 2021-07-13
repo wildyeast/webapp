@@ -3,37 +3,40 @@
     <div>
       <h2>Einschulungen</h2>
       <div class="courseContainer">
-        <Course v-for="course of courses" :course="course" :key="course.id" />
+        <Course
+          v-for="course of courses"
+          :key="course.id"
+          :course="course"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Course from "@/components/Course";
+import Course from '@/components/Course'
 export default {
-  middleware: 'authenticated',
   components: {
     Course
   },
+  middleware: 'authenticated',
   data () {
     return {}
   },
-  created() {
+  computed: {
+    memberCourses () {
+      return this.$store.state.memberCourses
+    },
+    courses () {
+      return this.$store.state.courses
+    },
+    user () {
+      return this.$store.state.user
+    }
+  },
+  created () {
   },
   methods: {
-  },
-  computed: {
-    memberCourses() {
-      // console.log('membercourses', this.$store.state.memberCourses)
-      return this.$store.state.memberCourses;
-    },
-    courses() {
-      return this.$store.state.courses;
-    },
-    user() {
-      return this.$store.state.user;
-    },
   }
 }
 </script>

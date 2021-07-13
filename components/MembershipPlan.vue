@@ -1,43 +1,84 @@
 <template>
-  <div v-editable="blok" class="col">
+  <div
+    v-editable="blok"
+    class="col"
+  >
     <div class="plan">
-      <h2 class="title">{{ blok.name }}</h2>
+      <h2 class="title">
+        {{ blok.name }}
+      </h2>
       <transition name="changeprice">
-        <div class="pricewrapper" v-if="priceView == 'monthly'">
+        <div
+          v-if="priceView == 'monthly'"
+          class="pricewrapper"
+        >
           <div class="price">
-            <h4 class="title">Ermäßigt</h4>
+            <h4 class="title">
+              Ermäßigt
+            </h4>
             <div class="pricetag">
-              <div class="price-value">{{blok.price_reduced}},-</div>
-              <div class="interval">p.m.</div>
+              <div class="price-value">
+                {{ blok.price_reduced }},-
+              </div>
+              <div class="interval">
+                p.m.
+              </div>
             </div>
           </div>
           <div class="price">
-            <h4 class="title">Regulär</h4>
+            <h4 class="title">
+              Regulär
+            </h4>
             <div class="pricetag">
-              <div class="price-value">{{blok.price_regular}},-</div>
-              <div class="interval">p.m.</div>
+              <div class="price-value">
+                {{ blok.price_regular }},-
+              </div>
+              <div class="interval">
+                p.m.
+              </div>
             </div>
           </div>
         </div>
-        <div class="pricewrapper" v-else-if="priceView == 'annually'">
+        <div
+          v-else-if="priceView == 'annually'"
+          class="pricewrapper"
+        >
           <div class="price">
-            <h4 class="title">Ermäßigt</h4>
+            <h4 class="title">
+              Ermäßigt
+            </h4>
             <div class="pricetag">
-              <div class="price-value">{{blok.price_reduced_annually}},- </div>
-              <div class="interval">p.a.</div>
+              <div class="price-value">
+                {{ blok.price_reduced_annually }},-
+              </div>
+              <div class="interval">
+                p.a.
+              </div>
             </div>
           </div>
           <div class="price">
-            <h4 class="title">Regulär</h4>
+            <h4 class="title">
+              Regulär
+            </h4>
             <div class="pricetag">
-              <div class="price-value">{{blok.price_regular_annually}},- </div>
-              <div class="interval">p.a.</div>
+              <div class="price-value">
+                {{ blok.price_regular_annually }},-
+              </div>
+              <div class="interval">
+                p.a.
+              </div>
             </div>
           </div>
         </div>
       </transition>
       <ul class="feature-list">
-        <li class="feature" v-for="item in blok.features" :key="item._uid">{{item.text}}</li>
+        <li
+          v-for="item in blok.features"
+          :key="item._uid"
+          class="feature"
+        >
+          {{ item.text }}
+        </li>
       </ul>
     </div>
   </div>
@@ -46,14 +87,14 @@
 <script>
 export default {
   props: ['blok', 'priceView'],
-  methods: {
-    register() {
-      this.$store.dispatch('setSidebar', 'register');
+  computed: {
+    registerLink () {
+      return '#'
     }
   },
-  computed: {
-    registerLink() {
-      return '#';
+  methods: {
+    register () {
+      this.$store.dispatch('setSidebar', 'register')
     }
   }
 }

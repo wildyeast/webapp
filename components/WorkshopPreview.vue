@@ -2,11 +2,26 @@
   <div v-if="story">
     <div class="preview-wrapper">
       <div class="workshop-preview">
-        <nuxt-link class="story" :to="story.full_slug">
-          <div class="banner" :style="{ 'background-image': 'url(' + $resizeImage(workshop.image, '700x0') + ')' }"></div>
-          <div class="title">{{workshop.title}}</div>
-          <div v-if="workshop.subtitle" class="subtitle">{{workshop.subtitle}}</div>
-          <div class="teaser">{{workshop.teaser}}</div>
+        <nuxt-link
+          class="story"
+          :to="story.full_slug"
+        >
+          <div
+            class="banner"
+            :style="{ 'background-image': 'url(' + $resizeImage(workshop.image, '700x0') + ')' }"
+          />
+          <div class="title">
+            {{ workshop.title }}
+          </div>
+          <div
+            v-if="workshop.subtitle"
+            class="subtitle"
+          >
+            {{ workshop.subtitle }}
+          </div>
+          <div class="teaser">
+            {{ workshop.teaser }}
+          </div>
         </nuxt-link>
       </div>
     </div>
@@ -16,27 +31,27 @@
 <script>
 export default {
   props: ['id'],
-  data() {
+  data () {
     return {
-      story: null,
+      story: null
     }
   },
   computed: {
-    workshop() {
-      return this.story.content;
+    workshop () {
+      return this.story.content
     }
   },
-  created() {
+  created () {
     this.$store.app.$storyapi.get(`cdn/stories/${this.id}`, {
       find_by: 'uuid'
     }).then((res) => {
-      this.story = res.data.story;
+      this.story = res.data.story
     }).catch((e) => {
-    });
+    })
   },
   methods: {
-    open() {
-      this.$router.push({ path: this.story.full_slug });
+    open () {
+      this.$router.push({ path: this.story.full_slug })
     }
   }
 }
@@ -49,7 +64,6 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-
 
   .workshop-preview {
     padding: 20px;

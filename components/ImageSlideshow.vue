@@ -1,15 +1,34 @@
 <template>
-  <div v-editable="blok" class="image-slideshow">
-    <div v-if="blok.text" class="text">
-      {{blok.text}}
+  <div
+    v-editable="blok"
+    class="image-slideshow"
+  >
+    <div
+      v-if="blok.text"
+      class="text"
+    >
+      {{ blok.text }}
     </div>
     <div v-swiper:swiper="swiperOption">
-      <div class="swiper-wrapper" v-bind:class="{ center : length }">
-        <div class="swiper-slide" :key="s._uid" v-for="s in blok.items" :style="{ 'background-image': 'url(' + $resizeImage(s.image, '700x0') + ')' }">
-        </div>
+      <div
+        class="swiper-wrapper"
+        :class="{ center : length }"
+      >
+        <div
+          v-for="s in blok.items"
+          :key="s._uid"
+          class="swiper-slide"
+          :style="{ 'background-image': 'url(' + $resizeImage(s.image, '700x0') + ')' }"
+        />
       </div>
-        <div v-if="!length" class="swiper-button-next"></div>
-        <div v-if="!length" class="swiper-button-prev"></div>
+      <div
+        v-if="!length"
+        class="swiper-button-next"
+      />
+      <div
+        v-if="!length"
+        class="swiper-button-prev"
+      />
     </div>
   </div>
 </template>
@@ -18,7 +37,7 @@
 export default {
   props: ['blok'],
   computed: {
-    swiperOption() {
+    swiperOption () {
       return {
         slidesPerView: this.num,
         spaceBetween: this.spaceBetween,
@@ -32,24 +51,24 @@ export default {
         }
       }
     },
-    spaceBetween() {
+    spaceBetween () {
       if (process.client && window && window.innerWidth) {
         if (window.innerWidth < 786) {
-          return 0;
+          return 0
         }
       }
-      return 30;
+      return 30
     },
-    num() {
+    num () {
       if (process.client && window && window.innerWidth) {
         if (window.innerWidth < 786) {
-          return 1;
+          return 1
         }
       }
-      return 3;
+      return 3
     },
-    length() {
-      return this.blok.items.length < 4;
+    length () {
+      return this.blok.items.length < 4
     }
   }
 }

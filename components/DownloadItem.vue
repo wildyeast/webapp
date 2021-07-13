@@ -1,9 +1,15 @@
 <template>
-  <div v-editable="blok" class="download-item">
-    <a class="filelink":href="blok.file">
-      <div class="title">{{blok.name}}</div>
+  <div
+    v-editable="blok"
+    class="download-item"
+  >
+    <a
+      class="filelink"
+      :href="blok.file"
+    >
+      <div class="title">{{ blok.name }}</div>
       <div class="subtitle">
-        {{filename}}
+        {{ filename }}
       </div>
     </a>
   </div>
@@ -12,17 +18,17 @@
 <script>
 export default {
   props: ['blok'],
-  created() {
-  },
   computed: {
-    filename() {
-      let tokens = this.blok.file.split('/');
-      return tokens[tokens.length-1];
+    filename () {
+      const tokens = this.blok.file.split('/')
+      return tokens[tokens.length - 1]
     },
-    extension() {
-      let tokens = this.blok.file.split('.');
-      return tokens[tokens.length-1];
+    extension () {
+      const tokens = this.blok.file.split('.')
+      return tokens[tokens.length - 1]
     }
+  },
+  created () {
   }
 }
 </script>

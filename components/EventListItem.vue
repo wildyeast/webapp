@@ -1,25 +1,31 @@
 <template>
-  <sb-link :link="content.link" target="_blank">
+  <sb-link
+    :link="content.link"
+    target="_blank"
+  >
     <div class="event-list-item">
       <div class="image">
-        <img :src="$resizeImage(content.image, '380x280')" alt=""/>
+        <img
+          :src="$resizeImage(content.image, '380x280')"
+          alt=""
+        >
       </div>
       <div class="body">
         <div class="subtitle">
-          {{content.subtitle}}
+          {{ content.subtitle }}
         </div>
         <div class="title">
-          {{content.title}}
+          {{ content.title }}
         </div>
         <div class="teaser">
-          {{content.teaser}}
+          {{ content.teaser }}
         </div>
         <div class="location">
-          {{content.location}}
+          {{ content.location }}
         </div>
         <div class="linktext">
-          <div class="link-arrow"></div>
-          <div>{{linktext}}</div>
+          <div class="link-arrow" />
+          <div>{{ linktext }}</div>
         </div>
       </div>
     </div>
@@ -30,11 +36,11 @@
 export default {
   props: ['blok'],
   computed: {
-    content() {
-      return this.blok.content;
+    content () {
+      return this.blok.content
     },
-    linktext() {
-      return this.content.linktext || "Mehr Infos";
+    linktext () {
+      return this.content.linktext || 'Mehr Infos'
     }
   }
 }

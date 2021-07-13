@@ -1,111 +1,164 @@
 <template>
-  <div v-editable="blok" class="feedback-form">
+  <div
+    v-editable="blok"
+    class="feedback-form"
+  >
     <no-ssr>
-      <div class="msg" v-if="loading">
+      <div
+        v-if="loading"
+        class="msg"
+      >
         Loading...
       </div>
-      <div class="msg" v-else-if="sent">
-        <form class="form" @submit.prevent="back">
+      <div
+        v-else-if="sent"
+        class="msg"
+      >
+        <form
+          class="form"
+          @submit.prevent="back"
+        >
           <div class="form-item">
-            <span></span>
+            <span />
             <p>Danke für dein Feedback!</p>
           </div>
           <div class="button-row">
-            <button type="submit "class="input-button-primary">Zurück</button>
+            <button
+              type="submit "
+              class="input-button-primary"
+            >
+              Zurück
+            </button>
           </div>
         </form>
       </div>
 
-      <form class="form" name="feedback" @submit.prevent="handleSubmit" v-else data-netlify="true" netlify-honeypot="bot-field">
-        <label class="hidden"><input name="bot-field" /></label>
-        <div data-netlify-recaptcha="true"></div>
+      <form
+        v-else
+        class="form"
+        name="feedback"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        @submit.prevent="handleSubmit"
+      >
+        <label class="hidden"><input name="bot-field"></label>
+        <div data-netlify-recaptcha="true" />
         <label class="form-item">
           <span class="label">Name</span>
-          <div class="body" v-if="!user">
-            <input class="input-text" type="name" name="name" v-model="form.name" placeholder="Dein Name">
+          <div
+            v-if="!user"
+            class="body"
+          >
+            <input
+              v-model="form.name"
+              class="input-text"
+              type="name"
+              name="name"
+              placeholder="Dein Name"
+            >
           </div>
-          <div class="body" v-else>
-            <span>{{form.name}}</span>
+          <div
+            v-else
+            class="body"
+          >
+            <span>{{ form.name }}</span>
           </div>
         </label>
-        <label v-if="!user" class="form-item">
+        <label
+          v-if="!user"
+          class="form-item"
+        >
           <span class="label">E-Mail Adresse</span>
           <div class="body">
-            <input class="input-text" type="email" name="email" v-model="form.email" placeholder="Deine E-Mail Adresse">
+            <input
+              v-model="form.email"
+              class="input-text"
+              type="email"
+              name="email"
+              placeholder="Deine E-Mail Adresse"
+            >
           </div>
         </label>
         <label class="form-item">
           <span class="label">Nachricht</span>
           <div class="body">
-            <textarea class="input-textarea" v-model="form.msg" name="msg"></textarea>
+            <textarea
+              v-model="form.msg"
+              class="input-textarea"
+              name="msg"
+            />
           </div>
         </label>
         <div class="button-row">
-          <button type="submit" class="input-button-primary">Abschicken</button>
+          <button
+            type="submit"
+            class="input-button-primary"
+          >
+            Abschicken
+          </button>
         </div>
       </form>
-
     </no-ssr>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 
 export default {
   props: ['blok'],
-  data() {
+  data () {
     return {
       loading: false,
       sent: false,
       form: {
         name: '',
         email: '',
-        msg: '',
+        msg: ''
       }
     }
   },
-  created() {
-    if (this.user) {
-      this.form.name = this.user.profile.firstName + ' ' + this.user.profile.lastName;
-      this.form.email = this.user.profile.emailAddress;
+  computed: {
+    user () {
+      return this.$store.state.user
     }
   },
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
+  created () {
+    if (this.user) {
+      this.form.name = this.user.profile.firstName + ' ' + this.user.profile.lastName
+      this.form.email = this.user.profile.emailAddress
+    }
   },
   methods: {
-    back() {
-      this.sent = false;
+    back () {
+      this.sent = false
     },
     encode (data) {
       return Object.keys(data)
         .map(
           key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`
         )
-        .join("&");
+        .join('&')
     },
     handleSubmit () {
-      this.loading = true;
+      this.loading = true
       const axiosConfig = {
-        header: { "Content-Type": "application/x-www-form-urlencoded" }
-      };
+        header: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      }
       axios.post(
-        "/",
+        '/',
         this.encode({
-          "form-name": "feedback",
+          'form-name': 'feedback',
           ...this.form
         }),
         axiosConfig
       ).then(() => {
-        this.loading = false;
-        this.form.msg = '';
-        this.sent = true;
+        this.loading = false
+        this.form.msg = ''
+        this.sent = true
       }).catch(() => {
-        this.loading = false;
-      });
+        this.loading = false
+      })
     }
   }
 }

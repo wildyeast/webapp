@@ -1,33 +1,72 @@
 <template>
-  <div class="login-form" @keyup.enter="submit">
+  <div
+    class="login-form"
+    @keyup.enter="submit"
+  >
     <div class="header-item">
       <div class="form-item space">
-        <div class="headline">Login für GRAND GARAGE Mitglieder</div>
+        <div class="headline">
+          Login zur GRAND GARAGE Community
+        </div>
       </div>
-      <div class="close" @click="close">
+      <div
+        class="close"
+        @click="close"
+      >
         <font-awesome-icon icon="times" />
       </div>
     </div>
     <div class="form-item">
       <span class="label">Email</span>
-      <input class="input" type="text" v-model="email" placeholder="deine email" @input="clearErrorMessage" />
+      <input
+        v-model="email"
+        class="input"
+        type="text"
+        placeholder="deine email"
+        @input="clearErrorMessage"
+      >
     </div>
     <div class="form-item">
       <span class="label">Password</span>
-      <input class="input" type="password" v-model="password" placeholder="dein passwort" @input="clearErrorMessage" />
+      <input
+        v-model="password"
+        class="input"
+        type="password"
+        placeholder="dein passwort"
+        @input="clearErrorMessage"
+      >
     </div>
-    <div class="error-message" v-if="errorMessage">
-      <span>{{errorMessage}}</span>
+    <div
+      v-if="errorMessage"
+      class="error-message"
+    >
+      <span>{{ errorMessage }}</span>
     </div>
     <div class="form-item button-row">
-      <input type="submit" @click="submit" value="Login" />
+      <input
+        type="submit"
+        value="Login"
+        @click="submit"
+      >
     </div>
-    <div class="subtitle" @click="register">
-      <font-awesome-icon class="icon" icon="user-friends" />
-      <span>Mitglied werden</span>
+    <div
+      class="subtitle"
+      @click="register"
+    >
+      <font-awesome-icon
+        class="icon"
+        icon="user-friends"
+      />
+      <span>Registrierung</span>
     </div>
-    <div class="subtitle" @click="recover">
-      <font-awesome-icon class="icon" icon="key" />
+    <div
+      class="subtitle"
+      @click="recover"
+    >
+      <font-awesome-icon
+        class="icon"
+        icon="key"
+      />
       <span>Passwort zurücksetzen</span>
     </div>
   </div>
@@ -36,7 +75,7 @@
 <script>
 export default {
   props: ['blok'],
-  data() {
+  data () {
     return {
       email: '',
       password: '',
@@ -46,27 +85,27 @@ export default {
   computed: {
   },
   methods: {
-    close() {
-      this.$store.dispatch('setSidebar', null);
+    close () {
+      this.$store.dispatch('setSidebar', null)
     },
-    register() {
-      this.$store.dispatch('setSidebar', 'register');
+    register () {
+      this.$store.dispatch('setSidebar', 'register')
     },
     recover () {
-      this.$store.dispatch('setSidebar', 'recover');
+      this.$store.dispatch('setSidebar', 'recover')
     },
-    submit() {
-      let data = {
+    submit () {
+      const data = {
         email: this.email,
         password: this.password
       }
       this.$store.dispatch('loginUser', data).then((r) => {
       }).catch((e) => {
-        this.errorMessage = e.description || e.error || e.code;
-      });
+        this.errorMessage = e.description || e.error || e.code
+      })
     },
-    clearErrorMessage() {
-      this.errorMessage = null;
+    clearErrorMessage () {
+      this.errorMessage = null
     }
   }
 }
