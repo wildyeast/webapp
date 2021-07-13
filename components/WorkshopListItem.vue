@@ -39,7 +39,8 @@
         </div>
         <div class="workshop-dates">
           <div
-            v-for="d,i in dates"
+            :key="d.id"
+            v-for="(d,i) in dates"
             class="workshop-date"
             :class="{ soldOut: d.content.sold_out }"
           >
@@ -51,12 +52,24 @@
                 <div class="col info">
                   <icon name="calendar" />
                   {{ d.content.starttime | date }}
+                  <div v-if="d.content.starttime2">
+                    <br>
+                    <icon name="calendar" />
+                    {{ d.content.starttime2 | date }}
+                  </div>
                 </div>
                 <div class="col info">
                   <icon name="clock" />
                   <span>{{ d.content.starttime | time }}</span>
                   <span v-if="d.content.endtime"> bis {{ d.content.endtime | time }}</span>
                   <span>Uhr</span>
+                  <div v-if="d.content.starttime2">
+                    <br>
+                    <icon name="clock" />
+                    <span>{{ d.content.starttime2 | time }}</span>
+                    <span v-if="d.content.endtime2"> bis {{ d.content.endtime2 | time }}</span>
+                    <span>Uhr</span>
+                  </div>
                 </div>
               </div>
               <div class="info-block">
@@ -112,7 +125,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/styles.scss';
+@import '/assets/scss/styles.scss';
 .workshop-list-item {
   color: #000;
   display: flex;
@@ -143,6 +156,11 @@ export default {
       display: block;
     }
   }
+  br {
+    display: block;
+    margin: 4px;
+  }
+
   .body {
     position: relative;
     flex: 2;
@@ -234,6 +252,10 @@ export default {
 .workshop-dates {
   margin-top: 20px;
   .workshop-date {
+    &:nth-child(even) {
+      background-color: rgba(242, 243, 238,0.9);
+    }
+    margin: 5px;
     &.soldOut {
       color: #666;
       fill: #666;
@@ -243,6 +265,7 @@ export default {
         }
       }
     }
+
     .info-row {
       @include media-breakpoint-down(md) {
         flex-direction: column;
@@ -265,6 +288,7 @@ export default {
           text-transform: uppercase;
         }
       }
+
       svg {
         height: 1em;
         width: 1em;
