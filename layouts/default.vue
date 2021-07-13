@@ -38,6 +38,7 @@ export default {
     Sidebar,
     Breadcrumbs,
     Modal
+
   },
   computed: {
     isAuthenticated() {
