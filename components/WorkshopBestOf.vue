@@ -1,3 +1,5 @@
+
+
 <template>
   <div
     v-editable="blok"
@@ -9,7 +11,10 @@
         {{ blok.headline }}
       </h2>
       <div class="subline">
+<<<<<<< HEAD
+=======
         <code class="hr">{{ blok.subline }}</code>
+>>>>>>> 37655ef9f7728db8557365b3ae11fe6d883355ba
         <sb-link :link="blok.link">
           <div class="arrow" />
           Alle Kurse
@@ -40,15 +45,15 @@ export default {
   background-color: $color-bright-bg;
   position: relative;
   .dashed-line-black {
-      background-image: url(~assets/img/dashed-bg-black.svg);
-      background-size: 100% auto;
-      background-repeat: repeat-y;
-      background-position: 0 20px;
-      background-size: 1.8vw;
-      height: 3000px;
-      width: 2%;
-      position: absolute;
-      right: 5%;
+    background-image: url(~assets/img/dashed-bg-black.svg);
+    background-size: 100% auto;
+    background-repeat: repeat-y;
+    background-position: 0 20px;
+    background-size: 1.8vw;
+    height: 3000px;
+    width: 2%;
+    position: absolute;
+    right: 5%;
   }
   .header {
     padding-bottom: 100px;
