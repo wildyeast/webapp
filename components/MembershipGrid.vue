@@ -1,72 +1,110 @@
 <template>
-  <div v-editable="blok" class="membership-grid">
-
+  <div
+    v-editable="blok"
+    class="membership-grid"
+  >
     <div class="membership-info">
       <div>
-        <div v-if="blok.title" class="title">
-          {{blok.title}}
+        <div
+          v-if="blok.title"
+          class="title"
+        >
+          {{ blok.title }}
         </div>
 
-        <div class="info" v-if="blok.info">
-          <markdown :value="blok.info"></markdown>
+        <div
+          v-if="blok.info"
+          class="info"
+        >
+          <markdown :value="blok.info" />
         </div>
       </div>
       <div class="image">
-        <img :src="$resizeImage(blok.image, '500x0')" alt=""/>
+        <img
+          :src="$resizeImage(blok.image, '500x0')"
+          alt=""
+        >
       </div>
     </div>
     <div class="membership-details">
       <div class="payment-options">
-        <div class="payment-options-title">Zahlungsintervall:</div>
+        <div class="payment-options-title">
+          Zahlungsintervall:
+        </div>
         <div class="pricetabs">
-          <div @click="setPriceView('monthly')" class="pricetab" :class="(priceView == 'monthly' ? 'active' : '')">
+          <div
+            class="pricetab"
+            :class="(priceView == 'monthly' ? 'active' : '')"
+            @click="setPriceView('monthly')"
+          >
             monatlich
           </div>
-          <div @click="setPriceView('annually')" class="pricetab" :class="(priceView == 'annually' ? 'active' : '')">
+          <div
+            class="pricetab"
+            :class="(priceView == 'annually' ? 'active' : '')"
+            @click="setPriceView('annually')"
+          >
             jährlich
           </div>
         </div>
       </div>
       <div class="membership-plans">
-        <component :key="blok.uid" v-for="blok in blok.columns" :blok="blok" :priceView="priceView" :is="blok.component"></component>
+        <component
+          :is="blok.component"
+          v-for="blok in blok.columns"
+          :key="blok.uid"
+          :blok="blok"
+          :price-view="priceView"
+        />
       </div>
-      <div class="register-button" v-if="!hasUser">
-        <button @click="register">Jetzt registrieren</button>
+      <div
+        v-if="!hasUser"
+        class="register-button"
+      >
+        <button @click="register">
+          Jetzt registrieren
+        </button>
       </div>
-      <div class="register-button" v-if="hasUser && !isMember">
-        <button @click="$router.push('/wizard/onboarding')">Jetzt Mitglied werden</button>
+      <div
+        v-if="hasUser && !isMember"
+        class="register-button"
+      >
+        <button @click="$router.push('/wizard/onboarding')">
+          Jetzt Mitglied werden
+        </button>
       </div>
-      <div v-if="blok.plans_text" class="plans-text">
-        <markdown :value="blok.plans_text"></markdown>
+      <div
+        v-if="blok.plans_text"
+        class="plans-text"
+      >
+        <markdown :value="blok.plans_text" />
       </div>
     </div>
-
   </div>
-
 </template>
 
 <script>
 export default {
   props: ['blok'],
-  data() {
+  data () {
     return {
       priceView: 'monthly'
     }
   },
-  methods: {
-    setPriceView(v) {
-      this.priceView = v;
-    },
-    register() {
-      this.$store.dispatch('setSidebar', 'register');
-    }
-  },
   computed: {
-    hasUser() {
-      return !!this.$store.state.user;
+    hasUser () {
+      return !!this.$store.state.user
     },
     isMember () {
-      return this.$store.state.user.packages.length > 0;
+      return this.$store.state.user.packages.length > 0
+    }
+  },
+  methods: {
+    setPriceView (v) {
+      this.priceView = v
+    },
+    register () {
+      this.$store.dispatch('setSidebar', 'register')
     }
   }
 }

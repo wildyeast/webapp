@@ -1,7 +1,11 @@
 <template>
   <div class="level-slider">
     <div class="level-container">
-      <div v-for="(level, index) in blok.levels" :key="index" @click="setLevel(index)">
+      <div
+        v-for="(level, index) in blok.levels"
+        :key="index"
+        @click="setLevel(index)"
+      >
         <level-item
           :key="level._uid"
           :blok="level"
@@ -13,10 +17,10 @@
 
     <div class="image-container">
       <img
-        class="image"
         v-for="(level, index) in blok.levels"
-        :key="level._uid"
         v-show="index === activeLevel"
+        :key="level._uid"
+        class="image"
         :src="$resizeImage(level.image, '1800x0')"
       >
     </div>
@@ -25,25 +29,25 @@
 
 <script>
 export default {
-  props: ["blok"],
+  props: ['blok'],
 
-  data() {
+  data () {
     return {
       activeLevel: 0,
-      imageStyle: ""
-    };
+      imageStyle: ''
+    }
   },
 
   methods: {
-    setLevel(val) {
-      let number = this.blok.levels.length - 2 - val;
+    setLevel (val) {
+      const number = this.blok.levels.length - 2 - val
       if (number == -1) {
-        return;
+        return
       }
-      this.activeLevel = val;
-    },
+      this.activeLevel = val
+    }
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -84,4 +88,3 @@ export default {
   }
 }
 </style>
-

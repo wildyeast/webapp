@@ -1,12 +1,15 @@
 <template>
-  <div class="training-item" v-if="training">
+  <div
+    v-if="training"
+    class="training-item"
+  >
     <div class="body">
       <div class="content">
-        {{training.title}}
+        {{ training.title }}
       </div>
     </div>
     <div class="footer">
-      {{date}}
+      {{ date }}
     </div>
   </div>
 </template>
@@ -15,11 +18,11 @@
 export default {
   props: ['userTraining'],
   computed: {
-    training() {
-      return this.$store.getters.getTrainingById(this.userTraining.trainingCourse);
+    training () {
+      return this.$store.getters.getTrainingById(this.userTraining.trainingCourse)
     },
-    date() {
-      return new Date(this.userTraining.date).toLocaleDateString("de-at");
+    date () {
+      return new Date(this.userTraining.date).toLocaleDateString('de-at')
     }
   }
 }

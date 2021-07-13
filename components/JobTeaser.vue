@@ -1,7 +1,17 @@
 <template>
-  <div v-editable="blok" class="job-teaser">
-    <h2 class="teaser">{{ blok.teaser }}</h2>
-    <sb-link class="link" :link="blok.link">{{blok.button_text}}</sb-link>
+  <div
+    v-editable="blok"
+    class="job-teaser"
+  >
+    <h2 class="teaser">
+      {{ blok.teaser }}
+    </h2>
+    <sb-link
+      class="link"
+      :link="blok.link"
+    >
+      {{ blok.button_text }}
+    </sb-link>
   </div>
 </template>
 

@@ -1,8 +1,14 @@
 <template>
   <nuxt-link :to="'/' + blok.full_slug">
-    <div class="workshop-list-item" :class="{ slim: slim }">
+    <div
+      class="workshop-list-item"
+      :class="{ slim: slim }"
+    >
       <div class="image">
-        <img :src="$resizeImage(content.image, '380x280')" alt=""/>
+        <img
+          :src="$resizeImage(content.image, '380x280')"
+          alt=""
+        >
       </div>
       <div class="body">
         <div class="category">
@@ -20,35 +26,51 @@
           </div>
         </div>
         <div class="title">
-          {{content.title}}
+          {{ content.title }}
         </div>
-        <div class="teaser" v-if="!slim">
-          {{content.teaser}}
+        <div
+          v-if="!slim"
+          class="teaser"
+        >
+          {{ content.teaser }}
         </div>
         <div class="trainer">
-          {{content.trainer}}
+          {{ content.trainer }}
         </div>
         <div class="workshop-dates">
-          <div class="workshop-date" v-for="d,i in dates" :class="{ soldOut: d.content.sold_out }">
-            <div class="info-row" v-if="!slim || i == 0">
+          <div
+            v-for="d,i in dates"
+            class="workshop-date"
+            :class="{ soldOut: d.content.sold_out }"
+          >
+            <div
+              v-if="!slim || i == 0"
+              class="info-row"
+            >
               <div class="info-block">
                 <div class="col info">
                   <icon name="calendar" />
-                  {{d.content.starttime | date}}
+                  {{ d.content.starttime | date }}
                 </div>
                 <div class="col info">
                   <icon name="clock" />
-                  <span>{{d.content.starttime | time}}</span>
-                  <span v-if="d.content.endtime"> bis {{d.content.endtime | time}}</span>
+                  <span>{{ d.content.starttime | time }}</span>
+                  <span v-if="d.content.endtime"> bis {{ d.content.endtime | time }}</span>
                   <span>Uhr</span>
                 </div>
               </div>
               <div class="info-block">
-                <div class="col" v-if="d.content.members_only">
+                <div
+                  v-if="d.content.members_only"
+                  class="col"
+                >
                   <icon name="user" />
                   <span>Members only!</span>
                 </div>
-                <div class="col soldOut" v-if="d.content.sold_out">
+                <div
+                  v-if="d.content.sold_out"
+                  class="col soldOut"
+                >
                   <span>ausgebucht</span>
                 </div>
               </div>
@@ -73,19 +95,19 @@
 export default {
   props: ['blok', 'slim'],
   computed: {
-    dates() {
-      return this.blok.dates;
+    dates () {
+      return this.blok.dates
     },
-    content() {
-      return this.blok.content;
+    content () {
+      return this.blok.content
     },
-    linktext() {
-      return "Mehr Infos";
+    linktext () {
+      return 'Mehr Infos'
     }
   },
-  mounted() {
+  mounted () {
     // console.log(this.blok.uuid);
-  },
+  }
 }
 </script>
 

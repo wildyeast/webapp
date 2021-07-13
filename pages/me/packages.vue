@@ -1,8 +1,13 @@
 <template>
   <div class="section">
     <h2>Packages</h2>
-    <ul class="item-list" v-if="user && user.packages && user.packages.length > 0">
-      <li v-for="p in user.packages"><package :userPackage="p" /></li>
+    <ul
+      v-if="user && user.packages && user.packages.length > 0"
+      class="item-list"
+    >
+      <li v-for="p in user.packages">
+        <package :user-package="p" />
+      </li>
     </ul>
     <div v-else>
       <code>Keine Mitgliedschaft abgeschlossen</code>
@@ -25,14 +30,14 @@ export default {
   data () {
     return {}
   },
-  created() {
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
+  created () {
   },
   methods: {
-  },
-  computed: {
-    user() {
-      return this.$store.state.user;
-    },
   }
 }
 </script>

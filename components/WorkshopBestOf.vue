@@ -1,25 +1,35 @@
 <template>
-  <div v-editable="blok" class="workshop-best-of">
-    <div class="dashed-line-black"></div>
+  <div
+    v-editable="blok"
+    class="workshop-best-of"
+  >
+    <div class="dashed-line-black" />
     <div class="header">
-      <h2 class="headline">{{blok.headline}}</h2>
+      <h2 class="headline">
+        {{ blok.headline }}
+      </h2>
       <div class="subline">
-        <code class="hr">{{blok.subline}}</code>
+        <code class="hr">{{ blok.subline }}</code>
         <sb-link :link="blok.link">
-          <div class="arrow"></div>
+          <div class="arrow" />
           Alle Kurse
         </sb-link>
       </div>
     </div>
     <div class="grid">
-      <workshop-preview class="col" v-for="w in blok.workshops" :key="w" :id="w"></workshop-preview>
+      <workshop-preview
+        v-for="w in blok.workshops"
+        :id="w"
+        :key="w"
+        class="col"
+      />
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['blok'],
+  props: ['blok']
 }
 </script>
 

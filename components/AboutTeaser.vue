@@ -1,35 +1,62 @@
 <template>
-  <div v-editable="blok" class="about-teaser">
+  <div
+    v-editable="blok"
+    class="about-teaser"
+  >
     <div class="teaser-content">
       <svg
-         xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
-         xmlns:dc="http://purl.org/dc/elements/1.1/"
-         xmlns:cc="http://creativecommons.org/ns#"
-         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-         xmlns:svg="http://www.w3.org/2000/svg"
-         xmlns="http://www.w3.org/2000/svg"
-         class="start-down-arrow"
-         version="1.1"
-         viewBox="0 0 100 100"
-         height="100"
-         width="100"
-         onclick="window.scrollTo({top: document.getElementById('start').getBoundingClientRect().top - document.body.getBoundingClientRect().top - 64, left: 0, behavior: 'smooth'})">
+        xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg"
+        xmlns="http://www.w3.org/2000/svg"
+        class="start-down-arrow"
+        version="1.1"
+        viewBox="0 0 100 100"
+        height="100"
+        width="100"
+        onclick="window.scrollTo({top: document.getElementById('start').getBoundingClientRect().top - document.body.getBoundingClientRect().top - 64, left: 0, behavior: 'smooth'})"
+      >
         <g
-           transform="translate(0,-270.54165)">
+          transform="translate(0,-270.54165)"
+        >
           <path
-             d="m 50,270.54165 a 50,50 0 0 0 -50,50 50,50 0 0 0 50,50 50,50 0 0 0 50,-50 50,50 0 0 0 -50,-50 z m -2.576172,13.44531 h 5.160156 v 60.22071 l 13.59961,-13.36329 3.615234,3.67969 -19.984375,19.63867 -19.611328,-19.61132 3.646484,-3.64844 13.574219,13.57422 z"
-             style="opacity:1;vector-effect:none;fill:#eae222;fill-opacity:1;fill-rule:nonzero;paint-order:normal" />
+            d="m 50,270.54165 a 50,50 0 0 0 -50,50 50,50 0 0 0 50,50 50,50 0 0 0 50,-50 50,50 0 0 0 -50,-50 z m -2.576172,13.44531 h 5.160156 v 60.22071 l 13.59961,-13.36329 3.615234,3.67969 -19.984375,19.63867 -19.611328,-19.61132 3.646484,-3.64844 13.574219,13.57422 z"
+            style="opacity:1;vector-effect:none;fill:#eae222;fill-opacity:1;fill-rule:nonzero;paint-order:normal"
+          />
         </g>
       </svg>
-      <div id="start" class="col-start">
-        <h2 v-if="blok.headline" class="headline">
-          <svg class="circle" xmlns="http://www.w3.org/2000/svg" width="10mm" height="10mm" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4.758" fill="none" stroke-width=".5"/></svg>
-          {{blok.headline}}
+      <div
+        id="start"
+        class="col-start"
+      >
+        <h2
+          v-if="blok.headline"
+          class="headline"
+        >
+          <svg
+            class="circle"
+            xmlns="http://www.w3.org/2000/svg"
+            width="10mm"
+            height="10mm"
+            viewBox="0 0 10 10"
+          ><circle
+            cx="5"
+            cy="5"
+            r="4.758"
+            fill="none"
+            stroke-width=".5"
+          /></svg>
+          {{ blok.headline }}
         </h2>
       </div>
       <div class="col-end">
-        <p v-if="blok.text" class="text">
-          <markdown :value="blok.text"></markdown>
+        <p
+          v-if="blok.text"
+          class="text"
+        >
+          <markdown :value="blok.text" />
         </p>
       </div>
     </div>

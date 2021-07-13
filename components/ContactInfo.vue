@@ -1,13 +1,34 @@
 <template>
-  <div v-editable="blok" class="contact-info">
-    <div v-if="blok.image" class="banner" :style="{ 'background-image': 'url(' + $resizeImage(blok.image, '1600x0') + ')' }"></div>
-    <div v-else class="banner-spacer"></div>
-    <div class="info" v-if="blok.items && blok.items.length > 0">
-      <div class="spacer"></div>
-      <div v-for="i in blok.items" :key="i.uid" class="info-item">
+  <div
+    v-editable="blok"
+    class="contact-info"
+  >
+    <div
+      v-if="blok.image"
+      class="banner"
+      :style="{ 'background-image': 'url(' + $resizeImage(blok.image, '1600x0') + ')' }"
+    />
+    <div
+      v-else
+      class="banner-spacer"
+    />
+    <div
+      v-if="blok.items && blok.items.length > 0"
+      class="info"
+    >
+      <div class="spacer" />
+      <div
+        v-for="i in blok.items"
+        :key="i.uid"
+        class="info-item"
+      >
         <sb-link :link="i.link">
-          <h4 class="title">{{i.title}}</h4>
-          <p class="content">{{i.content}}</p>
+          <h4 class="title">
+            {{ i.title }}
+          </h4>
+          <p class="content">
+            {{ i.content }}
+          </p>
         </sb-link>
       </div>
     </div>

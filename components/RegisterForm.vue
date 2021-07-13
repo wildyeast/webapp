@@ -1,7 +1,7 @@
 <template>
   <div class="register-form">
     <div v-if="loading">
-      <loading-spinner color="black"></loading-spinner>
+      <loading-spinner color="black" />
     </div>
     <div v-else>
       <div class="header-item">
@@ -11,68 +11,142 @@
             <div class="back" @click="login">
               <font-awesome-icon icon="angle-left" />
             </div>
-              <span class="text">Werde GRAND GARAGE Mitglied</span>
+              <span class="text">Werde Teil einer lebendigen Community!</span>
             </div>
-            <div class="close" @click="close">
+            <div
+              class="close"
+              @click="close"
+            >
               <font-awesome-icon icon="times" />
             </div>
           </div>
           <div class="info">
-            Werde Teil einer lebendigen Community aus Kreativen, Makern und Start-ups!
-            Ob Professional oder Starter – such' dir ganz einfach die für dich passende Mitgliedschaft aus und erhalte Zugang zur GRAND GARAGE.
+            Herzlich Willkommen auf deinen ersten Schritten in der GRAND GARAGE.
+            Wir sind eine offene Werkstatt, ein Makerspace, ein FABLab und noch vieles mehr. Registriere dich jetzt und erhalte Zugang zur GRAND GARAGE und unseren Services.
           </div>
         </div>
       </div>
       <div class="form-item">
         <span class="label">Vorname</span>
-        <input :class="{ red: this.invalidFields.includes('firstName')} "type="text" v-model="firstName" placeholder="Vorname" @input="checkName" />
+        <input
+          v-model="firstName"
+          :class="{ red: invalidFields.includes('firstName')} "
+          type="text"
+          placeholder="Vorname"
+          @input="checkName"
+        >
       </div>
       <div class="form-item">
         <span class="label">Nachname</span>
-        <input :class="{ red: this.invalidFields.includes('lastName')}" type="text" v-model="lastName" placeholder="Nachname" @input="checkName" />
+        <input
+          v-model="lastName"
+          :class="{ red: invalidFields.includes('lastName')}"
+          type="text"
+          placeholder="Nachname"
+          @input="checkName"
+        >
       </div>
       <div class="form-item">
         <span class="label">E-Mail</span>
-        <input :class="{ red: this.invalidFields.includes('email') }" type="email" v-model="email" ref="email" placeholder="deine e-mail adresse" @input="checkMail" />
+        <input
+          ref="email"
+          v-model="email"
+          :class="{ red: invalidFields.includes('email') }"
+          type="email"
+          placeholder="deine e-mail adresse"
+          @input="checkMail"
+        >
       </div>
       <div class="form-item">
         <span class="label">Adresse</span>
-        <input :class="{ red: this.invalidFields.includes('address') }" type="text" v-model="address" ref="address" placeholder="Straße und Hausnummer" @input="checkAddress" />
+        <input
+          ref="address"
+          v-model="address"
+          :class="{ red: invalidFields.includes('address') }"
+          type="text"
+          placeholder="Straße und Hausnummer"
+          @input="checkAddress"
+        >
       </div>
       <div class="form-item">
         <span class="label">Stadt</span>
-        <input :class="{ red: this.invalidFields.includes('city') }" type="text" v-model="city" ref="city" placeholder="Stadt" @input="checkCity" />
+        <input
+          ref="city"
+          v-model="city"
+          :class="{ red: invalidFields.includes('city') }"
+          type="text"
+          placeholder="Stadt"
+          @input="checkCity"
+        >
       </div>
       <div class="form-item">
         <span class="label">PLZ</span>
-        <input :class="{ red: this.invalidFields.includes('zip') }" type="text" v-model="zip" ref="zip" placeholder="Postleitzahl" @input="checkZip" />
+        <input
+          ref="zip"
+          v-model="zip"
+          :class="{ red: invalidFields.includes('zip') }"
+          type="text"
+          placeholder="Postleitzahl"
+          @input="checkZip"
+        >
       </div>
       <div class="form-item">
         <span class="label">Passwort</span>
         <div class="password-wrapper">
-          <input :class="{ red: this.invalidFields.includes('password') }" type="password" v-model="password" placeholder="" @input="checkPassword" />
-          <div v-if="!passwordValid" class="form-item password-status">
-          </div>
+          <input
+            v-model="password"
+            :class="{ red: invalidFields.includes('password') }"
+            type="password"
+            placeholder=""
+            @input="checkPassword"
+          >
+          <div
+            v-if="!passwordValid"
+            class="form-item password-status"
+          />
         </div>
       </div>
       <div class="form-item">
         <span class="label">Passwort (wiederholen)</span>
-        <input type="password" v-model="passwordRepeat" placeholder="" />
+        <input
+          v-model="passwordRepeat"
+          type="password"
+          placeholder=""
+        >
         <div class="password-error">
-          <span class="bad" v-if="!passwordValid">Passwörter stimmen nicht überein</span>
+          <span
+            v-if="!passwordValid"
+            class="bad"
+          >Passwörter stimmen nicht überein</span>
         </div>
       </div>
       <div class="checkbox-item">
         <div class="checkbox-wrapper">
-          <input :class="{ red: this.invalidFields.includes('agb') }" type="checkbox" id="agb" v-model="agb" />
+          <input
+            id="agb"
+            v-model="agb"
+            :class="{ red: invalidFields.includes('agb') }"
+            type="checkbox"
+          >
         </div>
-        <label for="agb">Ich habe die <nuxt-link target="_blank" to="/de/agb">Teilnahmebedingungen / AGB</nuxt-link> gelesen und bin damit einverstanden.</label>
+        <label for="agb">Ich habe die <nuxt-link
+          target="_blank"
+          to="/de/agb"
+        >Teilnahmebedingungen / AGB</nuxt-link> gelesen und bin damit einverstanden.</label>
       </div>
       <div class="checkbox-item">
         <div class="checkbox-wrapper">
-          <input :class="{ red: this.invalidFields.includes('dsg') }" type="checkbox" id="dsg" v-model="dsg" />
+          <input
+            id="dsg"
+            v-model="dsg"
+            :class="{ red: invalidFields.includes('dsg') }"
+            type="checkbox"
+          >
         </div>
-        <label for="dsg">Ich habe die <nuxt-link target="_blank" to="/de/datenschutzerklaerung">Datenschutzerklärung</nuxt-link> gelesen und bin damit einverstanden.</label>
+        <label for="dsg">Ich habe die <nuxt-link
+          target="_blank"
+          to="/de/datenschutzerklaerung"
+        >Datenschutzerklärung</nuxt-link> gelesen und bin damit einverstanden.</label>
       </div>
       <!--
       <div class="checkbox-item">
@@ -82,27 +156,36 @@
         <label for="newsletter">Ich bin damit einverstanden, Newsletter an meine angegebene E-Mail Adresse zu erhalten.</label>
       </div>
       -->
-      <div class="form-item error-message" v-if="errorMessage">
-        <span></span>
+      <div
+        v-if="errorMessage"
+        class="form-item error-message"
+      >
+        <span />
         <div>
-          <span>{{errorMessage}}</span>
-          <markdown class="policy" v-if="errorDescription" :value="errorDescription"></markdown>
+          <span>{{ errorMessage }}</span>
+          <markdown
+            v-if="errorDescription"
+            class="policy"
+            :value="errorDescription"
+          />
         </div>
       </div>
       <div class="form-item button-row">
-        <button @click="submit">Registrieren</button>
+        <button @click="submit">
+          Registrieren
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import _ from 'lodash';
-import validator from 'validator';
+import _ from 'lodash'
+import validator from 'validator'
 
 export default {
   props: ['blok'],
-  data() {
+  data () {
     return {
       email: '',
       address: '',
@@ -123,27 +206,27 @@ export default {
     }
   },
   computed: {
-    passwordValid() {
-      return this.password === this.passwordRepeat;
+    passwordValid () {
+      return this.password === this.passwordRepeat
     },
-    emailValid() {
-      return validator.isEmail(this.email);
+    emailValid () {
+      return validator.isEmail(this.email)
     },
-    formValid() {
-      return this.passwordValid && this.emailValid && this.agb && this.dsg && this.firstName && this.lastName && this.address && this.city && this.zip;
+    formValid () {
+      return this.passwordValid && this.emailValid && this.agb && this.dsg && this.firstName && this.lastName && this.address && this.city && this.zip
     },
-    showEmailError() {
-      return this.email !== '';
+    showEmailError () {
+      return this.email !== ''
     },
-    showPasswordError() {
-      return this.password !== '';
+    showPasswordError () {
+      return this.password !== ''
     }
   },
   methods: {
-    close() {
-      this.$store.dispatch('setSidebar', null);
+    close () {
+      this.$store.dispatch('setSidebar', null)
     },
-    submit() {
+    submit () {
       if (!this.formValid) {
         this.invalidFields.length = 0
         if (!this.emailValid) {
@@ -175,8 +258,8 @@ export default {
         }
         return
       }
-      this.loading = true;
-      let data = {
+      this.loading = true
+      const data = {
         email: this.email,
         password: this.password,
         user_metadata: {
@@ -188,55 +271,55 @@ export default {
         }
       }
       this.$store.dispatch('registerUser', data).then((r) => {
-        this.loading = false;
-        this.$store.dispatch('setSidebar', 'register-success');
+        this.loading = false
+        this.$store.dispatch('setSidebar', 'register-success')
       }).catch((e) => {
-        this.loading = false;
+        this.loading = false
         if (e.error) {
-          this.errorMessage = 'Ein Fehler ist aufgetreten: "' + e.error + '"';
-          return;
+          this.errorMessage = 'Ein Fehler ist aufgetreten: "' + e.error + '"'
+          return
         }
         if (e.code) {
           switch (e.code) {
             case 'user_exists':
-              this.errorMessage = 'Der User Existiert bereits';
-              break;
+              this.errorMessage = 'Der User Existiert bereits'
+              break
             case 'invalid_password':
-              this.errorMessage = 'Das Passwort ist zu schwach.';
-              this.errorDescription = e.policy;
-              break;
+              this.errorMessage = 'Das Passwort ist zu schwach.'
+              this.errorDescription = e.policy
+              break
             default:
-              this.errorMessage = 'Ein Fehler ist aufgetreten: "' + e.code + '"';
-              break;
+              this.errorMessage = 'Ein Fehler ist aufgetreten: "' + e.code + '"'
+              break
           }
         }
-      });
+      })
     },
-    login() {
-      this.$store.dispatch('setSidebar', 'login');
+    login () {
+      this.$store.dispatch('setSidebar', 'login')
     },
-    clearError() {
-      this.errorMessage = null;
-      this.errorDescription = '';
+    clearError () {
+      this.errorMessage = null
+      this.errorDescription = ''
     },
-    checkName() {
-      this.clearError();
+    checkName () {
+      this.clearError()
     },
-    checkMail() {
-      this.clearError();
+    checkMail () {
+      this.clearError()
     },
-    checkAddress() {
-      this.clearError();
+    checkAddress () {
+      this.clearError()
     },
-    checkCity() {
-      this.clearError();
+    checkCity () {
+      this.clearError()
     },
-    checkZip() {
-      this.clearError();
+    checkZip () {
+      this.clearError()
     },
-    checkPassword() {
-      this.clearError();
-    },
+    checkPassword () {
+      this.clearError()
+    }
   }
 }
 </script>

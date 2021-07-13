@@ -1,19 +1,26 @@
 <template>
-  <div v-editable="blok" class="about-info">
+  <div
+    v-editable="blok"
+    class="about-info"
+  >
     <div class="col-start">
       <div class="headline">
-        {{blok.headline}}
+        {{ blok.headline }}
       </div>
       <div class="list">
-        <markdown :value="blok.list"></markdown>
+        <markdown :value="blok.list" />
       </div>
     </div>
     <div class="col-end">
       <div class="content">
-        <markdown :value="blok.content"></markdown>
+        <markdown :value="blok.content" />
       </div>
       <div class="image-wrapper">
-        <img class="image" :src="$resizeImage(blok.image, '950x0')" alt=""/>
+        <img
+          class="image"
+          :src="$resizeImage(blok.image, '950x0')"
+          alt=""
+        >
       </div>
     </div>
   </div>

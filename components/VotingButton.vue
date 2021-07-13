@@ -1,32 +1,41 @@
 <template>
-    <div class="voting-button" v-bind:class="{'voting-button__detail': isOnDetail}" v-on:click.prevent="vote()">
-        <img class="medal-icon" src="~/assets/img/medal-variant-with-star.svg">
-        <p class="number">{{votes}}</p>
-    </div>
+  <div
+    class="voting-button"
+    :class="{'voting-button__detail': isOnDetail}"
+    @click.prevent="vote()"
+  >
+    <img
+      class="medal-icon"
+      src="~/assets/img/medal-variant-with-star.svg"
+    >
+    <p class="number">
+      {{ votes }}
+    </p>
+  </div>
 </template>
 
 <script>
-    export default {
-        props: ['isOnDetail', 'propVote', 'uuid'],
-        data() {
-            return {
-                votes: null
-            }
-        },
-        created() {
-            if (this.propVote == null) {
-               this.$store.dispatch('getVotesByUuids', {uuids: [this.uuid]}).then(r => {this.votes = r[this.uuid]});
-            }else{
-              this.votes = this.propVote
-            }
-        },
-        methods: {
-            vote() {
-                this.votes++;
-                this.$store.dispatch('voteBlog', {uuid: this.uuid}).then(r => console.log(r));
-            }
-        }
+export default {
+  props: ['isOnDetail', 'propVote', 'uuid'],
+  data () {
+    return {
+      votes: null
     }
+  },
+  created () {
+    if (this.propVote == null) {
+      this.$store.dispatch('getVotesByUuids', { uuids: [this.uuid] }).then(r => { this.votes = r[this.uuid] })
+    } else {
+      this.votes = this.propVote
+    }
+  },
+  methods: {
+    vote () {
+      this.votes++
+      this.$store.dispatch('voteBlog', { uuid: this.uuid }).then(r => console.log(r))
+    }
+  }
+}
 </script>
 
 <style lang="scss">

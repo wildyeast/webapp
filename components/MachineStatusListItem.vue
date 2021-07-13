@@ -2,20 +2,29 @@
   <div>
     <div class="machine-list-item">
       <div class="image">
-        <machine-status class="status" :id="fabmanId"></machine-status>
-        <img :src="$resizeImage(content.image, '430x430')" alt=""/>
+        <machine-status
+          :id="fabmanId"
+          class="status"
+        />
+        <img
+          :src="$resizeImage(content.image, '430x430')"
+          alt=""
+        >
       </div>
       <div class="body">
         <div class="title">
-          {{content.title}}
+          {{ content.title }}
         </div>
         <div class="tags">
-          <span v-for="(tag, index) in tags" :key="index">
-            {{tag}}<span v-if="index+1 < tags.length">, </span>
+          <span
+            v-for="(tag, index) in tags"
+            :key="index"
+          >
+            {{ tag }}<span v-if="index+1 < tags.length">, </span>
           </span>
         </div>
         <div class="teaser">
-          <markdown :value="content.teaser"></markdown>
+          <markdown :value="content.teaser" />
         </div>
       </div>
     </div>
@@ -23,22 +32,22 @@
 </template>
 
 <script>
-import MachineStatus from '@/components/MachineStatus';
+import MachineStatus from '@/components/MachineStatus'
 
 export default {
-  props: ['blok'],
   components: {
     MachineStatus
   },
+  props: ['blok'],
   computed: {
-    fabmanId() {
-      return this.blok.content.machine_status_items[0].fabmanId;
+    fabmanId () {
+      return this.blok.content.machine_status_items[0].fabmanId
     },
-    content() {
-      return this.blok.content;
+    content () {
+      return this.blok.content
     },
-    tags() {
-      return this.blok.tag_list;
+    tags () {
+      return this.blok.tag_list
     }
   }
 }
