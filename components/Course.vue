@@ -29,12 +29,8 @@
             </button>
           </div>
           <!--<div v-else class="info">-->
-          <!--          <div class="course-info"><span>gestartet am: {{ createdDate }}</span></div>-->
-          <div
-            v-if="!(memberCourse.manual_activation && memberCourse.is_valid)"
-            class="status"
-          >
-            <!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
+<!--          <div class="course-info"><span>gestartet am: {{ createdDate }}</span></div>-->
+          <div class="status" v-if="!( memberCourse.is_valid)"><!--<span>Praxistest: {{!!memberCourse.manual_activation}}</span>-->
             <div class="left">
               <font-awesome-icon
                 v-if="memberCourse.is_valid"
@@ -48,36 +44,21 @@
               />
               <span>Online-Quiz</span>
             </div>
-            <div class="right">
-              <font-awesome-icon
-                v-if="memberCourse.manual_activation"
-                class="green"
-                icon="check-circle"
-              />
-              <font-awesome-icon
-                v-else
-                class="grey"
-                icon="times-circle"
-              />
+<!--            <div class="right">
+              <font-awesome-icon class="green" v-if="memberCourse.manual_activation" icon="check-circle" />
+              <font-awesome-icon class="grey" v-else icon="times-circle" />
               <span>Praxistest</span>
-            </div>
+            </div>-->
           </div>
-          <div
-            v-if="memberCourse.is_valid"
-            class="course-info"
-          >
-            <div
-              v-if="memberCourse.manual_activation"
-              class="success"
-            >
+          <div v-if="memberCourse.is_valid" class="success">
+<!--            <div v-if="memberCourse.manual_activation" class="success">-->
               <font-awesome-icon icon="check-circle" />
               <div>Abgeschlossen</div>
             </div>
-            <div v-else>
-              Als nächstes musst du nur noch
-              den Kurs von einem Host oder am Frontdesk freischalten lassen.
-            </div>
-          </div>
+<!--            <div v-else>Als nächstes musst du nur noch-->
+<!--              den Kurs von einem Host oder am Frontdesk freischalten lassen.-->
+<!--            </div>-->
+<!--          </div>-->
           <div v-else>
             <div class="startButton">
               <div>Quiz starten</div>
@@ -104,12 +85,14 @@ export default {
     // TODO check if I have permission
     this.getImage()
   },
+
   methods: {
     async getImage () {
       const quiz = await this.$store.dispatch('getQuiz', this.course.id)
       for (const question of quiz.quiz_questions) {
-        if (question.imagePath.toLowerCase().endsWith('jpeg')) {
+        if (question.imagePath.toLowerCase().endsWith('jpeg') || question.imagePath.toLowerCase().endsWith('png') ) {
           this.$refs.trainingItem.style.backgroundImage = `url(${question.imagePath})`
+
           return
         }
       }
@@ -142,6 +125,8 @@ export default {
   height: 24em;
   position: relative;
   border: 1px solid black;
+
+
   & .spinnerContainer {
     position: absolute;
     display: flex;
@@ -158,14 +143,15 @@ export default {
     // display: flex;
     .content {
       flex: 1;
+      text-align: center;
     }
     .status {
       display: flex;
       flex-flow: row nowrap;
-      justify-content: space-between;
       font-family: $font-mono;
       border-top: 1px solid black;
       padding: 1em;
+      justify-content: center;
       & .green {
         color: darkgreen;
       }
