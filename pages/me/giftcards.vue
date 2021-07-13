@@ -8,12 +8,6 @@
       Gutscheine
     </h2>
     <template v-if="!action">
-      <component
-        :is="story.content.component"
-        v-if="story.content.component"
-        :key="story.content._uid"
-        :blok="story.content"
-      />
       <button
         class="input-button-primary"
         @click="$router.push('giftcards?action=buy')"
