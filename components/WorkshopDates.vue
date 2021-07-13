@@ -11,13 +11,25 @@
           <div class="col info">
             <icon name="calendar" />
             {{ formatDate(d.content.starttime) }}
-
+            <div v-if="d.content.starttime2" >
+              <br>
+              <icon name="calendar" />
+              {{ formatDate(d.content.starttime2) }}
+            </div>
           </div>
           <div class="col info">
             <icon name="clock" />
             <span>{{ formatTime(d.content.starttime) }}</span>
             <span v-if="d.content.endtime"> bis {{ formatTime(d.content.endtime) }}</span>
             <span>Uhr</span>
+
+            <div v-if="d.content.endtime2" >
+              <br>
+              <icon name="clock" />
+              <span>{{ formatTime(d.content.starttime2) }}</span>
+              <span v-if="d.content.endtime2"> bis {{ formatTime(d.content.endtime2) }}</span>
+              <span>Uhr</span>
+            </div>
           </div>
         </div>
         <div class="info-block">
@@ -137,7 +149,7 @@ export default {
       return moment(value).format('DD.MM.YYYY')
     },
     formatTime: function (value) {
-      return moment(value).format('HH:MM')
+      return moment(value).format('HH:mm')
     },
     loadMetaData: function () {
       const body = {
@@ -164,7 +176,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/scss/styles.scss';
+@import '/assets/scss/styles.scss';
 
 .workshop-dates {
   width: 100%;
@@ -204,7 +216,8 @@ export default {
       }
 
       .col {
-        padding: 8px;
+        padding: 4px;
+        align-items: center;
 
         &.soldOut {
           color: $color-orange;
@@ -212,6 +225,7 @@ export default {
         }
 
         &.register {
+          display: flex;
           background-color: $color-orange;
 
           a {
@@ -238,6 +252,10 @@ export default {
   .link {
     cursor: pointer;
     color: white;
+  }
+  br {
+    display: block;
+    margin: 4px;
   }
 }
 </style>
