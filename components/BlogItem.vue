@@ -16,14 +16,13 @@ export default {
     content: {
       type: Object,
       required: true
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="scss"  scoped>
-@import '@/assets/scss/styles.scss';
-
+@import '/assets/scss/styles.scss';
 
 .header{
   @media (max-width: 1460px) {

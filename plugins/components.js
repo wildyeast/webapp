@@ -26,7 +26,7 @@ import InfoBox from '~/components/InfoBox.vue'
 import NewsFeedItem from '~/components/NewsFeedItem.vue'
 import WorkshopBestOf from '~/components/WorkshopBestOf.vue'
 import WorkshopPreview from '~/components/WorkshopPreview.vue'
-import BlogBestOf from "../components/BlogBestOf";
+import BlogBestOf from '~/components/BlogBestOf'
 import WorkshopHeader from '~/components/WorkshopHeader.vue'
 import WorkshopInfo from '~/components/WorkshopInfo.vue'
 import WorkshopDates from '~/components/WorkshopDates.vue'
@@ -50,7 +50,7 @@ import SpotlightSlider from '~/components/SpotlightSlider.vue'
 import TextImage from '~/components/TextImage.vue'
 import Text from '~/components/Text.vue'
 
-import LinksSlideshow from "../components/LinksSlideshow";
+import LinksSlideshow from '../components/LinksSlideshow'
 
 import LoginForm from '~/components/LoginForm.vue'
 import RegisterForm from '~/components/RegisterForm.vue'
@@ -108,8 +108,6 @@ Vue.component('workshop-header', WorkshopHeader)
 Vue.component('workshop-info', WorkshopInfo)
 Vue.component('workshop-dates', WorkshopDates)
 Vue.component('workshop-list-item', WorkshopListItem)
-
-
 Vue.component('corporate-content', CorporateContent)
 
 Vue.component('event-list-item', EventListItem)
@@ -152,7 +150,6 @@ Vue.component('price-table-item', PriceTableItem)
 
 Vue.component('level-slider', LevelSlider)
 Vue.component('level-item', LevelItem)
-
 
 Vue.component('location-description', LocationDescription)
 
