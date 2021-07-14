@@ -1,3 +1,4 @@
+
 <template>
   <div class="covidInfobox">
     <div class="boxContainer">
