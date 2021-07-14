@@ -2,7 +2,7 @@
   "name": "grandgarage-webapp",
   "scripts": {
     "dev": "nuxt",
-    "dev-local": "NUXT_ENV_API=local nuxt",
+    "dev-local": "NUXT_ENV_API=local NUXT_ENV_DOMAIN=https://connector.dev.grandgarage.eu nuxt",
     "generate": "nuxt generate",
     "lambda": "netlify-lambda serve lambda"
   },
