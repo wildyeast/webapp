@@ -11,7 +11,6 @@
       <BlogItem :content="news.content" v-for="news of newsToDisplay" :key="news.id"/>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -61,10 +60,10 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding-left: 3vw;
   }
 
   .headline-title {
-    padding: 0rem 0rem 0rem 5rem;
     font-size: 3rem;
     @include media-breakpoint-down(md) {
       font-size: 1.2rem;
@@ -115,6 +114,8 @@ export default {
 .link {
   color: white;
   display: block;
+  padding-right: 7vw;
+  font-size: 1.3rem;
 }
 
 .link:hover {

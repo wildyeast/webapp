@@ -35,6 +35,7 @@ export default {
 .workshop-best-of {
   background-color: $color-bright-bg;
   position: relative;
+
   .dashed-line-black {
     background-image: url(~assets/img/dashed-bg-black.svg);
     background-size: 100% auto;
@@ -54,7 +55,7 @@ export default {
     align-items: center;
     padding-bottom: 2vh;
     padding-top: 4vh;
-    padding-left: 3vw;
+    padding-left: 4vw;
     }
   .headline {
     margin: 0;

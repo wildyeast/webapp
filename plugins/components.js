@@ -26,7 +26,6 @@ import InfoBox from '~/components/InfoBox.vue'
 import NewsFeedItem from '~/components/NewsFeedItem.vue'
 import WorkshopBestOf from '~/components/WorkshopBestOf.vue'
 import WorkshopPreview from '~/components/WorkshopPreview.vue'
-import BlogBestOf from '~/components/BlogBestOf'
 import WorkshopHeader from '~/components/WorkshopHeader.vue'
 import WorkshopInfo from '~/components/WorkshopInfo.vue'
 import WorkshopDates from '~/components/WorkshopDates.vue'
@@ -101,7 +100,6 @@ Vue.component('contact-info', ContactInfo)
 Vue.component('info-box', InfoBox)
 Vue.component('news-feed-item', NewsFeedItem)
 Vue.component('workshop-best-of', WorkshopBestOf)
-Vue.component('blog-best-of', BlogBestOf)
 Vue.component('workshop-preview', WorkshopPreview)
 
 Vue.component('workshop-header', WorkshopHeader)
