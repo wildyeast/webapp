@@ -8,50 +8,46 @@
       </a>
     </div>
     <div class="blogItems">
-      <BlogItem :content="news.content" v-for="news of newsToDisplay" :key=news.id />
+      <BlogItem :content="news.content" v-for="news of newsToDisplay" :key="news.id"/>
     </div>
   </div>
-
 </template>
 
 <script>
-import BlogItem from "./BlogItem"
+import BlogItem from './BlogItem'
 
-
-  export default {
-    components: {
-      BlogItem
-    },
-
-    data: () => ({
-      news: null
-    }),
-    async mounted () {
-      const filters = {
-        filter_query: {
-          component: {
-            in: "news-overview"
-          }
+export default {
+  components: {
+    BlogItem
+  },
+  data: () => ({
+    news: null
+  }),
+  async mounted () {
+    const filters = {
+      filter_query: {
+        component: {
+          in: 'news-overview'
         }
-      };
-      this.news = await this.$store.dispatch("findNews", filters).then(data => {
-        return data
-      })
-
-    },
-    computed: {
-      newsToDisplay () {
-        if (!this.news) return
-        return this.news.stories.slice(0, 3)
       }
     }
+    this.news = await this.$store.dispatch('findNews', filters).then(data => {
+      return data
+    })
+  },
+  computed: {
+    newsToDisplay () {
+      if (!this.news) return
+      return this.news.stories.slice(0, 3)
+    }
   }
+}
 </script>
 
-<style lang="scss"  scoped>
-@import '@/assets/scss/styles.scss';
+<style lang="scss" scoped>
+@import '/assets/scss/styles.scss';
 
-.blog-best-of{
+.blog-best-of {
   background-color: black;
   margin: 0 -10px;
   padding: 30px;
@@ -59,26 +55,26 @@ import BlogItem from "./BlogItem"
   z-index: 2;
   position: relative;
 
-.headline{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
+  .headline {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 3vw;
+  }
+
   .headline-title {
-      padding: 0rem 0rem 0rem 5rem;
-      font-size: 3rem;
-      @include media-breakpoint-down(md) {
-        font-size: 1.2rem;
-      }
-      font-family: $font-secondary;
-      line-height: 1.4;
-      letter-spacing: 1.4px;
-
-     color: #FFFFFF;
-
-
+    font-size: 3rem;
+    @include media-breakpoint-down(md) {
+      font-size: 1.2rem;
     }
+    font-family: $font-secondary;
+    line-height: 1.4;
+    letter-spacing: 1.4px;
+
+    color: #FFFFFF;
+  }
+
   .blogItems {
     display: flex;
     @media (max-width: 1460px) {
@@ -88,11 +84,8 @@ import BlogItem from "./BlogItem"
     justify-content: space-between;
     padding: 0 5em;
 
-
   }
 }
-
-
 .arrow {
   display: inline-block;
   position: relative;
@@ -117,15 +110,17 @@ import BlogItem from "./BlogItem"
     transform: rotate(45deg);
   }
 }
+
 .link {
   color: white;
   display: block;
+  padding-right: 7vw;
+  font-size: 1.3rem;
 }
+
 .link:hover {
   .arrow {
     transform: translateX(.5em);
   }
 }
-
-
 </style>

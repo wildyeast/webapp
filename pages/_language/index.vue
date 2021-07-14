@@ -2,7 +2,7 @@
   <section class="">
     <component
       :is="story.content.component"
-      v-if="story && story.content && story.content.component"
+       v-if="story && story.content && story.content.component"
       :key="story.content._uid"
       :blok="story.content"
     />
