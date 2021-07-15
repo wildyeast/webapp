@@ -8,7 +8,7 @@
       </a>
     </div>
     <div class="blogItems">
-      <BlogItem :content="news.content" v-for="news of newsToDisplay" :key="news.id"/>
+      <BlogItem :blog="news" v-for="news of newsToDisplay" :key="news.id"/>
     </div>
   </div>
 </template>
