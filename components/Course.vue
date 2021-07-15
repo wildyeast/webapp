@@ -90,7 +90,7 @@ export default {
     async getImage () {
       const quiz = await this.$store.dispatch('getQuiz', this.course.id)
       for (const question of quiz.quiz_questions) {
-        if (question.imagePath.toLowerCase().endsWith('jpeg') || question.imagePath.toLowerCase().endsWith('png') ) {
+        if (question.imagePath.toLowerCase().endsWith('jpeg') || question.imagePath.toLowerCase().endsWith('png')) {
           this.$refs.trainingItem.style.backgroundImage = `url(${question.imagePath})`
 
           return
@@ -115,8 +115,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '@/assets/scss/styles.scss';
+<style lang="scss" scoped>
+@import '/assets/scss/styles.scss';
 
 .training-item {
   background-repeat: no-repeat;
@@ -126,8 +126,7 @@ export default {
   position: relative;
   border: 1px solid black;
 
-
-  & .spinnerContainer {
+  .spinnerContainer {
     position: absolute;
     display: flex;
     height: 100%;
@@ -135,10 +134,10 @@ export default {
     justify-content: center;
     align-items: center;
     font-size: 2em;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 1;
   }
-
+}
   .body {
     // display: flex;
     .content {
@@ -261,8 +260,6 @@ export default {
     font-weight: bold;
     // background-color: #ff4400;
   }
-
-}
 
 .clickable {
   cursor: pointer;

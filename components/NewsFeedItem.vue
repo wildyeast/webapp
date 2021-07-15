@@ -184,19 +184,13 @@ export default {
         { name: 'instagram', key: 'ig', selected: false }
       ]
     }
-  },
-  computed: {
-    getStory () {
-    }
-  },
-  created () {
-
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import "@/assets/scss/styles.scss";
+@import '/assets/scss/styles.scss';
+
   .news-feed-item {
     margin-top: 69px;
     a {
